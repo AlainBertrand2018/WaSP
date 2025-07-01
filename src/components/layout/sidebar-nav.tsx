@@ -19,10 +19,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarTrigger,
 } from '@/components/ui/sidebar';
 
 export function SidebarNav() {
@@ -40,21 +36,17 @@ export function SidebarNav() {
         <SidebarMenu>
           <SidebarMenuItem>
             <Link href="/dashboard" legacyBehavior passHref>
-              <SidebarMenuButton
-                isActive={pathname === '/dashboard'}
-                icon={<LayoutGrid />}
-              >
-                Dashboard
+              <SidebarMenuButton isActive={pathname === '/dashboard'}>
+                <LayoutGrid />
+                <span>Dashboard</span>
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
           <SidebarMenuItem>
             <Link href="/apps" legacyBehavior passHref>
-              <SidebarMenuButton
-                isActive={pathname.startsWith('/apps')}
-                icon={<AppWindow />}
-              >
-                Apps
+              <SidebarMenuButton isActive={pathname.startsWith('/apps')}>
+                <AppWindow />
+                <span>Apps</span>
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
@@ -65,18 +57,19 @@ export function SidebarNav() {
           <SidebarMenu>
             {apps.map((app) => (
               <SidebarMenuItem key={app.id}>
-                <Link href={app.href} legacyBehavior passHref>
-                  <SidebarMenuButton
-                    isActive={pathname === app.href}
-                    icon={<app.icon />}
-                  >
-                    {app.name}
+                <Link href={app.href} target="_blank" rel="noopener noreferrer">
+                  <SidebarMenuButton>
+                    <app.icon />
+                    <span>{app.name}</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
             ))}
             <SidebarMenuItem>
-              <SidebarMenuButton icon={<PlusCircle />}>Add new</SidebarMenuButton>
+              <SidebarMenuButton>
+                <PlusCircle />
+                <span>Add new</span>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
@@ -85,11 +78,9 @@ export function SidebarNav() {
       <SidebarMenu className="mt-auto p-2">
         <SidebarMenuItem>
           <Link href="/settings" legacyBehavior passHref>
-            <SidebarMenuButton
-              isActive={pathname === '/settings'}
-              icon={<Settings />}
-            >
-              Settings
+            <SidebarMenuButton isActive={pathname === '/settings'}>
+              <Settings />
+              <span>Settings</span>
             </SidebarMenuButton>
           </Link>
         </SidebarMenuItem>

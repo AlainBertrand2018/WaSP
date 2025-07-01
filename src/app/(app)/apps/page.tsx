@@ -30,7 +30,7 @@ export default function AppsPage() {
                 {app.description}
               </p>
               <Button asChild>
-                <Link href={app.href}>Launch App</Link>
+                <Link href={app.href} target="_blank" rel="noopener noreferrer">Launch App</Link>
               </Button>
             </CardContent>
           </Card>

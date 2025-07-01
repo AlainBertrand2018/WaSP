@@ -9,7 +9,7 @@ export type App = {
 };
 
 export type RecentFile = {
-  id: string;
+  id:string;
   name: string;
   app: string;
   appIcon: LucideIcon;
@@ -23,14 +23,14 @@ export const apps: App[] = [
     name: 'FidsFlow',
     description: 'Generate engaging social media content.',
     icon: Wand2,
-    href: '/apps/fidsflow',
+    href: 'https://fidsflow.netlify.app/',
   },
   {
     id: 'expostand-pro',
     name: 'Expostand PRO',
     description: 'Create stunning presentations.',
     icon: Presentation,
-    href: '/apps/expostand-pro',
+    href: 'https://expostandpro.netlify.app/',
   },
 ];
 
