@@ -1,0 +1,122 @@
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from '@/components/ui/card';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { apps, recentFiles } from '@/lib/data';
+import { Download, MoreHorizontal } from 'lucide-react';
+import Link from 'next/link';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuTrigger,
+  } from '@/components/ui/dropdown-menu'
+
+export default function DashboardPage() {
+  return (
+    <div className="flex flex-col gap-8 py-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Welcome Back!</h1>
+        <p className="text-muted-foreground">
+          Here&apos;s a quick overview of your apps and recent activity.
+        </p>
+      </div>
+
+      <section>
+        <h2 className="text-2xl font-semibold tracking-tight mb-4">
+          App Launcher
+        </h2>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {apps.map((app) => (
+            <Card key={app.id}>
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-lg font-medium">
+                  {app.name}
+                </CardTitle>
+                <app.icon className="w-5 h-5 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {app.description}
+                </p>
+                <Button asChild>
+                  <Link href={app.href}>Launch App</Link>
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-semibold tracking-tight mb-4">
+          Recent Creations
+        </h2>
+        <Card>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>File Name</TableHead>
+                <TableHead>App</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Size</TableHead>
+                <TableHead>
+                  <span className="sr-only">Actions</span>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {recentFiles.map((file) => (
+                <TableRow key={file.id}>
+                  <TableCell className="font-medium">{file.name}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      <file.appIcon className="w-4 h-4 text-muted-foreground" />
+                      <span>{file.app}</span>
+                    </div>
+                  </TableCell>
+                  <TableCell>{file.date}</TableCell>
+                  <TableCell>{file.size}</TableCell>
+                  <TableCell>
+                  <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          aria-haspopup="true"
+                          size="icon"
+                          variant="ghost"
+                        >
+                          <MoreHorizontal className="h-4 w-4" />
+                          <span className="sr-only">Toggle menu</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem>
+                            <Download className="mr-2 h-4 w-4" />
+                            Download
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Card>
+      </section>
+    </div>
+  );
+}
