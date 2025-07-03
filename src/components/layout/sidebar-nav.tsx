@@ -35,20 +35,20 @@ export function SidebarNav() {
       <SidebarContent>
         <SidebarMenu>
           <SidebarMenuItem>
-            <Link href="/dashboard" legacyBehavior passHref>
-              <SidebarMenuButton isActive={pathname === '/dashboard'}>
+            <SidebarMenuButton asChild isActive={pathname === '/dashboard'}>
+              <Link href="/dashboard">
                 <LayoutGrid />
                 <span>Dashboard</span>
-              </SidebarMenuButton>
-            </Link>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link href="/apps" legacyBehavior passHref>
-              <SidebarMenuButton isActive={pathname.startsWith('/apps')}>
+            <SidebarMenuButton asChild isActive={pathname.startsWith('/apps')}>
+              <Link href="/apps">
                 <AppWindow />
                 <span>Apps</span>
-              </SidebarMenuButton>
-            </Link>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
 
@@ -57,12 +57,12 @@ export function SidebarNav() {
           <SidebarMenu>
             {apps.map((app) => (
               <SidebarMenuItem key={app.id}>
-                <Link href={app.href} target="_blank" rel="noopener noreferrer">
-                  <SidebarMenuButton>
+                <SidebarMenuButton asChild>
+                  <Link href={app.href} target="_blank" rel="noopener noreferrer">
                     <app.icon />
                     <span>{app.name}</span>
-                  </SidebarMenuButton>
-                </Link>
+                  </Link>
+                </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
             <SidebarMenuItem>
@@ -77,12 +77,12 @@ export function SidebarNav() {
 
       <SidebarMenu className="mt-auto p-2">
         <SidebarMenuItem>
-          <Link href="/settings" legacyBehavior passHref>
-            <SidebarMenuButton isActive={pathname === '/settings'}>
+          <SidebarMenuButton asChild isActive={pathname === '/settings'}>
+            <Link href="/settings">
               <Settings />
               <span>Settings</span>
-            </SidebarMenuButton>
-          </Link>
+            </Link>
+          </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
     </Sidebar>
