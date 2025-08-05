@@ -47,9 +47,12 @@ const industryOptions = [
   'Logistics & Transportation',
 ];
 
+const sectorTargetOptions = ['B2B', 'B2C', 'B2C2B', 'SME', 'Pre-seed', 'Seed'];
+
 type FormData = {
   businessIdeaTitle: string;
   sector: string;
+  sectorTarget: string;
   marketSize: string;
   ideaDescription: string;
   customerProfile: string;
@@ -64,6 +67,7 @@ export default function BusinessIdeaValidationPage() {
   const [formData, setFormData] = useState<FormData>({
     businessIdeaTitle: '',
     sector: '',
+    sectorTarget: '',
     marketSize: '',
     ideaDescription: '',
     customerProfile: '',
@@ -221,6 +225,28 @@ export default function BusinessIdeaValidationPage() {
                     </SelectTrigger>
                     <SelectContent>
                       {industryOptions.map((opt) => (
+                        <SelectItem key={opt} value={opt}>
+                          {opt}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="sectorTarget">Sector Target</Label>
+                  <Select
+                    name="sectorTarget"
+                    value={formData.sectorTarget}
+                    onValueChange={(value) =>
+                      handleSelectChange('sectorTarget', value)
+                    }
+                    required
+                  >
+                    <SelectTrigger id="sectorTarget">
+                      <SelectValue placeholder="Select a sector target" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {sectorTargetOptions.map((opt) => (
                         <SelectItem key={opt} value={opt}>
                           {opt}
                         </SelectItem>
