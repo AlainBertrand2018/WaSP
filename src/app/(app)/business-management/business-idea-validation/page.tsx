@@ -253,23 +253,26 @@ export default function BusinessIdeaValidationPage() {
         doc.setTextColor(0);
         doc.text("Validation Summary", 14, 45);
 
-        const summaryHtml = `
-            <p><b>Viability Score:</b> ${analysisResult.validationSummary.viabilityScore}/10</p>
-            <p><b>Market Size:</b> ${analysisResult.marketSize}</p>
-            <p><b>Assessment:</b> ${analysisResult.validationSummary.overallAssessment}</p>
-            <p><b>Strengths:</b><ul>${analysisResult.validationSummary.keyStrengths.map(s => `<li>${s}</li>`).join('')}</ul></p>
-            <p><b>Weaknesses:</b><ul>${analysisResult.validationSummary.potentialWeaknesses.map(w => `<li>${w}</li>`).join('')}</ul></p>
-        `;
-        const summaryElement = document.createElement('div');
-        summaryElement.innerHTML = summaryHtml;
+        const summaryData = [
+            ['Viability Score', `${analysisResult.validationSummary.viabilityScore}/10`],
+            ['Market Size', analysisResult.marketSize],
+            ['Assessment', analysisResult.validationSummary.overallAssessment],
+            ['Strengths', analysisResult.validationSummary.keyStrengths.join('\n')],
+            ['Weaknesses', analysisResult.validationSummary.potentialWeaknesses.join('\n')],
+        ];
+        
         (doc as any).autoTable({
             startY: 50,
-            html: summaryElement,
+            head: [],
+            body: summaryData,
             theme: 'plain',
-            styles: { fontSize: 10 }
+            styles: { fontSize: 10, cellPadding: 1 },
+            columnStyles: {
+                0: { fontStyle: 'bold', cellWidth: 40 },
+                1: { cellWidth: 140 },
+            }
         });
         
-        // Report Sections
         let lastY = (doc as any).lastAutoTable.finalY + 15;
 
         doc.setFontSize(16);
@@ -796,5 +799,3 @@ export default function BusinessIdeaValidationPage() {
     </div>
   );
 }
-
-    

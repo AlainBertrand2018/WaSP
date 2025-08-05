@@ -91,15 +91,14 @@ export default function MvpPlannerPage() {
 
   const generatePdf = (prd: GeneratePrdOutput) => {
     const doc = new jsPDF();
-    const addText = (text: string | string[], x: number, y: number) => {
-      doc.text(text, x, y, { maxWidth: 180, align: 'justify' });
-      return doc.getTextDimensions(
-        Array.isArray(text) ? text.join('\n') : text,
-        { maxWidth: 180, align: 'justify' }
-      ).h;
-    };
-
     let y = 22; // Initial Y position
+
+    const addText = (text: string | string[], x: number, y: number, options = {}) => {
+        const finalOptions = { maxWidth: 180, align: 'justify', ...options };
+        const splitText = doc.splitTextToSize(text as string, finalOptions.maxWidth);
+        doc.text(splitText, x, y, finalOptions);
+        return doc.getTextDimensions(splitText, finalOptions).h;
+      };
 
     // Title
     doc.setFontSize(22);
