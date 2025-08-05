@@ -63,18 +63,11 @@ export const ValidateBusinessIdeaOutputSchema = z.object({
       .string()
       .describe('A brief, overall assessment of the idea.'),
   }),
-  targetPersona: z.object({
-    name: z.string().describe('A fictional name for the target persona.'),
-    demographics: z
-      .string()
-      .describe("The persona's demographics (age, location, job)."),
-    goals: z
-      .array(z.string())
-      .describe('The primary goals and motivations of the persona.'),
-    painPoints: z
-      .array(z.string())
-      .describe('The key problems and frustrations the persona faces.'),
-  }),
+  targetPersonas: z
+    .array(z.string())
+    .describe(
+      'An array of at least 3 distinct customer profiles, described as bullet points.'
+    ),
   mvpPlanner: z.object({
     keyFeatures: z
       .array(z.string())
@@ -87,17 +80,15 @@ export const ValidateBusinessIdeaOutputSchema = z.object({
         'Suggested initial marketing strategies to reach the target audience.'
       ),
   }),
-  businessPlan: z
+  validationReport: z
     .object({
-      executiveSummary: z.string(),
-      companyDescription: z.string(),
-      marketAnalysis: z.string(),
-      organizationAndManagement: z.string(),
-      serviceOrProductLine: z.string(),
-      marketingAndSales: z.string(),
-      financialProjections: z.string(),
+      marketPotential: z.string().describe("An analysis of the market potential."),
+      competitiveLandscape: z.string().describe("An analysis of the competitive landscape."),
+      feasibility: z.string().describe("An analysis of the idea's feasibility."),
+      overallRecommendation: z.string().describe("An overall recommendation from the AI."),
     })
-    .describe('A structured, AI-generated business plan.'),
+    .describe('A structured, AI-generated validation report.'),
+  refinementSuggestions: z.string().describe("A summary of how the AI would refine the business idea."),
 });
 
 export type ValidateBusinessIdeaOutput = z.infer<

@@ -229,8 +229,9 @@ export default function BusinessIdeaValidationPage() {
       marketSize,
       validationSummary,
       mvpPlanner,
-      targetPersona,
-      businessPlan,
+      targetPersonas,
+      validationReport,
+      refinementSuggestions,
     } = analysisResult;
     return (
       <div className="flex flex-col gap-8 py-8 max-w-4xl mx-auto">
@@ -289,31 +290,14 @@ export default function BusinessIdeaValidationPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Target Persona</CardTitle>
+            <CardTitle>Target Persona Profiles</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            <h3 className="text-xl font-semibold">{targetPersona.name}</h3>
-            <p className="text-muted-foreground">
-              {targetPersona.demographics}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-              <div>
-                <h4 className="font-semibold">Goals & Motivations</h4>
-                <ul className="list-disc list-inside">
-                  {targetPersona.goals.map((goal, i) => (
-                    <li key={i}>{goal}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold">Pain Points</h4>
-                <ul className="list-disc list-inside">
-                  {targetPersona.painPoints.map((point, i) => (
-                    <li key={i}>{point}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+          <CardContent>
+             <ul className="list-disc list-inside space-y-2">
+                {targetPersonas.map((persona, i) => (
+                  <li key={i}>{persona}</li>
+                ))}
+              </ul>
           </CardContent>
         </Card>
 
@@ -346,11 +330,11 @@ export default function BusinessIdeaValidationPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>AI-Generated Business Plan</CardTitle>
+            <CardTitle>Business Idea Validation Report</CardTitle>
           </CardHeader>
           <CardContent>
             <Accordion type="single" collapsible className="w-full">
-              {Object.entries(businessPlan).map(([key, value]) => (
+              {Object.entries(validationReport).map(([key, value]) => (
                 <AccordionItem value={key} key={key}>
                   <AccordionTrigger>
                     {key
@@ -364,6 +348,15 @@ export default function BusinessIdeaValidationPage() {
               ))}
             </Accordion>
           </CardContent>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <CardTitle>What I Would Do Differently</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <p className="text-muted-foreground whitespace-pre-wrap">{refinementSuggestions}</p>
+            </CardContent>
         </Card>
 
         <Button onClick={resetForm} variant="outline" className="w-full">
