@@ -35,6 +35,7 @@ Analyze the following business idea:
 - **Sector Target:** {{sectorTarget}}
 - **Idea Description:** {{ideaDescription}}
 - **Target Customer Profile:** {{customerProfile}}
+- **Estimated Market Size:** {{marketSize}}
 - **Product Type:** {{productType}}
 - **Products/Services:**
 {{#each products}}
@@ -44,7 +45,7 @@ Analyze the following business idea:
 - **Monetization Strategy:** {{monetization}}
 
 Based on this information, generate a detailed validation report.
-- For the **marketSize**, provide a realistic estimation for Mauritius.
+- For the **marketSize**, use the user-provided estimate: {{marketSize}}. You can refine its format if needed, but the core value is already provided.
 - For the **validationSummary**, be critical and objective. The viability score should reflect a genuine assessment of strengths and weaknesses.
 - For the **targetPersona**, create a realistic profile of a potential Mauritian customer.
 - For the **mvpPlanner**, suggest actionable and low-cost ideas suitable for an SME.

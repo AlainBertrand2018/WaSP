@@ -19,6 +19,11 @@ export const ValidateBusinessIdeaInputSchema = z.object({
   customerProfile: z
     .string()
     .describe('A description of the target customer profile.'),
+  marketSize: z
+    .string()
+    .describe(
+      'An AI-generated estimated market size for the idea in Mauritius, formatted as a string (e.g., "MUR 1M-2.5M").'
+    ),
   productType: z.string().describe('The type of product being sold.'),
   products: z
     .array(z.object({ name: z.string() }))
