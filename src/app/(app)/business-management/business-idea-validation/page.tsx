@@ -28,6 +28,7 @@ import {
   ChevronRight,
   CircleDollarSign,
   Download,
+  Feather,
   FileText,
   Lightbulb,
   Loader2,
@@ -49,8 +50,11 @@ import {
 import { generateMarketSize } from '@/ai/flows/business-management/generate-market-size-flow';
 import ViabilityMeter from '@/components/feature/viability-meter';
 import Link from 'next/link';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+import jsPDFAutotable from 'jspdf-autotable';
+import { marked } from 'marked';
+import { useBusinessIdeaStore } from '@/store/business-idea-store';
+
 
 const totalSteps = 6;
 
@@ -110,8 +114,9 @@ export default function BusinessIdeaValidationPage() {
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [analysisResult, setAnalysisResult] =
     useState<ValidateBusinessIdeaOutput | null>(null);
+  
+  const setStore = useBusinessIdeaStore((state) => state.set);
 
-  const reportRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -193,6 +198,13 @@ export default function BusinessIdeaValidationPage() {
         marketSize: marketSizeForValidation,
       });
       setAnalysisResult(result);
+      setStore({
+        analysisResult: result,
+        formData: {
+          businessIdeaTitle: formData.businessIdeaTitle,
+          ideaDescription: formData.ideaDescription,
+        },
+      });
     } catch (error) {
       console.error('Error validating business idea:', error);
       // Handle error state in UI, e.g., show a toast notification
@@ -219,58 +231,97 @@ export default function BusinessIdeaValidationPage() {
       startingBudget: '',
       monetization: '',
     });
+    setStore({ analysisResult: null, formData: null });
   };
 
   const handleDownloadPdf = async () => {
-    const reportElement = reportRef.current;
-    if (!reportElement) return;
-
+    if (!analysisResult) return;
     setIsGeneratingPdf(true);
 
     try {
-      const canvas = await html2canvas(reportElement, {
-        scale: 2, // Increase scale for better resolution
-        useCORS: true,
-        backgroundColor: null, // Use the actual background color of the element
-      });
+        const doc = new jsPDF();
+        
+        // Title
+        doc.setFontSize(22);
+        doc.text(`Validation Report: ${formData.businessIdeaTitle}`, 14, 22);
+        doc.setFontSize(11);
+        doc.setTextColor(150);
+        doc.text(`For business idea in the ${formData.sector} sector.`, 14, 30);
 
-      const imgData = canvas.toDataURL('image/png');
+        // Summary Section
+        doc.setFontSize(16);
+        doc.setTextColor(0);
+        doc.text("Validation Summary", 14, 45);
 
-      // A4 page dimensions in mm: 210 x 297
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
+        const summaryHtml = `
+            <p><b>Viability Score:</b> ${analysisResult.validationSummary.viabilityScore}/10</p>
+            <p><b>Market Size:</b> ${analysisResult.marketSize}</p>
+            <p><b>Assessment:</b> ${analysisResult.validationSummary.overallAssessment}</p>
+            <p><b>Strengths:</b><ul>${analysisResult.validationSummary.keyStrengths.map(s => `<li>${s}</li>`).join('')}</ul></p>
+            <p><b>Weaknesses:</b><ul>${analysisResult.validationSummary.potentialWeaknesses.map(w => `<li>${w}</li>`).join('')}</ul></p>
+        `;
+        const summaryElement = document.createElement('div');
+        summaryElement.innerHTML = summaryHtml;
+        (doc as any).autoTable({
+            startY: 50,
+            html: summaryElement,
+            theme: 'plain',
+            styles: { fontSize: 10 }
+        });
+        
+        // Report Sections
+        let lastY = (doc as any).lastAutoTable.finalY + 15;
 
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-      const canvasAspectRatio = canvasWidth / canvasHeight;
-      
-      // Fit the image to the PDF page width
-      const finalWidth = pdfWidth;
-      const finalHeight = finalWidth / canvasAspectRatio;
+        doc.setFontSize(16);
+        doc.text("Detailed Analysis", 14, lastY);
+        lastY += 10;
 
-      let heightLeft = finalHeight;
-      let position = 0;
+        for (const [key, value] of Object.entries(analysisResult.validationReport)) {
+            const title = key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text(title, 14, lastY);
+            lastY += 6;
+            
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            
+            if (key === 'targetPersonas' && Array.isArray(value)) {
+                 value.forEach(persona => {
+                    const personaText = `**${persona.title}**: ${persona.description}`;
+                    const splitText = doc.splitTextToSize(personaText, 180);
+                    doc.text(splitText, 14, lastY);
+                    lastY += (splitText.length * 4) + 4;
+                 });
+            } else {
+                const splitText = doc.splitTextToSize(value as string, 180);
+                doc.text(splitText, 14, lastY);
+                lastY += (splitText.length * 4) + 4;
+            }
 
-      pdf.addImage(imgData, 'PNG', 0, position, finalWidth, finalHeight);
-      heightLeft -= pdfHeight;
+             if (lastY > 280) {
+                doc.addPage();
+                lastY = 20;
+            }
+        }
+        
+        // Refinements
+        doc.setFontSize(16);
+        doc.text("What I Would Do Differently", 14, lastY);
+        lastY += 10;
+        
+        doc.setFontSize(10);
+        const refinementText = doc.splitTextToSize(analysisResult.refinementSuggestions, 180);
+        doc.text(refinementText, 14, lastY);
 
-      while (heightLeft > 0) {
-        position -= pdfHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, finalWidth, finalHeight);
-        heightLeft -= pdfHeight;
-      }
-
-      pdf.save(`Validation-Report-${formData.businessIdeaTitle.replace(/\s+/g, '-')}.pdf`);
+        doc.save(`Validation-Report-${formData.businessIdeaTitle.replace(/\s+/g, '-')}.pdf`);
 
     } catch (error) {
-      console.error("Error generating PDF:", error);
-      // You could show a toast notification to the user here
+        console.error("Error generating PDF:", error);
     } finally {
-      setIsGeneratingPdf(false);
+        setIsGeneratingPdf(false);
     }
-  };
+};
 
   if (isSubmitting) {
     return (
@@ -302,7 +353,7 @@ export default function BusinessIdeaValidationPage() {
 
     return (
       <div className="flex flex-col gap-8 py-8 max-w-4xl mx-auto">
-        <div ref={reportRef} className="bg-background p-4 sm:p-8 rounded-lg">
+        <div className="bg-background p-4 sm:p-8 rounded-lg">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
               Validation Report: {formData.businessIdeaTitle}
@@ -416,7 +467,7 @@ export default function BusinessIdeaValidationPage() {
           </Card>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 border-t mt-4">
           <Button asChild className="group">
             <Link href="/business-management/mvp-planner">
               <span>Let's Figure Out Your Minimum Viable Product</span>

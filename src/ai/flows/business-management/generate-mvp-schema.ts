@@ -3,17 +3,19 @@
  */
 
 import { z } from 'zod';
+import { ValidateBusinessIdeaOutputSchema } from './validate-idea-schema';
 
 // Zod schema for the input form data
-export const GenerateMvpInputSchema = z.object({
-  validatedBusinessIdea: z
-    .string()
-    .describe(
-      'The summary and refinement suggestions from the business idea validation report.'
-    ),
+// It now accepts the full output from the validation flow for richer context.
+export const GenerateMvpInputSchema = ValidateBusinessIdeaOutputSchema.extend({
+  originalIdea: z.object({
+    businessIdeaTitle: z.string(),
+    ideaDescription: z.string(),
+  }),
 });
 
 export type GenerateMvpInput = z.infer<typeof GenerateMvpInputSchema>;
+
 
 // Zod schema for the structured output report
 export const GenerateMvpOutputSchema = z.object({

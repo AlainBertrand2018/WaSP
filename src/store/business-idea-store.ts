@@ -1,0 +1,28 @@
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import type { ValidateBusinessIdeaOutput } from '@/ai/flows/business-management/validate-idea-schema';
+
+type FormData = {
+    businessIdeaTitle: string;
+    ideaDescription: string;
+};
+
+type BusinessIdeaState = {
+  analysisResult: ValidateBusinessIdeaOutput | null;
+  formData: FormData | null;
+  set: (data: Partial<BusinessIdeaState>) => void;
+};
+
+export const useBusinessIdeaStore = create<BusinessIdeaState>()(
+  persist(
+    (set) => ({
+      analysisResult: null,
+      formData: null,
+      set: (data) => set((state) => ({ ...state, ...data })),
+    }),
+    {
+      name: 'business-idea-storage', // name of the item in the storage (must be unique)
+      storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
+    }
+  )
+);

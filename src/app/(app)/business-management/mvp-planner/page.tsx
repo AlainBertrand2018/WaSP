@@ -1,15 +1,15 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription
 } from '@/components/ui/card';
-import { Textarea } from '@/components/ui/textarea';
 import {
   ArrowRight,
   ChevronRight,
@@ -22,39 +22,69 @@ import {
   Users,
   Code,
   Calendar,
-  CircleDollarSign
+  CircleDollarSign,
+  ArrowLeft
 } from 'lucide-react';
 import {
   generateMvp,
   type GenerateMvpOutput,
 } from '@/ai/flows/business-management/generate-mvp-flow';
 import Link from 'next/link';
+import { useBusinessIdeaStore } from '@/store/business-idea-store';
 
 export default function MvpPlannerPage() {
-  const [businessIdea, setBusinessIdea] = useState('');
+  const { analysisResult, formData } = useBusinessIdeaStore((state) => state);
   const [isLoading, setIsLoading] = useState(false);
   const [mvpResult, setMvpResult] = useState<GenerateMvpOutput | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!businessIdea) return;
-    setIsLoading(true);
-    setMvpResult(null);
-    try {
-      const result = await generateMvp({ validatedBusinessIdea: businessIdea });
-      setMvpResult(result);
-    } catch (error) {
-      console.error('Error generating MVP plan:', error);
-      // You could show a toast here
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  useEffect(() => {
+    const runMvpGeneration = async () => {
+      if (analysisResult && formData) {
+        setIsLoading(true);
+        setMvpResult(null);
+        try {
+          const result = await generateMvp({ 
+            ...analysisResult,
+            originalIdea: {
+              businessIdeaTitle: formData.businessIdeaTitle,
+              ideaDescription: formData.ideaDescription,
+            }
+          });
+          setMvpResult(result);
+        } catch (error) {
+          console.error('Error generating MVP plan:', error);
+          // You could show a toast here
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    runMvpGeneration();
+  }, [analysisResult, formData]);
 
   const resetForm = () => {
-    setBusinessIdea('');
     setMvpResult(null);
     setIsLoading(false);
+  }
+
+  if (!analysisResult) {
+    return (
+        <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+            <Rocket className="h-12 w-12 text-muted" />
+            <h2 className="text-2xl font-semibold tracking-tight">
+                Let's Plan Your MVP
+            </h2>
+            <p className="text-muted-foreground max-w-md">
+                To generate a Minimum Viable Product plan, you first need to validate your business idea.
+            </p>
+             <Button asChild className="group">
+                <Link href="/business-management/business-idea-validation">
+                  <ArrowLeft/>
+                  <span>Validate Your Business Idea First</span>
+                </Link>
+          </Button>
+        </div>
+    )
   }
 
   if (isLoading) {
@@ -66,7 +96,7 @@ export default function MvpPlannerPage() {
         </h2>
         <p className="text-muted-foreground max-w-md text-center">
           Our AI agent is crafting a detailed plan for your Minimum Viable
-          Product. This might take a moment.
+          Product based on your validated idea. This might take a moment.
         </p>
       </div>
     );
@@ -78,7 +108,7 @@ export default function MvpPlannerPage() {
          <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
             <Rocket />
-            <span>MVP Plan</span>
+            <span>MVP Plan for: {formData?.businessIdeaTitle}</span>
           </h1>
           <p className="text-muted-foreground">
             Here's a strategic roadmap for your Minimum Viable Product.
@@ -161,12 +191,16 @@ export default function MvpPlannerPage() {
           <Button
             variant="outline"
             className="gap-2"
+            disabled
           >
             <Download />
             <span>Generate PRD (PDF)</span>
           </Button>
-          <Button onClick={resetForm} variant="ghost">
-            Start Over
+           <Button asChild variant="ghost">
+                <Link href="/business-management/business-idea-validation">
+                  <ArrowLeft/>
+                  <span>Back to Validation</span>
+                </Link>
           </Button>
         </div>
 
@@ -174,40 +208,5 @@ export default function MvpPlannerPage() {
     )
   }
 
-  return (
-    <div className="flex flex-col gap-8 py-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">MVP Planner</h1>
-        <p className="text-muted-foreground">
-          Define the core features of your Minimum Viable Product.
-        </p>
-      </div>
-
-      <Card className="w-full max-w-3xl mx-auto">
-        <form onSubmit={handleSubmit}>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Lightbulb />
-              Your Validated Business Idea
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Textarea
-              value={businessIdea}
-              onChange={(e) => setBusinessIdea(e.target.value)}
-              placeholder="Paste the 'Overall Assessment' and 'What I would do differently' sections from your validation report here. For best results, include the business title, description, and products/services."
-              className="h-48"
-              required
-            />
-          </CardContent>
-          <CardContent>
-            <Button type="submit" disabled={isLoading} className="w-full">
-              <Rocket className="mr-2" />
-              Generate MVP Plan
-            </Button>
-          </CardContent>
-        </form>
-      </Card>
-    </div>
-  );
+  return null; // Should be covered by loading or no-data states
 }
