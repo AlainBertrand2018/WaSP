@@ -21,7 +21,6 @@ import {
         <Tabs defaultValue="account">
           <TabsList>
             <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="apps">Applications</TabsTrigger>
             <TabsTrigger value="billing">Billing</TabsTrigger>
             <TabsTrigger value="notifications">Notifications</TabsTrigger>
           </TabsList>
@@ -35,19 +34,6 @@ import {
               </CardHeader>
               <CardContent>
                 <p>Account settings form will be here.</p>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="apps">
-            <Card>
-              <CardHeader>
-                <CardTitle>Application Settings</CardTitle>
-                <CardDescription>
-                  Manage settings for your integrated applications.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>Application settings will be here.</p>
               </CardContent>
             </Card>
           </TabsContent>

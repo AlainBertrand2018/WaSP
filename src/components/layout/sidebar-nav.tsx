@@ -1,6 +1,5 @@
 'use client';
 
-import { apps } from '@/lib/data';
 import {
   AppWindow,
   LayoutGrid,
