@@ -1,97 +1,34 @@
-import { Button } from '@/components/ui/button';
 import {
   Card,
-  CardDescription,
+  CardContent,
   CardHeader,
   CardTitle,
-  CardContent,
 } from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { recentFiles } from '@/lib/data';
-import { Download, MoreHorizontal, FileText } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { FileText } from 'lucide-react';
 
 export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-8 py-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Welcome Back!</h1>
+        <h1 className="text-3xl font-bold tracking-tight">
+          360° Business Dashboard
+        </h1>
         <p className="text-muted-foreground">
-          Here&apos;s a quick overview of your recent activity.
+          A comprehensive overview of your entire business ecosystem.
         </p>
       </div>
 
       <section>
-        <h2 className="text-2xl font-semibold tracking-tight mb-4">
-          Recent Creations
-        </h2>
-        <Card>
-          {recentFiles.length > 0 ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>File Name</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Size</TableHead>
-                  <TableHead>
-                    <span className="sr-only">Actions</span>
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {recentFiles.map((file) => (
-                  <TableRow key={file.id}>
-                    <TableCell className="font-medium">{file.name}</TableCell>
-                    <TableCell>{file.date}</TableCell>
-                    <TableCell>{file.size}</TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            aria-haspopup="true"
-                            size="icon"
-                            variant="ghost"
-                          >
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Toggle menu</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>
-                            <Download className="mr-2 h-4 w-4" />
-                            Download
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          ) : (
-            <CardContent className="flex flex-col items-center justify-center p-10 text-center">
-              <FileText className="w-12 h-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-medium">No files created yet</h3>
-              <p className="text-sm text-muted-foreground">
-                Your recently created files will appear here.
-              </p>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Card>
+            <CardHeader>
+              <CardTitle>Welcome!</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p>Your business summary will appear here.</p>
             </CardContent>
-          )}
-        </Card>
+          </Card>
+        </div>
       </section>
     </div>
   );

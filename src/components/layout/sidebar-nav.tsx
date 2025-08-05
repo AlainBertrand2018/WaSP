@@ -2,12 +2,32 @@
 
 import {
   AppWindow,
+  AreaChart,
+  Book,
+  Briefcase,
+  Building2,
+  CheckCircle,
+  ChevronDown,
+  CircleDollarSign,
+  ClipboardList,
+  Cog,
+  FileText,
+  Home,
+  Landmark,
   LayoutGrid,
-  PlusCircle,
+  Megaphone,
+  Package,
   Settings,
+  ShoppingBag,
+  Users,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 
 import {
   Sidebar,
@@ -17,6 +37,61 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
+import React from 'react';
+
+const SubMenu = ({
+  icon,
+  title,
+  items,
+  pathname,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  items: { href: string; label: string }[];
+  pathname: string;
+}) => {
+  const [isOpen, setIsOpen] = React.useState(
+    items.some((item) => pathname.startsWith(item.href))
+  );
+
+  return (
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <CollapsibleTrigger asChild>
+        <SidebarMenuButton
+          variant="ghost"
+          className="w-full justify-start gap-2"
+        >
+          {icon}
+          <span>{title}</span>
+          <ChevronDown
+            className={cn(
+              'ml-auto h-4 w-4 transition-transform',
+              isOpen && 'rotate-180'
+            )}
+          />
+        </SidebarMenuButton>
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <SidebarMenu className="ml-7 border-l pl-4 py-2 gap-0">
+          {items.map((item) => (
+            <SidebarMenuItem key={item.href}>
+              <SidebarMenuButton
+                asChild
+                size="sm"
+                variant="ghost"
+                className="w-full justify-start"
+                isActive={pathname === item.href}
+              >
+                <Link href={item.href}>{item.label}</Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+};
 
 export function SidebarNav() {
   const pathname = usePathname();
@@ -34,32 +109,95 @@ export function SidebarNav() {
           <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={pathname === '/dashboard'}>
               <Link href="/dashboard">
-                <LayoutGrid />
-                <span>Dashboard</span>
+                <Home />
+                <span>360° Business Dashboard</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SubMenu
+              icon={<Briefcase />}
+              title="Business Management"
+              pathname={pathname}
+              items={[
+                { href: '/business-management/insights-dashboard', label: 'Insights Dashboard' },
+                { href: '/business-management/business-idea-validation', label: 'Business Idea Validation' },
+                { href: '/business-management/compliance-validator', label: 'Compliance Validator' },
+                { href: '/business-management/crm-suite', label: 'CRM, Appointments & Invoices' },
+                { href: '/business-management/project-task-manager', label: 'Project & Task Manager' },
+                { href: '/business-management/hr-system', label: 'HR System' },
+              ]}
+            />
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SubMenu
+              icon={<Package />}
+              title="Products"
+              pathname={pathname}
+              items={[
+                { href: '/products/dashboard', label: 'Products Dashboard' },
+                { href: '/products/market-ready', label: 'Market-Ready Products' },
+                { href: '/products/upcoming', label: 'Upcoming Products' },
+                { href: '/products/pricing', label: 'Pricing' },
+                { href: '/products/inventory', label: 'Inventory' },
+                { href: '/products/sourcing', label: 'Sourcing' },
+              ]}
+            />
+          </SidebarMenuItem>
+
+           <SidebarMenuItem>
+            <SubMenu
+              icon={<CircleDollarSign />}
+              title="Financials"
+              pathname={pathname}
+              items={[
+                { href: '/financials/dashboard', label: 'Finance Dashboard' },
+                { href: '/financials/asset-management', label: 'Asset Management' },
+                { href: '/financials/expense-logger', label: 'Business Expense Logger' },
+                { href: '/financials/vat-calculator', label: 'VAT Calculator & Reporter' },
+                { href: '/financials/digital-logbook', label: 'Digital Logbook (for BRN)' },
+                { href: '/financials/reports', label: 'Monthly & Annual Reports' },
+                 { href: '/financials/grants-financing', label: 'Grants & Financing' },
+              ]}
+            />
+          </SidebarMenuItem>
+
+           <SidebarMenuItem>
+            <SubMenu
+              icon={<Megaphone />}
+              title="Marketing & Ads"
+              pathname={pathname}
+              items={[
+                { href: '/marketing/dashboard', label: 'Marketing Dashboard' },
+                { href: '/marketing/landing-page-builder', label: 'Landing Page Builder' },
+                { href: '/marketing/campaign-builder', label: 'Campaign Builder' },
+                { href: '/marketing/content-generator', label: 'Content Generator' },
+                { href: '/marketing/video-generator', label: 'Video Script Generator' },
+                { href: '/marketing/social-posts-generator', label: 'Social Posts Generator' },
+              ]}
+            />
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/todo'}>
+              <Link href="/todo">
+                <ClipboardList />
+                <span>To-do</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.startsWith('/apps')}>
-              <Link href="/apps">
-                <AppWindow />
-                <span>Apps</span>
+            <SidebarMenuButton asChild isActive={pathname === '/business-resources'}>
+              <Link href="/business-resources">
+                <Book />
+                <span>Business Resources</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
-
-      <SidebarMenu className="mt-auto p-2">
-        <SidebarMenuItem>
-          <SidebarMenuButton asChild isActive={pathname === '/settings'}>
-            <Link href="/settings">
-              <Settings />
-              <span>Settings</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
     </Sidebar>
   );
 }
