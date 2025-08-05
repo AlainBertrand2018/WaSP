@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -14,30 +15,61 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowLeft, ArrowRight, Lightbulb, Loader2 } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Lightbulb,
+  Loader2,
+  PlusCircle,
+  Trash2,
+} from 'lucide-react';
 
-const totalSteps = 5;
+const totalSteps = 6;
+
+const industryOptions = [
+  'Tourism & Hospitality',
+  'Financial Services & FinTech',
+  'Information Technology & BPO',
+  'Real Estate & Construction',
+  'Retail & E-commerce',
+  'Agriculture & Agri-tech',
+  'Healthcare & Wellness',
+  'Education & Ed-tech',
+  'Manufacturing',
+  'Logistics & Transportation',
+];
 
 type FormData = {
+  businessIdeaTitle: string;
+  sector: string;
+  marketSize: string;
   ideaDescription: string;
-  targetMarket: string;
-  uvp: string;
+  customerProfile: string;
+  productType: string;
+  products: { name: string }[];
+  startingBudget: string;
   monetization: string;
-  budgetMarketing: string;
-  budgetTech: string;
-  budgetOther: string;
 };
 
 export default function BusinessIdeaValidationPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
+    businessIdeaTitle: '',
+    sector: '',
+    marketSize: '',
     ideaDescription: '',
-    targetMarket: '',
-    uvp: '',
+    customerProfile: '',
+    productType: '',
+    products: [{ name: '' }],
+    startingBudget: '',
     monetization: '',
-    budgetMarketing: '0',
-    budgetTech: '0',
-    budgetOther: '0',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
@@ -47,6 +79,28 @@ export default function BusinessIdeaValidationPage() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (name: keyof FormData, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleProductChange = (index: number, value: string) => {
+    const newProducts = [...formData.products];
+    newProducts[index].name = value;
+    setFormData((prev) => ({ ...prev, products: newProducts }));
+  };
+
+  const addProduct = () => {
+    setFormData((prev) => ({
+      ...prev,
+      products: [...prev.products, { name: '' }],
+    }));
+  };
+
+  const removeProduct = (index: number) => {
+    const newProducts = formData.products.filter((_, i) => i !== index);
+    setFormData((prev) => ({ ...prev, products: newProducts }));
   };
 
   const nextStep = () => {
@@ -73,7 +127,7 @@ export default function BusinessIdeaValidationPage() {
     }); // Placeholder
     setIsSubmitting(false);
   };
-  
+
   const progress = (currentStep / totalSteps) * 100;
 
   if (isSubmitting) {
@@ -84,7 +138,8 @@ export default function BusinessIdeaValidationPage() {
           Analyzing Your Idea
         </h2>
         <p className="text-muted-foreground max-w-md text-center">
-          Our AI agent is performing an in-depth analysis of your business concept. This might take a moment.
+          Our AI agent is performing an in-depth analysis of your business
+          concept. This might take a moment.
         </p>
       </div>
     );
@@ -94,7 +149,9 @@ export default function BusinessIdeaValidationPage() {
     return (
       <div className="flex flex-col gap-8 py-8">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Validation Report</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Validation Report
+          </h1>
           <p className="text-muted-foreground">
             Here's the AI-powered analysis of your business idea.
           </p>
@@ -107,11 +164,10 @@ export default function BusinessIdeaValidationPage() {
             <p>{analysisResult.summary}</p>
           </CardContent>
         </Card>
-         <Button onClick={() => setAnalysisResult(null)}>Start Over</Button>
+        <Button onClick={() => setAnalysisResult(null)}>Start Over</Button>
       </div>
     );
   }
-
 
   return (
     <div className="flex flex-col gap-8 py-8">
@@ -124,142 +180,210 @@ export default function BusinessIdeaValidationPage() {
         </p>
       </div>
 
-      <Card className="max-w-3xl mx-auto w-full">
+      <Card className="w-full max-w-3xl mx-auto">
         <CardHeader>
           <div className="space-y-2">
             <Progress value={progress} className="h-2" />
-            <p className="text-sm text-muted-foreground">Step {currentStep} of {totalSteps}</p>
+            <p className="text-sm text-muted-foreground">
+              Step {currentStep} of {totalSteps}
+            </p>
           </div>
         </CardHeader>
         <form onSubmit={handleSubmit}>
-          <CardContent className="min-h-[300px]">
+          <CardContent className="min-h-[350px]">
             {currentStep === 1 && (
               <div className="space-y-4">
-                <h2 className="text-2xl font-semibold">Describe Your Idea</h2>
-                <p className="text-muted-foreground">
-                  What is your business idea? Be as descriptive as possible.
-                  What problem does it solve?
-                </p>
-                <Label htmlFor="ideaDescription" className="sr-only">Idea Description</Label>
+                <h2 className="text-2xl font-semibold">Basics</h2>
+                <div className="space-y-2">
+                  <Label htmlFor="businessIdeaTitle">Business Idea Title</Label>
+                  <Input
+                    id="businessIdeaTitle"
+                    name="businessIdeaTitle"
+                    value={formData.businessIdeaTitle}
+                    onChange={handleInputChange}
+                    placeholder="e.g., FreshFarm Mauritius"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="sector">Sector/Industry</Label>
+                  <Select
+                    name="sector"
+                    value={formData.sector}
+                    onValueChange={(value) =>
+                      handleSelectChange('sector', value)
+                    }
+                    required
+                  >
+                    <SelectTrigger id="sector">
+                      <SelectValue placeholder="Select an industry" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {industryOptions.map((opt) => (
+                        <SelectItem key={opt} value={opt}>
+                          {opt}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="marketSize">
+                    AI-generated Target market size
+                  </Label>
+                  <Input
+                    id="marketSize"
+                    name="marketSize"
+                    value={formData.marketSize}
+                    disabled
+                    placeholder="Market size will be generated by AI..."
+                  />
+                </div>
+              </div>
+            )}
+            {currentStep === 2 && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold">Description</h2>
+                <Label htmlFor="ideaDescription">
+                  Describe your idea in 2-3 sentences
+                </Label>
                 <Textarea
                   id="ideaDescription"
                   name="ideaDescription"
                   value={formData.ideaDescription}
                   onChange={handleInputChange}
-                  placeholder="e.g., A mobile app that connects local farmers directly with consumers for fresh produce delivery..."
-                  className="h-40"
-                  required
-                />
-              </div>
-            )}
-            {currentStep === 2 && (
-               <div className="space-y-4">
-                <h2 className="text-2xl font-semibold">Target Market</h2>
-                <p className="text-muted-foreground">
-                  Who are your potential customers? Describe your ideal customer persona.
-                </p>
-                <Label htmlFor="targetMarket" className="sr-only">Target Market</Label>
-                <Textarea
-                  id="targetMarket"
-                  name="targetMarket"
-                  value={formData.targetMarket}
-                  onChange={handleInputChange}
-                  placeholder="e.g., Health-conscious families in urban areas, working professionals who value convenience, restaurants sourcing local ingredients..."
+                  placeholder="e.g., A mobile app connecting local farmers directly with consumers for fresh produce delivery. We solve the problem of limited access to fresh, local food and provide a new sales channel for farmers."
                   className="h-40"
                   required
                 />
               </div>
             )}
             {currentStep === 3 && (
-               <div className="space-y-4">
-                <h2 className="text-2xl font-semibold">Unique Value Proposition (UVP)</h2>
-                <p className="text-muted-foreground">
-                  What makes your idea unique? What is your competitive advantage?
-                </p>
-                <Label htmlFor="uvp" className="sr-only">Unique Value Proposition</Label>
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold">Customers</h2>
+                <Label htmlFor="customerProfile">
+                  Main Target Customer Profile
+                </Label>
                 <Textarea
-                  id="uvp"
-                  name="uvp"
-                  value={formData.uvp}
+                  id="customerProfile"
+                  name="customerProfile"
+                  value={formData.customerProfile}
                   onChange={handleInputChange}
-                  placeholder="e.g., We offer same-day delivery, a subscription model for regular orders, and full transparency on the origin of each product..."
+                  placeholder="e.g., Health-conscious families in urban areas aged 30-50, working professionals who value convenience, and local restaurants that want to source fresh ingredients."
                   className="h-40"
                   required
                 />
               </div>
             )}
             {currentStep === 4 && (
-                <div className="space-y-4">
-                  <h2 className="text-2xl font-semibold">Monetization Plan</h2>
-                  <p className="text-muted-foreground">
-                    How will your business make money? Describe your pricing strategy.
-                  </p>
-                  <Label htmlFor="monetization" className="sr-only">Monetization Plan</Label>
-                  <Textarea
-                    id="monetization"
-                    name="monetization"
-                    value={formData.monetization}
-                    onChange={handleInputChange}
-                    placeholder="e.g., A 15% commission on each sale, a premium subscription for free delivery, selling featured spots to farmers..."
-                    className="h-40"
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold">Products</h2>
+                <div className="space-y-2">
+                  <Label htmlFor="productType">
+                    What type of product are you selling?
+                  </Label>
+                  <Select
+                    name="productType"
+                    value={formData.productType}
+                    onValueChange={(value) =>
+                      handleSelectChange('productType', value)
+                    }
                     required
-                  />
+                  >
+                    <SelectTrigger id="productType">
+                      <SelectValue placeholder="Select a product type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Digital">Digital</SelectItem>
+                      <SelectItem value="Physical">
+                        Physical (manufactured)
+                      </SelectItem>
+                      <SelectItem value="Service">Service</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
+                <div className="space-y-2">
+                  <Label>Which Products/Services?</Label>
+                  {formData.products.map((product, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <Input
+                        value={product.name}
+                        onChange={(e) =>
+                          handleProductChange(index, e.target.value)
+                        }
+                        placeholder={`Product/Service ${index + 1}`}
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeProduct(index)}
+                        disabled={formData.products.length <= 1}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
+                  ))}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={addProduct}
+                  >
+                    <PlusCircle />
+                    <span>Add Product</span>
+                  </Button>
+                </div>
+              </div>
             )}
             {currentStep === 5 && (
-                 <div className="space-y-4">
-                  <h2 className="text-2xl font-semibold">Initial Budget Estimation</h2>
-                  <p className="text-muted-foreground">
-                    Provide a rough estimate of your initial costs (in Mauritian Rupees).
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="budgetMarketing">Marketing & Advertising</Label>
-                        <Input
-                            id="budgetMarketing"
-                            name="budgetMarketing"
-                            type="number"
-                            value={formData.budgetMarketing}
-                            onChange={handleInputChange}
-                            placeholder="e.g., 50000"
-                            required
-                        />
-                    </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="budgetTech">Technology & Development</Label>
-                        <Input
-                            id="budgetTech"
-                            name="budgetTech"
-                            type="number"
-                            value={formData.budgetTech}
-                            onChange={handleInputChange}
-                            placeholder="e.g., 150000"
-                            required
-                        />
-                    </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="budgetOther">Other (Legal, operational, etc.)</Label>
-                        <Input
-                            id="budgetOther"
-                            name="budgetOther"
-                            type="number"
-                            value={formData.budgetOther}
-                            onChange={handleInputChange}
-                            placeholder="e.g., 25000"
-                            required
-                        />
-                    </div>
-                  </div>
-                </div>
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold">Budget</h2>
+                <Label htmlFor="startingBudget">
+                  How much money do you have to start the business? (in MUR)
+                </Label>
+                <Input
+                  id="startingBudget"
+                  name="startingBudget"
+                  type="number"
+                  value={formData.startingBudget}
+                  onChange={handleInputChange}
+                  placeholder="e.g., 200000"
+                  required
+                />
+              </div>
+            )}
+            {currentStep === 6 && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold">Monetization</h2>
+                <Label htmlFor="monetization">
+                  How much will you charge per product/service?
+                </Label>
+                <Textarea
+                  id="monetization"
+                  name="monetization"
+                  value={formData.monetization}
+                  onChange={handleInputChange}
+                  placeholder="e.g., We charge a 15% commission on each order. For restaurants, we offer a premium subscription at MUR 2,500/month for bulk orders and free delivery."
+                  className="h-40"
+                  required
+                />
+              </div>
             )}
           </CardContent>
           <CardFooter className="flex justify-between border-t pt-6">
-            <Button variant="outline" onClick={prevStep} disabled={currentStep === 1}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={prevStep}
+              disabled={currentStep === 1}
+            >
               <ArrowLeft />
               <span>Previous</span>
             </Button>
             {currentStep < totalSteps ? (
-              <Button onClick={nextStep}>
+              <Button type="button" onClick={nextStep}>
                 <span>Next</span>
                 <ArrowRight />
               </Button>
@@ -275,3 +399,5 @@ export default function BusinessIdeaValidationPage() {
     </div>
   );
 }
+
+    
