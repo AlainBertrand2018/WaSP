@@ -31,10 +31,8 @@ import {
   Sparkles,
   Trash2,
 } from 'lucide-react';
-import {
-  validateBusinessIdea,
-  ValidateBusinessIdeaOutput,
-} from '@/ai/flows/business-management/validate-idea-flow';
+import { validateBusinessIdea } from '@/ai/flows/business-management/validate-idea-flow';
+import type { ValidateBusinessIdeaOutput } from '@/ai/flows/business-management/validate-idea-schema';
 import { Badge } from '@/components/ui/badge';
 import {
   Accordion,
