@@ -37,6 +37,7 @@ const industryOptions = [
   'Tourism & Hospitality',
   'Financial Services & FinTech',
   'Information Technology & BPO',
+  'Software',
   'Real Estate & Construction',
   'Retail & E-commerce',
   'Agriculture & Agri-tech',
@@ -399,5 +400,3 @@ export default function BusinessIdeaValidationPage() {
     </div>
   );
 }
-
-    
