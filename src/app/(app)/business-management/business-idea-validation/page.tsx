@@ -26,6 +26,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ChevronRight,
+  Download,
   FileText,
   Lightbulb,
   Loader2,
@@ -214,6 +215,11 @@ export default function BusinessIdeaValidationPage() {
     });
   };
 
+  const handleDownloadPdf = () => {
+    // This is a placeholder for the PDF generation logic
+    alert('PDF download functionality coming soon!');
+  };
+
   if (isSubmitting) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-16">
@@ -251,14 +257,14 @@ export default function BusinessIdeaValidationPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Sparkles className="text-accent" />
+              <Sparkles className="text-primary" />
               <span>Validation Summary</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <ViabilityMeter score={validationSummary.viabilityScore} />
-              <Card className="p-4">
+              <Card className="p-4 flex flex-col justify-center">
                 <p className="text-sm text-muted-foreground">
                   Estimated Target Market Size
                 </p>
@@ -274,7 +280,7 @@ export default function BusinessIdeaValidationPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <h4 className="font-semibold mb-2">Key Strengths</h4>
-                <ul className="list-disc list-inside space-y-1">
+                <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                   {validationSummary.keyStrengths.map((item, i) => (
                     <li key={i}>{item}</li>
                   ))}
@@ -282,7 +288,7 @@ export default function BusinessIdeaValidationPage() {
               </div>
               <div>
                 <h4 className="font-semibold mb-2">Potential Weaknesses</h4>
-                <ul className="list-disc list-inside space-y-1">
+                <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                   {validationSummary.potentialWeaknesses.map((item, i) => (
                     <li key={i}>{item}</li>
                   ))}
@@ -301,7 +307,7 @@ export default function BusinessIdeaValidationPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {targetPersonas.map((persona, i) => (
-              <div key={i}>
+              <div key={i} className="border-l-2 border-primary pl-4 py-1">
                 <h4 className="font-semibold">{persona.title}</h4>
                 <p className="text-muted-foreground">{persona.description}</p>
               </div>
@@ -348,16 +354,25 @@ export default function BusinessIdeaValidationPage() {
           </CardContent>
         </Card>
 
-        <Button asChild size="lg" className="w-full group">
-          <Link href="/business-management/mvp-planner">
-            <span>Let's Figure Out Your "Minimum Viable Product"</span>
-            <ChevronRight className="transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Button>
-
-        <Button onClick={resetForm} variant="outline" className="w-full">
-          Start Over
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+          <Button asChild className="group">
+            <Link href="/business-management/mvp-planner">
+              <span>Let's Figure Out Your Minimum Viable Product</span>
+              <ChevronRight className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Button>
+          <Button
+            onClick={handleDownloadPdf}
+            variant="outline"
+            className="gap-2"
+          >
+            <Download />
+            <span>Download Report</span>
+          </Button>
+          <Button onClick={resetForm} variant="ghost">
+            Start Over
+          </Button>
+        </div>
       </div>
     );
   }
@@ -478,7 +493,9 @@ export default function BusinessIdeaValidationPage() {
                   <Button
                     type="button"
                     onClick={handleGenerateMarketSize}
-                    disabled={isGeneratingMarketSize}
+                    disabled={
+                      isGeneratingMarketSize || !formData.customerProfile
+                    }
                     className="gap-2"
                   >
                     {isGeneratingMarketSize ? (
@@ -642,7 +659,14 @@ export default function BusinessIdeaValidationPage() {
               <span>Previous</span>
             </Button>
             {currentStep < totalSteps ? (
-              <Button type="button" onClick={nextStep} className="gap-2">
+              <Button
+                type="button"
+                onClick={nextStep}
+                className="gap-2"
+                disabled={
+                  currentStep === 3 && formData.marketPotential === null
+                }
+              >
                 <span>Next</span>
                 <ArrowRight />
               </Button>
