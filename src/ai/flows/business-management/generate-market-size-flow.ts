@@ -20,11 +20,17 @@ const GenerateMarketSizeInputSchema = z.object({
 
 // Output schema for the market size generation
 const GenerateMarketSizeOutputSchema = z.object({
-  marketSize: z
+  potentialCustomers: z
     .string()
     .describe(
-      'An estimated market size for the idea in Mauritius, formatted as a string (e.g., "MUR 1M-2.5M").'
+      'An estimated number of potential customers for the idea in Mauritius (e.g., "5,000-8,500").'
     ),
+  sources: z
+    .array(z.string())
+    .describe('A list of sources used for the estimation.'),
+  explanation: z
+    .string()
+    .describe('An explanation of how the estimation was derived.'),
 });
 
 type GenerateMarketSizeInput = z.infer<typeof GenerateMarketSizeInputSchema>;
@@ -43,7 +49,7 @@ const prompt = ai.definePrompt({
   name: 'generateMarketSizePrompt',
   input: { schema: GenerateMarketSizeInputSchema },
   output: { schema: GenerateMarketSizeOutputSchema },
-  prompt: `You are an expert business analyst specializing in the Mauritian SME ecosystem. Your task is to estimate the potential market size for a business idea based on the provided information.
+  prompt: `You are an expert business analyst specializing in the Mauritian SME ecosystem. Your task is to estimate the potential target market size for a business idea based on the provided information, focusing on the number of potential customers.
 
 Analyze the following:
 
@@ -51,7 +57,10 @@ Analyze the following:
 - **Sector Target:** {{sectorTarget}}
 - **Target Customer Profile:** {{customerProfile}}
 
-Based on this, provide a realistic market size estimation for Mauritius, expressed in Mauritian Rupees (MUR). For example: "MUR 5M-8M" or "Approx. MUR 12M annually".
+Based on this, provide a realistic estimation of the potential number of customers in Mauritius.
+- For **potentialCustomers**, provide a numeric range (e.g., "10,000-15,000 customers").
+- For **sources**, list the primary data sources you are basing your analysis on. Be specific (e.g., "Statistics Mauritius 2022 Census," "Bank of Mauritius Annual Report 2023").
+- For **explanation**, briefly explain your reasoning for the estimated number, connecting the sources and the customer profile.
 
 Produce the output in the required JSON format.`,
 });

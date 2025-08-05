@@ -22,7 +22,7 @@ export const ValidateBusinessIdeaInputSchema = z.object({
   marketSize: z
     .string()
     .describe(
-      'An AI-generated estimated market size for the idea in Mauritius, formatted as a string (e.g., "MUR 1M-2.5M").'
+      'An AI-generated estimated number of potential customers (e.g., "5,000-8,000").'
     ),
   productType: z.string().describe('The type of product being sold.'),
   products: z
@@ -45,7 +45,7 @@ export const ValidateBusinessIdeaOutputSchema = z.object({
   marketSize: z
     .string()
     .describe(
-      'An estimated market size for the idea in Mauritius, formatted as a string (e.g., "MUR 1M-2.5M").'
+      'An estimated market size for the idea in Mauritius, formatted as a potential customer count (e.g., "5,000-8,000 customers").'
     ),
   validationSummary: z.object({
     viabilityScore: z
