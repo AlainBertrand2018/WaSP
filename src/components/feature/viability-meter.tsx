@@ -13,17 +13,17 @@ const ViabilityMeter: React.FC<ViabilityMeterProps> = ({ score }) => {
     if (value <= 6) {
       return {
         text: 'Project idea needs to be rethought',
-        className: 'text-red-500',
+        className: 'text-destructive',
       };
     } else if (value <= 8) {
       return {
         text: 'Great! Project idea needs to be refined',
-        className: 'text-orange-500',
+        className: 'text-orange-500', // Using a specific color here as there is no theme variable for warning.
       };
     } else {
       return {
         text: 'Wow! Project idea is promising and needs to be polished',
-        className: 'text-green-500',
+        className: 'text-green-500', // Using a specific color here as there is no theme variable for success.
       };
     }
   };
