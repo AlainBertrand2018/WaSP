@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -49,6 +49,8 @@ import {
 import { generateMarketSize } from '@/ai/flows/business-management/generate-market-size-flow';
 import ViabilityMeter from '@/components/feature/viability-meter';
 import Link from 'next/link';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 const totalSteps = 6;
 
@@ -105,8 +107,11 @@ export default function BusinessIdeaValidationPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGeneratingMarketSize, setIsGeneratingMarketSize] = useState(false);
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [analysisResult, setAnalysisResult] =
     useState<ValidateBusinessIdeaOutput | null>(null);
+
+  const reportRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -188,7 +193,7 @@ export default function BusinessIdeaValidationPage() {
         marketSize: marketSizeForValidation,
       });
       setAnalysisResult(result);
-    } catch (error) {
+    } catch (error) => {
       console.error('Error validating business idea:', error);
       // Handle error state in UI, e.g., show a toast notification
     } finally {
@@ -216,9 +221,59 @@ export default function BusinessIdeaValidationPage() {
     });
   };
 
-  const handleDownloadPdf = () => {
-    // This is a placeholder for the PDF generation logic
-    alert('PDF download functionality coming soon!');
+  const handleDownloadPdf = async () => {
+    const reportElement = reportRef.current;
+    if (!reportElement) return;
+  
+    setIsGeneratingPdf(true);
+  
+    try {
+      const canvas = await html2canvas(reportElement, {
+        scale: 2, // Increase scale for better resolution
+        useCORS: true,
+        backgroundColor: null, // Use the actual background color of the element
+      });
+  
+      const imgData = canvas.toDataURL('image/png');
+  
+      // A4 page dimensions in mm: 210 x 297
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const canvasAspectRatio = canvasWidth / canvasHeight;
+      const pdfAspectRatio = pdfWidth / pdfHeight;
+  
+      let finalWidth, finalHeight;
+  
+      // Fit the image to the PDF page width
+      finalWidth = pdfWidth;
+      finalHeight = finalWidth / canvasAspectRatio;
+      
+      // If the height is still too large, split into multiple pages
+      let heightLeft = finalHeight;
+      let position = 0;
+  
+      pdf.addImage(imgData, 'PNG', 0, position, finalWidth, finalHeight);
+      heightLeft -= pdfHeight;
+  
+      while (heightLeft > 0) {
+        position -= pdfHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, finalWidth, finalHeight);
+        heightLeft -= pdfHeight;
+      }
+  
+      pdf.save(`Validation-Report-${formData.businessIdeaTitle.replace(/\s+/g, '-')}.pdf`);
+  
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      // You could show a toast notification to the user here
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   if (isSubmitting) {
@@ -240,7 +295,6 @@ export default function BusinessIdeaValidationPage() {
     const { marketSize, validationSummary, validationReport, refinementSuggestions } =
       analysisResult;
 
-    // Manually order the report sections to ensure "TargetPersonas" is handled correctly
     const reportInOrder = {
       marketPotential: validationReport.marketPotential,
       monetization: validationReport.monetization,
@@ -252,117 +306,119 @@ export default function BusinessIdeaValidationPage() {
 
     return (
       <div className="flex flex-col gap-8 py-8 max-w-4xl mx-auto">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Validation Report: {formData.businessIdeaTitle}
-          </h1>
-          <p className="text-muted-foreground">
-            Here's the AI-powered analysis of your business idea.
-          </p>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Sparkles className="text-primary" />
-              <span>Validation Summary</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <ViabilityMeter score={validationSummary.viabilityScore} />
-              <Card className="p-4 flex flex-col justify-center">
-                <p className="text-sm text-muted-foreground">
-                  Estimated Target Market Size
-                </p>
-                <p className="text-4xl font-bold">{marketSize}</p>
-              </Card>
-            </div>
-            <div>
-              <p className="font-semibold">Overall Assessment:</p>
-              <p className="text-muted-foreground">
-                {validationSummary.overallAssessment}
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <h4 className="font-semibold mb-2">Key Strengths</h4>
-                <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                  {validationSummary.keyStrengths.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2">Potential Weaknesses</h4>
-                <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                  {validationSummary.potentialWeaknesses.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileText />
-              <span>Business Idea Validation Report</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Accordion type="single" collapsible className="w-full" defaultValue="marketPotential">
-              {Object.entries(reportInOrder).map(([key, value]) => (
-                <AccordionItem value={key} key={key}>
-                  <AccordionTrigger>
-                    {key === 'targetPersonas'
-                      ? 'Target Persona Profiles'
-                      : key
-                          .replace(/([A-Z])/g, ' $1')
-                          .replace(/^./, (str) => str.toUpperCase())}
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    {key === 'targetPersonas' && Array.isArray(value) ? (
-                      <div className="space-y-4">
-                        {value.map((persona, i) => (
-                          <div
-                            key={i}
-                            className="border-l-2 border-primary pl-4 py-1"
-                          >
-                            <h4 className="font-semibold">{persona.title}</h4>
-                            <p className="text-muted-foreground">
-                              {persona.description}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap">
-                        {value as string}
-                      </p>
-                    )}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Wand2 />
-              <span>What I Would Do Differently</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground whitespace-pre-wrap">
-              {refinementSuggestions}
+        <div ref={reportRef} className="bg-background p-4 sm:p-8 rounded-lg">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">
+              Validation Report: {formData.businessIdeaTitle}
+            </h1>
+            <p className="text-muted-foreground">
+              Here's the AI-powered analysis of your business idea.
             </p>
-          </CardContent>
-        </Card>
+          </div>
+
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Sparkles className="text-primary" />
+                <span>Validation Summary</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <ViabilityMeter score={validationSummary.viabilityScore} />
+                <Card className="p-4 flex flex-col justify-center">
+                  <p className="text-sm text-muted-foreground">
+                    Estimated Target Market Size
+                  </p>
+                  <p className="text-4xl font-bold">{marketSize}</p>
+                </Card>
+              </div>
+              <div>
+                <p className="font-semibold">Overall Assessment:</p>
+                <p className="text-muted-foreground">
+                  {validationSummary.overallAssessment}
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 className="font-semibold mb-2">Key Strengths</h4>
+                  <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                    {validationSummary.keyStrengths.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-2">Potential Weaknesses</h4>
+                  <ul className="list-disc list-inside space-y-1 text-muted-foreground">
+                    {validationSummary.potentialWeaknesses.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText />
+                <span>Business Idea Validation Report</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Accordion type="single" collapsible className="w-full" defaultValue="marketPotential">
+                {Object.entries(reportInOrder).map(([key, value]) => (
+                  <AccordionItem value={key} key={key}>
+                    <AccordionTrigger>
+                      {key === 'targetPersonas'
+                        ? 'Target Persona Profiles'
+                        : key
+                            .replace(/([A-Z])/g, ' $1')
+                            .replace(/^./, (str) => str.toUpperCase())}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      {key === 'targetPersonas' && Array.isArray(value) ? (
+                        <div className="space-y-4">
+                          {value.map((persona, i) => (
+                            <div
+                              key={i}
+                              className="border-l-2 border-primary pl-4 py-1"
+                            >
+                              <h4 className="font-semibold">{persona.title}</h4>
+                              <p className="text-muted-foreground">
+                                {persona.description}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap">
+                          {value as string}
+                        </p>
+                      )}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </CardContent>
+          </Card>
+
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Wand2 />
+                <span>What I Would Do Differently</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground whitespace-pre-wrap">
+                {refinementSuggestions}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
           <Button asChild className="group">
@@ -375,9 +431,10 @@ export default function BusinessIdeaValidationPage() {
             onClick={handleDownloadPdf}
             variant="outline"
             className="gap-2"
+            disabled={isGeneratingPdf}
           >
-            <Download />
-            <span>Download Report</span>
+            {isGeneratingPdf ? <Loader2 className="animate-spin" /> : <Download />}
+            <span>{isGeneratingPdf ? 'Generating...' : 'Download Report'}</span>
           </Button>
           <Button onClick={resetForm} variant="ghost">
             Start Over
