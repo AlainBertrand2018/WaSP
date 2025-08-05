@@ -1,25 +1,14 @@
 'use client';
 
 import {
-  AppWindow,
-  AreaChart,
   Book,
   Briefcase,
-  Building2,
-  CheckCircle,
-  ChevronDown,
   CircleDollarSign,
   ClipboardList,
-  Cog,
-  FileText,
   Home,
-  Landmark,
   LayoutGrid,
   Megaphone,
   Package,
-  Settings,
-  ShoppingBag,
-  Users,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -36,20 +25,24 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuAction,
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import { ChevronDown } from 'lucide-react';
 
 const SubMenu = ({
   icon,
   title,
   items,
   pathname,
+  dashboardHref,
 }: {
   icon: React.ReactNode;
   title: string;
   items: { href: string; label: string }[];
   pathname: string;
+  dashboardHref: string;
 }) => {
   const [isOpen, setIsOpen] = React.useState(
     items.some((item) => pathname.startsWith(item.href))
@@ -57,21 +50,29 @@ const SubMenu = ({
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger asChild>
+      <div className="flex items-center">
         <SidebarMenuButton
+          asChild
           variant="ghost"
           className="w-full justify-start gap-2"
+          isActive={pathname === dashboardHref}
         >
-          {icon}
-          <span>{title}</span>
-          <ChevronDown
+          <Link href={dashboardHref}>
+            {icon}
+            <span>{title}</span>
+          </Link>
+        </SidebarMenuButton>
+        <CollapsibleTrigger asChild>
+          <SidebarMenuAction
             className={cn(
-              'ml-auto h-4 w-4 transition-transform',
+              'relative ml-auto transition-transform',
               isOpen && 'rotate-180'
             )}
-          />
-        </SidebarMenuButton>
-      </CollapsibleTrigger>
+          >
+            <ChevronDown />
+          </SidebarMenuAction>
+        </CollapsibleTrigger>
+      </div>
       <CollapsibleContent>
         <SidebarMenu className="ml-7 border-l pl-4 py-2 gap-0">
           {items.map((item) => (
@@ -120,6 +121,7 @@ export function SidebarNav() {
               icon={<Briefcase />}
               title="Business Management"
               pathname={pathname}
+              dashboardHref="/business-management/insights-dashboard"
               items={[
                 { href: '/business-management/insights-dashboard', label: 'Insights Dashboard' },
                 { href: '/business-management/business-idea-validation', label: 'Business Idea Validation' },
@@ -136,6 +138,7 @@ export function SidebarNav() {
               icon={<Package />}
               title="Products"
               pathname={pathname}
+              dashboardHref="/products/dashboard"
               items={[
                 { href: '/products/dashboard', label: 'Products Dashboard' },
                 { href: '/products/market-ready', label: 'Market-Ready Products' },
@@ -152,6 +155,7 @@ export function SidebarNav() {
               icon={<CircleDollarSign />}
               title="Financials"
               pathname={pathname}
+              dashboardHref="/financials/dashboard"
               items={[
                 { href: '/financials/dashboard', label: 'Finance Dashboard' },
                 { href: '/financials/asset-management', label: 'Asset Management' },
@@ -169,6 +173,7 @@ export function SidebarNav() {
               icon={<Megaphone />}
               title="Marketing & Ads"
               pathname={pathname}
+              dashboardHref="/marketing/dashboard"
               items={[
                 { href: '/marketing/dashboard', label: 'Marketing Dashboard' },
                 { href: '/marketing/landing-page-builder', label: 'Landing Page Builder' },
