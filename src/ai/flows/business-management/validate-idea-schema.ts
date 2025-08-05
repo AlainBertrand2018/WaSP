@@ -63,26 +63,58 @@ export const ValidateBusinessIdeaOutputSchema = z.object({
       .string()
       .describe('A brief, overall assessment of the idea.'),
   }),
-  targetPersonas: z
-    .array(
-      z.object({
-        title: z.string().describe("The persona's title, including a fictional name and their role (e.g., 'Anika, a Freelance Web Developer')."),
-        description: z.string().describe("A detailed paragraph describing the persona's background, needs, and pain points."),
-      })
-    )
-    .describe(
-      'An array of at least 3 distinct customer persona profiles.'
-    ),
   validationReport: z
     .object({
-      marketPotential: z.string().describe("An analysis of the market potential."),
-      monetization: z.string().describe("An analysis of the monetization strategy and pricing model."),
-      competitiveLandscape: z.string().describe("An analysis of the competitive landscape."),
-      feasibility: z.string().describe("An analysis of the idea's feasibility."),
-      overallRecommendation: z.string().describe("An overall recommendation from the AI."),
+      marketPotential: z
+        .string()
+        .describe(
+          'A rich and explanatory analysis of the market potential, including trends and demographic factors in Mauritius.'
+        ),
+      monetization: z
+        .string()
+        .describe(
+          'A rich and explanatory analysis of the monetization strategy and pricing model in the local context.'
+        ),
+      competitiveLandscape: z
+        .string()
+        .describe(
+          'A rich and explanatory analysis of the competitive landscape in Mauritius.'
+        ),
+      feasibility: z
+        .string()
+        .describe(
+          "A rich and explanatory analysis of the idea's feasibility, considering budget and resources."
+        ),
+      targetPersonas: z
+        .array(
+          z.object({
+            title: z
+              .string()
+              .describe(
+                "The persona's title, including a fictional name and their role (e.g., 'Anika, a Freelance Web Developer')."
+              ),
+            description: z
+              .string()
+              .describe(
+                "A detailed paragraph describing the persona's background, needs, and pain points."
+              ),
+          })
+        )
+        .describe(
+          'An array of at least 3 distinct and detailed customer persona profiles.'
+        ),
+      overallRecommendation: z
+        .string()
+        .describe(
+          'A rich and explanatory overall recommendation from the AI, with clear justifications.'
+        ),
     })
     .describe('A structured, AI-generated validation report.'),
-  refinementSuggestions: z.string().describe("A summary of how the AI would refine the business idea."),
+  refinementSuggestions: z
+    .string()
+    .describe(
+      'A rich and explanatory summary of how the AI would refine the business idea.'
+    ),
 });
 
 export type ValidateBusinessIdeaOutput = z.infer<

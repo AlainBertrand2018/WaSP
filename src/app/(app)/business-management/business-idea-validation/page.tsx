@@ -237,21 +237,18 @@ export default function BusinessIdeaValidationPage() {
   }
 
   if (analysisResult) {
-    const {
-      marketSize,
-      validationSummary,
-      targetPersonas,
-      validationReport,
-      refinementSuggestions,
-    } = analysisResult;
+    const { marketSize, validationSummary, validationReport, refinementSuggestions } =
+      analysisResult;
 
+    // Manually order the report sections to ensure "TargetPersonas" is handled correctly
     const reportInOrder = {
       marketPotential: validationReport.marketPotential,
       monetization: validationReport.monetization,
       competitiveLandscape: validationReport.competitiveLandscape,
       feasibility: validationReport.feasibility,
+      targetPersonas: validationReport.targetPersonas,
       overallRecommendation: validationReport.overallRecommendation,
-    }
+    };
 
     return (
       <div className="flex flex-col gap-8 py-8 max-w-4xl mx-auto">
@@ -316,37 +313,40 @@ export default function BusinessIdeaValidationPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Accordion type="single" collapsible className="w-full">
+            <Accordion type="single" collapsible className="w-full" defaultValue="marketPotential">
               {Object.entries(reportInOrder).map(([key, value]) => (
                 <AccordionItem value={key} key={key}>
                   <AccordionTrigger>
-                    {key
-                      .replace(/([A-Z])/g, ' $1')
-                      .replace(/^./, (str) => str.toUpperCase())}
+                    {key === 'targetPersonas'
+                      ? 'Target Persona Profiles'
+                      : key
+                          .replace(/([A-Z])/g, ' $1')
+                          .replace(/^./, (str) => str.toUpperCase())}
                   </AccordionTrigger>
-                  <AccordionContent className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap">
-                    {value}
+                  <AccordionContent>
+                    {key === 'targetPersonas' && Array.isArray(value) ? (
+                      <div className="space-y-4">
+                        {value.map((persona, i) => (
+                          <div
+                            key={i}
+                            className="border-l-2 border-primary pl-4 py-1"
+                          >
+                            <h4 className="font-semibold">{persona.title}</h4>
+                            <p className="text-muted-foreground">
+                              {persona.description}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap">
+                        {value as string}
+                      </p>
+                    )}
                   </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Users />
-              <span>Target Persona Profiles</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {targetPersonas.map((persona, i) => (
-              <div key={i} className="border-l-2 border-primary pl-4 py-1">
-                <h4 className="font-semibold">{persona.title}</h4>
-                <p className="text-muted-foreground">{persona.description}</p>
-              </div>
-            ))}
           </CardContent>
         </Card>
 
