@@ -292,12 +292,13 @@ export default function BusinessIdeaValidationPage() {
           <CardHeader>
             <CardTitle>Target Persona Profiles</CardTitle>
           </CardHeader>
-          <CardContent>
-             <ul className="list-disc list-inside space-y-2">
-                {targetPersonas.map((persona, i) => (
-                  <li key={i}>{persona}</li>
-                ))}
-              </ul>
+          <CardContent className="space-y-4">
+            {targetPersonas.map((persona, i) => (
+              <div key={i}>
+                <h4 className="font-semibold">{persona.title}</h4>
+                <p className="text-muted-foreground">{persona.description}</p>
+              </div>
+            ))}
           </CardContent>
         </Card>
 

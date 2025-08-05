@@ -64,9 +64,14 @@ export const ValidateBusinessIdeaOutputSchema = z.object({
       .describe('A brief, overall assessment of the idea.'),
   }),
   targetPersonas: z
-    .array(z.string())
+    .array(
+      z.object({
+        title: z.string().describe("The persona's title, including a fictional name and their role (e.g., 'Anika, a Freelance Web Developer')."),
+        description: z.string().describe("A detailed paragraph describing the persona's background, needs, and pain points."),
+      })
+    )
     .describe(
-      'An array of at least 3 distinct customer profiles, described as bullet points.'
+      'An array of at least 3 distinct customer persona profiles.'
     ),
   mvpPlanner: z.object({
     keyFeatures: z

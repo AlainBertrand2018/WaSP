@@ -48,7 +48,7 @@ Analyze the following business idea:
 Based on this information, generate a detailed validation report.
 - For the **marketSize** in the output, use the user-provided estimate: {{marketSize}}. You should format it nicely, for example as "5,000-8,000 customers".
 - For the **validationSummary**, be critical and objective. The viability score should reflect a genuine assessment of strengths and weaknesses.
-- For the **targetPersonas**, create at least 3 realistic profiles of potential Mauritian customer types as bullet points. Do not use fictional names.
+- For the **targetPersonas**, create at least 3 realistic profiles of potential Mauritian customer types. Each persona must have a 'title' (e.g., "Ramesh, Owner of a Small Retail Business") and a 'description' (a paragraph detailing their needs and pain points). Use realistic, fictional Mauritian names.
 - For the **validationReport**, generate concise but comprehensive sections for each of the four categories: Market Potential, Competitive Landscape, Feasibility, and Overall Recommendation.
 - For the **refinementSuggestions**, provide a summary of how you would refine or improve the business idea.
 
