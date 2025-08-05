@@ -193,7 +193,7 @@ export default function BusinessIdeaValidationPage() {
         marketSize: marketSizeForValidation,
       });
       setAnalysisResult(result);
-    } catch (error) => {
+    } catch (error) {
       console.error('Error validating business idea:', error);
       // Handle error state in UI, e.g., show a toast notification
     } finally {
@@ -224,50 +224,46 @@ export default function BusinessIdeaValidationPage() {
   const handleDownloadPdf = async () => {
     const reportElement = reportRef.current;
     if (!reportElement) return;
-  
+
     setIsGeneratingPdf(true);
-  
+
     try {
       const canvas = await html2canvas(reportElement, {
         scale: 2, // Increase scale for better resolution
         useCORS: true,
         backgroundColor: null, // Use the actual background color of the element
       });
-  
+
       const imgData = canvas.toDataURL('image/png');
-  
+
       // A4 page dimensions in mm: 210 x 297
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      
+
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
       const canvasAspectRatio = canvasWidth / canvasHeight;
-      const pdfAspectRatio = pdfWidth / pdfHeight;
-  
-      let finalWidth, finalHeight;
-  
-      // Fit the image to the PDF page width
-      finalWidth = pdfWidth;
-      finalHeight = finalWidth / canvasAspectRatio;
       
-      // If the height is still too large, split into multiple pages
+      // Fit the image to the PDF page width
+      const finalWidth = pdfWidth;
+      const finalHeight = finalWidth / canvasAspectRatio;
+
       let heightLeft = finalHeight;
       let position = 0;
-  
+
       pdf.addImage(imgData, 'PNG', 0, position, finalWidth, finalHeight);
       heightLeft -= pdfHeight;
-  
+
       while (heightLeft > 0) {
         position -= pdfHeight;
         pdf.addPage();
         pdf.addImage(imgData, 'PNG', 0, position, finalWidth, finalHeight);
         heightLeft -= pdfHeight;
       }
-  
+
       pdf.save(`Validation-Report-${formData.businessIdeaTitle.replace(/\s+/g, '-')}.pdf`);
-  
+
     } catch (error) {
       console.error("Error generating PDF:", error);
       // You could show a toast notification to the user here
@@ -292,7 +288,7 @@ export default function BusinessIdeaValidationPage() {
   }
 
   if (analysisResult) {
-    const { marketSize, validationSummary, validationReport, refinementSuggestions } =
+    const { validationSummary, validationReport, refinementSuggestions } =
       analysisResult;
 
     const reportInOrder = {
@@ -330,7 +326,7 @@ export default function BusinessIdeaValidationPage() {
                   <p className="text-sm text-muted-foreground">
                     Estimated Target Market Size
                   </p>
-                  <p className="text-4xl font-bold">{marketSize}</p>
+                  <p className="text-4xl font-bold">{analysisResult.marketSize}</p>
                 </Card>
               </div>
               <div>
