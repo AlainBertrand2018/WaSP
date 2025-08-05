@@ -13,8 +13,6 @@ import { usePathname } from 'next/navigation';
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -51,28 +49,6 @@ export function SidebarNav() {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-
-        <SidebarGroup className="mt-4">
-          <SidebarGroupLabel>Your Apps</SidebarGroupLabel>
-          <SidebarMenu>
-            {apps.map((app) => (
-              <SidebarMenuItem key={app.id}>
-                <SidebarMenuButton asChild>
-                  <Link href={app.href} target="_blank" rel="noopener noreferrer">
-                    <app.icon />
-                    <span>{app.name}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <PlusCircle />
-                <span>Add new</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
       </SidebarContent>
 
       <SidebarMenu className="mt-auto p-2">
