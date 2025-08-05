@@ -50,6 +50,7 @@ Based on this information, generate a detailed validation report.
 - For the **validationSummary**, be critical and objective. The viability score should reflect a genuine assessment of strengths and weaknesses.
 - For the **targetPersonas**, create at least 3 realistic profiles of potential Mauritian customer types. Each persona must have a 'title' (e.g., "Ramesh, Owner of a Small Retail Business") and a 'description' (a paragraph detailing their needs and pain points). Use realistic, fictional Mauritian names.
 - For the **validationReport**, generate concise but comprehensive sections for each of the four categories: Market Potential, Competitive Landscape, Feasibility, and Overall Recommendation.
+- For the **monetization** analysis in the validation report, analyze the proposed pricing model in relation to the target customer profile, the products/services offered, and the estimated market size. Assess its viability and potential for revenue generation.
 - For the **refinementSuggestions**, provide a summary of how you would refine or improve the business idea.
 
 Produce the output in the required JSON format.`,

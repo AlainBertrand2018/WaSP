@@ -26,6 +26,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ChevronRight,
+  CircleDollarSign,
   Download,
   FileText,
   Lightbulb,
@@ -243,6 +244,15 @@ export default function BusinessIdeaValidationPage() {
       validationReport,
       refinementSuggestions,
     } = analysisResult;
+
+    const reportInOrder = {
+      marketPotential: validationReport.marketPotential,
+      monetization: validationReport.monetization,
+      competitiveLandscape: validationReport.competitiveLandscape,
+      feasibility: validationReport.feasibility,
+      overallRecommendation: validationReport.overallRecommendation,
+    }
+
     return (
       <div className="flex flex-col gap-8 py-8 max-w-4xl mx-auto">
         <div>
@@ -301,30 +311,13 @@ export default function BusinessIdeaValidationPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Users />
-              <span>Target Persona Profiles</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {targetPersonas.map((persona, i) => (
-              <div key={i} className="border-l-2 border-primary pl-4 py-1">
-                <h4 className="font-semibold">{persona.title}</h4>
-                <p className="text-muted-foreground">{persona.description}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
               <FileText />
               <span>Business Idea Validation Report</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <Accordion type="single" collapsible className="w-full">
-              {Object.entries(validationReport).map(([key, value]) => (
+              {Object.entries(reportInOrder).map(([key, value]) => (
                 <AccordionItem value={key} key={key}>
                   <AccordionTrigger>
                     {key
@@ -337,6 +330,23 @@ export default function BusinessIdeaValidationPage() {
                 </AccordionItem>
               ))}
             </Accordion>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users />
+              <span>Target Persona Profiles</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {targetPersonas.map((persona, i) => (
+              <div key={i} className="border-l-2 border-primary pl-4 py-1">
+                <h4 className="font-semibold">{persona.title}</h4>
+                <p className="text-muted-foreground">{persona.description}</p>
+              </div>
+            ))}
           </CardContent>
         </Card>
 

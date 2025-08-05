@@ -76,6 +76,7 @@ export const ValidateBusinessIdeaOutputSchema = z.object({
   validationReport: z
     .object({
       marketPotential: z.string().describe("An analysis of the market potential."),
+      monetization: z.string().describe("An analysis of the monetization strategy and pricing model."),
       competitiveLandscape: z.string().describe("An analysis of the competitive landscape."),
       feasibility: z.string().describe("An analysis of the idea's feasibility."),
       overallRecommendation: z.string().describe("An overall recommendation from the AI."),
