@@ -159,6 +159,7 @@ export function SidebarNav() {
               dashboardHref="/financials/dashboard"
               items={[
                 { href: '/financials/dashboard', label: 'Finance Dashboard' },
+                { href: '/financials/startup-budget-planner', label: 'Startup Budget Planner'},
                 { href: '/financials/asset-management', label: 'Asset Management' },
                 { href: '/financials/expense-logger', label: 'Business Expense Logger' },
                 { href: '/financials/vat-calculator', label: 'VAT Calculator & Reporter' },
