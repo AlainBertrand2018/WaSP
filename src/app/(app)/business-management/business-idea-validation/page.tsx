@@ -41,6 +41,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { generateMarketSize } from '@/ai/flows/business-management/generate-market-size-flow';
+import ViabilityMeter from '@/components/feature/viability-meter';
 
 const totalSteps = 6;
 
@@ -251,13 +252,7 @@ export default function BusinessIdeaValidationPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card className="p-4">
-                <p className="text-sm text-muted-foreground">Viability Score</p>
-                <p className="text-4xl font-bold">
-                  {validationSummary.viabilityScore}
-                  <span className="text-xl">/10</span>
-                </p>
-              </Card>
+              <ViabilityMeter score={validationSummary.viabilityScore} />
               <Card className="p-4">
                 <p className="text-sm text-muted-foreground">
                   Estimated Target Market Size
