@@ -28,8 +28,20 @@ import {
   Lightbulb,
   Loader2,
   PlusCircle,
+  Sparkles,
   Trash2,
 } from 'lucide-react';
+import {
+  validateBusinessIdea,
+  ValidateBusinessIdeaOutput,
+} from '@/ai/flows/business-management/validate-idea-flow';
+import { Badge } from '@/components/ui/badge';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 const totalSteps = 6;
 
@@ -53,7 +65,6 @@ type FormData = {
   businessIdeaTitle: string;
   sector: string;
   sectorTarget: string;
-  marketSize: string;
   ideaDescription: string;
   customerProfile: string;
   productType: string;
@@ -68,7 +79,6 @@ export default function BusinessIdeaValidationPage() {
     businessIdeaTitle: '',
     sector: '',
     sectorTarget: '',
-    marketSize: '',
     ideaDescription: '',
     customerProfile: '',
     productType: '',
@@ -77,7 +87,8 @@ export default function BusinessIdeaValidationPage() {
     monetization: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [analysisResult, setAnalysisResult] = useState<any>(null);
+  const [analysisResult, setAnalysisResult] =
+    useState<ValidateBusinessIdeaOutput | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -123,17 +134,35 @@ export default function BusinessIdeaValidationPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // AI processing logic will go here
-    console.log('Submitting data:', formData);
-    // Fake delay to simulate AI processing
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    setAnalysisResult({
-      summary: 'This is a placeholder for the AI analysis result.',
-    }); // Placeholder
-    setIsSubmitting(false);
+    setAnalysisResult(null);
+    try {
+      const result = await validateBusinessIdea(formData);
+      setAnalysisResult(result);
+    } catch (error) {
+      console.error('Error validating business idea:', error);
+      // Handle error state in UI, e.g., show a toast notification
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const progress = (currentStep / totalSteps) * 100;
+
+  const resetForm = () => {
+    setAnalysisResult(null);
+    setCurrentStep(1);
+    setFormData({
+      businessIdeaTitle: '',
+      sector: '',
+      sectorTarget: '',
+      ideaDescription: '',
+      customerProfile: '',
+      productType: '',
+      products: [{ name: '' }],
+      startingBudget: '',
+      monetization: '',
+    });
+  };
 
   if (isSubmitting) {
     return (
@@ -151,25 +180,156 @@ export default function BusinessIdeaValidationPage() {
   }
 
   if (analysisResult) {
+    const {
+      marketSize,
+      validationSummary,
+      mvpPlanner,
+      targetPersona,
+      businessPlan,
+    } = analysisResult;
     return (
-      <div className="flex flex-col gap-8 py-8">
+      <div className="flex flex-col gap-8 py-8 max-w-4xl mx-auto">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Validation Report
+            Validation Report: {formData.businessIdeaTitle}
           </h1>
           <p className="text-muted-foreground">
             Here's the AI-powered analysis of your business idea.
           </p>
         </div>
+
         <Card>
           <CardHeader>
-            <CardTitle>Analysis Summary</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="text-accent" />
+              Validation Summary
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <p>{analysisResult.summary}</p>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Card className="p-4">
+                <p className="text-sm text-muted-foreground">Viability Score</p>
+                <p className="text-4xl font-bold">
+                  {validationSummary.viabilityScore}
+                  <span className="text-xl">/10</span>
+                </p>
+              </Card>
+              <Card className="p-4">
+                <p className="text-sm text-muted-foreground">
+                  Estimated Target Market Size
+                </p>
+                <p className="text-4xl font-bold">{marketSize}</p>
+              </Card>
+            </div>
+            <div>
+              <p className="font-semibold">Overall Assessment:</p>
+              <p className="text-muted-foreground">
+                {validationSummary.overallAssessment}
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h4 className="font-semibold mb-2">Key Strengths</h4>
+                <ul className="list-disc list-inside space-y-1">
+                  {validationSummary.keyStrengths.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">Potential Weaknesses</h4>
+                <ul className="list-disc list-inside space-y-1">
+                  {validationSummary.potentialWeaknesses.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </CardContent>
         </Card>
-        <Button onClick={() => setAnalysisResult(null)}>Start Over</Button>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Target Persona</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <h3 className="text-xl font-semibold">{targetPersona.name}</h3>
+            <p className="text-muted-foreground">
+              {targetPersona.demographics}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+              <div>
+                <h4 className="font-semibold">Goals & Motivations</h4>
+                <ul className="list-disc list-inside">
+                  {targetPersona.goals.map((goal, i) => (
+                    <li key={i}>{goal}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold">Pain Points</h4>
+                <ul className="list-disc list-inside">
+                  {targetPersona.painPoints.map((point, i) => (
+                    <li key={i}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>MVP Planner</CardTitle>
+            <CardDescription>
+              A suggested Minimum Viable Product to get you started.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <h4 className="font-semibold mb-2">Key Features</h4>
+              <ul className="list-disc list-inside space-y-1">
+                {mvpPlanner.keyFeatures.map((feature, i) => (
+                  <li key={i}>{feature}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Marketing Strategies</h4>
+              <ul className="list-disc list-inside space-y-1">
+                {mvpPlanner.marketingStrategies.map((strategy, i) => (
+                  <li key={i}>{strategy}</li>
+                ))}
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>AI-Generated Business Plan</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Accordion type="single" collapsible className="w-full">
+              {Object.entries(businessPlan).map(([key, value]) => (
+                <AccordionItem value={key} key={key}>
+                  <AccordionTrigger>
+                    {key
+                      .replace(/([A-Z])/g, ' $1')
+                      .replace(/^./, (str) => str.toUpperCase())}
+                  </AccordionTrigger>
+                  <AccordionContent className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap">
+                    {value}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </CardContent>
+        </Card>
+
+        <Button onClick={resetForm} variant="outline" className="w-full">
+          Start Over
+        </Button>
       </div>
     );
   }
@@ -218,7 +378,6 @@ export default function BusinessIdeaValidationPage() {
                     onValueChange={(value) =>
                       handleSelectChange('sector', value)
                     }
-                    required
                   >
                     <SelectTrigger id="sector">
                       <SelectValue placeholder="Select an industry" />
@@ -240,7 +399,6 @@ export default function BusinessIdeaValidationPage() {
                     onValueChange={(value) =>
                       handleSelectChange('sectorTarget', value)
                     }
-                    required
                   >
                     <SelectTrigger id="sectorTarget">
                       <SelectValue placeholder="Select a sector target" />
@@ -277,10 +435,10 @@ export default function BusinessIdeaValidationPage() {
               <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">Customers</h2>
                 <div className="space-y-2">
-                    <Label htmlFor="customerProfile">
+                  <Label htmlFor="customerProfile">
                     Main Target Customer Profile
-                    </Label>
-                    <Textarea
+                  </Label>
+                  <Textarea
                     id="customerProfile"
                     name="customerProfile"
                     value={formData.customerProfile}
@@ -288,7 +446,7 @@ export default function BusinessIdeaValidationPage() {
                     placeholder="e.g., Health-conscious families in urban areas aged 30-50, working professionals who value convenience, and local restaurants that want to source fresh ingredients."
                     className="h-40"
                     required
-                    />
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="marketSize">
@@ -297,9 +455,8 @@ export default function BusinessIdeaValidationPage() {
                   <Input
                     id="marketSize"
                     name="marketSize"
-                    value={formData.marketSize}
                     disabled
-                    placeholder="Market size will be generated by AI..."
+                    placeholder="This will be generated by the AI after you submit"
                   />
                 </div>
               </div>
@@ -317,7 +474,6 @@ export default function BusinessIdeaValidationPage() {
                     onValueChange={(value) =>
                       handleSelectChange('productType', value)
                     }
-                    required
                   >
                     <SelectTrigger id="productType">
                       <SelectValue placeholder="Select a product type" />
