@@ -51,7 +51,7 @@ import { generateMarketSize } from '@/ai/flows/business-management/generate-mark
 import ViabilityMeter from '@/components/feature/viability-meter';
 import Link from 'next/link';
 import { jsPDF } from 'jspdf';
-import jsPDFAutotable from 'jspdf-autotable';
+import 'jspdf-autotable';
 import { marked } from 'marked';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
 
@@ -796,3 +796,5 @@ export default function BusinessIdeaValidationPage() {
     </div>
   );
 }
+
+    
