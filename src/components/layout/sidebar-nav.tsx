@@ -125,6 +125,7 @@ export function SidebarNav() {
               items={[
                 { href: '/business-management/insights-dashboard', label: 'Insights Dashboard' },
                 { href: '/business-management/business-idea-validation', label: 'Business Idea Validation' },
+                { href: '/business-management/mvp-planner', label: 'MVP Planner' },
                 { href: '/business-management/compliance-validator', label: 'Compliance Validator' },
                 { href: '/business-management/crm-suite', label: 'CRM, Appointments & Invoices' },
                 { href: '/business-management/project-task-manager', label: 'Project & Task Manager' },

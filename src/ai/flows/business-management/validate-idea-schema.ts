@@ -73,18 +73,6 @@ export const ValidateBusinessIdeaOutputSchema = z.object({
     .describe(
       'An array of at least 3 distinct customer persona profiles.'
     ),
-  mvpPlanner: z.object({
-    keyFeatures: z
-      .array(z.string())
-      .describe(
-        'A list of essential features for the Minimum Viable Product (MVP).'
-      ),
-    marketingStrategies: z
-      .array(z.string())
-      .describe(
-        'Suggested initial marketing strategies to reach the target audience.'
-      ),
-  }),
   validationReport: z
     .object({
       marketPotential: z.string().describe("An analysis of the market potential."),

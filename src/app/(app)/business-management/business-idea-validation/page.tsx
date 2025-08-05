@@ -25,15 +25,19 @@ import {
 import {
   ArrowLeft,
   ArrowRight,
+  ChevronRight,
+  FileText,
   Lightbulb,
   Loader2,
   PlusCircle,
   Sparkles,
+  Target,
   Trash2,
+  Users,
+  Wand2,
 } from 'lucide-react';
 import { validateBusinessIdea } from '@/ai/flows/business-management/validate-idea-flow';
 import type { ValidateBusinessIdeaOutput } from '@/ai/flows/business-management/validate-idea-schema';
-import { Badge } from '@/components/ui/badge';
 import {
   Accordion,
   AccordionContent,
@@ -42,6 +46,7 @@ import {
 } from '@/components/ui/accordion';
 import { generateMarketSize } from '@/ai/flows/business-management/generate-market-size-flow';
 import ViabilityMeter from '@/components/feature/viability-meter';
+import Link from 'next/link';
 
 const totalSteps = 6;
 
@@ -228,7 +233,6 @@ export default function BusinessIdeaValidationPage() {
     const {
       marketSize,
       validationSummary,
-      mvpPlanner,
       targetPersonas,
       validationReport,
       refinementSuggestions,
@@ -248,7 +252,7 @@ export default function BusinessIdeaValidationPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="text-accent" />
-              Validation Summary
+              <span>Validation Summary</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -290,7 +294,10 @@ export default function BusinessIdeaValidationPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Target Persona Profiles</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <Users />
+              <span>Target Persona Profiles</span>
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {targetPersonas.map((persona, i) => (
@@ -304,34 +311,10 @@ export default function BusinessIdeaValidationPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>MVP Planner</CardTitle>
-            <CardDescription>
-              A suggested Minimum Viable Product to get you started.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <h4 className="font-semibold mb-2">Key Features</h4>
-              <ul className="list-disc list-inside space-y-1">
-                {mvpPlanner.keyFeatures.map((feature, i) => (
-                  <li key={i}>{feature}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">Marketing Strategies</h4>
-              <ul className="list-disc list-inside space-y-1">
-                {mvpPlanner.marketingStrategies.map((strategy, i) => (
-                  <li key={i}>{strategy}</li>
-                ))}
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Business Idea Validation Report</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <FileText />
+              <span>Business Idea Validation Report</span>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Accordion type="single" collapsible className="w-full">
@@ -352,13 +335,25 @@ export default function BusinessIdeaValidationPage() {
         </Card>
 
         <Card>
-            <CardHeader>
-                <CardTitle>What I Would Do Differently</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <p className="text-muted-foreground whitespace-pre-wrap">{refinementSuggestions}</p>
-            </CardContent>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Wand2 />
+              <span>What I Would Do Differently</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground whitespace-pre-wrap">
+              {refinementSuggestions}
+            </p>
+          </CardContent>
         </Card>
+
+        <Button asChild size="lg" className="w-full group">
+          <Link href="/business-management/mvp-planner">
+            <span>Let's Figure Out Your "Minimum Viable Product"</span>
+            <ChevronRight className="transition-transform group-hover:translate-x-1" />
+          </Link>
+        </Button>
 
         <Button onClick={resetForm} variant="outline" className="w-full">
           Start Over
