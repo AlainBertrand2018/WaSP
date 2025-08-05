@@ -15,15 +15,14 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { recentFiles } from '@/lib/data';
-import { Download, MoreHorizontal } from 'lucide-react';
-import Link from 'next/link';
+import { Download, MoreHorizontal, FileText } from 'lucide-react';
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-  } from '@/components/ui/dropdown-menu'
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export default function DashboardPage() {
   return (
@@ -40,48 +39,58 @@ export default function DashboardPage() {
           Recent Creations
         </h2>
         <Card>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>File Name</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Size</TableHead>
-                <TableHead>
-                  <span className="sr-only">Actions</span>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {recentFiles.map((file) => (
-                <TableRow key={file.id}>
-                  <TableCell className="font-medium">{file.name}</TableCell>
-                  <TableCell>{file.date}</TableCell>
-                  <TableCell>{file.size}</TableCell>
-                  <TableCell>
-                  <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          aria-haspopup="true"
-                          size="icon"
-                          variant="ghost"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Toggle menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>
+          {recentFiles.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>File Name</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Size</TableHead>
+                  <TableHead>
+                    <span className="sr-only">Actions</span>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {recentFiles.map((file) => (
+                  <TableRow key={file.id}>
+                    <TableCell className="font-medium">{file.name}</TableCell>
+                    <TableCell>{file.date}</TableCell>
+                    <TableCell>{file.size}</TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            aria-haspopup="true"
+                            size="icon"
+                            variant="ghost"
+                          >
+                            <MoreHorizontal className="h-4 w-4" />
+                            <span className="sr-only">Toggle menu</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem>
                             <Download className="mr-2 h-4 w-4" />
                             Download
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <CardContent className="flex flex-col items-center justify-center p-10 text-center">
+              <FileText className="w-12 h-12 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-medium">No files created yet</h3>
+              <p className="text-sm text-muted-foreground">
+                Your recently created files will appear here.
+              </p>
+            </CardContent>
+          )}
         </Card>
       </section>
     </div>
