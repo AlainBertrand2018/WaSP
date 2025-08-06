@@ -474,6 +474,7 @@ const FixedCostsStep = () => {
               <div className="space-y-3">
                 {items.map((item) => {
                   const isAutoCalculated = autoCalculatedFields.includes(item.name);
+                  const value = fixedCosts[item.name];
                   return (
                     <div key={item.name} className="grid grid-cols-3 items-center gap-4">
                       <div className="col-span-2">
@@ -483,7 +484,7 @@ const FixedCostsStep = () => {
                       <Input
                         id={item.name}
                         type="number"
-                        value={fixedCosts[item.name] ? fixedCosts[item.name].toFixed(2) : ''}
+                        value={isAutoCalculated ? value?.toFixed(2) : value || ''}
                         onChange={(e) => setFixedCost(item.name, Number(e.target.value))}
                         placeholder="MUR"
                         className="text-right"
@@ -543,3 +544,5 @@ export default function StartupBudgetPlannerPage() {
       </div>
     );
   }
+
+    
