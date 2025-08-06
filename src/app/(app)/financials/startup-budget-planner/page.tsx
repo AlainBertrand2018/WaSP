@@ -234,7 +234,7 @@ const FundingStep = () => {
                     {isLoadingProdCost ? (
                         <div className="space-y-2">
                             <Skeleton className="h-8 w-1/2" />
-                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full mt-1" />
                         </div>
                     ) : prodCostResult ? (
                          <p className="text-4xl font-bold">{prodCostResult.estimatedCost}</p>
@@ -278,7 +278,7 @@ const FundingStep = () => {
         <p className="text-muted-foreground mt-1">Based on your validated idea, here are some potential funding avenues in Mauritius. Enter the amount you'd like to request from each.</p>
         
         {isLoadingFinancing ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
                 <Card><CardHeader><Skeleton className="h-6 w-1/2"/><Skeleton className="h-4 w-3/4 mt-2"/></CardHeader><CardContent><Skeleton className="h-10 w-full"/></CardContent><CardFooter><Skeleton className="h-10 w-full"/></CardFooter></Card>
                 <Card><CardHeader><Skeleton className="h-6 w-1/2"/><Skeleton className="h-4 w-3/4 mt-2"/></CardHeader><CardContent><Skeleton className="h-10 w-full"/></CardContent><CardFooter><Skeleton className="h-10 w-full"/></CardFooter></Card>
                 <Card><CardHeader><Skeleton className="h-6 w-1/2"/><Skeleton className="h-4 w-3/4 mt-2"/></CardHeader><CardContent><Skeleton className="h-10 w-full"/></CardContent><CardFooter><Skeleton className="h-10 w-full"/></CardFooter></Card>
@@ -500,7 +500,7 @@ const FixedCostsStep = () => {
                       <Input
                         id={item.name}
                         type="number"
-                        value={isAutoCalculated ? (value || 0).toFixed(2) : (value || '')}
+                        value={isAutoCalculated ? (value || 0).toFixed(2) : (fixedCosts[item.name] || '')}
                         onChange={(e) => {
                             if (!isAutoCalculated) {
                                 setFixedCost(item.name, Number(e.target.value))

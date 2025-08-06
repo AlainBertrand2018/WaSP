@@ -54,6 +54,7 @@ import Link from 'next/link';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 const totalSteps = 7;
@@ -683,7 +684,23 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
                 </div>
                 <div className="space-y-2">
                   <Label>AI-Estimated Target Market Potential</Label>
-                  {formData.marketPotential ? (
+                  {isGeneratingMarketSize ? (
+                    <Card className="p-4 bg-muted space-y-4">
+                        <div className="text-center space-y-2">
+                            <Skeleton className="h-10 w-3/4 mx-auto" />
+                            <Skeleton className="h-4 w-1/2 mx-auto" />
+                        </div>
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-1/4" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-5/6" />
+                        </div>
+                        <div className="space-y-2">
+                            <Skeleton className="h-4 w-1/4" />
+                            <Skeleton className="h-4 w-3/4" />
+                        </div>
+                    </Card>
+                  ) : formData.marketPotential ? (
                     <Card className="p-4 bg-muted space-y-4">
                       <div className="text-center">
                         <p className="text-4xl font-bold">
