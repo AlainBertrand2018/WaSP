@@ -34,12 +34,15 @@ import {
   Wallet,
   TrendingUp,
   FileText,
+  Briefcase,
+  Building,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
 import { useBudgetPlannerStore } from '@/store/budget-planner-store';
 import { generateFinancingOptions, type FinancingOption } from '@/ai/flows/financials/generate-financing-options-flow';
 import { generateProductionCost, type GenerateProductionCostOutput } from '@/ai/flows/financials/generate-production-cost-flow';
+import { generateFixedCosts, type FixedCostItem } from '@/ai/flows/financials/generate-fixed-costs-flow';
 import {
   Tooltip,
   TooltipContent,
@@ -55,6 +58,8 @@ import {
 } from "@/components/ui/dialog"
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
+
 
 const FinancingOptionCard = ({
   option,
@@ -104,7 +109,6 @@ const FinancingOptionCard = ({
       </CardFooter>
     </Card>
 );
-
 
 const FundingStep = () => {
   const { analysisResult: businessIdea, formData } = useBusinessIdeaStore(
@@ -354,8 +358,131 @@ const FundingStep = () => {
   );
 };
 
+const FixedCostsStep = () => {
+  const { analysisResult: businessIdea, formData } = useBusinessIdeaStore(
+    (state) => state
+  );
+  const { fixedCosts, setFixedCost } = useBudgetPlannerStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const [costItems, setCostItems] = useState<FixedCostItem[]>([]);
+
+  useEffect(() => {
+    const runGeneration = async () => {
+      if (businessIdea && formData) {
+        setIsLoading(true);
+        try {
+          const result = await generateFixedCosts({
+            ...businessIdea,
+            originalIdea: {
+              businessIdeaTitle: formData.businessIdeaTitle,
+              ideaDescription: formData.ideaDescription,
+            },
+          });
+          setCostItems(result.fixedCosts);
+        } catch (error) {
+          console.error('Error generating fixed costs:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+    runGeneration();
+  }, [businessIdea, formData]);
+
+  const groupedCosts = useMemo(() => {
+    return costItems.reduce((acc, item) => {
+      (acc[item.category] = acc[item.category] || []).push(item);
+      return acc;
+    }, {} as Record<string, FixedCostItem[]>);
+  }, [costItems]);
+
+  const totalFixedCosts = useMemo(
+    () => Object.values(fixedCosts).reduce((sum, amount) => sum + (amount || 0), 0),
+    [fixedCosts]
+  );
+  
+  useEffect(() => {
+    useBudgetPlannerStore.getState().setFixedCosts(totalFixedCosts);
+  }, [totalFixedCosts]);
+
+  if (isLoading) {
+    return (
+        <div className="space-y-6">
+            <div className="flex justify-between items-center">
+                <Skeleton className="h-8 w-1/3" />
+                <Skeleton className="h-10 w-1/4" />
+            </div>
+            <div className="space-y-4">
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+                <Skeleton className="h-12 w-full" />
+            </div>
+        </div>
+    )
+  }
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Briefcase />
+              <span>Enter Your Estimated Monthly Fixed Costs</span>
+            </div>
+            <div className="text-right">
+              <p className="text-sm text-muted-foreground">Total Monthly Fixed Costs</p>
+              <p className="text-2xl font-bold text-primary">
+                {new Intl.NumberFormat('en-MU', { style: 'currency', currency: 'MUR' }).format(totalFixedCosts)}
+              </p>
+            </div>
+          </CardTitle>
+          <CardDescription>
+            Based on your business idea, we've generated a list of potential fixed costs. Fill in your estimates.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {Object.entries(groupedCosts).map(([category, items]) => (
+            <div key={category}>
+                <h3 className="text-lg font-semibold flex items-center gap-2 mb-3">
+                    <Building size={18}/>
+                    <span>{category}</span>
+                </h3>
+              <div className="space-y-3">
+                {items.map((item) => (
+                  <div key={item.name} className="grid grid-cols-3 items-center gap-4">
+                    <div className="col-span-2">
+                      <Label htmlFor={item.name} className="font-semibold">{item.name}</Label>
+                      <p className="text-xs text-muted-foreground">{item.description}</p>
+                    </div>
+                    <Input
+                      id={item.name}
+                      type="number"
+                      value={fixedCosts[item.name] || ''}
+                      onChange={(e) => setFixedCost(item.name, Number(e.target.value))}
+                      placeholder="MUR"
+                      className="text-right"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
 
 export default function StartupBudgetPlannerPage() {
+    const [currentTab, setCurrentTab] = useState('funding');
+
+    const handleNext = () => {
+        if (currentTab === 'funding') {
+            setCurrentTab('fixed-costs');
+        }
+    }
+    
     return (
       <div className="flex flex-col gap-8 py-8 max-w-5xl mx-auto">
         <div>
@@ -365,20 +492,23 @@ export default function StartupBudgetPlannerPage() {
           </p>
         </div>
         
-        <Tabs defaultValue="funding" className="w-full">
+        <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
             <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="funding">1. Funding</TabsTrigger>
-                <TabsTrigger value="fixed-costs" disabled>2. Fixed Costs</TabsTrigger>
+                <TabsTrigger value="fixed-costs">2. Fixed Costs</TabsTrigger>
                 <TabsTrigger value="variable-costs" disabled>3. Variable Costs</TabsTrigger>
                 <TabsTrigger value="summary" disabled>4. Summary & Forecast</TabsTrigger>
             </TabsList>
             <TabsContent value="funding" className="pt-6">
                <FundingStep />
             </TabsContent>
+            <TabsContent value="fixed-costs" className="pt-6">
+               <FixedCostsStep />
+            </TabsContent>
         </Tabs>
 
-        <div className="flex justify-end pt-4 border-t mt-4">
-           <Button className="group">
+        <div className={cn("flex justify-end pt-4 border-t mt-4", currentTab === 'funding' ? 'visible' : 'invisible')}>
+           <Button className="group" onClick={handleNext}>
                 <span>Next: Fixed Costs</span>
                 <ChevronRight className="transition-transform group-hover:translate-x-1" />
            </Button>
@@ -386,5 +516,3 @@ export default function StartupBudgetPlannerPage() {
       </div>
     );
   }
-
-    

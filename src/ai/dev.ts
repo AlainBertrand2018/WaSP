@@ -5,3 +5,4 @@ import './flows/business-management/generate-mvp-flow';
 import './flows/business-management/generate-prd-flow';
 import './flows/financials/generate-financing-options-flow';
 import './flows/financials/generate-production-cost-flow';
+import './flows/financials/generate-fixed-costs-flow';

@@ -11,7 +11,11 @@ type FundingState = {
 
 type BudgetPlannerState = {
   funding: FundingState;
+  fixedCosts: { [key: string]: number };
+  totalFixedCosts: number;
   setFunding: (data: Partial<FundingState>) => void;
+  setFixedCost: (name: string, value: number) => void;
+  setFixedCosts: (total: number) => void;
   reset: () => void;
 };
 
@@ -23,12 +27,20 @@ const initialFundingState: FundingState = {
     monthlyRepayment: 0,
 };
 
+const initialFixedCostsState = {};
+
 export const useBudgetPlannerStore = create<BudgetPlannerState>()(
   persist(
     (set) => ({
       funding: initialFundingState,
+      fixedCosts: initialFixedCostsState,
+      totalFixedCosts: 0,
       setFunding: (data) => set((state) => ({ funding: { ...state.funding, ...data } })),
-      reset: () => set({ funding: initialFundingState }),
+      setFixedCost: (name, value) => set((state) => ({
+          fixedCosts: { ...state.fixedCosts, [name]: value }
+      })),
+      setFixedCosts: (total) => set({ totalFixedCosts: total }),
+      reset: () => set({ funding: initialFundingState, fixedCosts: initialFixedCostsState, totalFixedCosts: 0 }),
     }),
     {
       name: 'budget-planner-storage', 
