@@ -362,14 +362,15 @@ const FixedCostsStep = () => {
   const { analysisResult: businessIdea, formData } = useBusinessIdeaStore(
     (state) => state
   );
-  const { fixedCosts, setFixedCost } = useBudgetPlannerStore();
+  const { fixedCosts, setFixedCost, funding } = useBudgetPlannerStore();
   const [isLoading, setIsLoading] = useState(false);
   const [costItems, setCostItems] = useState<FixedCostItem[]>([]);
   
   const autoCalculatedFields = [
     'Pension Contributions (NSF)',
     'Social Security Contributions (CSG)',
-    'NSF levy'
+    'NSF levy',
+    'Loan Repayment'
   ];
 
   useEffect(() => {
@@ -384,7 +385,15 @@ const FixedCostsStep = () => {
               ideaDescription: formData.ideaDescription,
             },
           });
-          setCostItems(result.fixedCosts);
+          const allItems = [
+              ...result.fixedCosts,
+              {
+                name: 'Loan Repayment',
+                description: 'Estimated monthly repayment for all loans requested in the funding step.',
+                category: 'Financial Costs',
+              }
+          ]
+          setCostItems(allItems);
         } catch (error) {
           console.error('Error generating fixed costs:', error);
         } finally {
@@ -411,6 +420,13 @@ const FixedCostsStep = () => {
       setFixedCost('NSF levy', nsfLevy);
 
   }, [totalSalaries, setFixedCost]);
+
+  useEffect(() => {
+    if (funding.monthlyRepayment) {
+      setFixedCost('Loan Repayment', funding.monthlyRepayment);
+    }
+  }, [funding.monthlyRepayment, setFixedCost]);
+
 
   const groupedCosts = useMemo(() => {
     return costItems.reduce((acc, item) => {
@@ -484,7 +500,7 @@ const FixedCostsStep = () => {
                       <Input
                         id={item.name}
                         type="number"
-                        value={isAutoCalculated ? value?.toFixed(2) : value || ''}
+                        value={isAutoCalculated ? (value || 0).toFixed(2) : (value || '')}
                         onChange={(e) => setFixedCost(item.name, Number(e.target.value))}
                         placeholder="MUR"
                         className="text-right"
@@ -544,5 +560,7 @@ export default function StartupBudgetPlannerPage() {
       </div>
     );
   }
+
+    
 
     
