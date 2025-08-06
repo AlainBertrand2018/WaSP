@@ -20,6 +20,7 @@ import {
   Users,
   Code,
   Calendar,
+  Wrench,
 } from 'lucide-react';
 import {
   generateMvp,
@@ -33,7 +34,6 @@ import Link from 'next/link';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
-import { marked } from 'marked';
 
 export default function MvpPlannerPage() {
   const { analysisResult, formData } = useBusinessIdeaStore((state) => state);
@@ -278,44 +278,67 @@ export default function MvpPlannerPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-lg">
-                <Users />
-                <span>Required Staff</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="list-disc pl-5 text-muted-foreground">
-                {mvpResult.requiredStaff.map((staff, i) => (
-                  <li key={i}>{staff}</li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Code />
-                <span>Tech Stack</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-               <ul className="list-disc pl-5 text-muted-foreground">
-                {mvpResult.techStack.map((tech, i) => (
-                  <li key={i}>{tech}</li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
                 <CircleDollarSign />
-                <span>Cost Estimation</span>
+                <span>Total Cost Estimation</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-3xl font-bold">{mvpResult.costEstimation}</p>
             </CardContent>
           </Card>
+        </div>
+
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Card>
+                <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                    <Users />
+                    <span>Required Staff</span>
+                </CardTitle>
+                </CardHeader>
+                <CardContent>
+                <ul className="list-disc pl-5 text-muted-foreground space-y-2">
+                    {mvpResult.requiredStaff.map((staff, i) => (
+                    <li key={i}>
+                        {staff.role} <span className="font-semibold block">{staff.cost}</span>
+                    </li>
+                    ))}
+                </ul>
+                </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                    <Code />
+                    <span>Tech Stack</span>
+                </CardTitle>
+                </CardHeader>
+                <CardContent>
+                <ul className="list-disc pl-5 text-muted-foreground space-y-2">
+                    {mvpResult.techStack.map((tech, i) => (
+                    <li key={i}>
+                        {tech.item} <span className="font-semibold block">{tech.cost}</span>
+                    </li>
+                    ))}
+                </ul>
+                </CardContent>
+            </Card>
+             <Card>
+                <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                    <Wrench />
+                    <span>Basic Equipment</span>
+                </CardTitle>
+                </CardHeader>
+                <CardContent>
+                <p className="text-xl font-bold mb-2">{mvpResult.basicEquipment.estimatedInvestment}</p>
+                <ul className="list-disc pl-5 text-muted-foreground space-y-1">
+                    {mvpResult.basicEquipment.items.map((item, i) => (
+                    <li key={i}>{item}</li>
+                    ))}
+                </ul>
+                </CardContent>
+            </Card>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 border-t mt-4">
