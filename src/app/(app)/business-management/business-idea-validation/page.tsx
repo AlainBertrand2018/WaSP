@@ -291,15 +291,23 @@ export default function BusinessIdeaValidationPage() {
             
             if (key === 'targetPersonas' && Array.isArray(value)) {
                  value.forEach(persona => {
-                    const personaText = `**${persona.title}**: ${persona.description}`;
-                    const splitText = doc.splitTextToSize(personaText, 180);
-                    doc.text(splitText, 14, lastY);
-                    lastY += (splitText.length * 4) + 4;
+                    if (lastY > 270) { doc.addPage(); lastY = 20; }
+                    const personaTitle = doc.splitTextToSize(`**${persona.title}**`, 180);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(personaTitle, 14, lastY);
+                    lastY += (personaTitle.length * 4);
+                    
+                    const personaDesc = doc.splitTextToSize(persona.description, 180);
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(personaDesc, 14, lastY);
+                    lastY += (personaDesc.length * 4) + 4;
                  });
             } else {
-                const splitText = doc.splitTextToSize(value as string, 180);
-                doc.text(splitText, 14, lastY);
-                lastY += (splitText.length * 4) + 4;
+                if(value) {
+                    const splitText = doc.splitTextToSize(value as string, 180);
+                    doc.text(splitText, 14, lastY);
+                    lastY += (splitText.length * 4) + 4;
+                }
             }
 
              if (lastY > 280) {
@@ -309,13 +317,16 @@ export default function BusinessIdeaValidationPage() {
         }
         
         // Refinements
+        if (lastY > 270) { doc.addPage(); lastY = 20; }
         doc.setFontSize(16);
         doc.text("What I Would Do Differently", 14, lastY);
         lastY += 10;
         
         doc.setFontSize(10);
-        const refinementText = doc.splitTextToSize(analysisResult.refinementSuggestions, 180);
-        doc.text(refinementText, 14, lastY);
+        if (analysisResult.refinementSuggestions) {
+            const refinementText = doc.splitTextToSize(analysisResult.refinementSuggestions, 180);
+            doc.text(refinementText, 14, lastY);
+        }
 
         doc.save(`Validation-Report-${formData.businessIdeaTitle.replace(/\s+/g, '-')}.pdf`);
 

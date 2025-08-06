@@ -129,6 +129,7 @@ export default function MvpPlannerPage() {
     y += 8;
     doc.setFontSize(10);
     prd.goalsAndObjectives.forEach((goal) => {
+      if (y > 270) { doc.addPage(); y = 20; }
       y += addText(`- ${goal}`, 16, y) + 2;
     });
     y += 8;
@@ -152,6 +153,7 @@ export default function MvpPlannerPage() {
     y = (doc as any).lastAutoTable.finalY + 10;
 
     // Technical Specifications
+    if (y > 260) { doc.addPage(); y = 20; }
     doc.setFontSize(16);
     doc.text('5. Technical Specifications', 14, y);
     y += 8;
@@ -169,11 +171,13 @@ export default function MvpPlannerPage() {
     y += 8;
     doc.setFontSize(10);
     prd.successMetrics.forEach((metric) => {
+       if (y > 270) { doc.addPage(); y = 20; }
       y += addText(`- ${metric}`, 16, y) + 2;
     });
     y += 8;
     
     // Future Considerations
+    if (y > 260) { doc.addPage(); y = 20; }
     doc.setFontSize(16);
     doc.text('7. Future Considerations (Roadmap)', 14, y);
     y += 8;
