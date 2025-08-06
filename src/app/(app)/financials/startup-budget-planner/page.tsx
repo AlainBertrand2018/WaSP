@@ -32,17 +32,20 @@ import {
   PiggyBank,
   Sparkles,
   Wallet,
+  TrendingUp,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
 import { useBudgetPlannerStore } from '@/store/budget-planner-store';
 import { generateFinancingOptions, type FinancingOption } from '@/ai/flows/financials/generate-financing-options-flow';
+import { generateProductionCost, type GenerateProductionCostOutput } from '@/ai/flows/financials/generate-production-cost-flow';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const FinancingOptionCard = ({
   option,
@@ -101,15 +104,18 @@ const FundingStep = () => {
   const { mvpResult } = useBusinessIdeaStore((state) => ({ mvpResult: state.mvpResult }));
   const { funding, setFunding } = useBudgetPlannerStore();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingFinancing, setIsLoadingFinancing] = useState(false);
+  const [isLoadingProdCost, setIsLoadingProdCost] = useState(false);
   const [financingOptions, setFinancingOptions] = useState<FinancingOption[]>([]);
+  const [prodCostResult, setProdCostResult] = useState<GenerateProductionCostOutput | null>(null);
 
   useEffect(() => {
-    const runFinancingGeneration = async () => {
+    const runGenerations = async () => {
       if (businessIdea && mvpResult && formData) {
-        setIsLoading(true);
+        setIsLoadingFinancing(true);
+        setIsLoadingProdCost(true);
         try {
-          const result = await generateFinancingOptions({
+          const financingResult = await generateFinancingOptions({
             businessIdea: {
               ...businessIdea,
               originalIdea: {
@@ -119,16 +125,33 @@ const FundingStep = () => {
             },
             mvpPlan: mvpResult,
           });
-          setFinancingOptions(result.financingOptions);
+          setFinancingOptions(financingResult.financingOptions);
         } catch (error) {
           console.error('Error generating financing options:', error);
-          // Handle error in UI, e.g., show a toast
         } finally {
-          setIsLoading(false);
+          setIsLoadingFinancing(false);
+        }
+        
+        try {
+          const prodCostResultData = await generateProductionCost({
+             businessIdea: {
+              ...businessIdea,
+              originalIdea: {
+                businessIdeaTitle: formData.businessIdeaTitle,
+                ideaDescription: formData.ideaDescription,
+              },
+            },
+            mvpPlan: mvpResult,
+          });
+          setProdCostResult(prodCostResultData);
+        } catch (error) {
+          console.error('Error generating production cost:', error);
+        } finally {
+          setIsLoadingProdCost(false);
         }
       }
     };
-    runFinancingGeneration();
+    runGenerations();
   }, [businessIdea, mvpResult, formData]);
 
   const totalRequested = useMemo(
@@ -172,18 +195,45 @@ const FundingStep = () => {
 
   return (
     <div className="space-y-8">
-        <Card className="bg-primary/10 border-primary/20">
-            <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <Lightbulb/>
-                    <span>MVP Estimated Cost</span>
-                </CardTitle>
-            </CardHeader>
-            <CardContent>
-                <p className="text-4xl font-bold">{mvpResult.costEstimation}</p>
-                <p className="text-muted-foreground">This is the estimated total cost to develop your Minimum Viable Product.</p>
-            </CardContent>
-        </Card>
+        <div className="grid md:grid-cols-2 gap-6">
+            <Card className="bg-primary/10 border-primary/20">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <Lightbulb/>
+                        <span>MVP Estimated Cost</span>
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-4xl font-bold">{mvpResult.costEstimation}</p>
+                    <p className="text-muted-foreground">This is the estimated cost to develop your Minimum Viable Product.</p>
+                </CardContent>
+            </Card>
+             <Card>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                        <TrendingUp/>
+                        <span>Est. Full Production Cost</span>
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    {isLoadingProdCost ? (
+                        <div className="space-y-2">
+                            <Skeleton className="h-8 w-1/2" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-4/5" />
+                        </div>
+                    ) : prodCostResult ? (
+                        <>
+                         <p className="text-4xl font-bold">{prodCostResult.estimatedCost}</p>
+                         <p className="text-muted-foreground">{prodCostResult.justification}</p>
+                        </>
+                    ) : (
+                        <p className="text-muted-foreground">Could not generate production cost estimate.</p>
+                    )}
+                </CardContent>
+            </Card>
+        </div>
+
 
       <div>
         <h3 className="text-xl font-semibold flex items-center gap-2">
@@ -192,10 +242,11 @@ const FundingStep = () => {
         </h3>
         <p className="text-muted-foreground mt-1">Based on your validated idea, here are some potential funding avenues in Mauritius. Enter the amount you'd like to request from each.</p>
         
-        {isLoading ? (
-            <div className="grid md:grid-cols-2 gap-4 mt-4">
-                <Card><CardHeader><div className="h-8 w-1/2 bg-muted rounded animate-pulse"/><CardDescription className="h-4 w-3/4 bg-muted rounded animate-pulse mt-1"/></CardHeader><CardContent className="h-16 bg-muted rounded animate-pulse"/></Card>
-                <Card><CardHeader><div className="h-8 w-1/2 bg-muted rounded animate-pulse"/><CardDescription className="h-4 w-3/4 bg-muted rounded animate-pulse mt-1"/></CardHeader><CardContent className="h-16 bg-muted rounded animate-pulse"/></Card>
+        {isLoadingFinancing ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+                <Card><CardHeader><Skeleton className="h-6 w-1/2"/><Skeleton className="h-4 w-3/4 mt-2"/></CardHeader><CardContent><Skeleton className="h-10 w-full"/></CardContent><CardFooter><Skeleton className="h-10 w-full"/></CardFooter></Card>
+                <Card><CardHeader><Skeleton className="h-6 w-1/2"/><Skeleton className="h-4 w-3/4 mt-2"/></CardHeader><CardContent><Skeleton className="h-10 w-full"/></CardContent><CardFooter><Skeleton className="h-10 w-full"/></CardFooter></Card>
+                <Card><CardHeader><Skeleton className="h-6 w-1/2"/><Skeleton className="h-4 w-3/4 mt-2"/></CardHeader><CardContent><Skeleton className="h-10 w-full"/></CardContent><CardFooter><Skeleton className="h-10 w-full"/></CardFooter></Card>
             </div>
         ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
