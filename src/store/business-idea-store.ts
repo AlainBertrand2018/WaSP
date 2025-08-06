@@ -9,7 +9,7 @@ type FormData = {
 };
 
 type BusinessIdeaState = {
-  analysisResult: ValidateBusinessIdeaOutput | null;
+  analysisResult: (ValidateBusinessIdeaOutput & { sector: string }) | null;
   formData: FormData | null;
   mvpResult: GenerateMvpOutput | null;
   set: (data: Partial<BusinessIdeaState>) => void;

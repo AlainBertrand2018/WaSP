@@ -805,19 +805,23 @@ const SummaryStep = () => {
     summary,
     setSummary,
   } = useBudgetPlannerStore();
-  const { analysisResult } = useBusinessIdeaStore(state => state);
+  const { analysisResult } = useBusinessIdeaStore((state) => state);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGenerateSummary = async () => {
-    if (!salePrice || salePrice <= 0 || !analysisResult?.sector) {
-      // Maybe show a toast to the user.
+    // The sector is nested inside the analysisResult object.
+    const sector = analysisResult?.sector;
+
+    if (!salePrice || salePrice <= 0 || !sector) {
+      // You can add a toast message here to inform the user.
+      console.error('Sale price and sector are required to generate a summary.');
       return;
     }
     setIsLoading(true);
     setSummary(null);
     try {
       const result = await generateBudgetSummary({
-        sector: analysisResult.sector,
+        sector: sector,
         totalFixedCosts: totalFixedCosts,
         totalVariableCosts: totalVariableCosts,
         salePricePerUnit: salePrice,
@@ -825,10 +829,12 @@ const SummaryStep = () => {
       setSummary(result);
     } catch (error) {
       console.error('Error generating budget summary:', error);
+      // You can add a toast message here for the user.
     } finally {
       setIsLoading(false);
     }
   };
+
 
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat('en-MU', {
@@ -1078,5 +1084,3 @@ export default function StartupBudgetPlannerPage() {
     </div>
   );
 }
-
-    
