@@ -70,6 +70,7 @@ const industryOptions = [
   'Education & Ed-tech',
   'Manufacturing',
   'Logistics & Transportation',
+  'Other',
 ];
 
 const sectorTargetOptions = ['B2B', 'B2C', 'B2C2B', 'SME', 'Pre-seed', 'Seed'];
@@ -83,6 +84,7 @@ type MarketPotential = {
 type FormData = {
   businessIdeaTitle: string;
   sector: string;
+  otherSector: string;
   sectorTarget: string;
   ideaDescription: string;
   customerProfile: string;
@@ -99,6 +101,7 @@ export default function BusinessIdeaValidationPage() {
   const [formData, setFormData] = useState<FormData>({
     businessIdeaTitle: '',
     sector: '',
+    otherSector: '',
     sectorTarget: '',
     ideaDescription: '',
     customerProfile: '',
@@ -160,8 +163,9 @@ export default function BusinessIdeaValidationPage() {
   };
 
   const handleGenerateMarketSize = async () => {
+    const sector = formData.sector === 'Other' ? formData.otherSector : formData.sector;
     if (
-      !formData.sector ||
+      !sector ||
       !formData.sectorTarget ||
       !formData.customerProfile
     ) {
@@ -172,7 +176,7 @@ export default function BusinessIdeaValidationPage() {
     setFormData((prev) => ({ ...prev, marketPotential: null }));
     try {
       const result = await generateMarketSize({
-        sector: formData.sector,
+        sector: sector,
         sectorTarget: formData.sectorTarget,
         customerProfile: formData.customerProfile,
       });
@@ -189,12 +193,16 @@ export default function BusinessIdeaValidationPage() {
     e.preventDefault();
     setIsSubmitting(true);
     setAnalysisResult(null);
+
+    const finalSector = formData.sector === 'Other' ? formData.otherSector : formData.sector;
+
     try {
       // Pass the generated customer number to the final validation flow.
       const marketSizeForValidation =
         formData.marketPotential?.potentialCustomers || 'Not estimated';
       const result = await validateBusinessIdea({
         ...formData,
+        sector: finalSector,
         marketSize: marketSizeForValidation,
       });
       setAnalysisResult(result);
@@ -221,6 +229,7 @@ export default function BusinessIdeaValidationPage() {
     setFormData({
       businessIdeaTitle: '',
       sector: '',
+      otherSector: '',
       sectorTarget: '',
       ideaDescription: '',
       customerProfile: '',
@@ -246,7 +255,8 @@ export default function BusinessIdeaValidationPage() {
         doc.text(`Validation Report: ${formData.businessIdeaTitle}`, 14, 22);
         doc.setFontSize(11);
         doc.setTextColor(150);
-        doc.text(`For business idea in the ${formData.sector} sector.`, 14, 30);
+        const finalSector = formData.sector === 'Other' ? formData.otherSector : formData.sector;
+        doc.text(`For business idea in the ${finalSector} sector.`, 14, 30);
 
         // Summary Section
         doc.setFontSize(16);
@@ -562,6 +572,19 @@ export default function BusinessIdeaValidationPage() {
                     </SelectContent>
                   </Select>
                 </div>
+                 {formData.sector === 'Other' && (
+                  <div className="space-y-2">
+                    <Label htmlFor="otherSector">Please specify your sector</Label>
+                    <Input
+                      id="otherSector"
+                      name="otherSector"
+                      value={formData.otherSector}
+                      onChange={handleInputChange}
+                      placeholder="e.g., Renewable Energy"
+                      required
+                    />
+                  </div>
+                )}
                 <div className="space-y-2">
                   <Label htmlFor="sectorTarget">Sector Target</Label>
                   <Select

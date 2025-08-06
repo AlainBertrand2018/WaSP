@@ -34,6 +34,7 @@ export const ValidateBusinessIdeaInputSchema = z.object({
   monetization: z
     .string()
     .describe('The monetization strategy and pricing model.'),
+  otherSector: z.string().optional().describe('A user-defined sector if "Other" is chosen.'),
 });
 
 export type ValidateBusinessIdeaInput = z.infer<
