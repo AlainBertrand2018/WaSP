@@ -524,6 +524,8 @@ export default function StartupBudgetPlannerPage() {
     const handleNext = () => {
         if (currentTab === 'funding') {
             setCurrentTab('fixed-costs');
+        } else if (currentTab === 'fixed-costs') {
+            setCurrentTab('variable-costs');
         }
     }
     
@@ -551,9 +553,9 @@ export default function StartupBudgetPlannerPage() {
             </TabsContent>
         </Tabs>
 
-        <div className={cn("flex justify-end pt-4 border-t mt-4", currentTab === 'funding' ? 'visible' : 'invisible')}>
+        <div className={cn("flex justify-end pt-4 border-t mt-4", (currentTab === 'funding' || currentTab === 'fixed-costs') ? 'visible' : 'invisible')}>
            <Button className="group" onClick={handleNext}>
-                <span>Next: Fixed Costs</span>
+                <span>{currentTab === 'funding' ? 'Next: Fixed Costs' : 'Next: Variable Costs'}</span>
                 <ChevronRight className="transition-transform group-hover:translate-x-1" />
            </Button>
         </div>
