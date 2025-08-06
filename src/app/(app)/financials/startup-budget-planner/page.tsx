@@ -809,11 +809,9 @@ const SummaryStep = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGenerateSummary = async () => {
-    // The sector is nested inside the analysisResult object.
     const sector = analysisResult?.sector;
 
     if (!salePrice || salePrice <= 0 || !sector) {
-      // You can add a toast message here to inform the user.
       console.error('Sale price and sector are required to generate a summary.');
       return;
     }
