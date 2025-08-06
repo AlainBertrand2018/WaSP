@@ -365,6 +365,12 @@ const FixedCostsStep = () => {
   const { fixedCosts, setFixedCost } = useBudgetPlannerStore();
   const [isLoading, setIsLoading] = useState(false);
   const [costItems, setCostItems] = useState<FixedCostItem[]>([]);
+  
+  const autoCalculatedFields = [
+    'Pension Contributions (NSF)',
+    'Social Security Contributions (CSG)',
+    'NSF levy'
+  ];
 
   useEffect(() => {
     const runGeneration = async () => {
@@ -388,6 +394,23 @@ const FixedCostsStep = () => {
     };
     runGeneration();
   }, [businessIdea, formData]);
+  
+  const totalSalaries = useMemo(() => {
+    return costItems
+      .filter(item => item.category === 'Salaries & HR' && !autoCalculatedFields.includes(item.name))
+      .reduce((sum, item) => sum + (fixedCosts[item.name] || 0), 0);
+  }, [costItems, fixedCosts]);
+
+  useEffect(() => {
+      const nsfContribution = totalSalaries * 0.06;
+      const csgContribution = totalSalaries * 0.025;
+      const nsfLevy = totalSalaries * 0.015;
+
+      setFixedCost('Pension Contributions (NSF)', nsfContribution);
+      setFixedCost('Social Security Contributions (CSG)', csgContribution);
+      setFixedCost('NSF levy', nsfLevy);
+
+  }, [totalSalaries, setFixedCost]);
 
   const groupedCosts = useMemo(() => {
     return costItems.reduce((acc, item) => {
@@ -438,7 +461,7 @@ const FixedCostsStep = () => {
             </div>
           </CardTitle>
           <CardDescription>
-            Based on your business idea, we've generated a list of potential fixed costs. Fill in your estimates.
+            Based on your business idea, we've generated a list of potential fixed costs. Fill in your estimates. Auto-calculated fields update based on salary inputs.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -449,22 +472,26 @@ const FixedCostsStep = () => {
                     <span>{category}</span>
                 </h3>
               <div className="space-y-3">
-                {items.map((item) => (
-                  <div key={item.name} className="grid grid-cols-3 items-center gap-4">
-                    <div className="col-span-2">
-                      <Label htmlFor={item.name} className="font-semibold">{item.name}</Label>
-                      <p className="text-xs text-muted-foreground">{item.description}</p>
+                {items.map((item) => {
+                  const isAutoCalculated = autoCalculatedFields.includes(item.name);
+                  return (
+                    <div key={item.name} className="grid grid-cols-3 items-center gap-4">
+                      <div className="col-span-2">
+                        <Label htmlFor={item.name} className="font-semibold">{item.name}</Label>
+                        <p className="text-xs text-muted-foreground">{item.description}</p>
+                      </div>
+                      <Input
+                        id={item.name}
+                        type="number"
+                        value={fixedCosts[item.name] ? fixedCosts[item.name].toFixed(2) : ''}
+                        onChange={(e) => setFixedCost(item.name, Number(e.target.value))}
+                        placeholder="MUR"
+                        className="text-right"
+                        disabled={isAutoCalculated}
+                      />
                     </div>
-                    <Input
-                      id={item.name}
-                      type="number"
-                      value={fixedCosts[item.name] || ''}
-                      onChange={(e) => setFixedCost(item.name, Number(e.target.value))}
-                      placeholder="MUR"
-                      className="text-right"
-                    />
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           ))}

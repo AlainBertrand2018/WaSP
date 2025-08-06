@@ -34,7 +34,15 @@ For each fixed cost item, provide:
 - **description**: A brief, one-sentence explanation of why this cost is relevant for this specific business.
 - **category**: The general category for this cost (e.g., "Office & Utilities", "Salaries & HR", "Software & Subscriptions", "Marketing & Sales", "Legal & Administrative").
 
-Generate a diverse list covering all major operational areas. Produce the output in the required JSON format.`,
+Generate a diverse list covering all major operational areas.
+In the "Salaries & HR" category, you must include the following specific items:
+- "Founder's Salary"
+- "Employee Salaries"
+- "Pension Contributions (NSF)"
+- "Social Security Contributions (CSG)"
+- "NSF levy"
+
+Produce the output in the required JSON format.`,
 });
 
 const generateFixedCostsFlow = ai.defineFlow(
