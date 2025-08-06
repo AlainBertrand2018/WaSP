@@ -9,6 +9,7 @@ import {
   LayoutGrid,
   Megaphone,
   Package,
+  Rocket,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -45,7 +46,7 @@ const SubMenu = ({
   dashboardHref: string;
 }) => {
   const [isOpen, setIsOpen] = React.useState(
-    items.some((item) => pathname.startsWith(item.href))
+    items.some((item) => pathname.startsWith(item.href)) || pathname === dashboardHref
   );
 
   return (
@@ -118,14 +119,26 @@ export function SidebarNav() {
 
           <SidebarMenuItem>
             <SubMenu
+              icon={<Rocket />}
+              title="Business Creation"
+              pathname={pathname}
+              dashboardHref="/business-management/business-idea-validation"
+              items={[
+                { href: '/business-management/business-idea-validation', label: 'Business Idea Validation' },
+                { href: '/business-management/mvp-planner', label: 'MVP Planner' },
+                { href: '/financials/startup-budget-planner', label: 'Startup Budget Planner'},
+              ]}
+            />
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SubMenu
               icon={<Briefcase />}
               title="Business Management"
               pathname={pathname}
               dashboardHref="/business-management/insights-dashboard"
               items={[
                 { href: '/business-management/insights-dashboard', label: 'Insights Dashboard' },
-                { href: '/business-management/business-idea-validation', label: 'Business Idea Validation' },
-                { href: '/business-management/mvp-planner', label: 'MVP Planner' },
                 { href: '/business-management/compliance-validator', label: 'Compliance Validator' },
                 { href: '/business-management/crm-suite', label: 'CRM, Appointments & Invoices' },
                 { href: '/business-management/project-task-manager', label: 'Project & Task Manager' },
@@ -159,7 +172,6 @@ export function SidebarNav() {
               dashboardHref="/financials/dashboard"
               items={[
                 { href: '/financials/dashboard', label: 'Finance Dashboard' },
-                { href: '/financials/startup-budget-planner', label: 'Startup Budget Planner'},
                 { href: '/financials/asset-management', label: 'Asset Management' },
                 { href: '/financials/expense-logger', label: 'Business Expense Logger' },
                 { href: '/financials/vat-calculator', label: 'VAT Calculator & Reporter' },
