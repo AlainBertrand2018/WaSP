@@ -33,6 +33,7 @@ import {
   Lightbulb,
   Loader2,
   PlusCircle,
+  RefreshCcw,
   Sparkles,
   Target,
   Trash2,
@@ -48,15 +49,15 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { generateMarketSize } from '@/ai/flows/business-management/generate-market-size-flow';
+import { summarizeIdea } from '@/ai/flows/business-management/summarize-idea-flow';
 import ViabilityMeter from '@/components/feature/viability-meter';
 import Link from 'next/link';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
-import { marked } from 'marked';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
 
 
-const totalSteps = 6;
+const totalSteps = 7;
 
 const industryOptions = [
   'Tourism & Hospitality',
@@ -114,10 +115,12 @@ export default function BusinessIdeaValidationPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGeneratingMarketSize, setIsGeneratingMarketSize] = useState(false);
+  const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
+  const [ideaSummary, setIdeaSummary] = useState('');
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [analysisResult, setAnalysisResult] =
     useState<ValidateBusinessIdeaOutput | null>(null);
-  
+
   const setStore = useBusinessIdeaStore((state) => state.set);
 
 
@@ -148,6 +151,33 @@ export default function BusinessIdeaValidationPage() {
   const removeProduct = (index: number) => {
     const newProducts = formData.products.filter((_, i) => i !== index);
     setFormData((prev) => ({ ...prev, products: newProducts }));
+  };
+
+  const handleNextStep = async () => {
+    if (currentStep === 6) {
+      // Transitioning to step 7, generate summary.
+      setIsGeneratingSummary(true);
+      setIdeaSummary('');
+      try {
+        const finalSector =
+          formData.sector === 'Other' ? formData.otherSector : formData.sector;
+        const marketSize =
+          formData.marketPotential?.potentialCustomers || 'Not estimated';
+
+        const summary = await summarizeIdea({
+          ...formData,
+          sector: finalSector,
+          marketSize,
+        });
+        setIdeaSummary(summary);
+      } catch (error) {
+        console.error('Error generating summary:', error);
+        setIdeaSummary('Sorry, I was unable to generate a summary for your idea. You can still proceed to validation.');
+      } finally {
+        setIsGeneratingSummary(false);
+      }
+    }
+    nextStep();
   };
 
   const nextStep = () => {
@@ -249,7 +279,7 @@ export default function BusinessIdeaValidationPage() {
 
     try {
         const doc = new jsPDF();
-        
+
         // Title
         doc.setFontSize(22);
         doc.text(`Validation Report: ${formData.businessIdeaTitle}`, 14, 22);
@@ -270,7 +300,7 @@ export default function BusinessIdeaValidationPage() {
             ['Strengths', analysisResult.validationSummary.keyStrengths.join('\n')],
             ['Weaknesses', analysisResult.validationSummary.potentialWeaknesses.join('\n')],
         ];
-        
+
         (doc as any).autoTable({
             startY: 50,
             head: [],
@@ -282,7 +312,7 @@ export default function BusinessIdeaValidationPage() {
                 1: { cellWidth: 140 },
             }
         });
-        
+
         let lastY = (doc as any).lastAutoTable.finalY + 15;
 
         doc.setFontSize(16);
@@ -290,25 +320,26 @@ export default function BusinessIdeaValidationPage() {
         lastY += 10;
 
         for (const [key, value] of Object.entries(analysisResult.validationReport)) {
+            if (lastY > 270) { doc.addPage(); lastY = 20; }
             const title = key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
             doc.setFontSize(12);
             doc.setFont('helvetica', 'bold');
             doc.text(title, 14, lastY);
             lastY += 6;
-            
+
             doc.setFont('helvetica', 'normal');
             doc.setFontSize(10);
-            
+
             if (key === 'targetPersonas' && Array.isArray(value)) {
                  value.forEach(persona => {
                     if (lastY > 270) { doc.addPage(); lastY = 20; }
-                    const personaTitle = doc.splitTextToSize(`**${persona.title}**`, 180);
                     doc.setFont('helvetica', 'bold');
+                    const personaTitle = doc.splitTextToSize(persona.title, 180);
                     doc.text(personaTitle, 14, lastY);
                     lastY += (personaTitle.length * 4);
-                    
-                    const personaDesc = doc.splitTextToSize(persona.description, 180);
+
                     doc.setFont('helvetica', 'normal');
+                    const personaDesc = doc.splitTextToSize(persona.description, 180);
                     doc.text(personaDesc, 14, lastY);
                     lastY += (personaDesc.length * 4) + 4;
                  });
@@ -319,19 +350,14 @@ export default function BusinessIdeaValidationPage() {
                     lastY += (splitText.length * 4) + 4;
                 }
             }
-
-             if (lastY > 280) {
-                doc.addPage();
-                lastY = 20;
-            }
         }
-        
+
         // Refinements
         if (lastY > 270) { doc.addPage(); lastY = 20; }
         doc.setFontSize(16);
         doc.text("What I Would Do Differently", 14, lastY);
         lastY += 10;
-        
+
         doc.setFontSize(10);
         if (analysisResult.refinementSuggestions) {
             const refinementText = doc.splitTextToSize(analysisResult.refinementSuggestions, 180);
@@ -797,6 +823,21 @@ export default function BusinessIdeaValidationPage() {
                 />
               </div>
             )}
+            {currentStep === 7 && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold">Review and Submit</h2>
+                 {isGeneratingSummary ? (
+                   <div className="flex items-center gap-2 text-muted-foreground">
+                      <Loader2 className="animate-spin" />
+                      <span>Generating summary...</span>
+                   </div>
+                 ) : (
+                    <Card className="p-4 bg-muted">
+                        <p className="text-muted-foreground whitespace-pre-wrap">{ideaSummary}</p>
+                    </Card>
+                 )}
+              </div>
+            )}
           </CardContent>
           <CardFooter className="flex justify-between border-t pt-6">
             <Button
@@ -812,20 +853,33 @@ export default function BusinessIdeaValidationPage() {
             {currentStep < totalSteps ? (
               <Button
                 type="button"
-                onClick={nextStep}
+                onClick={handleNextStep}
                 className="gap-2"
                 disabled={
-                  currentStep === 3 && formData.marketPotential === null
+                  (currentStep === 3 && formData.marketPotential === null) ||
+                  (currentStep === 6 &&
+                    (!formData.businessIdeaTitle ||
+                      !formData.ideaDescription ||
+                      !formData.customerProfile ||
+                      !formData.productType ||
+                      !formData.startingBudget ||
+                      !formData.monetization))
                 }
               >
                 <span>Next</span>
                 <ArrowRight />
               </Button>
             ) : (
-              <Button type="submit" className="gap-2">
-                <Lightbulb />
-                <span>Validate My Idea</span>
-              </Button>
+                <div className="flex gap-2">
+                    <Button type="button" variant="outline" onClick={resetForm} className="gap-2">
+                        <RefreshCcw />
+                        <span>Restart Validation</span>
+                    </Button>
+                    <Button type="submit" className="gap-2" disabled={isGeneratingSummary}>
+                        <Lightbulb />
+                        <span>Submit and Validate</span>
+                    </Button>
+              </div>
             )}
           </CardFooter>
         </form>
