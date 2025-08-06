@@ -38,7 +38,12 @@ export const GenerateBudgetSummaryOutputSchema = z.object({
     ),
   summary: z
     .string()
-    .describe('A brief explanation of the break-even analysis.'),
+    .describe(
+      'A thorough and explanatory analysis of the break-even point, contribution margin, and overall budget. It should include actionable advice and alternative strategies.'
+    ),
+  conservativeGrowthOutlook: z.string().describe(
+    'A realistic, conservative narrative about the business\'s potential growth in the current Mauritian market.'
+  ),
   forecast: z
     .array(ForecastDataPointSchema)
     .describe('An array of data points for a profit forecast chart.'),

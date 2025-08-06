@@ -51,6 +51,7 @@ import {
   Package,
   Calculator,
   Target,
+  BarChart,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
@@ -833,6 +834,20 @@ const SummaryStep = () => {
       currency: 'MUR',
     }).format(value);
 
+  if (isLoading) {
+    return (
+        <div className="flex flex-col items-center justify-center gap-4 py-16">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+            <h2 className="text-2xl font-semibold tracking-tight">
+                Analyzing Your Budget...
+            </h2>
+            <p className="text-muted-foreground max-w-md text-center">
+                Our AI financial analyst is crunching the numbers and generating your forecast. This might take a moment.
+            </p>
+        </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {!summary ? (
@@ -922,17 +937,34 @@ const SummaryStep = () => {
           
           <Card>
             <CardHeader>
-                <CardTitle>AI-Generated Analysis</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                    <Lightbulb />
+                    <span>AI-Generated Analysis</span>
+                </CardTitle>
             </CardHeader>
              <CardContent>
                 <p className="text-muted-foreground whitespace-pre-wrap">{summary.summary}</p>
              </CardContent>
           </Card>
 
+          <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                    <TrendingUp />
+                    <span>Conservative Growth Outlook</span>
+                </CardTitle>
+            </CardHeader>
+             <CardContent>
+                <p className="text-muted-foreground whitespace-pre-wrap">{summary.conservativeGrowthOutlook}</p>
+             </CardContent>
+          </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Monthly Profit Forecast</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart />
+                <span>Monthly Profit Forecast</span>
+              </CardTitle>
               <CardDescription>
                 This chart visualizes your potential monthly profit based on the number of units you sell. The blue line shows when you start making a profit.
               </CardDescription>
