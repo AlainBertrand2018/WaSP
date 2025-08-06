@@ -236,6 +236,13 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
         formData: {
           businessIdeaTitle: formData.businessIdeaTitle,
           ideaDescription: formData.ideaDescription,
+          sector: finalSector,
+          sectorTarget: formData.sectorTarget,
+          customerProfile: formData.customerProfile,
+          productType: formData.productType,
+          products: formData.products,
+          startingBudget: formData.startingBudget,
+          monetization: formData.monetization,
         },
       });
     } catch (error) {
@@ -891,3 +898,5 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
     </div>
   );
 }
+
+    

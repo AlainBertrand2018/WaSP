@@ -6,6 +6,13 @@ import type { GenerateMvpOutput } from '@/ai/flows/business-management/generate-
 type FormData = {
     businessIdeaTitle: string;
     ideaDescription: string;
+    sector: string;
+    sectorTarget: string;
+    customerProfile: string;
+    productType: string;
+    products: { name: string }[];
+    startingBudget: string;
+    monetization: string;
 };
 
 type BusinessIdeaState = {
@@ -29,3 +36,5 @@ export const useBusinessIdeaStore = create<BusinessIdeaState>()(
     }
   )
 );
+
+    
