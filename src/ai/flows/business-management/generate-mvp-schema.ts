@@ -29,10 +29,10 @@ export const GenerateMvpOutputSchema = z.object({
     ),
   timeframe: z.string().describe('An estimated timeframe for MVP development.'),
   requiredStaff: z
-    .string()
+    .array(z.string())
     .describe('The essential personnel required to build the MVP.'),
   techStack: z
-    .string()
+    .array(z.string())
     .describe('A recommended technology stack for the MVP.'),
   costEstimation: z
     .string()

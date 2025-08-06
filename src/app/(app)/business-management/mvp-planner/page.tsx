@@ -283,7 +283,11 @@ export default function MvpPlannerPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold">{mvpResult.requiredStaff}</p>
+              <ul className="list-disc pl-5 text-muted-foreground">
+                {mvpResult.requiredStaff.map((staff, i) => (
+                  <li key={i}>{staff}</li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
           <Card>
@@ -294,9 +298,11 @@ export default function MvpPlannerPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground whitespace-pre-wrap">
-                {mvpResult.techStack}
-              </p>
+               <ul className="list-disc pl-5 text-muted-foreground">
+                {mvpResult.techStack.map((tech, i) => (
+                  <li key={i}>{tech}</li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
           <Card>

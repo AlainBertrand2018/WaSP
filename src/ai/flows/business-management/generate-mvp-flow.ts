@@ -50,8 +50,8 @@ Based on this comprehensive report, generate a detailed MVP plan.
 - **mvpDescription**: Write a concise, compelling description of the MVP. What is the absolute core problem it solves for the target user? This should synthesize the original idea and the AI's refinement suggestions.
 - **coreFeatures**: List the 3-5 most critical features needed for the MVP to function and solve the core problem. Be specific and action-oriented (e.g., "User registration and profile management," "Real-time order tracking map"). Avoid nice-to-have features. Base these on the validation report's assessment.
 - **timeframe**: Provide a realistic estimated timeframe for developing this MVP (e.g., "2-3 months").
-- **requiredStaff**: Specify the essential team members needed (e.g., "1 Full-Stack Developer, 1 UI/UX Designer").
-- **techStack**: Recommend a suitable, modern, and scalable technology stack. Briefly justify your choices (e.g., "Next.js for the frontend for its performance and SEO benefits, Firebase for the backend to handle auth and database easily").
+- **requiredStaff**: Specify the essential team members needed as a list of strings (e.g., ["1 Full-Stack Developer", "1 UI/UX Designer"]).
+- **techStack**: Recommend a suitable, modern, and scalable technology stack as a list of strings. Briefly justify your choices (e.g., ["Next.js for frontend: performance and SEO benefits", "Firebase for backend: handles auth and database easily"]).
 - **costEstimation**: Provide a rough, high-level cost estimation for the MVP development in MUR (e.g., "MUR 300,000 - 450,000").
 
 Produce the output in the required JSON format.`,
