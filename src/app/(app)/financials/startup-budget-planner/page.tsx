@@ -33,6 +33,7 @@ import {
   Sparkles,
   Wallet,
   TrendingUp,
+  FileText,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
@@ -45,6 +46,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const FinancingOptionCard = ({
@@ -208,29 +217,49 @@ const FundingStep = () => {
                     <p className="text-muted-foreground">This is the estimated cost to develop your Minimum Viable Product.</p>
                 </CardContent>
             </Card>
-             <Card>
+             <Card className="flex flex-col">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <TrendingUp/>
                         <span>Est. Full Production Cost</span>
                     </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                     {isLoadingProdCost ? (
                         <div className="space-y-2">
                             <Skeleton className="h-8 w-1/2" />
                             <Skeleton className="h-4 w-full" />
-                            <Skeleton className="h-4 w-4/5" />
                         </div>
                     ) : prodCostResult ? (
-                        <>
                          <p className="text-4xl font-bold">{prodCostResult.estimatedCost}</p>
-                         <p className="text-muted-foreground">{prodCostResult.justification}</p>
-                        </>
                     ) : (
-                        <p className="text-muted-foreground">Could not generate production cost estimate.</p>
+                        <p className="text-muted-foreground">Could not generate estimate.</p>
                     )}
                 </CardContent>
+                <CardFooter>
+                    {prodCostResult && (
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="outline" className="w-full gap-2">
+                                    <FileText/>
+                                    <span>View Justification</span>
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="h-[80vh] flex flex-col">
+                                <DialogHeader>
+                                <DialogTitle>AI-Generated Justification</DialogTitle>
+                                </DialogHeader>
+                                <div className="flex-grow overflow-hidden">
+                                    <ScrollArea className="h-full pr-6">
+                                        <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                                            {prodCostResult.justification}
+                                        </p>
+                                    </ScrollArea>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                    )}
+                </CardFooter>
             </Card>
         </div>
 
@@ -357,3 +386,5 @@ export default function StartupBudgetPlannerPage() {
       </div>
     );
   }
+
+    
