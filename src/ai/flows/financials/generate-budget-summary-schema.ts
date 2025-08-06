@@ -33,7 +33,7 @@ export const GenerateBudgetSummaryOutputSchema = z.object({
     .describe('The number of units to sell to break even.'),
   breakEvenRevenue: z
     .number()
-almost_done.describe(
+    .describe(
       'The total revenue needed to break even in MUR.'
     ),
   summary: z

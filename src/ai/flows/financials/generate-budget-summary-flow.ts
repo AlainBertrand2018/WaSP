@@ -32,8 +32,8 @@ Analyze the following financial data:
 
 Your tasks are:
 1.  **Calculate Break-Even Point:** Determine the number of units the business needs to sell per month to cover all costs. The formula is: Total Fixed Costs / (Sale Price Per Unit - Variable Costs Per Unit).
-    - `breakEvenUnits` should be a whole number (rounded up).
-    - `breakEvenRevenue` is `breakEvenUnits` * `salePricePerUnit`.
+    - \`breakEvenUnits\` should be a whole number (rounded up).
+    - \`breakEvenRevenue\` is \`breakEvenUnits\` * \`salePricePerUnit\`.
 
 2.  **Generate a Summary:** Write a brief, encouraging paragraph explaining what the break-even point means. Mention the contribution margin (Sale Price - Variable Cost) and how it contributes to covering fixed costs.
 
@@ -42,7 +42,7 @@ Your tasks are:
     - The second point should be half the break-even units.
     - The third point should be the break-even point.
     - The next seven points should increment in reasonable steps up to roughly 2.5x - 3x the break-even point.
-    - For each point, calculate `revenue` (units * price), `costs` (fixed + units * variable), and `profit` (revenue - costs).
+    - For each point, calculate \`revenue\` (units * price), \`costs\` (fixed + units * variable), and \`profit\` (revenue - costs).
 
 Produce the output in the required JSON format. Ensure all calculations are accurate.`,
 });
