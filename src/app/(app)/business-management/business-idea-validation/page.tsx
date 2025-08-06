@@ -49,7 +49,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { generateMarketSize } from '@/ai/flows/business-management/generate-market-size-flow';
-import { summarizeIdea } from '@/ai/flows/business-management/summarize-idea-flow';
 import ViabilityMeter from '@/components/feature/viability-meter';
 import Link from 'next/link';
 import { jsPDF } from 'jspdf';
@@ -115,7 +114,6 @@ export default function BusinessIdeaValidationPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGeneratingMarketSize, setIsGeneratingMarketSize] = useState(false);
-  const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
   const [ideaSummary, setIdeaSummary] = useState('');
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [analysisResult, setAnalysisResult] =
@@ -153,29 +151,25 @@ export default function BusinessIdeaValidationPage() {
     setFormData((prev) => ({ ...prev, products: newProducts }));
   };
 
-  const handleNextStep = async () => {
+  const handleNextStep = () => {
     if (currentStep === 6) {
       // Transitioning to step 7, generate summary.
-      setIsGeneratingSummary(true);
-      setIdeaSummary('');
-      try {
-        const finalSector =
-          formData.sector === 'Other' ? formData.otherSector : formData.sector;
-        const marketSize =
-          formData.marketPotential?.potentialCustomers || 'Not estimated';
+      const finalSector =
+        formData.sector === 'Other' ? formData.otherSector : formData.sector;
+      const marketSize =
+        formData.marketPotential?.potentialCustomers || 'Not estimated';
 
-        const summary = await summarizeIdea({
-          ...formData,
-          sector: finalSector,
-          marketSize,
-        });
-        setIdeaSummary(summary);
-      } catch (error) {
-        console.error('Error generating summary:', error);
-        setIdeaSummary('Sorry, I was unable to generate a summary for your idea. You can still proceed to validation.');
-      } finally {
-        setIsGeneratingSummary(false);
-      }
+      const summary = `Your business idea, "${formData.businessIdeaTitle}", operates in the ${finalSector} sector, targeting the ${formData.sectorTarget} market. 
+      
+You described it as: "${formData.ideaDescription}".
+
+Your target customer is: "${formData.customerProfile}", with an estimated market size of ${marketSize}.
+
+You plan to offer a ${formData.productType} product, specifically: ${formData.products.map(p => p.name).join(', ')}.
+
+Your starting budget is MUR ${formData.startingBudget}, and your monetization strategy is: "${formData.monetization}".
+      `;
+      setIdeaSummary(summary);
     }
     nextStep();
   };
@@ -826,16 +820,9 @@ export default function BusinessIdeaValidationPage() {
             {currentStep === 7 && (
               <div className="space-y-4">
                 <h2 className="text-2xl font-semibold">Review and Submit</h2>
-                 {isGeneratingSummary ? (
-                   <div className="flex items-center gap-2 text-muted-foreground">
-                      <Loader2 className="animate-spin" />
-                      <span>Generating summary...</span>
-                   </div>
-                 ) : (
-                    <Card className="p-4 bg-muted">
-                        <p className="text-muted-foreground whitespace-pre-wrap">{ideaSummary}</p>
-                    </Card>
-                 )}
+                <Card className="p-4 bg-muted">
+                    <p className="text-muted-foreground whitespace-pre-wrap">{ideaSummary}</p>
+                </Card>
               </div>
             )}
           </CardContent>
@@ -875,7 +862,7 @@ export default function BusinessIdeaValidationPage() {
                         <RefreshCcw />
                         <span>Restart Validation</span>
                     </Button>
-                    <Button type="submit" className="gap-2" disabled={isGeneratingSummary}>
+                    <Button type="submit" className="gap-2">
                         <Lightbulb />
                         <span>Submit and Validate</span>
                     </Button>
