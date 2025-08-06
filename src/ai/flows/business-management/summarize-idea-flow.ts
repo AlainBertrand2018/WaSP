@@ -55,10 +55,17 @@ const summarizeIdeaFlow = ai.defineFlow(
     outputSchema: SummarizeIdeaOutputSchema,
   },
   async (input) => {
-    const { output } = await prompt(input);
-    if (!output) {
-      throw new Error('The AI model did not return a valid summary.');
+    try {
+      const { output } = await prompt(input);
+      if (!output) {
+        // This case might happen if the model returns an empty response.
+        return 'Sorry, I was unable to generate a summary for your idea. You can still proceed to validation.';
+      }
+      return output;
+    } catch (error) {
+        console.error('Error in summarizeIdeaFlow:', error);
+        // This will catch schema validation errors or other issues from the AI call.
+        return 'Sorry, an error occurred while generating the summary. You can still proceed to validation.';
     }
-    return output;
   }
 );
