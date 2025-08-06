@@ -509,7 +509,7 @@ const FixedCostsStep = () => {
             },
           ];
           setCostItems(allItems);
-        } catch (error) => {
+        } catch (error) {
           console.error('Error generating fixed costs:', error);
         } finally {
           setIsLoading(false);
@@ -680,7 +680,7 @@ const VariableCostsStep = () => {
             },
           });
           setCostItems(result.variableCosts);
-        } catch (error) => {
+        } catch (error) {
           console.error('Error generating variable costs:', error);
         } finally {
           setIsLoading(false);
@@ -1078,3 +1078,5 @@ export default function StartupBudgetPlannerPage() {
     </div>
   );
 }
+
+    
