@@ -509,7 +509,7 @@ const FixedCostsStep = () => {
             },
           ];
           setCostItems(allItems);
-        } catch (error) {
+        } catch (error) => {
           console.error('Error generating fixed costs:', error);
         } finally {
           setIsLoading(false);
@@ -680,7 +680,7 @@ const VariableCostsStep = () => {
             },
           });
           setCostItems(result.variableCosts);
-        } catch (error) {
+        } catch (error) => {
           console.error('Error generating variable costs:', error);
         } finally {
           setIsLoading(false);
@@ -805,10 +805,11 @@ const SummaryStep = () => {
     summary,
     setSummary,
   } = useBudgetPlannerStore();
+  const { analysisResult } = useBusinessIdeaStore(state => state);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleGenerateSummary = async () => {
-    if (!salePrice || salePrice <= 0) {
+    if (!salePrice || salePrice <= 0 || !analysisResult?.sector) {
       // Maybe show a toast to the user.
       return;
     }
@@ -816,6 +817,7 @@ const SummaryStep = () => {
     setSummary(null);
     try {
       const result = await generateBudgetSummary({
+        sector: analysisResult.sector,
         totalFixedCosts: totalFixedCosts,
         totalVariableCosts: totalVariableCosts,
         salePricePerUnit: salePrice,
@@ -908,7 +910,7 @@ const SummaryStep = () => {
               <CardTitle>Financial Summary</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center">
                 <div className="p-4 bg-muted rounded-lg">
                   <p className="text-sm text-muted-foreground">
                     Total Fixed Costs
@@ -930,6 +932,12 @@ const SummaryStep = () => {
                     Sale Price / Unit
                   </p>
                   <p className="text-2xl font-bold">{formatCurrency(salePrice)}</p>
+                </div>
+                 <div className="p-4 bg-muted rounded-lg">
+                  <p className="text-sm text-muted-foreground">
+                    Business Growth Est.
+                  </p>
+                  <p className="text-2xl font-bold">{summary.marketGrowthEstimate}</p>
                 </div>
               </div>
             </CardContent>

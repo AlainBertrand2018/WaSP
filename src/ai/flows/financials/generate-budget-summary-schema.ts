@@ -5,6 +5,7 @@
 import { z } from 'zod';
 
 export const GenerateBudgetSummaryInputSchema = z.object({
+  sector: z.string().describe('The industry sector for the business.'),
   totalFixedCosts: z
     .number()
     .describe('The total estimated monthly fixed costs in MUR.'),
@@ -35,6 +36,11 @@ export const GenerateBudgetSummaryOutputSchema = z.object({
     .number()
     .describe(
       'The total revenue needed to break even in MUR.'
+    ),
+    marketGrowthEstimate: z
+    .string()
+    .describe(
+      "The estimated annual market growth rate for the user's sector in Mauritius, based on official sources (e.g., '4.5%')."
     ),
   summary: z
     .string()

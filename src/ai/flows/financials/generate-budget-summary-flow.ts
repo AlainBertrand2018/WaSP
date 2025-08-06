@@ -26,6 +26,7 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert financial analyst for Mauritian startups. Your task is to provide a comprehensive, realistic, and actionable budget analysis.
 
 Analyze the following financial data for a startup in Mauritius:
+- **Sector:** {{sector}}
 - **Total Monthly Fixed Costs:** {{totalFixedCosts}} MUR
 - **Total Variable Costs Per Unit:** {{totalVariableCosts}} MUR
 - **Sale Price Per Unit:** {{salePricePerUnit}} MUR
@@ -35,16 +36,18 @@ Your tasks are:
     - \`breakEvenUnits\` should be a whole number (rounded up).
     - \`breakEvenRevenue\` is \`breakEvenUnits\` * \`salePricePerUnit\`.
 
-2.  **Generate a Comprehensive Summary (\`summary\`):** Write a thorough, multi-paragraph analysis.
+2.  **Estimate Market Growth:** Based on your knowledge of the Mauritian economy and official data sources (like Statistics Mauritius, Bank of Mauritius), provide a realistic annual growth estimate for the specified **{{sector}}**. This should be a single percentage string for the \`marketGrowthEstimate\` field.
+
+3.  **Generate a Comprehensive Summary (\`summary\`):** Write a thorough, multi-paragraph analysis.
     - Start by explaining what the break-even point means in simple terms.
     - Discuss the contribution margin (Sale Price - Variable Cost) and its importance.
     - Based on the numbers, provide actionable advice. What are the key levers this business can pull? (e.g., "Your contribution margin is healthy, focus on sales volume," or "Your variable costs seem high, consider renegotiating with suppliers.").
     - Suggest alternative strategies or scenarios to improve profitability (e.g., "Consider bundling products to increase the average sale price," or "Could a subscription model apply here to create recurring revenue?"). Your advice must be practical and not hallucinated.
 
-3.  **Provide a Conservative Growth Outlook (\`conservativeGrowthOutlook\`):**
+4.  **Provide a Conservative Growth Outlook (\`conservativeGrowthOutlook\`):**
     - Considering the general Mauritian economic context (e.g., current inflation trends, market stability), provide a realistic, conservative narrative about the business's potential growth in its first year. This is not about numbers, but a qualitative forecast (e.g., "Initial growth may be slow as you build brand awareness... expect to reach break-even within 6-9 months if marketing efforts are consistent...").
 
-4.  **Create a Forecast Chart (\`forecast\`):**
+5.  **Create a Forecast Chart (\`forecast\`):**
     - Generate an array of 10 data points for a profit forecast chart.
     - Start with 0 units sold.
     - The second point should be half the break-even units.
