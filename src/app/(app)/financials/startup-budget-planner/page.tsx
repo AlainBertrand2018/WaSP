@@ -36,6 +36,7 @@ import {
   FileText,
   Briefcase,
   Building,
+  Package,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
@@ -43,6 +44,7 @@ import { useBudgetPlannerStore } from '@/store/budget-planner-store';
 import { generateFinancingOptions, type FinancingOption } from '@/ai/flows/financials/generate-financing-options-flow';
 import { generateProductionCost, type GenerateProductionCostOutput } from '@/ai/flows/financials/generate-production-cost-flow';
 import { generateFixedCosts, type FixedCostItem } from '@/ai/flows/financials/generate-fixed-costs-flow';
+import { generateVariableCosts, type VariableCostItem } from '@/ai/flows/financials/generate-variable-costs-flow';
 import {
   Tooltip,
   TooltipContent,
@@ -446,17 +448,15 @@ const FixedCostsStep = () => {
 
   if (isLoading) {
     return (
-        <div className="space-y-6">
-            <div className="flex justify-between items-center">
-                <Skeleton className="h-8 w-1/3" />
-                <Skeleton className="h-10 w-1/4" />
-            </div>
-            <div className="space-y-4">
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-12 w-full" />
-                <Skeleton className="h-12 w-full" />
-            </div>
-        </div>
+        <div className="flex flex-col items-center justify-center gap-4 py-16">
+            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+            <h2 className="text-2xl font-semibold tracking-tight">
+            Analyzing Your Fixed Costs
+            </h2>
+            <p className="text-muted-foreground max-w-md text-center">
+            Our AI is generating a list of potential fixed costs for your business. This might take a moment.
+            </p>
+      </div>
     )
   }
 
@@ -501,7 +501,11 @@ const FixedCostsStep = () => {
                         id={item.name}
                         type="number"
                         value={isAutoCalculated ? (value || 0).toFixed(2) : (value || '')}
-                        onChange={(e) => setFixedCost(item.name, Number(e.target.value))}
+                        onChange={(e) => {
+                            if (!isAutoCalculated) {
+                                setFixedCost(item.name, Number(e.target.value))
+                            }
+                        }}
                         placeholder="MUR"
                         className="text-right"
                         disabled={isAutoCalculated}
@@ -516,7 +520,127 @@ const FixedCostsStep = () => {
       </Card>
     </div>
   )
-}
+};
+
+const VariableCostsStep = () => {
+    const { analysisResult: businessIdea, formData } = useBusinessIdeaStore(
+        (state) => state
+      );
+    const { variableCosts, setVariableCost } = useBudgetPlannerStore();
+    const [isLoading, setIsLoading] = useState(false);
+    const [costItems, setCostItems] = useState<VariableCostItem[]>([]);
+
+    useEffect(() => {
+        const runGeneration = async () => {
+          if (businessIdea && formData) {
+            setIsLoading(true);
+            try {
+              const result = await generateVariableCosts({
+                ...businessIdea,
+                originalIdea: {
+                  businessIdeaTitle: formData.businessIdeaTitle,
+                  ideaDescription: formData.ideaDescription,
+                },
+              });
+              setCostItems(result.variableCosts);
+            } catch (error) {
+              console.error('Error generating variable costs:', error);
+            } finally {
+              setIsLoading(false);
+            }
+          }
+        };
+        runGeneration();
+      }, [businessIdea, formData]);
+      
+      const groupedCosts = useMemo(() => {
+        return costItems.reduce((acc, item) => {
+          (acc[item.category] = acc[item.category] || []).push(item);
+          return acc;
+        }, {} as Record<string, VariableCostItem[]>);
+      }, [costItems]);
+    
+      const totalVariableCosts = useMemo(
+        () => Object.values(variableCosts).reduce((sum, amount) => sum + (amount || 0), 0),
+        [variableCosts]
+      );
+      
+      useEffect(() => {
+        useBudgetPlannerStore.getState().setTotalVariableCosts(totalVariableCosts);
+      }, [totalVariableCosts]);
+    
+      if (isLoading) {
+        return (
+            <div className="flex flex-col items-center justify-center gap-4 py-16">
+                <Loader2 className="h-12 w-12 animate-spin text-primary" />
+                <h2 className="text-2xl font-semibold tracking-tight">
+                    Analyzing Your Variable Costs
+                </h2>
+                <p className="text-muted-foreground max-w-md text-center">
+                    Our AI is generating a list of potential variable costs for your business. This might take a moment.
+                </p>
+          </div>
+        )
+      }
+
+    return (
+        <div className="space-y-6">
+            <Card>
+            <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <Package />
+                    <span>Enter Your Estimated Variable Costs Per Unit</span>
+                </div>
+                <div className="text-right">
+                    <p className="text-sm text-muted-foreground">Total Variable Costs Per Unit</p>
+                    <p className="text-2xl font-bold text-primary">
+                    {new Intl.NumberFormat('en-MU', { style: 'currency', currency: 'MUR' }).format(totalVariableCosts)}
+                    </p>
+                </div>
+                </CardTitle>
+                <CardDescription>
+                Based on your business idea, we've generated a list of potential variable costs for each item you sell. Fill in your estimates.
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                {Object.entries(groupedCosts).map(([category, items]) => (
+                <div key={category}>
+                    <h3 className="text-lg font-semibold flex items-center gap-2 mb-3">
+                        <Building size={18}/>
+                        <span>{category}</span>
+                    </h3>
+                    <div className="space-y-3">
+                    {items.map((item) => {
+                        const value = variableCosts[item.name];
+                        return (
+                        <div key={item.name} className="grid grid-cols-3 items-center gap-4">
+                            <div className="col-span-2">
+                            <Label htmlFor={item.name} className="font-semibold">{item.name}</Label>
+                            <p className="text-xs text-muted-foreground">{item.description}</p>
+                            </div>
+                            <Input
+                            id={item.name}
+                            type="number"
+                            value={value || ''}
+                            onChange={(e) => {
+                                setVariableCost(item.name, Number(e.target.value))
+                            }}
+                            placeholder="MUR per unit"
+                            className="text-right"
+                            />
+                        </div>
+                        );
+                    })}
+                    </div>
+                </div>
+                ))}
+            </CardContent>
+            </Card>
+        </div>
+    )
+};
+
 
 export default function StartupBudgetPlannerPage() {
     const [currentTab, setCurrentTab] = useState('funding');
@@ -526,6 +650,8 @@ export default function StartupBudgetPlannerPage() {
             setCurrentTab('fixed-costs');
         } else if (currentTab === 'fixed-costs') {
             setCurrentTab('variable-costs');
+        } else if (currentTab === 'variable-costs') {
+            setCurrentTab('summary');
         }
     }
     
@@ -542,7 +668,7 @@ export default function StartupBudgetPlannerPage() {
             <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="funding">1. Funding</TabsTrigger>
                 <TabsTrigger value="fixed-costs">2. Fixed Costs</TabsTrigger>
-                <TabsTrigger value="variable-costs" disabled>3. Variable Costs</TabsTrigger>
+                <TabsTrigger value="variable-costs">3. Variable Costs</TabsTrigger>
                 <TabsTrigger value="summary" disabled>4. Summary & Forecast</TabsTrigger>
             </TabsList>
             <TabsContent value="funding" className="pt-6">
@@ -551,18 +677,17 @@ export default function StartupBudgetPlannerPage() {
             <TabsContent value="fixed-costs" className="pt-6">
                <FixedCostsStep />
             </TabsContent>
+            <TabsContent value="variable-costs" className="pt-6">
+               <VariableCostsStep />
+            </TabsContent>
         </Tabs>
 
-        <div className={cn("flex justify-end pt-4 border-t mt-4", (currentTab === 'funding' || currentTab === 'fixed-costs') ? 'visible' : 'invisible')}>
+        <div className={cn("flex justify-end pt-4 border-t mt-4", (currentTab !== 'summary') ? 'visible' : 'invisible')}>
            <Button className="group" onClick={handleNext}>
-                <span>{currentTab === 'funding' ? 'Next: Fixed Costs' : 'Next: Variable Costs'}</span>
+                <span>{currentTab === 'funding' ? 'Next: Fixed Costs' : currentTab === 'fixed-costs' ? 'Next: Variable Costs' : 'Next: Summary & Forecast'}</span>
                 <ChevronRight className="transition-transform group-hover:translate-x-1" />
            </Button>
         </div>
       </div>
     );
   }
-
-    
-
-    
