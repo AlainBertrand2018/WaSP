@@ -36,7 +36,9 @@ import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
 export default function MvpPlannerPage() {
-  const { analysisResult, formData } = useBusinessIdeaStore((state) => state);
+  const { analysisResult, formData, set } = useBusinessIdeaStore(
+    (state) => state
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [isGeneratingPrd, setIsGeneratingPrd] = useState(false);
   const [mvpResult, setMvpResult] = useState<GenerateMvpOutput | null>(null);
@@ -55,6 +57,8 @@ export default function MvpPlannerPage() {
             },
           });
           setMvpResult(result);
+          // Save the MVP result to the store
+          set({ mvpResult: result });
         } catch (error) {
           console.error('Error generating MVP plan:', error);
           // You could show a toast here
@@ -64,7 +68,7 @@ export default function MvpPlannerPage() {
       }
     };
     runMvpGeneration();
-  }, [analysisResult, formData]);
+  }, [analysisResult, formData, set]);
 
   const handleGeneratePrd = async () => {
     if (!mvpResult || !analysisResult || !formData) return;
