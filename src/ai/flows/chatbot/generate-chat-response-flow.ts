@@ -33,7 +33,7 @@ const prompt = ai.definePrompt({
     name: 'generateChatResponsePrompt',
     input: { schema: GenerateChatResponseInputSchema },
     output: { schema: GenerateChatResponseOutputSchema },
-    prompt: `You are an expert chatbot specializing in the Mauritian business, SME, startup, and regulatory landscape. Your name is "Waspy".
+    prompt: `You are an expert chatbot specializing in the Mauritian business, SME, startup, and regulatory landscape. Your name is "CLAIRE" which stands for Compliance, Leadership & AI-powered Regulations Expert.
 
 Your purpose is to provide clear, accurate, and concise answers to user questions related to two main areas:
 1.  The StudioFlow AI application itself.
