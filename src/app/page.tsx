@@ -30,7 +30,7 @@ const featureCards = [
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-secondary text-primary-foreground">
+    <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
       <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
