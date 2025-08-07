@@ -160,13 +160,13 @@ export default function Home() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-primary flex items-center min-h-screen relative">
+        <section className="bg-primary flex items-center min-h-screen relative overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center opacity-40"
             style={{ backgroundImage: 'url(/images/hero_bk2.webp)' }}
           ></div>
-          <div className="relative z-10 container mx-auto grid grid-cols-1 items-center gap-8 px-4 py-20 text-center md:grid-cols-2 md:text-left">
-            <div className="space-y-6">
+          <div className="container relative z-10 mx-auto grid grid-cols-1 items-center gap-8 px-4 py-20 text-center md:text-left">
+            <div className="relative z-20 space-y-6">
               <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
                 The Future of Business Creation is Here
               </h1>
@@ -182,11 +182,11 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            <div>
+            <div className="absolute -right-24 top-1/2 z-10 -translate-y-1/2 opacity-70 md:opacity-100">
               <Image
                 src="/images/AI-FirstBusiness.webp"
-                width={600}
-                height={400}
+                width={780}
+                height={520}
                 alt="App Mockup"
                 data-ai-hint="app mockup"
                 className="mx-auto rounded-lg animate-float"
