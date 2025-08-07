@@ -8,18 +8,20 @@ export default function Home() {
       <header className="p-4 md:px-6">
         <nav className="flex items-center gap-2">
           <LayoutGrid className="h-6 w-6 text-primary" />
-          <h1 className="text-xl font-bold tracking-tighter">StudioFlow AI</h1>
+          <h1 className="text-xl font-bold tracking-tighter">WaSP</h1>
         </nav>
       </header>
       <main className="flex-1 flex flex-col items-center justify-center text-center p-4">
         <div className="space-y-4 max-w-2xl">
           <h2 className="text-4xl md:text-6xl font-bold tracking-tighter font-headline">
-            Your Unified Command Center for Content Creation
+            SME BUSINESS TOOLS
           </h2>
+          <h3 className="text-3xl md:text-6xl font-bold tracking-tighter font-headline">
+            Your Unified WaSP Center for Business Creation and Management
+          </h3>
           <p className="text-muted-foreground md:text-xl">
-            Seamlessly access and manage all your generative AI tools from one
-            central hub. Boost your productivity and streamline your creative
-            workflow with StudioFlow AI.
+            Seamlessly access our powerful AI agent-driven business tools to create, manage your businesses, boost your productivity and streamline your
+            workflows with WaSP AI.
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 mt-8">

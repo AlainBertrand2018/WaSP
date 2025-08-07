@@ -7,8 +7,8 @@ import { cn } from '@/lib/utils';
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: 'StudioFlow AI',
-  description: 'Your Unified Command Center for Content Creation.',
+  title: 'WaSP AI',
+  description: 'Your Unified Command Center for Business Creation and Management.',
 };
 
 export default function RootLayout({
