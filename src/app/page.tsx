@@ -80,13 +80,13 @@ const testimonials = [
         quote: "This is not just a tool; it's a mentor. It guides you, asks the right questions, and forces you to think critically about every aspect of your business.",
         author: "Laura M.",
         title: "Wellness-preneurs Mauritius",
-        avatar: "/images/image1-99.png"
+        avatar: "/images/image1-0.png"
     },
      {
         quote: "The ability to go from a simple idea to a full PRD is incredible. It streamlined our entire product development process and saved us countless hours.",
         author: "Katherina S.",
         title: "Product Lead, AppFactory",
-        avatar: "/images/image1-0.png"
+        avatar: "/images/image1-99.png"
     }
 ]
 
@@ -165,15 +165,15 @@ export default function Home() {
             className="absolute inset-0 bg-cover bg-center opacity-40"
             style={{ backgroundImage: 'url(/images/hero_bk2.webp)' }}
           ></div>
-          <div className="container relative z-10 mx-auto grid grid-cols-1 items-center gap-8 px-4 py-20 text-center">
+          <div className="container relative z-10 mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-8 px-4 py-20 text-center md:text-left">
             <div className="relative z-20 space-y-6">
               <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
                 The Future of Business Creation <br /> is Here
               </h1>
-              <p className="max-w-xl text-lg text-primary-foreground/80 mx-auto">
+              <p className="max-w-xl text-lg text-primary-foreground/80 mx-auto md:mx-0">
                 StudioFlow AI is your unified command center for launching and managing your business in Mauritius. Leverage our AI-powered suite to go from idea to investor-ready, faster than ever before.
               </p>
-              <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+              <div className="flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
                 <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
                   <Link href="#pricing">Let's get Started</Link>
                 </Button>
@@ -181,6 +181,16 @@ export default function Home() {
                   <Link href="/login">Login</Link>
                 </Button>
               </div>
+            </div>
+            <div className="relative z-10">
+                <Image 
+                    src="/images/AI-FirstBusiness.webp"
+                    width={600}
+                    height={600}
+                    alt="AI First Business Illustration"
+                    className="mx-auto"
+                    data-ai-hint="futuristic business illustration"
+                />
             </div>
           </div>
         </section>
@@ -190,10 +200,10 @@ export default function Home() {
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl text-center">
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-                An Unfair Advantage for Entrepreneurs
+                Grab that Unique, Unfair Advantage...
               </h2>
               <p className="mt-4 text-lg text-primary-foreground/70">
-                Condense weeks of research, planning, and paperwork into a few guided sessions. Our AI agents are trained to help you succeed.
+                Condense weeks of research, planning, and paperwork into a few guided sessions. Our AI agents are trained to help you succeed within minutes.
               </p>
             </div>
             <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
