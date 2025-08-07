@@ -171,7 +171,7 @@ export default function Home() {
                  <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/70">
                     Choose a plan that scales with your ambition. Start for free and upgrade as your business grows.
                  </p>
-                 <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+                 <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
                      {/* Free Plan */}
                      <Card className="bg-card text-card-foreground p-6 flex flex-col">
                          <CardHeader>
@@ -182,6 +182,7 @@ export default function Home() {
                             <p>For entrepreneurs and Business owners who want get a feel of StudioFlow.</p>
                              <ul className="space-y-2">
                                 <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> 1 Business Project</li>
+                                <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> 1 seat</li>
                                 <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> Idea Validation</li>
                                 <li className="flex items-center gap-2"><XCircle className="text-destructive h-5 w-5"/> No Reporting</li>
                                 <li className="flex items-center gap-2"><XCircle className="text-destructive h-5 w-5"/> No Document Downloads</li>
@@ -189,16 +190,35 @@ export default function Home() {
                          </CardContent>
                          <Button variant="outline" className="w-full mt-6">Get Started</Button>
                      </Card>
-                     {/* Pro Plan */}
+                     {/* Business Tool Kits */}
                      <Card className="bg-primary text-primary-foreground p-6 flex flex-col ring-2 ring-accent">
                          <CardHeader>
-                            <CardTitle>Pro</CardTitle>
-                            <p className="text-4xl font-bold mt-2">MUR 1,500<span className="text-lg font-normal text-primary-foreground/70">/month</span></p>
+                            <CardTitle>Business Tool Kits</CardTitle>
+                            <p className="text-4xl font-bold mt-2">MUR 200/mth<span className="text-lg font-normal text-primary-foreground/70">/seat</span></p>
                          </CardHeader>
                          <CardContent className="flex-grow space-y-4 text-left">
-                            <p>For serious entrepreneurs and startups.</p>
+                            <p>For entrepreneurs and startups who need specific tools to operate smartly.</p>
                              <ul className="space-y-2">
-                                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> 5 Business Projects</li>
+                                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> Choose 1 re-usable tool</li>
+                                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> up to 5 seats</li>
+                                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> Industry Standard Reports</li>
+                                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> Uploadable PDFs </li>
+                                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> Comprehensive Dashboard</li>
+                             </ul>
+                         </CardContent>
+                         <Button className="w-full mt-6 bg-accent hover:bg-accent/90 text-accent-foreground">Choose your tool today</Button>
+                     </Card>
+                     {/* Pro */}
+                     <Card className="bg-primary text-primary-foreground p-6 flex flex-col ring-2 ring-accent">
+                         <CardHeader>
+                            <CardTitle>PRO</CardTitle>
+                            <p className="text-4xl font-bold mt-2">MUR 400/mth<span className="text-lg font-normal text-primary-foreground/70">/seat</span></p>
+                         </CardHeader>
+                         <CardContent className="flex-grow space-y-4 text-left">
+                            <p>For serious Business Owners and Executives and team members.</p>
+                             <ul className="space-y-2">
+                                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> Unlimited Business Ideas Validation</li>
+                                <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> up to 4 seats</li>
                                 <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> Full Business Creation Suite</li>
                                 <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> Financial Planning Tools</li>
                                 <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> Advanced Reporting</li>
@@ -209,15 +229,15 @@ export default function Home() {
                      {/* Enterprise Plan */}
                      <Card className="bg-card text-card-foreground p-6 flex flex-col">
                          <CardHeader>
-                            <CardTitle>Enterprise</CardTitle>
+                            <CardTitle>AI Transformation Blueprints</CardTitle>
                              <p className="text-4xl font-bold mt-2">Contact Us</p>
                          </CardHeader>
                          <CardContent className="flex-grow space-y-4 text-left">
-                            <p>For established businesses and agencies.</p>
+                            <p>For established companies and agencies who need to implement reliable AI-driven tools, protocols and workflows in-house.</p>
                              <ul className="space-y-2">
-                                <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> Unlimited Projects</li>
-                                <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> All Pro Features</li>
-                                <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> Dedicated Support</li>
+                                <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> Holistic Future-proof Approach</li>
+                                <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> Technical and Practical Roadmaps</li>
+                                <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> Training Curriculums</li>
                                 <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> Custom Integrations</li>
                              </ul>
                          </CardContent>
