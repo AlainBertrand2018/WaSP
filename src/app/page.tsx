@@ -51,7 +51,7 @@ export default function Home() {
             <Link href="#" className="text-sm font-medium hover:text-primary">
               Features
             </Link>
-            <Link href="#" className="text-sm font-medium hover:text-primary">
+            <Link href="#pricing" className="text-sm font-medium hover:text-primary">
               Pricing
             </Link>
             <Link href="#" className="text-sm font-medium hover:text-primary">
@@ -66,8 +66,8 @@ export default function Home() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-primary">
-          <div className="container mx-auto grid grid-cols-1 items-center gap-8 px-4 py-20 text-center md:grid-cols-2 md:text-left lg:py-32">
+        <section className="bg-primary flex items-center min-h-screen">
+          <div className="container mx-auto grid grid-cols-1 items-center gap-8 px-4 py-20 text-center md:grid-cols-2 md:text-left">
             <div className="space-y-6">
               <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
                 The Future of Business Creation is Here
@@ -77,10 +77,10 @@ export default function Home() {
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
                 <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                  <Link href="/signup">Get Started For Free</Link>
+                  <Link href="#pricing">Let's get Started</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
-                  <Link href="#">Learn More</Link>
+                  <Link href="/login">Login</Link>
                 </Button>
               </div>
             </div>
@@ -163,7 +163,7 @@ export default function Home() {
         {/* Pricing Section */}
         <section className="bg-secondary py-20 lg:py-32">
             <div className="container mx-auto px-4 text-center">
-                 <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Pricing Plans</h2>
+                 <h2 id="pricing" className="text-3xl font-bold tracking-tight md:text-4xl">Pricing Plans</h2>
                  <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/70">
                     Choose a plan that scales with your ambition. Start for free and upgrade as your business grows.
                  </p>
@@ -273,5 +273,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
