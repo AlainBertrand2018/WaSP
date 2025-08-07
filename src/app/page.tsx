@@ -238,7 +238,7 @@ export default function Home() {
                 <div className="space-y-6">
                     <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Brilliant tools that get you results</h2>
                     <p className="text-lg text-primary-foreground/70">
-                        From validating your business idea against the local market to generating a full-fledged financial plan and investor-ready business plan, our suite is designed to give you the clarity and confidence to launch.
+                        We are a WaSP, a Webapps-as-Software Platform, an innovative concept that allows Mauritian executives, entrepreneurs and startups to create, launch and manage projects, businesses and products on the fly. From validating your business idea against the local market to generating a full-fledged financial plan and investor-ready business plan, our suite is designed to give you the clarity and confidence to launch.
                     </p>
                     <ul className="space-y-4">
                         <li className="flex items-start gap-3">

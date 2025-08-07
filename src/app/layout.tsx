@@ -13,10 +13,58 @@ const poppins = Poppins({
   variable: '--font-sans',
 });
 
+const siteConfig = {
+  name: 'StudioFlow AI',
+  description: 'Your unified command center for launching and managing your business in Mauritius. Leverage our AI-powered suite to go from idea to investor-ready, faster than ever before.',
+  url: 'https://studioflow.ai', // Replace with your actual domain
+  ogImage: '/og-image.png',
+}
+
 export const metadata: Metadata = {
-  title: 'WaSP AI',
-  description: 'Your Unified Command Center for Business Creation and Management.',
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  openGraph: {
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  icons: {
+    icon: '/favicon.ico', // Make sure to have a favicon.ico in your public folder
+  }
 };
+
 
 export default function RootLayout({
   children,
