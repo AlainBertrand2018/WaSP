@@ -68,7 +68,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="bg-primary flex items-center min-h-screen relative">
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-20"
+            className="absolute inset-0 bg-cover bg-center opacity-40"
             style={{ backgroundImage: 'url(/images/hero_bk2.webp)' }}
           ></div>
           <div className="relative z-10 container mx-auto grid grid-cols-1 items-center gap-8 px-4 py-20 text-center md:grid-cols-2 md:text-left">
