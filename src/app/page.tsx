@@ -86,12 +86,12 @@ export default function Home() {
             </div>
             <div>
               <Image
-                src="/images/AI-FirstBusiness.webp"
+                src="https://placehold.co/600x400.png"
                 width={600}
                 height={400}
                 alt="App Mockup"
                 data-ai-hint="app mockup"
-                className="mx-auto rounded-lg"
+                className="mx-auto rounded-lg animate-float"
               />
             </div>
           </div>
