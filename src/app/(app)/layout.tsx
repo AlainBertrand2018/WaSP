@@ -31,7 +31,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {children}
           </main>
           <footer className="text-center p-4 text-sm text-muted-foreground border-t">
-             © {new Date().getFullYear()} StudioFlow AI. All rights reserved.
+             © 2025 StudioFlow AI (Alain BERTRAND). All rights reserved.
           </footer>
         </div>
       </SidebarInset>
