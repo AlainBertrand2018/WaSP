@@ -1,9 +1,11 @@
+
 // Fixed version of Startup Budget Planner page to resolve JSX parsing errors
 // File: src/app/(app)/financials/startup-budget-planner/page.tsx
 
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import React from 'react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
