@@ -10,6 +10,7 @@ import {
   Megaphone,
   Package,
   Rocket,
+  FileText,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -127,6 +128,7 @@ export function SidebarNav() {
                 { href: '/business-management/business-idea-validation', label: 'Business Idea Validation' },
                 { href: '/business-management/mvp-planner', label: 'MVP Planner' },
                 { href: '/financials/startup-budget-planner', label: 'Startup Budget Planner'},
+                { href: '/business-management/business-plan-generator', label: 'Business Plan Generator' },
               ]}
             />
           </SidebarMenuItem>

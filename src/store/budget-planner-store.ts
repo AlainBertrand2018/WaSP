@@ -2,13 +2,21 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { GenerateBudgetSummaryOutput } from '@/ai/flows/financials/generate-budget-summary-flow';
 
-type FundingState = {
+export type FundingState = {
   requestedAmounts: { [key: string]: number };
   interestRate: number;
   loanTerm: number;
   totalRequested: number;
   monthlyRepayment: number;
 };
+
+export type BudgetSummaryState = {
+    totalFixedCosts: number;
+    totalVariableCosts: number;
+    salePricePerUnit: number;
+    funding: FundingState;
+    summary: GenerateBudgetSummaryOutput;
+}
 
 type BudgetPlannerState = {
   funding: FundingState;
