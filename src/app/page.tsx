@@ -353,11 +353,11 @@ export default function Home() {
                         {testimonials.map((testimonial, index) => (
                             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                                 <div className="p-1 h-full">
-                                    <Card className="bg-muted text-card-foreground border-2 border-primary/20 h-full flex flex-col p-6">
-                                        <CardContent className="p-0 flex-grow">
-                                            <p className="text-base text-left text-foreground/80">"{testimonial.quote}"</p>
+                                    <Card className="bg-muted/50 text-card-foreground border-2 border-primary/20 h-full flex flex-col p-6 rounded-lg">
+                                        <CardContent className="p-0 flex-grow text-left">
+                                            <p className="text-base text-foreground/80">"{testimonial.quote}"</p>
                                         </CardContent>
-                                        <CardFooter className="p-0 pt-6 flex items-center gap-4">
+                                        <CardFooter className="p-0 pt-6 mt-auto flex items-center gap-4">
                                             <Avatar className="h-16 w-16">
                                                 <AvatarImage src={testimonial.avatar} alt={testimonial.author} />
                                                 <AvatarFallback>{testimonial.author.charAt(0)}</AvatarFallback>
