@@ -8,7 +8,7 @@ export default function Home() {
       <header className="p-4 md:px-6">
         <nav className="flex items-center gap-2">
           <LayoutGrid className="h-6 w-6 text-primary" />
-          <h1 className="text-xl font-bold tracking-tighter">WaSP V1.0</h1>
+          <h1 className="text-xl font-bold tracking-tighter">StudioFlow AI</h1>
         </nav>
       </header>
       <main className="flex-1 flex flex-col items-center justify-center text-center p-6 sm:p-8">
@@ -36,7 +36,7 @@ export default function Home() {
         </div>
       </main>
       <footer className="text-center p-4 text-sm text-muted-foreground border-t">
-        © {new Date().getFullYear()} StudioFlow AI. All rights reserved.
+        © 2024 StudioFlow AI. All rights reserved.
       </footer>
     </div>
   );
