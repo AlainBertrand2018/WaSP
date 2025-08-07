@@ -66,8 +66,12 @@ export default function Home() {
 
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-primary flex items-center min-h-screen">
-          <div className="container mx-auto grid grid-cols-1 items-center gap-8 px-4 py-20 text-center md:grid-cols-2 md:text-left">
+        <section className="bg-primary flex items-center min-h-screen relative">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-20"
+            style={{ backgroundImage: 'url(/images/hero_bk2.webp)' }}
+          ></div>
+          <div className="relative z-10 container mx-auto grid grid-cols-1 items-center gap-8 px-4 py-20 text-center md:grid-cols-2 md:text-left">
             <div className="space-y-6">
               <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
                 The Future of Business Creation is Here
