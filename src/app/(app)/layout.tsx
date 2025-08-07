@@ -6,6 +6,7 @@ import { UserNav } from '@/components/layout/user-nav';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import React from 'react';
 import { useMounted } from '@/hooks/use-mounted';
+import Chatbot from '@/components/feature/chatbot';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const isMounted = useMounted();
@@ -34,6 +35,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
              © 2025 StudioFlow AI (Alain BERTRAND). All rights reserved.
           </footer>
         </div>
+        <Chatbot />
       </SidebarInset>
     </SidebarProvider>
   );

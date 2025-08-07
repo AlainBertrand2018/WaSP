@@ -80,13 +80,13 @@ const testimonials = [
         quote: "This is not just a tool; it's a mentor. It guides you, asks the right questions, and forces you to think critically about every aspect of your business.",
         author: "Laura M.",
         title: "Wellness-preneurs Mauritius",
-        avatar: "/images/image1-0.png"
+        avatar: "/images/image1-99.png"
     },
      {
         quote: "The ability to go from a simple idea to a full PRD is incredible. It streamlined our entire product development process and saved us countless hours.",
         author: "Katherina S.",
         title: "Product Lead, AppFactory",
-        avatar: "/images/image1-99.png"
+        avatar: "/images/image1-0.png"
     }
 ]
 
