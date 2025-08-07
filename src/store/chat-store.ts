@@ -16,7 +16,7 @@ const initialState = {
   messages: [
     {
       role: 'model' as const,
-      content: "Hello! I'm Waspy, your AI assistant. How can I help you with your business questions in Mauritius today?",
+      content: "Hello! I'm Claire, your AI assistant. How can I help you with your business questions in Mauritius today?",
     },
   ],
 };
