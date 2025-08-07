@@ -32,20 +32,20 @@ import {
 } from '@/ai/flows/business-management/generate-prd-flow';
 import Link from 'next/link';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import { generatePdf } from '@/lib/pdf-generator';
 
 export default function MvpPlannerPage() {
-  const { analysisResult, formData, set } = useBusinessIdeaStore(
+  const { analysisResult, formData, set, mvpResult: storedMvpResult } = useBusinessIdeaStore(
     (state) => state
   );
   const [isLoading, setIsLoading] = useState(false);
   const [isGeneratingPrd, setIsGeneratingPrd] = useState(false);
-  const [mvpResult, setMvpResult] = useState<GenerateMvpOutput | null>(null);
+  const [mvpResult, setMvpResult] = useState<GenerateMvpOutput | null>(storedMvpResult);
 
   useEffect(() => {
-    const runMvpGeneration = async () => {
-      if (analysisResult && formData) {
+    // Only run generation if there's no result in the store yet
+    if (!storedMvpResult && analysisResult && formData) {
+      const runMvpGeneration = async () => {
         setIsLoading(true);
         setMvpResult(null);
         try {
@@ -65,10 +65,10 @@ export default function MvpPlannerPage() {
         } finally {
           setIsLoading(false);
         }
-      }
-    };
-    runMvpGeneration();
-  }, [analysisResult, formData, set]);
+      };
+      runMvpGeneration();
+    }
+  }, [analysisResult, formData, set, storedMvpResult]);
 
   const handleGeneratePrd = async () => {
     if (!mvpResult || !analysisResult || !formData) return;
@@ -84,7 +84,7 @@ export default function MvpPlannerPage() {
         },
         mvpPlan: mvpResult,
       });
-      generatePdf(prdData);
+      generatePdfFromPrd(prdData);
     } catch (error) {
       console.error('Error generating PRD:', error);
       // Handle error in UI
@@ -93,106 +93,30 @@ export default function MvpPlannerPage() {
     }
   };
 
-  const generatePdf = (prd: GeneratePrdOutput) => {
-    const doc = new jsPDF();
-    let y = 22; // Initial Y position
-
-    const addText = (text: string | string[], x: number, y: number, options = {}) => {
-        const finalOptions = { maxWidth: 180, align: 'justify', ...options };
-        const splitText = doc.splitTextToSize(text as string, finalOptions.maxWidth);
-        doc.text(splitText, x, y, finalOptions);
-        return doc.getTextDimensions(splitText, finalOptions).h;
-      };
-
-    // Title
-    doc.setFontSize(22);
-    doc.text(
-      `PRD: ${analysisResult?.originalIdea?.businessIdeaTitle || ''}`,
-      14,
-      y
-    );
-    y += 15;
-
-    // Introduction
-    doc.setFontSize(16);
-    doc.text('1. Introduction', 14, y);
-    y += 8;
-    doc.setFontSize(10);
-    y += addText(prd.introduction, 14, y) + 10;
-
-    // Problem Statement
-    doc.setFontSize(16);
-    doc.text('2. Problem Statement', 14, y);
-    y += 8;
-    doc.setFontSize(10);
-    y += addText(prd.problemStatement, 14, y) + 10;
-
-    // Goals and Objectives
-    doc.setFontSize(16);
-    doc.text('3. Goals & Objectives', 14, y);
-    y += 8;
-    doc.setFontSize(10);
-    prd.goalsAndObjectives.forEach((goal) => {
-      if (y > 270) { doc.addPage(); y = 20; }
-      y += addText(`- ${goal}`, 16, y) + 2;
-    });
-    y += 8;
-
-    if (y > 260) {
-      doc.addPage();
-      y = 20;
-    }
-
-    // User Stories
-    doc.setFontSize(16);
-    doc.text('4. User Stories', 14, y);
-    y += 8;
-    (doc as any).autoTable({
-      startY: y,
-      head: [['Feature', 'User Story']],
-      body: prd.userStories.map((us) => [us.feature, us.story]),
-      theme: 'striped',
-      headStyles: { fillColor: [41, 128, 185] },
-    });
-    y = (doc as any).lastAutoTable.finalY + 10;
-
-    // Technical Specifications
-    if (y > 260) { doc.addPage(); y = 20; }
-    doc.setFontSize(16);
-    doc.text('5. Technical Specifications', 14, y);
-    y += 8;
-    doc.setFontSize(10);
-    y += addText(prd.technicalSpecifications, 14, y) + 10;
-
-    if (y > 260) {
-        doc.addPage();
-        y = 20;
-    }
-
-    // Success Metrics
-    doc.setFontSize(16);
-    doc.text('6. Success Metrics (KPIs)', 14, y);
-    y += 8;
-    doc.setFontSize(10);
-    prd.successMetrics.forEach((metric) => {
-       if (y > 270) { doc.addPage(); y = 20; }
-      y += addText(`- ${metric}`, 16, y) + 2;
-    });
-    y += 8;
+  const generatePdfFromPrd = (prd: GeneratePrdOutput) => {
+    if (!formData) return;
     
-    // Future Considerations
-    if (y > 260) { doc.addPage(); y = 20; }
-    doc.setFontSize(16);
-    doc.text('7. Future Considerations (Roadmap)', 14, y);
-    y += 8;
-    doc.setFontSize(10);
-    addText(prd.futureConsiderations, 14, y);
+    const content = [
+      { section: '1. Introduction', text: prd.introduction },
+      { section: '2. Problem Statement', text: prd.problemStatement },
+      { section: '3. Goals & Objectives', text: prd.goalsAndObjectives.join('\n- ') },
+      { section: '4. User Stories', text: prd.userStories.map(us => `**${us.feature}**: ${us.story}`).join('\n\n') },
+      { section: '5. Technical Specifications', text: prd.technicalSpecifications },
+      { section: '6. Success Metrics (KPIs)', text: prd.successMetrics.join('\n- ') },
+      { section: '7. Future Considerations (Roadmap)', text: prd.futureConsiderations },
+    ];
 
-    doc.save(
-      `PRD-${analysisResult?.originalIdea?.businessIdeaTitle.replace(
-        /\s+/g,
-        '-'
-      )}.pdf`
+    generatePdf(
+      `PRD-${formData.businessIdeaTitle.replace(/\s+/g, '-')}.pdf`,
+      'Product Requirements Document (PRD)',
+      content,
+       {
+        businessName: formData.businessIdeaTitle,
+        ownerName: 'Your Name', // Placeholder
+        phone: 'Your Phone', // Placeholder
+        email: 'Your Email' // Placeholder
+      },
+      'User Name' // Placeholder
     );
   };
 

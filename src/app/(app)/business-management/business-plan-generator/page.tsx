@@ -31,8 +31,7 @@ import {
   generateBusinessPlan,
   type GenerateBusinessPlanOutput,
 } from '@/ai/flows/business-management/generate-business-plan-flow';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import { generatePdf } from '@/lib/pdf-generator';
 import { toast } from '@/hooks/use-toast';
 
 // A mapping from schema keys to user-friendly titles
@@ -107,61 +106,23 @@ const handleDownloadPdf = () => {
   setIsGeneratingPdf(true);
 
   try {
-    const doc = new jsPDF('p', 'pt', 'a4');
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
-    const margin = 40;
-    let y = margin;
+    const content = Object.entries(sectionTitles).map(([key, title]) => ({
+        section: title,
+        text: businessPlan[key as keyof GenerateBusinessPlanOutput],
+    }));
 
-    const addWrappedText = (text: string, x: number, y: number, options?: any) => {
-      const { font, fontSize, fontStyle, maxWidth } = {
-        font: 'helvetica',
-        fontSize: 10,
-        fontStyle: 'normal',
-        maxWidth: pageWidth - margin * 2,
-        ...options,
-      };
-      doc.setFont(font, fontStyle);
-      doc.setFontSize(fontSize);
-
-      const lines = doc.splitTextToSize(text, maxWidth);
-      
-      const textHeight = lines.length * fontSize * 1.2;
-
-      if (y + textHeight > pageHeight - margin) {
-        doc.addPage();
-        y = margin;
-      }
-      
-      doc.text(lines, x, y, { lineHeightFactor: 1.2 });
-      return y + textHeight;
-    };
-    
-
-    // Title Page
-    doc.setFontSize(32);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Business Plan', pageWidth / 2, pageHeight / 3, { align: 'center' });
-    doc.setFontSize(24);
-    doc.setFont('helvetica', 'normal');
-    doc.text(formData.businessIdeaTitle, pageWidth / 2, pageHeight / 3 + 40, { align: 'center' });
-    doc.setFontSize(12);
-    doc.text(`Date: ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight / 3 + 80, { align: 'center' });
-
-    // Add each section
-    for (const [key, title] of Object.entries(sectionTitles)) {
-      const content = businessPlan[key as keyof GenerateBusinessPlanOutput];
-      if (content) {
-        doc.addPage();
-        y = margin;
-        
-        y = addWrappedText(title, margin, y, { fontSize: 16, fontStyle: 'bold' });
-        y += 10;
-        addWrappedText(content, margin, y, { fontSize: 11 });
-      }
-    }
-
-    doc.save(`Business-Plan-${formData.businessIdeaTitle.replace(/\s+/g, '-')}.pdf`);
+    generatePdf(
+        `Business-Plan-${formData.businessIdeaTitle.replace(/\s+/g, '-')}.pdf`,
+        'Business Plan',
+        content,
+        {
+            businessName: formData.businessIdeaTitle,
+            ownerName: 'Your Name', // Placeholder
+            phone: 'Your Phone', // Placeholder
+            email: 'Your Email' // Placeholder
+        },
+        'User Name' // Placeholder
+    );
   } catch (error) {
     console.error("Error generating PDF:", error);
     toast({

@@ -51,10 +51,9 @@ import {
 import { generateMarketSize } from '@/ai/flows/business-management/generate-market-size-flow';
 import ViabilityMeter from '@/components/feature/viability-meter';
 import Link from 'next/link';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
 import { Skeleton } from '@/components/ui/skeleton';
+import { generatePdf } from '@/lib/pdf-generator';
 
 
 const totalSteps = 7;
@@ -280,93 +279,31 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
     setIsGeneratingPdf(true);
 
     try {
-        const doc = new jsPDF();
-
-        // Title
-        doc.setFontSize(22);
-        doc.text(`Validation Report: ${formData.businessIdeaTitle}`, 14, 22);
-        doc.setFontSize(11);
-        doc.setTextColor(150);
-        const finalSector = formData.sector === 'Other' ? formData.otherSector : formData.sector;
-        doc.text(`For business idea in the ${finalSector} sector.`, 14, 30);
-
-        // Summary Section
-        doc.setFontSize(16);
-        doc.setTextColor(0);
-        doc.text("Validation Summary", 14, 45);
-
-        const summaryData = [
-            ['Viability Score', `${analysisResult.validationSummary.viabilityScore}/10`],
-            ['Market Size', analysisResult.marketSize],
-            ['Assessment', analysisResult.validationSummary.overallAssessment],
-            ['Strengths', analysisResult.validationSummary.keyStrengths.join('\n')],
-            ['Weaknesses', analysisResult.validationSummary.potentialWeaknesses.join('\n')],
+        const content = [
+            { section: 'Overall Assessment', text: analysisResult.validationSummary.overallAssessment },
+            { section: 'Key Strengths', text: analysisResult.validationSummary.keyStrengths.join('\n- ') },
+            { section: 'Potential Weaknesses', text: analysisResult.validationSummary.potentialWeaknesses.join('\n- ') },
+            { section: 'Market Potential', text: analysisResult.validationReport.marketPotential },
+            { section: 'Monetization Strategy Analysis', text: analysisResult.validationReport.monetization },
+            { section: 'Competitive Landscape', text: analysisResult.validationReport.competitiveLandscape },
+            { section: 'Feasibility Analysis', text: analysisResult.validationReport.feasibility },
+            { section: 'Target Personas', text: analysisResult.validationReport.targetPersonas.map(p => `**${p.title}**\n${p.description}`).join('\n\n') },
+            { section: 'Overall Recommendation', text: analysisResult.validationReport.overallRecommendation },
+            { section: 'What I Would Do Differently', text: analysisResult.refinementSuggestions },
         ];
-
-        (doc as any).autoTable({
-            startY: 50,
-            head: [],
-            body: summaryData,
-            theme: 'plain',
-            styles: { fontSize: 10, cellPadding: 1 },
-            columnStyles: {
-                0: { fontStyle: 'bold', cellWidth: 40 },
-                1: { cellWidth: 140 },
-            }
-        });
-
-        let lastY = (doc as any).lastAutoTable.finalY + 15;
-
-        doc.setFontSize(16);
-        doc.text("Detailed Analysis", 14, lastY);
-        lastY += 10;
-
-        for (const [key, value] of Object.entries(analysisResult.validationReport)) {
-            if (lastY > 270) { doc.addPage(); lastY = 20; }
-            const title = key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase());
-            doc.setFontSize(12);
-            doc.setFont('helvetica', 'bold');
-            doc.text(title, 14, lastY);
-            lastY += 6;
-
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
-
-            if (key === 'targetPersonas' && Array.isArray(value)) {
-                 value.forEach(persona => {
-                    if (lastY > 270) { doc.addPage(); lastY = 20; }
-                    doc.setFont('helvetica', 'bold');
-                    const personaTitle = doc.splitTextToSize(persona.title, 180);
-                    doc.text(personaTitle, 14, lastY);
-                    lastY += (personaTitle.length * 4);
-
-                    doc.setFont('helvetica', 'normal');
-                    const personaDesc = doc.splitTextToSize(persona.description, 180);
-                    doc.text(personaDesc, 14, lastY);
-                    lastY += (personaDesc.length * 4) + 4;
-                 });
-            } else {
-                if(value) {
-                    const splitText = doc.splitTextToSize(value as string, 180);
-                    doc.text(splitText, 14, lastY);
-                    lastY += (splitText.length * 4) + 4;
-                }
-            }
-        }
-
-        // Refinements
-        if (lastY > 270) { doc.addPage(); lastY = 20; }
-        doc.setFontSize(16);
-        doc.text("What I Would Do Differently", 14, lastY);
-        lastY += 10;
-
-        doc.setFontSize(10);
-        if (analysisResult.refinementSuggestions) {
-            const refinementText = doc.splitTextToSize(analysisResult.refinementSuggestions, 180);
-            doc.text(refinementText, 14, lastY);
-        }
-
-        doc.save(`Validation-Report-${formData.businessIdeaTitle.replace(/\s+/g, '-')}.pdf`);
+        
+        generatePdf(
+            `Validation-Report-${formData.businessIdeaTitle.replace(/\s+/g, '-')}.pdf`,
+            'Business Idea Validation Report',
+            content,
+            {
+                businessName: formData.businessIdeaTitle,
+                ownerName: 'Your Name', // This should be dynamic, from user profile
+                phone: 'Your Phone',
+                email: 'Your Email'
+            },
+            'User Name' // Also dynamic
+        );
 
     } catch (error) {
         console.error("Error generating PDF:", error);
