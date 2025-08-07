@@ -82,7 +82,7 @@ export default function Chatbot() {
       <CardHeader className="flex flex-row items-center justify-between">
         <div className="flex items-center gap-2">
           <Bot size={20} className="text-primary" />
-          <CardTitle className="text-lg">Waspy - Your Business Assistant</CardTitle>
+          <CardTitle className="text-lg">CLAIRE - Your Compliance, Leadership & AI-powered Regulations Expert</CardTitle>
         </div>
         <Button variant="ghost" size="icon" onClick={handleToggle}>
           <X size={20} />
