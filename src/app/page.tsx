@@ -185,8 +185,8 @@ export default function Home() {
             <div className="relative z-10">
                 <Image 
                     src="/images/AI-FirstBusiness.webp"
-                    width={600}
-                    height={600}
+                    width={780}
+                    height={780}
                     alt="AI First Business Illustration"
                     className="mx-auto animate-float"
                     data-ai-hint="futuristic business illustration"
