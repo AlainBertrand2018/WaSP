@@ -232,7 +232,9 @@ export default function Home() {
                                 <li className="flex items-center gap-2"><XCircle className="text-destructive h-5 w-5"/> No Document Downloads</li>
                              </ul>
                          </CardContent>
-                         <Button variant="outline" className="w-full mt-6">Get Started</Button>
+                         <Button asChild variant="outline" className="w-full mt-6">
+                            <Link href="/login">Get Started</Link>
+                         </Button>
                      </Card>
                      {/* Business Tool Kits */}
                      <Card className="bg-primary text-primary-foreground p-6 flex flex-col ring-2 ring-accent">
