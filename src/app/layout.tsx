@@ -1,9 +1,11 @@
+
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/layout/theme-provider';
+import Chatbot from '@/components/feature/chatbot';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -32,6 +34,7 @@ export default function RootLayout({
         >
           {children}
           <Toaster />
+          <Chatbot />
         </ThemeProvider>
       </body>
     </html>
