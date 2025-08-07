@@ -258,51 +258,6 @@ export default function Home() {
             </div>
         </section>
 
-        {/* Testimonials Section */}
-        <section id="testimonials" className="bg-secondary py-20 lg:py-32">
-            <div className="container mx-auto px-4 text-center">
-                <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Trusted by Innovators</h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/70">
-                    Don't just take our word for it. Here's what founders and business owners are saying about StudioFlow AI.
-                </p>
-                <Carousel
-                    plugins={[plugin.current]}
-                    className="w-full mt-12"
-                    onMouseEnter={plugin.current.stop}
-                    onMouseLeave={plugin.current.reset}
-                     opts={{
-                        align: "start",
-                        loop: true,
-                    }}
-                >
-                    <CarouselContent>
-                        {testimonials.map((testimonial, index) => (
-                            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                                <div className="p-1">
-                                    <Card className="bg-card text-card-foreground h-full">
-                                        <CardContent className="flex flex-col items-center justify-center text-center p-6 gap-4">
-                                            <p className="text-muted-foreground italic">"{testimonial.quote}"</p>
-                                            <div className="flex items-center gap-4 mt-4">
-                                                <Avatar>
-                                                    <AvatarImage src={testimonial.avatar} alt={testimonial.author} />
-                                                    <AvatarFallback>{testimonial.author.charAt(0)}</AvatarFallback>
-                                                </Avatar>
-                                                <div>
-                                                    <p className="font-semibold">{testimonial.author}</p>
-                                                    <p className="text-sm text-muted-foreground">{testimonial.title}</p>
-                                                </div>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                </Carousel>
-            </div>
-        </section>
-
-
         {/* Pricing Section */}
         <section id="pricing" className="bg-secondary py-20 lg:py-32">
             <div className="container mx-auto px-4 text-center">
@@ -384,6 +339,50 @@ export default function Home() {
                          <Button variant="outline" className="w-full mt-6">Contact Sales</Button>
                      </Card>
                  </div>
+            </div>
+        </section>
+        
+        {/* Testimonials Section */}
+        <section id="testimonials" className="bg-secondary-darker py-20 lg:py-32">
+            <div className="container mx-auto px-4 text-center">
+                <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Trusted by Innovators</h2>
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/70">
+                    Don't just take our word for it. Here's what founders and business owners are saying about StudioFlow AI.
+                </p>
+                <Carousel
+                    plugins={[plugin.current]}
+                    className="w-full mt-12"
+                    onMouseEnter={plugin.current.stop}
+                    onMouseLeave={plugin.current.reset}
+                     opts={{
+                        align: "start",
+                        loop: true,
+                    }}
+                >
+                    <CarouselContent>
+                        {testimonials.map((testimonial, index) => (
+                            <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                                <div className="p-1">
+                                    <Card className="bg-card text-card-foreground h-full">
+                                        <CardContent className="flex flex-col items-center justify-center text-center p-6 gap-4">
+                                            <p className="text-muted-foreground italic">"{testimonial.quote}"</p>
+                                            <div className="flex items-center gap-4 mt-4">
+                                                <Avatar>
+                                                    <AvatarImage src={testimonial.avatar} alt={testimonial.author} />
+                                                    <AvatarFallback>{testimonial.author.charAt(0)}</AvatarFallback>
+                                                </Avatar>
+                                                <div>
+                                                    <p className="font-semibold">{testimonial.author}</p>
+                                                    <p className="text-sm text-muted-foreground">{testimonial.title}</p>
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                </Carousel>
             </div>
         </section>
 
