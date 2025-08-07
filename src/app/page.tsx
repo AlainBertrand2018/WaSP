@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, LayoutGrid, XCircle, Zap } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -165,33 +165,22 @@ export default function Home() {
             className="absolute inset-0 bg-cover bg-center opacity-40"
             style={{ backgroundImage: 'url(/images/hero_bk2.webp)' }}
           ></div>
-          <div className="container relative z-10 mx-auto grid grid-cols-1 items-center gap-8 px-4 py-20 text-center md:grid-cols-2">
-            <div className="relative z-20 space-y-6 md:text-left">
+          <div className="container relative z-10 mx-auto grid grid-cols-1 items-center gap-8 px-4 py-20 text-center">
+            <div className="relative z-20 space-y-6">
               <h1 className="text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-                The Future of Business Creation is Here
+                The Future of Business Creation <br /> is Here
               </h1>
-              <p className="max-w-xl text-lg text-primary-foreground/80">
+              <p className="max-w-xl text-lg text-primary-foreground/80 mx-auto">
                 StudioFlow AI is your unified command center for launching and managing your business in Mauritius. Leverage our AI-powered suite to go from idea to investor-ready, faster than ever before.
               </p>
-              <div className="flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
+              <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
                 <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
                   <Link href="#pricing">Let's get Started</Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild>
+                <Button size="lg" asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
                   <Link href="/login">Login</Link>
                 </Button>
               </div>
-            </div>
-            <div className="relative z-10 hidden md:block">
-              <Image
-                src="/images/AI-FirstBusiness.webp"
-                width={780}
-                height={520}
-                alt="App Mockup"
-                data-ai-hint="app mockup"
-                className="mx-auto rounded-lg animate-float"
-                priority
-              />
             </div>
           </div>
         </section>
@@ -364,20 +353,20 @@ export default function Home() {
                         {testimonials.map((testimonial, index) => (
                             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                                 <div className="p-1 h-full">
-                                    <Card className="bg-card text-card-foreground border h-full flex flex-col">
-                                        <CardContent className="flex-grow flex flex-col items-center justify-center text-center p-6 gap-4">
-                                            <p className="text-sm text-muted-foreground italic flex-grow">"{testimonial.quote}"</p>
-                                            <div className="flex flex-col items-center gap-4 mt-4">
-                                                <Avatar className="h-20 w-20">
-                                                    <AvatarImage src={testimonial.avatar} alt={testimonial.author} />
-                                                    <AvatarFallback>{testimonial.author.charAt(0)}</AvatarFallback>
-                                                </Avatar>
-                                                <div>
-                                                    <p className="font-semibold">{testimonial.author}</p>
-                                                    <p className="text-sm text-muted-foreground">{testimonial.title}</p>
-                                                </div>
-                                            </div>
+                                    <Card className="bg-muted text-card-foreground border-2 border-primary/20 h-full flex flex-col p-6">
+                                        <CardContent className="p-0 flex-grow">
+                                            <p className="text-base text-left text-foreground/80">"{testimonial.quote}"</p>
                                         </CardContent>
+                                        <CardFooter className="p-0 pt-6 flex items-center gap-4">
+                                            <Avatar className="h-16 w-16">
+                                                <AvatarImage src={testimonial.avatar} alt={testimonial.author} />
+                                                <AvatarFallback>{testimonial.author.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                            <div className="text-left">
+                                                <p className="font-bold text-lg text-foreground">{testimonial.author}</p>
+                                                <p className="text-sm text-muted-foreground">{testimonial.title}</p>
+                                            </div>
+                                        </CardFooter>
                                     </Card>
                                 </div>
                             </CarouselItem>
