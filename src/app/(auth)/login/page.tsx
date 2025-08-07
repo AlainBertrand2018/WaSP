@@ -1,3 +1,6 @@
+
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,8 +13,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import React from 'react';
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get('redirect') || '/dashboard';
+
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -32,7 +40,7 @@ export default function LoginPage() {
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
         <Button className="w-full" asChild>
-          <Link href="/dashboard">Sign in</Link>
+          <Link href={redirectUrl}>Sign in</Link>
         </Button>
         <div className="text-sm text-muted-foreground">
           Don&apos;t have an account?{' '}
