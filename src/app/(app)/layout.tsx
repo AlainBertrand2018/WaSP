@@ -17,7 +17,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <UserNav />
             </div>
           </header>
-          <main className="flex-1 p-4 sm:px-6 sm:py-0 md:gap-8 bg-background">
+          <main className="flex-1 p-6 sm:p-8">
             {children}
           </main>
           <footer className="text-center p-4 text-sm text-muted-foreground border-t">

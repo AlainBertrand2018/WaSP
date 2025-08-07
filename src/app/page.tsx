@@ -4,19 +4,19 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-background">
       <header className="p-4 md:px-6">
         <nav className="flex items-center gap-2">
           <LayoutGrid className="h-6 w-6 text-primary" />
           <h1 className="text-xl font-bold tracking-tighter">WaSP V1.0</h1>
         </nav>
       </header>
-      <main className="flex-1 flex flex-col items-center justify-center text-center p-4">
+      <main className="flex-1 flex flex-col items-center justify-center text-center p-6 sm:p-8">
         <div className="space-y-4 max-w-2xl">
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tighter font-headline">
+          <h2 className="text-6xl md:text-6xl font-bold tracking-tighter font-headline">
             SME BUSINESS TOOLS
           </h2>
-          <h3 className="text-2xl md:text-6xl font-bold tracking-tighter font-headline">
+          <h3 className="text-1xl md:text-6xl font-bold tracking-tighter font-headline">
             Your Unified WaSP (Webapps-as-Software Platform) for Business
             Creation and Management
           </h3>
@@ -35,7 +35,7 @@ export default function Home() {
           </Button>
         </div>
       </main>
-      <footer className="text-center p-4 text-sm text-muted-foreground">
+      <footer className="text-center p-4 text-sm text-muted-foreground border-t">
         © {new Date().getFullYear()} StudioFlow AI. All rights reserved.
       </footer>
     </div>
