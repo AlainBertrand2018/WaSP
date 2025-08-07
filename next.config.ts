@@ -27,7 +27,6 @@ const nextConfig: NextConfig = {
   turbo: {
     resolveAlias: {
       '@opentelemetry/exporter-jaeger': false,
-      'handlebars': 'handlebars/dist/cjs/handlebars.js',
     },
   },
 };
