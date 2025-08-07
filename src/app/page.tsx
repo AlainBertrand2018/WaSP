@@ -188,7 +188,7 @@ export default function Home() {
                     width={600}
                     height={600}
                     alt="AI First Business Illustration"
-                    className="mx-auto"
+                    className="mx-auto animate-float"
                     data-ai-hint="futuristic business illustration"
                 />
             </div>
