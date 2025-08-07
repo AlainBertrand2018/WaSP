@@ -8,6 +8,18 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { useMounted } from '@/hooks/use-mounted';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 const featureCards = [
   {
@@ -54,9 +66,42 @@ export default function Home() {
             <Link href="#pricing" className="text-sm font-medium hover:text-primary">
               Pricing
             </Link>
-            <Link href="#" className="text-sm font-medium hover:text-primary">
-              Contact
-            </Link>
+             <Dialog>
+              <DialogTrigger asChild>
+                <button className="text-sm font-medium hover:text-primary">Contact</button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Contact Us</DialogTitle>
+                  <DialogDescription>
+                    Have a question or want to work with us? Fill out the form below.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="name" className="text-right">
+                      Name
+                    </Label>
+                    <Input id="name" placeholder="John Doe" className="col-span-3" />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="email" className="text-right">
+                      Email
+                    </Label>
+                    <Input id="email" type="email" placeholder="john@example.com" className="col-span-3" />
+                  </div>
+                   <div className="grid grid-cols-4 items-start gap-4">
+                    <Label htmlFor="message" className="text-right pt-2">
+                      Message
+                    </Label>
+                    <Textarea id="message" placeholder="Your message..." className="col-span-3" />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Send Message</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </nav>
           <Button asChild variant="ghost">
             <Link href="/login">Sign In</Link>
@@ -183,7 +228,6 @@ export default function Home() {
                              <ul className="space-y-2">
                                 <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> 1 Business Project</li>
                                 <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> 1 seat</li>
-                                <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> Idea Validation</li>
                                 <li className="flex items-center gap-2"><XCircle className="text-destructive h-5 w-5"/> No Reporting</li>
                                 <li className="flex items-center gap-2"><XCircle className="text-destructive h-5 w-5"/> No Document Downloads</li>
                              </ul>
