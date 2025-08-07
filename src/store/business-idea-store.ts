@@ -16,7 +16,7 @@ type FormData = {
 };
 
 type BusinessIdeaState = {
-  analysisResult: (ValidateBusinessIdeaOutput & { sector: string }) | null;
+  analysisResult: ValidateBusinessIdeaOutput | null;
   formData: FormData | null;
   mvpResult: GenerateMvpOutput | null;
   set: (data: Partial<BusinessIdeaState>) => void;
@@ -36,5 +36,3 @@ export const useBusinessIdeaStore = create<BusinessIdeaState>()(
     }
   )
 );
-
-    

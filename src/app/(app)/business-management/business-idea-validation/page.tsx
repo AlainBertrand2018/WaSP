@@ -232,7 +232,7 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
       });
       setAnalysisResult(result);
       setStore({
-        analysisResult: { ...result, sector: finalSector },
+        analysisResult: result,
         formData: {
           businessIdeaTitle: formData.businessIdeaTitle,
           ideaDescription: formData.ideaDescription,
@@ -898,5 +898,3 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
     </div>
   );
 }
-
-    

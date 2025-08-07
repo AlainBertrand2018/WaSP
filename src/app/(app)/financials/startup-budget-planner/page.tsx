@@ -805,13 +805,21 @@ const SummaryStep = () => {
     summary,
     setSummary,
   } = useBudgetPlannerStore();
-  const { analysisResult } = useBusinessIdeaStore((state) => state);
+  const { analysisResult, formData } = useBusinessIdeaStore(
+    (state) => state
+  );
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleGenerateSummary = async () => {
-    const sector = analysisResult?.sector;
+  const formatCurrency = (value: number) =>
+    new Intl.NumberFormat('en-MU', {
+      style: 'currency',
+      currency: 'MUR',
+    }).format(value);
 
-    if (!salePrice || salePrice <= 0 || !sector) {
+  const handleGenerateSummary = async () => {
+    const finalSector = formData?.sector;
+
+    if (!salePrice || salePrice <= 0 || !finalSector) {
       console.error('Sale price and sector are required to generate a summary.');
       return;
     }
@@ -819,7 +827,7 @@ const SummaryStep = () => {
     setSummary(null);
     try {
       const result = await generateBudgetSummary({
-        sector: sector,
+        sector: finalSector,
         totalFixedCosts: totalFixedCosts,
         totalVariableCosts: totalVariableCosts,
         salePricePerUnit: salePrice,
@@ -833,11 +841,6 @@ const SummaryStep = () => {
     }
   };
 
-  const formatCurrency = (value: number) =>
-    new Intl.NumberFormat('en-MU', {
-      style: 'currency',
-      currency: 'MUR',
-    }).format(value);
 
   if (isLoading) {
     return (
@@ -882,7 +885,7 @@ const SummaryStep = () => {
           <CardFooter>
             <Button
               onClick={handleGenerateSummary}
-              disabled={isLoading || !salePrice || salePrice <= 0 || !analysisResult?.sector}
+              disabled={isLoading || !salePrice || salePrice <= 0 || !formData?.sector}
               className="gap-2"
             >
               {isLoading ? (
