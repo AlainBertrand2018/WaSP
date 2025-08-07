@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -123,7 +124,7 @@ export function SidebarNav() {
               icon={<Rocket />}
               title="Business Creation"
               pathname={pathname}
-              dashboardHref="/business-management/business-idea-validation"
+              dashboardHref="/business-management"
               items={[
                 { href: '/business-management/business-idea-validation', label: 'Business Idea Validation' },
                 { href: '/business-management/mvp-planner', label: 'MVP Planner' },

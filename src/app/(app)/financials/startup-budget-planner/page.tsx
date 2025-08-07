@@ -89,7 +89,7 @@ import {
 } from '@/ai/flows/financials/generate-financing-options-flow';
 import {
   generateProductionCost,
-  type GenerateProductionCostOutput,
+  type generateProductionCost,
 } from '@/ai/flows/financials/generate-production-cost-flow';
 import {
   generateFixedCosts,
@@ -101,7 +101,7 @@ import {
 } from '@/ai/flows/financials/generate-variable-costs-flow';
 import {
   generateBudgetSummary,
-  type GenerateBudgetSummaryOutput,
+  type generateBudgetSummary,
 } from '@/ai/flows/financials/generate-budget-summary-flow';
 
 import { cn } from '@/lib/utils';
