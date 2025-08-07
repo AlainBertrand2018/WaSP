@@ -224,49 +224,49 @@ export default function Home() {
 
       </main>
 
-      <footer className="bg-primary text-background">
+      <footer className="bg-primary text-primary-foreground">
         <div className="container mx-auto grid grid-cols-2 gap-8 px-4 py-12 md:grid-cols-5">
             <div className="col-span-2 md:col-span-1">
                  <Link href="/" className="flex items-center gap-2">
                     <LayoutGrid className="h-8 w-8 text-accent" />
                     <span className="text-xl font-bold">StudioFlow AI</span>
                 </Link>
-                <p className="mt-4 text-sm text-background/60">The future of business creation.</p>
+                <p className="mt-4 text-sm text-primary-foreground/60">The future of business creation.</p>
             </div>
             <div>
                 <h4 className="font-semibold">Product</h4>
                 <ul className="mt-4 space-y-2 text-sm">
-                    <li><Link href="#features" className="text-background/60 hover:text-background">Features</Link></li>
-                    <li><Link href="#pricing" className="text-background/60 hover:text-background">Pricing</Link></li>
-                    <li><Link href="#" className="text-background/60 hover:text-background">Updates</Link></li>
+                    <li><Link href="#features" className="text-primary-foreground/60 hover:text-primary-foreground">Features</Link></li>
+                    <li><Link href="#pricing" className="text-primary-foreground/60 hover:text-primary-foreground">Pricing</Link></li>
+                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Updates</Link></li>
                 </ul>
             </div>
             <div>
                 <h4 className="font-semibold">Company</h4>
                 <ul className="mt-4 space-y-2 text-sm">
-                    <li><Link href="#" className="text-background/60 hover:text-background">About</Link></li>
-                    <li><Link href="#" className="text-background/60 hover:text-background">Careers</Link></li>
-                    <li><Link href="#" className="text-background/60 hover:text-background">Contact</Link></li>
+                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">About</Link></li>
+                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Careers</Link></li>
+                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Contact</Link></li>
                 </ul>
             </div>
             <div>
                 <h4 className="font-semibold">Resources</h4>
                 <ul className="mt-4 space-y-2 text-sm">
-                    <li><Link href="#" className="text-background/60 hover:text-background">Blog</Link></li>
-                    <li><Link href="#" className="text-background/60 hover:text-background">Help Center</Link></li>
-                    <li><Link href="#" className="text-background/60 hover:text-background">Privacy Policy</Link></li>
+                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Blog</Link></li>
+                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Help Center</Link></li>
+                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Privacy Policy</Link></li>
                 </ul>
             </div>
              <div>
                 <h4 className="font-semibold">Social</h4>
                 <ul className="mt-4 space-y-2 text-sm">
-                    <li><Link href="#" className="text-background/60 hover:text-background">Twitter</Link></li>
-                    <li><Link href="#" className="text-background/60 hover:text-background">LinkedIn</Link></li>
-                    <li><Link href="#" className="text-background/60 hover:text-background">Facebook</Link></li>
+                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Twitter</Link></li>
+                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">LinkedIn</Link></li>
+                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Facebook</Link></li>
                 </ul>
             </div>
         </div>
-        <div className="container mx-auto border-t border-background/10 px-4 py-6 text-center text-sm text-background/60">
+        <div className="container mx-auto border-t border-primary-foreground/10 px-4 py-6 text-center text-sm text-primary-foreground/60">
            © 2024 StudioFlow AI. All rights reserved.
         </div>
       </footer>
