@@ -1,9 +1,13 @@
+
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, LayoutGrid, Zap } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { useMounted } from '@/hooks/use-mounted';
 
 const featureCards = [
   {
@@ -29,6 +33,12 @@ const featureCards = [
 ];
 
 export default function Home() {
+  const isMounted = useMounted();
+
+  if (!isMounted) {
+    return null;
+  }
+  
   return (
     <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
       <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
@@ -66,7 +76,7 @@ export default function Home() {
                 StudioFlow AI is your unified command center for launching and managing your business in Mauritius. Leverage our AI-powered suite to go from idea to investor-ready, faster than ever before.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
-                <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-secondary-foreground">
+                <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
                   <Link href="/signup">Get Started For Free</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
@@ -100,13 +110,13 @@ export default function Home() {
             </div>
             <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
               {featureCards.map((feature) => (
-                <Card key={feature.title} className="bg-background/5 text-primary-foreground">
+                <Card key={feature.title} className="bg-card text-card-foreground">
                   <CardHeader>
                     {feature.icon}
                     <CardTitle className="mt-4">{feature.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-primary-foreground/70">{feature.description}</p>
+                    <p className="text-muted-foreground">{feature.description}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -159,10 +169,10 @@ export default function Home() {
                  </p>
                  <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
                      {/* Free Plan */}
-                     <Card className="bg-background/5 text-primary-foreground p-6 flex flex-col">
+                     <Card className="bg-card text-card-foreground p-6 flex flex-col">
                          <CardHeader>
                             <CardTitle>Free</CardTitle>
-                            <p className="text-4xl font-bold mt-2">MUR 0<span className="text-lg font-normal text-primary-foreground/70">/month</span></p>
+                            <p className="text-4xl font-bold mt-2">MUR 0<span className="text-lg font-normal text-muted-foreground">/month</span></p>
                          </CardHeader>
                          <CardContent className="flex-grow space-y-4 text-left">
                             <p>For individuals and hobbyists starting out.</p>
@@ -189,10 +199,10 @@ export default function Home() {
                                 <li className="flex items-center gap-2"><CheckCircle className="h-5 w-5"/> Advanced Reporting</li>
                              </ul>
                          </CardContent>
-                         <Button className="w-full mt-6 bg-accent hover:bg-accent/90 text-secondary-foreground">Choose Pro</Button>
+                         <Button className="w-full mt-6 bg-accent hover:bg-accent/90 text-accent-foreground">Choose Pro</Button>
                      </Card>
                      {/* Enterprise Plan */}
-                     <Card className="bg-background/5 text-primary-foreground p-6 flex flex-col">
+                     <Card className="bg-card text-card-foreground p-6 flex flex-col">
                          <CardHeader>
                             <CardTitle>Enterprise</CardTitle>
                              <p className="text-4xl font-bold mt-2">Contact Us</p>
@@ -263,3 +273,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

@@ -1,9 +1,19 @@
+
+'use client';
+
 import { SidebarNav } from '@/components/layout/sidebar-nav';
 import { UserNav } from '@/components/layout/user-nav';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import React from 'react';
+import { useMounted } from '@/hooks/use-mounted';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const isMounted = useMounted();
+
+  if (!isMounted) {
+    return null;
+  }
+  
   return (
     <SidebarProvider>
       <SidebarNav />
@@ -28,3 +38,5 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     </SidebarProvider>
   );
 }
+
+    
