@@ -48,7 +48,7 @@ export default function Home() {
             <span className="text-xl font-bold">StudioFlow AI</span>
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
-            <Link href="#" className="text-sm font-medium hover:text-primary">
+            <Link href="#features" className="text-sm font-medium hover:text-primary">
               Features
             </Link>
             <Link href="#pricing" className="text-sm font-medium hover:text-primary">
@@ -86,7 +86,7 @@ export default function Home() {
             </div>
             <div>
               <Image
-                src="https://placehold.co/600x400.png"
+                src="/images/AI-FirstBusiness.webp"
                 width={600}
                 height={400}
                 alt="App Mockup"
@@ -98,7 +98,7 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section className="bg-secondary py-20 lg:py-32">
+        <section id="features" className="bg-secondary py-20 lg:py-32">
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl text-center">
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
@@ -125,7 +125,7 @@ export default function Home() {
         </section>
 
         {/* Brilliant Tools Section */}
-        <section className="bg-secondary py-20 lg:py-32">
+        <section id="whatis" className="bg-secondary py-20 lg:py-32">
             <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2">
                 <div>
                      <Image
@@ -161,9 +161,9 @@ export default function Home() {
         </section>
 
         {/* Pricing Section */}
-        <section className="bg-secondary py-20 lg:py-32">
+        <section id="pricing" className="bg-secondary py-20 lg:py-32">
             <div className="container mx-auto px-4 text-center">
-                 <h2 id="pricing" className="text-3xl font-bold tracking-tight md:text-4xl">Pricing Plans</h2>
+                 <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Pricing Plans</h2>
                  <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/70">
                     Choose a plan that scales with your ambition. Start for free and upgrade as your business grows.
                  </p>
@@ -236,8 +236,8 @@ export default function Home() {
             <div>
                 <h4 className="font-semibold">Product</h4>
                 <ul className="mt-4 space-y-2 text-sm">
-                    <li><Link href="#" className="text-background/60 hover:text-background">Features</Link></li>
-                    <li><Link href="#" className="text-background/60 hover:text-background">Pricing</Link></li>
+                    <li><Link href="#features" className="text-background/60 hover:text-background">Features</Link></li>
+                    <li><Link href="#pricing" className="text-background/60 hover:text-background">Pricing</Link></li>
                     <li><Link href="#" className="text-background/60 hover:text-background">Updates</Link></li>
                 </ul>
             </div>
