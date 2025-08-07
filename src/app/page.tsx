@@ -125,7 +125,7 @@ export default function Home() {
         </section>
 
         {/* Brilliant Tools Section */}
-        <section id="whatis" className="bg-secondary py-20 lg:py-32">
+        <section id="whatis" className="bg-secondary-darker py-20 lg:py-32">
             <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2">
                 <div>
                      <Image
@@ -224,11 +224,11 @@ export default function Home() {
 
       </main>
 
-      <footer className="bg-secondary-foreground text-background">
+      <footer className="bg-primary text-background">
         <div className="container mx-auto grid grid-cols-2 gap-8 px-4 py-12 md:grid-cols-5">
             <div className="col-span-2 md:col-span-1">
                  <Link href="/" className="flex items-center gap-2">
-                    <LayoutGrid className="h-8 w-8 text-primary" />
+                    <LayoutGrid className="h-8 w-8 text-accent" />
                     <span className="text-xl font-bold">StudioFlow AI</span>
                 </Link>
                 <p className="mt-4 text-sm text-background/60">The future of business creation.</p>
