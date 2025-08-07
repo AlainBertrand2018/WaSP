@@ -1,3 +1,4 @@
+
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
@@ -18,6 +19,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  webpack: (config) => {
+    config.resolve.alias['@opentelemetry/exporter-jaeger'] = false;
+    config.externals.push('handlebars');
+    return config;
+  }
 };
 
 export default nextConfig;

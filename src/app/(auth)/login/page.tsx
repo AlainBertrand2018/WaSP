@@ -1,25 +1,30 @@
 
-'use client';
-
-import { Button } from '@/components/ui/button';
+import { Suspense } from 'react';
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import React from 'react';
+import LoginForm from './login-form';
+import { Skeleton } from '@/components/ui/skeleton';
+
+function LoginFormSkeleton() {
+    return (
+        <div className="grid gap-4">
+            <div className="grid gap-2">
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-10 w-full" />
+            </div>
+            <div className="grid gap-2">
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-10 w-full" />
+            </div>
+        </div>
+    )
+}
 
 export default function LoginPage() {
-  const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get('redirect') || '/dashboard';
-
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -28,27 +33,17 @@ export default function LoginPage() {
           Enter your email below to login to your account.
         </CardDescription>
       </CardHeader>
-      <CardContent className="grid gap-4">
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" required />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" required />
-        </div>
-      </CardContent>
-      <CardFooter className="flex flex-col gap-4">
-        <Button className="w-full" asChild>
-          <Link href={redirectUrl}>Sign in</Link>
-        </Button>
-        <div className="text-sm text-muted-foreground">
-          Don&apos;t have an account?{' '}
-          <Link href="/signup" className="underline">
-            Sign up
-          </Link>
-        </div>
-      </CardFooter>
+      <Suspense fallback={<CardContentSkeleton />}>
+        <LoginForm />
+      </Suspense>
     </Card>
   );
+}
+
+function CardContentSkeleton() {
+    return (
+        <div className="p-6 pt-0">
+            <LoginFormSkeleton />
+        </div>
+    )
 }
