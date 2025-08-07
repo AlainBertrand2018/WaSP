@@ -35,8 +35,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
              © 2025 StudioFlow AI (Alain BERTRAND). All rights reserved.
           </footer>
         </div>
-        <Chatbot />
       </SidebarInset>
+      <Chatbot />
     </SidebarProvider>
   );
 }
