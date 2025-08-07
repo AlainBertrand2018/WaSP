@@ -6,8 +6,13 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      {children}
+    <div className="flex flex-col min-h-screen bg-background">
+      <main className="flex-1 flex items-center justify-center p-4">
+        {children}
+      </main>
+      <footer className="text-center p-4 text-sm text-muted-foreground">
+        © {new Date().getFullYear()} StudioFlow AI. All rights reserved.
+      </footer>
     </div>
   );
 }
