@@ -329,9 +329,9 @@ export default function Home() {
              <div>
                 <h4 className="font-semibold">Social</h4>
                 <ul className="mt-4 space-y-2 text-sm">
-                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Twitter</Link></li>
-                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">LinkedIn</Link></li>
-                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Facebook</Link></li>
+                    <li><Link href="https://x.com/AlainBertrandmu/" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">Twitter</Link></li>
+                    <li><Link href="https://www.linkedin.com/company/avantaz/" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">LinkedIn</Link></li>
+                    <li><Link href="https://www.facebook.com/avantaz.mu" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">Facebook</Link></li>
                 </ul>
             </div>
         </div>
