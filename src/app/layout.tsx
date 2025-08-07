@@ -12,7 +12,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'StudioFlow AI',
+  title: 'WaSP AI',
   description: 'Your Unified Command Center for Business Creation and Management.',
 };
 
