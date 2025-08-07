@@ -3,7 +3,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle, LayoutGrid, Zap } from 'lucide-react';
+import { CheckCircle, LayoutGrid, XCircle, Zap } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -133,7 +133,7 @@ export default function Home() {
             <div className="container mx-auto grid grid-cols-1 items-center gap-12 px-4 md:grid-cols-2">
                 <div>
                      <Image
-                        src="https://placehold.co/550x550.png"
+                        src="/images/app_gallery_3.webp"
                         width={550}
                         height={550}
                         alt="Tool Illustrations"
@@ -175,15 +175,16 @@ export default function Home() {
                      {/* Free Plan */}
                      <Card className="bg-card text-card-foreground p-6 flex flex-col">
                          <CardHeader>
-                            <CardTitle>Free</CardTitle>
-                            <p className="text-4xl font-bold mt-2">MUR 0<span className="text-lg font-normal text-muted-foreground">/month</span></p>
+                            <CardTitle>Test Drive</CardTitle>
+                            <p className="text-4xl font-bold mt-2">MUR 0</p>
                          </CardHeader>
                          <CardContent className="flex-grow space-y-4 text-left">
-                            <p>For individuals and hobbyists starting out.</p>
+                            <p>For entrepreneurs and Business owners who want get a feel of StudioFlow.</p>
                              <ul className="space-y-2">
                                 <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> 1 Business Project</li>
                                 <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> Idea Validation</li>
-                                <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5"/> Basic Reporting</li>
+                                <li className="flex items-center gap-2"><XCircle className="text-destructive h-5 w-5"/> No Reporting</li>
+                                <li className="flex items-center gap-2"><XCircle className="text-destructive h-5 w-5"/> No Document Downloads</li>
                              </ul>
                          </CardContent>
                          <Button variant="outline" className="w-full mt-6">Get Started</Button>
