@@ -48,6 +48,10 @@
     --input: 212 28% 16%;
     --ring: 226 94% 60%;
   }
+
+  html {
+    @apply scroll-smooth;
+  }
 }
 
 @layer base {

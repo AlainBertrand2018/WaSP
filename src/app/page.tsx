@@ -292,7 +292,7 @@ export default function Home() {
             </div>
         </div>
         <div className="container mx-auto border-t border-primary-foreground/10 px-4 py-6 text-center text-sm text-primary-foreground/60">
-           © 2024 StudioFlow AI. All rights reserved.
+           © 2025 StudioFlow AI (Alain BERTRAND). All rights reserved.
         </div>
       </footer>
     </div>
