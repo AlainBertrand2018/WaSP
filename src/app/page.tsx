@@ -53,21 +53,21 @@ const featureCards = [
 
 const testimonials = [
     {
-        quote: "StudioFlow AI transformed our launch strategy. The insights from the idea validation were pure gold. We went from a vague concept to an investor-ready plan in a week.",
-        author: "Priya K.",
-        title: "Founder of Eco-Ways Ltd",
+        quote: "StudioFlow AI transformed my vision of creating, launching, and managing a business in Mauritius. The insights from the idea validation were pure gold. One can go from a vague concept to an investor-ready plan in less than a week.",
+        author: "Wesley R.",
+        title: "Founder of Affilia Ltd",
         avatar: "https://placehold.co/100x100.png"
     },
     {
         quote: "As a solo founder, the budget planner and MVP roadmap were lifesavers. It felt like having a co-founder who's an expert in finance and product.",
-        author: "David L.",
-        title: "CEO of TechSavvy Solutions",
+        author: "Stephan T.",
+        title: "Owner of Tourmentin Marketing",
         avatar: "https://placehold.co/100x100.png"
     },
     {
         quote: "The most comprehensive startup tool for the Mauritian market. Period. The localization of the AI's analysis is what sets it apart.",
-        author: "Amina R.",
-        title: "Director at Creative Sparks",
+        author: "Dona M.",
+        title: "Sales Tech at FIDS Ltd.",
         avatar: "https://placehold.co/100x100.png"
     },
     {
