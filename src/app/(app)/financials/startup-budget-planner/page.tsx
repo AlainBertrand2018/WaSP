@@ -833,7 +833,6 @@ const SummaryStep = () => {
     }
   };
 
-
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat('en-MU', {
       style: 'currency',
@@ -883,7 +882,7 @@ const SummaryStep = () => {
           <CardFooter>
             <Button
               onClick={handleGenerateSummary}
-              disabled={isLoading || !salePrice || salePrice <= 0}
+              disabled={isLoading || !salePrice || salePrice <= 0 || !analysisResult?.sector}
               className="gap-2"
             >
               {isLoading ? (
@@ -965,7 +964,7 @@ const SummaryStep = () => {
                     <TrendingUp />
                     <span>Conservative Growth Outlook</span>
                 </CardTitle>
-            </CardHeader>
+            </Header>
              <CardContent>
                 <p className="text-muted-foreground whitespace-pre-wrap">{summary.conservativeGrowthOutlook}</p>
              </CardContent>
@@ -1005,6 +1004,15 @@ const SummaryStep = () => {
               </div>
             </CardContent>
           </Card>
+
+          <div className="flex justify-center pt-4 border-t mt-4">
+             <Button asChild className="group">
+                <Link href="/business-management/business-plan-generator">
+                  <span>Next: Generate Business Plan</span>
+                  <ChevronRight className="transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+          </div>
         </div>
       )}
     </div>
