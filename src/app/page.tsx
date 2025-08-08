@@ -437,6 +437,11 @@ export default function Home() {
                                   If you’re starting up or scaling, StudioFlow AI gives you the clarity and speed to move from idea to execution with confidence.
                                 </p>
                              </div>
+                             <DialogFooter className="justify-center">
+                                <Button asChild>
+                                    <Link href="/login">Try The Demo</Link>
+                                </Button>
+                             </DialogFooter>
                           </DialogContent>
                         </Dialog>
                     </li>
