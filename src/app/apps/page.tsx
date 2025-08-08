@@ -250,6 +250,16 @@ const appCategories = [
             imageSrc: 'https://placehold.co/400x400.png',
             initialRating: 4.4,
             initialRaters: 160,
+        },
+        {
+            icon: <CircleDollarSign className="h-8 w-8 text-primary" />,
+            title: 'Product Pricing Manager',
+            description: 'Set and manage your product pricing strategies.',
+            href: '/products/pricing',
+            pro: false,
+            imageSrc: '/images/TilePics/product_Pricing_AppTile.webp',
+            initialRating: 4.3,
+            initialRaters: 95,
         }
     ]
   }
