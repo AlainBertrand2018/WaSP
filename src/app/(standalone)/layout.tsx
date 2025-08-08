@@ -23,7 +23,7 @@ export default function StandaloneLayout({
       <main className="flex-1 flex items-center justify-center p-4">
         {children}
       </main>
-      <footer className="text-center p-4 text-sm text-muted-foreground">
+      <footer className="text-center p-4 text-sm text-muted-foreground border-t">
         © 2025 BusinessStudio AI (Alain BERTRAND). All rights reserved.
       </footer>
     </div>
