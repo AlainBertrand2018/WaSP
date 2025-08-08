@@ -233,6 +233,16 @@ const appCategories = [
     apps: [
         {
             icon: <Package className="h-8 w-8 text-primary" />,
+            title: 'Product Creator',
+            description: 'Design and define new products for your business.',
+            href: '/products/creator',
+            pro: false,
+            imageSrc: '/images/TilePics/product_Creation_AppTile.webp',
+            initialRating: 4.2,
+            initialRaters: 75,
+        },
+        {
+            icon: <Package className="h-8 w-8 text-primary" />,
             title: 'Product & Inventory',
             description: 'Track and manage your stock levels and product info.',
             href: '/products/inventory',
