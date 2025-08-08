@@ -26,10 +26,6 @@ const GenerateFaqOutputSchema = z.object({
 
 export type GenerateFaqOutput = z.infer<typeof GenerateFaqOutputSchema>;
 
-export async function generateFaq(): Promise<GenerateFaqOutput> {
-  const result = await generateFaqFlow();
-  return result;
-}
 
 const prompt = ai.definePrompt({
   name: 'generateFaqPrompt',
@@ -71,3 +67,8 @@ const generateFaqFlow = ai.defineFlow(
     return output;
   }
 );
+
+export async function generateFaq(): Promise<GenerateFaqOutput> {
+  const result = await generateFaqFlow();
+  return result;
+}
