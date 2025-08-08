@@ -40,6 +40,7 @@ const appCategories = [
         description: 'Assess your business idea against the Mauritian market.',
         href: '/business-management/business-idea-validation',
         pro: true,
+        badge: { text: 'Popular', className: 'bg-blue-600' },
       },
       {
         icon: <Rocket className="h-8 w-8 text-primary" />,
@@ -54,6 +55,7 @@ const appCategories = [
         description: 'Synthesize data into a professional business plan.',
         href: '/business-management/business-plan-generator',
         pro: true,
+        badge: { text: 'Best Rated', className: 'bg-yellow-500' },
       },
     ],
   },
@@ -108,6 +110,7 @@ const appCategories = [
             description: 'Map out costs and calculate your break-even point.',
             href: '/financials/startup-budget-planner',
             pro: true,
+            badge: { text: 'HOT', className: 'bg-red-600' },
           },
           {
             icon: <Briefcase className="h-8 w-8 text-primary" />,
@@ -184,7 +187,7 @@ export default function AppGalleryPage() {
                              <Link href={app.href} className="block group">
                                 <Card
                                     key={app.title}
-                                    className="aspect-square flex flex-col items-center justify-center hover:border-primary transition-colors p-4"
+                                    className="aspect-square flex flex-col items-center justify-center hover:border-primary transition-colors p-4 relative"
                                 >
                                     <CardContent className="p-0 flex flex-col items-center text-center gap-4">
                                         <div className="relative">
@@ -192,6 +195,11 @@ export default function AppGalleryPage() {
                                             {app.pro && (
                                                 <div className="absolute -top-2 -right-2 text-xs font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full text-[10px]">
                                                 PRO
+                                                </div>
+                                            )}
+                                             {app.badge && (
+                                                <div className={`absolute -top-2 -left-2 text-xs font-semibold text-white px-1.5 py-0.5 rounded-full text-[10px] ${app.badge.className}`}>
+                                                    {app.badge.text}
                                                 </div>
                                             )}
                                         </div>
