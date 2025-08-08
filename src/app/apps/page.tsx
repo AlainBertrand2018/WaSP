@@ -21,6 +21,7 @@ import {
   FileText,
   HeartHandshake,
   GanttChartSquare,
+  LayoutTemplate,
   Lightbulb,
   LineChart,
   Megaphone,
@@ -182,7 +183,17 @@ const appCategories = [
             imageSrc: 'https://placehold.co/400x400.png',
             initialRating: 4.3,
             initialRaters: 130,
-        }
+        },
+        {
+            icon: <LayoutTemplate className="h-8 w-8 text-primary" />,
+            title: 'Landing Page Builder',
+            description: 'Create and publish high-converting landing pages.',
+            href: '/marketing/landing-page-builder',
+            pro: false,
+            imageSrc: '/images/TilePics/marketing_LandPageBuilder_AppTile.webp',
+            initialRating: 4.5,
+            initialRaters: 150,
+        },
     ]
   },
   {
