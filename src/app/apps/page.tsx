@@ -114,6 +114,16 @@ const appCategories = [
             imageSrc: 'https://placehold.co/400x400.png',
             initialRating: 4.7,
             initialRaters: 250,
+          },
+          {
+            icon: <LineChart className="h-8 w-8 text-primary" />,
+            title: 'Asset Management',
+            description: "Track and manage your company's assets.",
+            href: '/financials/asset-management',
+            pro: false,
+            imageSrc: '/images/TilePics/business_AssetManagement_AppTile.webp',
+            initialRating: 4.2,
+            initialRaters: 85,
           }
     ]
   },
@@ -481,3 +491,5 @@ export default function AppGalleryPage() {
     </div>
   );
 }
+
+    
