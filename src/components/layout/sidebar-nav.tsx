@@ -121,15 +121,6 @@ export function SidebarNav() {
             </SidebarMenuButton>
           </SidebarMenuItem>
 
-           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/apps'}>
-              <Link href="/apps">
-                <LayoutGrid />
-                <span>App Gallery</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-
           <SidebarMenuItem>
             <SubMenu
               icon={<Rocket />}
