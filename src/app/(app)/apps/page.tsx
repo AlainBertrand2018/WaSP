@@ -187,19 +187,21 @@ export default function AppGalleryPage() {
                              <Link href={app.href} className="block group">
                                 <Card
                                     key={app.title}
-                                    className="aspect-square flex flex-col items-center justify-center hover:border-primary transition-colors p-4 relative"
+                                    className="aspect-square flex flex-col items-center justify-center hover:border-primary transition-colors p-4 relative overflow-hidden"
                                 >
+                                    {app.badge && (
+                                        <div className="absolute top-0 left-0 w-24 h-24">
+                                            <div className={`absolute transform -rotate-45 text-center text-white font-semibold py-1 left-[-50px] top-[22px] w-[170px] ${app.badge.className}`}>
+                                                {app.badge.text}
+                                            </div>
+                                        </div>
+                                     )}
                                     <CardContent className="p-0 flex flex-col items-center text-center gap-4">
                                         <div className="relative">
                                             {app.icon}
                                             {app.pro && (
                                                 <div className="absolute -top-2 -right-2 text-xs font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full text-[10px]">
                                                 PRO
-                                                </div>
-                                            )}
-                                             {app.badge && (
-                                                <div className={`absolute -top-2 -left-2 text-xs font-semibold text-white px-1.5 py-0.5 rounded-full text-[10px] ${app.badge.className}`}>
-                                                    {app.badge.text}
                                                 </div>
                                             )}
                                         </div>
