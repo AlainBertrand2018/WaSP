@@ -430,7 +430,7 @@ export default function Home() {
                       <DialogTitle>About BusinessStudio AI</DialogTitle>
                     </DialogHeader>
                     <div className="mb-4">
-                      <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                      <Image src="/images/businessStudio_logo.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
                     <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                       <p>
@@ -468,7 +468,7 @@ export default function Home() {
                       <DialogTitle>Careers at BusinessStudio AI</DialogTitle>
                     </DialogHeader>
                     <div className="mb-4">
-                      <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                      <Image src="/images/businessStudio_logo.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
                     <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                       <h1 className="text-lg font-semibold text-foreground">Recruitment starts soon at BusinessStudio AI.</h1>
