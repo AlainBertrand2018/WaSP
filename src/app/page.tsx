@@ -416,9 +416,27 @@ export default function Home() {
                             <DialogHeader>
                                 <DialogTitle>About StudioFlow AI</DialogTitle>
                             </DialogHeader>
-                            <DialogDescription className="text-base">
-                                StudioFlow AI is a comprehensive, AI-powered suite of tools designed to help entrepreneurs create, launch, and manage a business in Mauritius.
-                            </DialogDescription>
+                             <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
+                                <p>
+                                  StudioFlow AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, StudioFlow AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
+                                </p>
+                                <p>
+                                  Built by Alain Bertrand, a serial entrepreneur using AI co-development, StudioFlow AI is designed with an AI-first, digital-first mindset to give Mauritian entrepreneurs and executives a real competitive edge. Our goal is simple: <b>help you thrive, not just survive</b>.
+                                </p>
+                                <h3 className="font-bold text-foreground">What we do</h3>
+                                <ul className="space-y-2 list-disc pl-5">
+                                    <li><b>Local-first validation</b>: test your idea against Mauritian market realities.</li>
+                                    <li><b>Financial modelling</b>: generate projections and budget scenarios in minutes.</li>
+                                    <li><b>Investor-ready docs</b>: produce clear, professional business plans.</li>
+                                    <li><b>Unified workspace</b>: plan, execute and track your venture end-to-end.</li>
+                                </ul>
+                                <p className="font-bold text-foreground pt-2">
+                                  Made in Mauritius... Built for Mauritius.
+                                </p>
+                                <p>
+                                  If you’re starting up or scaling, StudioFlow AI gives you the clarity and speed to move from idea to execution with confidence.
+                                </p>
+                             </div>
                           </DialogContent>
                         </Dialog>
                     </li>
