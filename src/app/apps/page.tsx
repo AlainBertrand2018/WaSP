@@ -111,7 +111,7 @@ const appCategories = [
             description: 'Explore funding opportunities for your SME.',
             href: '/financials/grants-financing',
             pro: false,
-            imageSrc: 'https://placehold.co/400x400.png',
+            imageSrc: '/images/TilePics/business_GrantsLoanMan_AppTile.webp',
             initialRating: 4.7,
             initialRaters: 250,
           },
