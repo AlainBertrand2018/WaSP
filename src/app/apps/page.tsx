@@ -200,7 +200,7 @@ const appCategories = [
             description: 'Generate, schedule, and post content automatically.',
             href: '/marketing/content-generator',
             pro: false,
-            imageSrc: '/images/TilePics/marketing_ContentGenerator_AppTile.webp',
+            imageSrc: '/images/TilePics/marketing_BlogPostGen_AppTile.webp',
             initialRating: 4.4,
             initialRaters: 140,
         },
