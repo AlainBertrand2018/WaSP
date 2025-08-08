@@ -11,3 +11,4 @@ import './flows/financials/generate-variable-costs-flow';
 import './flows/financials/generate-budget-summary-flow';
 import './flows/chatbot/generate-chat-response-flow';
 import './flows/marketing/generate-faq-flow';
+import './flows/marketing/generate-privacy-policy-flow';

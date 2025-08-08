@@ -1,12 +1,6 @@
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { generateFaq } from '@/ai/flows/marketing/generate-faq-flow';
-import { HelpCircle } from 'lucide-react';
+import { generatePrivacyPolicy } from '@/ai/flows/marketing/generate-privacy-policy-flow';
+import { Shield } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -22,109 +16,86 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { marked } from 'marked';
 
-
-export default async function FaqPage() {
-  const { faqs } = await generateFaq();
-
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
-    })),
-  };
+export default async function PrivacyPolicyPage() {
+  const { policy } = await generatePrivacyPolicy();
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-        />
-         <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
-            <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-            <Link href="/" className="flex items-center gap-2">
-                <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={32} height={32} />
-                <span className="text-xl font-bold">StudioFlow AI</span>
+      <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={32} height={32} />
+            <span className="text-xl font-bold">StudioFlow AI</span>
+          </Link>
+          <nav className="hidden items-center gap-6 md:flex">
+            <Link href="/#features" className="text-sm font-medium hover:text-primary">
+              Features
             </Link>
-            <nav className="hidden items-center gap-6 md:flex">
-                <Link href="/#features" className="text-sm font-medium hover:text-primary">
-                Features
-                </Link>
-                <Link href="/#pricing" className="text-sm font-medium hover:text-primary">
-                Pricing
-                </Link>
-                <Dialog>
-                <DialogTrigger asChild>
-                    <button className="text-sm font-medium hover:text-primary">Contact</button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                    <DialogTitle>Contact Us</DialogTitle>
-                    <DialogDescription>
-                        Have a question or want to work with us? Fill out the form below.
-                    </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">
-                        Name
-                        </Label>
-                        <Input id="name" placeholder="John Doe" className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="email" className="text-right">
-                        Email
-                        </Label>
-                        <Input id="email" type="email" placeholder="john@example.com" className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-start gap-4">
-                        <Label htmlFor="message" className="text-right pt-2">
-                        Message
-                        </Label>
-                        <Textarea id="message" placeholder="Your message..." className="col-span-3" />
-                    </div>
-                    </div>
-                    <DialogFooter>
-                    <Button type="submit">Send Message</Button>
-                    </DialogFooter>
-                </DialogContent>
-                </Dialog>
-            </nav>
-            <Button asChild variant="ghost">
-                <Link href="/login">Sign In</Link>
-            </Button>
-            </div>
+            <Link href="/#pricing" className="text-sm font-medium hover:text-primary">
+              Pricing
+            </Link>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button className="text-sm font-medium hover:text-primary">Contact</button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Contact Us</DialogTitle>
+                  <DialogDescription>
+                    Have a question or want to work with us? Fill out the form below.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="name" className="text-right">
+                      Name
+                    </Label>
+                    <Input id="name" placeholder="John Doe" className="col-span-3" />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="email" className="text-right">
+                      Email
+                    </Label>
+                    <Input id="email" type="email" placeholder="john@example.com" className="col-span-3" />
+                  </div>
+                  <div className="grid grid-cols-4 items-start gap-4">
+                    <Label htmlFor="message" className="text-right pt-2">
+                      Message
+                    </Label>
+                    <Textarea id="message" placeholder="Your message..." className="col-span-3" />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Send Message</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </nav>
+          <Button asChild variant="ghost">
+            <Link href="/login">Sign In</Link>
+          </Button>
+        </div>
       </header>
       <main className="flex-1 bg-secondary-darker">
         <section className="container mx-auto px-4 py-20 lg:py-32">
-            <div className="flex flex-col gap-8 max-w-4xl mx-auto">
+          <div className="flex flex-col gap-8 max-w-4xl mx-auto">
             <div>
-                <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-                    <HelpCircle className="text-primary h-8 w-8" />
-                    Frequently Asked Questions
-                </h1>
-                <p className="text-muted-foreground">
-                Find answers to common questions about StudioFlow AI.
-                </p>
+              <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+                <Shield className="text-primary h-8 w-8" />
+                Privacy Policy
+              </h1>
+              <p className="text-muted-foreground">
+                Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </p>
             </div>
 
-            <Accordion type="single" collapsible className="w-full bg-card p-4 sm:p-8 rounded-lg">
-                {faqs.map((faq, index) => (
-                <AccordionItem value={`item-${index}`} key={index}>
-                    <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-                    <AccordionContent className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap">
-                    {faq.answer}
-                    </AccordionContent>
-                </AccordionItem>
-                ))}
-            </Accordion>
-            </div>
+            <div
+              className="prose prose-invert prose-p:text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground max-w-none bg-card p-8 rounded-lg"
+              dangerouslySetInnerHTML={{ __html: marked(policy) }}
+            />
+          </div>
         </section>
       </main>
       <footer className="bg-primary text-primary-foreground">

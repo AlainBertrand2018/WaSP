@@ -412,7 +412,7 @@ export default function Home() {
                             <DialogTrigger asChild>
                                 <button className="text-primary-foreground/60 hover:text-primary-foreground">About</button>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-2xl">
+                             <DialogContent className="sm:max-w-2xl">
                                 <div className="mb-4">
                                     <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                                 </div>
@@ -421,10 +421,10 @@ export default function Home() {
                                     StudioFlow AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, StudioFlow AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
                                     </p>
                                     <p>
-                                    Built by Alain Bertrand, a serial entrepreneur using AI co-development, StudioFlow AI is designed with an AI-first, digital-first mindset to give Mauritian entrepreneurs and executives a real competitive edge. Our goal is simple: <b>help you thrive, not just survive</b>.
+                                    Built by Alain Bertrand, a serial entrepreneur using AI co-development, StudioFlow AI is designed with an AI-first, digital-first mindset to give Mauritian entrepreneurs and executives a real competitive edge. Our goal is simple: <b>help you thrive, not just survive</b>. 
                                     </p>
                                     <h2 className="font-bold text-foreground">What we do</h2>
-                                    <ul className="space-y-2 list-disc pl-5">
+                                     <ul className="space-y-2 list-disc pl-5">
                                         <li><b>Local-first validation</b>: test your idea against Mauritian market realities.</li>
                                         <li><b>Financial modelling</b>: generate projections and budget scenarios in minutes.</li>
                                         <li><b>Investor-ready docs</b>: produce clear, professional business plans.</li>
@@ -513,7 +513,7 @@ export default function Home() {
                 <ul className="mt-4 space-y-2 text-sm">
                     <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Blog</Link></li>
                     <li><Link href="/faq" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">Help Center</Link></li>
-                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Privacy Policy</Link></li>
+                    <li><Link href="/privacy-policy" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">Privacy Policy</Link></li>
                 </ul>
             </div>
              <div>
