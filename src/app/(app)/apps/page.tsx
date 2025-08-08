@@ -43,13 +43,6 @@ const appCategories = [
         badge: { text: 'Popular', className: 'bg-blue-600' },
       },
       {
-        icon: <Rocket className="h-8 w-8 text-primary" />,
-        title: 'MVP Planner',
-        description: 'Define the core features and plan for your MVP.',
-        href: '/business-management/mvp-planner?view=standalone',
-        pro: true,
-      },
-      {
         icon: <FileText className="h-8 w-8 text-primary" />,
         title: 'Business Plan Generator',
         description: 'Synthesize data into a professional business plan.',
