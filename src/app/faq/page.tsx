@@ -27,8 +27,25 @@ import { Textarea } from '@/components/ui/textarea';
 export default async function FaqPage() {
   const { faqs } = await generateFaq();
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
          <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
             <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
             <Link href="/" className="flex items-center gap-2">
@@ -235,7 +252,7 @@ export default async function FaqPage() {
                 <h4 className="font-semibold">Resources</h4>
                 <ul className="mt-4 space-y-2 text-sm">
                     <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Blog</Link></li>
-                    <li><Link href="/faq" className="text-primary-foreground/60 hover:text-primary-foreground">Help Center</Link></li>
+                    <li><Link href="/faq" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">Help Center</Link></li>
                     <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Privacy Policy</Link></li>
                 </ul>
             </div>

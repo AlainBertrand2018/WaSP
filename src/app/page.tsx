@@ -512,7 +512,7 @@ export default function Home() {
                 <h4 className="font-semibold">Resources</h4>
                 <ul className="mt-4 space-y-2 text-sm">
                     <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Blog</Link></li>
-                    <li><Link href="/faq" className="text-primary-foreground/60 hover:text-primary-foreground">Help Center</Link></li>
+                    <li><Link href="/faq" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">Help Center</Link></li>
                     <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Privacy Policy</Link></li>
                 </ul>
             </div>
