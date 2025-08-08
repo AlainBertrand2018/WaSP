@@ -67,35 +67,35 @@ const appCategories = [
             icon: <LineChart className="h-8 w-8 text-primary" />,
             title: 'Insights Dashboard',
             description: 'AI-powered insights for your business.',
-            href: '/business-management/insights-dashboard?view=standalone',
+            href: '/business-management/insights-dashboard',
             pro: true,
         },
         {
             icon: <CheckCheck className="h-8 w-8 text-primary" />,
             title: 'Compliance Validator',
             description: 'Ensure your business complies with local regulations.',
-            href: '/business-management/compliance-validator?view=standalone',
+            href: '/compliance-validator',
             pro: false,
         },
         {
             icon: <HeartHandshake className="h-8 w-8 text-primary" />,
             title: 'CRM Suite',
             description: 'Manage customers, appointments, and invoices.',
-            href: '/business-management/crm-suite?view=standalone',
+            href: '/business-management/crm-suite',
             pro: false,
         },
         {
             icon: <GanttChartSquare className="h-8 w-8 text-primary" />,
             title: 'Project & Task Manager',
             description: 'Organize projects and track tasks efficiently.',
-            href: '/business-management/project-task-manager?view=standalone',
+            href: '/business-management/project-task-manager',
             pro: false,
         },
         {
             icon: <Users className="h-8 w-8 text-primary" />,
             title: 'HR System',
             description: 'Manage payroll, leave, and employee information.',
-            href: '/business-management/hr-system?view=standalone',
+            href: '/business-management/hr-system',
             pro: false,
         },
     ]
@@ -116,7 +116,7 @@ const appCategories = [
             icon: <Briefcase className="h-8 w-8 text-primary" />,
             title: 'Grants & Financing',
             description: 'Explore funding opportunities for your SME.',
-            href: '/financials/grants-financing?view=standalone',
+            href: '/financials/grants-financing',
             pro: false,
           }
     ]
@@ -129,7 +129,7 @@ const appCategories = [
             icon: <Megaphone className="h-8 w-8 text-primary" />,
             title: 'Marketing Campaign Builder',
             description: 'Build and manage your marketing campaigns.',
-            href: '/marketing/campaign-builder?view=standalone',
+            href: '/marketing/campaign-builder',
             pro: false,
         }
     ]
@@ -142,7 +142,7 @@ const appCategories = [
             icon: <Package className="h-8 w-8 text-primary" />,
             title: 'Product & Inventory',
             description: 'Track and manage your stock levels and product info.',
-            href: '/products/inventory?view=standalone',
+            href: '/products/inventory',
             pro: false,
         }
     ]
