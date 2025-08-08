@@ -47,6 +47,7 @@ const appCategories = [
         href: '/business-management/business-idea-validation?view=standalone',
         pro: true,
         badge: { text: 'Popular', className: 'bg-blue-600' },
+        isSpecial: true,
       },
     ],
   },
@@ -95,14 +96,6 @@ const appCategories = [
     category: 'Financials',
     description: 'Manage your finances and plan for growth.',
     apps: [
-        {
-            icon: <CircleDollarSign className="h-8 w-8 text-primary" />,
-            title: 'Startup Budget Planner',
-            description: 'Map out costs and calculate your break-even point.',
-            href: '/financials/startup-budget-planner?view=standalone',
-            pro: true,
-            badge: { text: 'HOT', className: 'bg-red-600' },
-          },
           {
             icon: <Briefcase className="h-8 w-8 text-primary" />,
             title: 'Grants & Financing',
@@ -255,32 +248,50 @@ export default function AppGalleryPage() {
                         <CarouselContent>
                             {category.apps.map((app) => (
                                 <CarouselItem key={app.title} className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
-                                    <Link href={app.href} className="block group">
-                                        <Card
-                                            key={app.title}
-                                            className="aspect-square flex flex-col items-center justify-center border-primary hover:border-primary transition-colors p-4 relative overflow-hidden"
-                                        >
-                                            {app.badge && (
-                                                <div className="absolute top-0 left-0 w-24 h-24">
-                                                    <div className={`absolute transform -rotate-45 text-center text-white font-semibold py-1 left-[-50px] top-[22px] w-[170px] ${app.badge.className}`}>
-                                                        {app.badge.text}
+                                    <Link href={app.href} className="block group [perspective:1000px]">
+                                        {app.isSpecial ? (
+                                            <Card className="relative aspect-square w-full h-full rounded-lg shadow-lg transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] border-primary">
+                                                {/* Card Front */}
+                                                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
+                                                    <Image src="/images/business_validation_thbn.png" alt={app.title} layout="fill" className="object-cover rounded-lg" data-ai-hint="business validation abstract"/>
+                                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-primary/40 to-accent/40 opacity-40 rounded-lg"></div>
+                                                    <div className="absolute inset-0 w-full h-full flex flex-col justify-end p-4">
+                                                        <h3 className="text-white font-bold text-lg">{app.title}</h3>
                                                     </div>
                                                 </div>
-                                            )}
-                                            <CardContent className="p-0 flex flex-col items-center text-center gap-4">
-                                                <div className="relative">
-                                                    {app.icon}
-                                                    {app.pro && (
-                                                        <div className="absolute -top-2 -right-2 text-xs font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full text-[10px]">
-                                                        PRO
+                                                {/* Card Back */}
+                                                <div className="absolute inset-0 w-full h-full [transform:rotateY(180deg)] [backface-visibility:hidden] bg-secondary rounded-lg p-4 flex flex-col justify-center items-center">
+                                                    <p className="text-center text-sm text-secondary-foreground">
+                                                        Get AI-powered feedback on your business concept's viability in the Mauritian market.
+                                                    </p>
+                                                </div>
+                                            </Card>
+                                        ) : (
+                                            <Card
+                                                className="aspect-square flex flex-col items-center justify-center border-primary hover:border-primary transition-colors p-4 relative overflow-hidden"
+                                            >
+                                                {app.badge && (
+                                                    <div className="absolute top-0 left-0 w-24 h-24">
+                                                        <div className={`absolute transform -rotate-45 text-center text-white font-semibold py-1 left-[-50px] top-[22px] w-[170px] ${app.badge.className}`}>
+                                                            {app.badge.text}
                                                         </div>
-                                                    )}
-                                                </div>
-                                                <div>
-                                                    <p className="font-semibold text-sm group-hover:text-primary">{app.title}</p>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
+                                                    </div>
+                                                )}
+                                                <CardContent className="p-0 flex flex-col items-center text-center gap-4">
+                                                    <div className="relative">
+                                                        {app.icon}
+                                                        {app.pro && (
+                                                            <div className="absolute -top-2 -right-2 text-xs font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full text-[10px]">
+                                                            PRO
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-semibold text-sm group-hover:text-primary">{app.title}</p>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        )}
                                     </Link>
                                 </CarouselItem>
                             ))}
@@ -452,3 +463,5 @@ export default function AppGalleryPage() {
     </div>
   );
 }
+
+    
