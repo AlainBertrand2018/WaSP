@@ -28,6 +28,7 @@ import {
   Users,
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const appCategories = [
   {
@@ -136,13 +137,28 @@ const appCategories = [
 
 export default function AppGalleryPage() {
   return (
-    <div className="flex flex-col gap-8 py-8">
+    <div className="flex flex-col gap-8 py-8 w-full px-4 md:px-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">App Gallery</h1>
         <p className="text-muted-foreground">
           Launch powerful, AI-driven tools to build and manage your business.
         </p>
       </div>
+
+      <section className="w-full my-4">
+        <Card className="bg-muted/30">
+          <CardContent className="p-2 flex justify-center items-center">
+             <Image
+                src="https://placehold.co/970x250.png"
+                alt="Advertisement"
+                width={970}
+                height={250}
+                className="w-full h-auto rounded-md"
+                data-ai-hint="advertisement banner"
+            />
+          </CardContent>
+        </Card>
+      </section>
 
       <div className="space-y-12">
         {appCategories.map((category) => (
