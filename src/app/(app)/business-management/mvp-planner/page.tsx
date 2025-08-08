@@ -8,6 +8,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription
 } from '@/components/ui/card';
 import {
   ArrowLeft,
@@ -123,22 +124,27 @@ export default function MvpPlannerPage() {
 
   if (!analysisResult || !formData) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-        <Rocket className="h-12 w-12 text-muted" />
-        <h2 className="text-2xl font-semibold tracking-tight">
-          Let's Plan Your MVP
-        </h2>
-        <p className="text-muted-foreground max-w-md">
-          To generate a Minimum Viable Product plan, you first need to validate
-          your business idea.
-        </p>
-        <Button asChild className="group">
-          <Link href="/business-management/business-idea-validation">
-            <ArrowLeft />
-            <span>Validate Your Business Idea First</span>
-          </Link>
-        </Button>
-      </div>
+        <div className="flex items-center justify-center min-h-full">
+            <Card className="w-full max-w-lg text-center shadow-lg bg-card/80 backdrop-blur-sm">
+                <CardHeader className="items-center">
+                    <div className="p-3 bg-primary/10 rounded-full">
+                        <Rocket className="h-8 w-8 text-primary" />
+                    </div>
+                    <CardTitle className="mt-4 text-3xl">Let's Plan Your MVP</CardTitle>
+                    <CardDescription className="max-w-md">
+                        To generate a Minimum Viable Product plan, you first need to validate your business idea.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Button size="lg" className="w-full group" asChild>
+                        <Link href="/business-management/business-idea-validation">
+                             <ArrowLeft />
+                             <span>Validate Your Business Idea First</span>
+                        </Link>
+                    </Button>
+                </CardContent>
+            </Card>
+        </div>
     );
   }
 
@@ -298,3 +304,5 @@ export default function MvpPlannerPage() {
 
   return null; // Should be covered by loading or no-data states
 }
+
+    
