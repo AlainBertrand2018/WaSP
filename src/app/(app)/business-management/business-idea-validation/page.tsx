@@ -1,7 +1,8 @@
 
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -96,7 +97,11 @@ type FormData = {
   monetization: string;
 };
 
-export default function BusinessIdeaValidationPage() {
+function BusinessIdeaValidationContent() {
+  const searchParams = useSearchParams();
+  const view = searchParams.get('view');
+  const isStandalone = view === 'standalone';
+
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>({
     businessIdeaTitle: '',
@@ -457,12 +462,14 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 border-t mt-4">
-          <Button asChild className="group">
-            <Link href="/business-management/mvp-planner">
-              <span>Let's Figure Out Your Minimum Viable Product</span>
-              <ChevronRight className="transition-transform group-hover:translate-x-1" />
-            </Link>
-          </Button>
+          {!isStandalone && (
+            <Button asChild className="group">
+              <Link href="/business-management/mvp-planner">
+                <span>Let's Figure Out Your Minimum Viable Product</span>
+                <ChevronRight className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            </Button>
+          )}
           <Button
             onClick={handleDownloadPdf}
             variant="outline"
@@ -472,9 +479,11 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
             {isGeneratingPdf ? <Loader2 className="animate-spin" /> : <Download />}
             <span>{isGeneratingPdf ? 'Generating...' : 'Download Report'}</span>
           </Button>
-          <Button onClick={resetForm} variant="ghost">
-            Start Over
-          </Button>
+          {!isStandalone && (
+            <Button onClick={resetForm} variant="ghost">
+              Start Over
+            </Button>
+           )}
         </div>
       </div>
     );
@@ -492,14 +501,16 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
       </div>
 
       <Card className="w-full max-w-3xl mx-auto">
-        <CardHeader>
-          <div className="space-y-2">
-            <Progress value={progress} className="h-2" />
-            <p className="text-sm text-muted-foreground">
-              Step {currentStep} of {totalSteps}
-            </p>
-          </div>
-        </CardHeader>
+        {!isStandalone && (
+            <CardHeader>
+            <div className="space-y-2">
+                <Progress value={progress} className="h-2" />
+                <p className="text-sm text-muted-foreground">
+                Step {currentStep} of {totalSteps}
+                </p>
+            </div>
+            </CardHeader>
+        )}
         <form onSubmit={handleSubmit}>
           <CardContent className="min-h-[350px]">
             {currentStep === 1 && (
@@ -792,8 +803,8 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
               type="button"
               variant="outline"
               onClick={prevStep}
-              disabled={currentStep === 1}
-              className="gap-2"
+              disabled={currentStep === 1 || isStandalone}
+              className={isStandalone ? "hidden" : "gap-2"}
             >
               <ArrowLeft />
               <span>Previous</span>
@@ -802,7 +813,7 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
               <Button
                 type="button"
                 onClick={handleNextStep}
-                className="gap-2"
+                className={isStandalone ? "w-full" : "gap-2"}
                 disabled={
                   (currentStep === 3 && formData.marketPotential === null) ||
                   (currentStep === 6 &&
@@ -814,16 +825,18 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
                       !formData.monetization))
                 }
               >
-                <span>Next</span>
+                <span>{isStandalone ? 'Next Step' : 'Next'}</span>
                 <ArrowRight />
               </Button>
             ) : (
-                <div className="flex gap-2">
-                    <Button type="button" variant="outline" onClick={resetForm} className="gap-2">
-                        <RefreshCcw />
-                        <span>Restart Validation</span>
-                    </Button>
-                    <Button type="submit" className="gap-2">
+                <div className="flex gap-2 w-full">
+                    {!isStandalone && (
+                         <Button type="button" variant="outline" onClick={resetForm} className="gap-2">
+                            <RefreshCcw />
+                            <span>Restart Validation</span>
+                        </Button>
+                    )}
+                    <Button type="submit" className="gap-2 flex-grow">
                         <Lightbulb />
                         <span>Submit and Validate</span>
                     </Button>
@@ -834,4 +847,13 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
       </Card>
     </div>
   );
+}
+
+
+export default function BusinessIdeaValidationPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <BusinessIdeaValidationContent />
+        </Suspense>
+    )
 }
