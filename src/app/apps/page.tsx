@@ -194,6 +194,16 @@ const appCategories = [
             initialRating: 4.5,
             initialRaters: 150,
         },
+        {
+            icon: <FileText className="h-8 w-8 text-primary" />,
+            title: 'Blog and Podcast Content Generator',
+            description: 'Generate, schedule, and post content automatically.',
+            href: '/marketing/content-generator',
+            pro: false,
+            imageSrc: '/images/TilePics/marketing_ContentGenerator_AppTile.webp',
+            initialRating: 4.4,
+            initialRaters: 140,
+        },
     ]
   },
   {
