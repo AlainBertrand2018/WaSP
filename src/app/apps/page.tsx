@@ -95,7 +95,7 @@ const appCategories = [
             description: 'Manage payroll, leave, and employee information.',
             href: '/business-management/hr-system',
             pro: false,
-            imageSrc: 'https://placehold.co/400x400.png',
+            imageSrc: '/images/TilePics/business_payroll_AppTile.webp',
             initialRating: 4.1,
             initialRaters: 110,
         },
