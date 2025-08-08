@@ -253,7 +253,7 @@ export default function AppGalleryPage() {
                                             <Card className="relative aspect-square w-full h-full rounded-lg shadow-lg transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] border-primary">
                                                 {/* Card Front */}
                                                 <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
-                                                    <Image src="/images/business_Validation_thbn.png" alt={app.title} layout="fill" className="object-cover rounded-lg" data-ai-hint="business validation abstract"/>
+                                                    <Image src="/images/business_validation_thbn_45sq.png" alt={app.title} layout="fill" className="object-cover rounded-lg" data-ai-hint="business validation abstract"/>
                                                     <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-primary/40 to-accent/40 opacity-40 rounded-lg"></div>
                                                     <div className="absolute inset-0 w-full h-full flex flex-col justify-end p-4">
                                                         <h3 className="text-white font-bold text-2xl [text-shadow:1px_1px_3px_rgba(0,0,0,0.6)]">{app.title}</h3>
@@ -463,4 +463,3 @@ export default function AppGalleryPage() {
     </div>
   );
 }
-
