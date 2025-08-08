@@ -140,14 +140,16 @@ export default function AppGalleryPage() {
     const isMounted = useMounted();
     const [rating, setRating] = React.useState(4.5);
     const [raters, setRaters] = React.useState(200);
+    const [hasVoted, setHasVoted] = React.useState(false);
 
     const handleRatingChange = (newRating: number) => {
-      // In a real app, you'd send this to a server.
-      // For this demo, we'll calculate the new average rating locally.
+      if (hasVoted) return;
+      
       const newTotalRating = rating * raters + newRating;
       const newRaters = raters + 1;
       setRating(newTotalRating / newRaters);
       setRaters(newRaters);
+      setHasVoted(true);
     };
 
     if (!isMounted) {
@@ -287,6 +289,7 @@ export default function AppGalleryPage() {
                                                     value={rating}
                                                     raters={raters}
                                                     onChange={handleRatingChange}
+                                                    disabled={hasVoted}
                                                 />
                                             </div>
                                         </div>
@@ -488,5 +491,3 @@ export default function AppGalleryPage() {
     </div>
   );
 }
-
-    

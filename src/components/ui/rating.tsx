@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Star } from 'lucide-react';
@@ -11,6 +12,7 @@ type RatingProps = {
   starClassName?: string;
   raters?: number;
   onChange?: (rating: number) => void;
+  disabled?: boolean;
 };
 
 export function Rating({
@@ -20,12 +22,25 @@ export function Rating({
   className,
   starClassName,
   onChange,
+  disabled = false,
 }: RatingProps) {
   const [hoverValue, setHoverValue] = React.useState<number | undefined>(undefined);
 
   const handleStarClick = (rating: number) => {
-    if (onChange) {
+    if (onChange && !disabled) {
       onChange(rating);
+    }
+  };
+
+  const handleMouseEnter = (rating: number) => {
+    if (!disabled) {
+      setHoverValue(rating);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!disabled) {
+      setHoverValue(undefined);
     }
   };
 
@@ -35,7 +50,7 @@ export function Rating({
     <div className={cn('flex items-center gap-2', className)}>
       <div
         className="flex items-center gap-0.5"
-        onMouseLeave={() => setHoverValue(undefined)}
+        onMouseLeave={handleMouseLeave}
       >
         {[...Array(totalStars)].map((_, i) => {
           const ratingValue = i + 1;
@@ -44,11 +59,12 @@ export function Rating({
             <Star
               key={ratingValue}
               className={cn(
-                'w-4 h-4 cursor-pointer',
+                'w-4 h-4',
+                disabled ? 'cursor-default' : 'cursor-pointer',
                 isFilled ? 'text-yellow-400 fill-yellow-400' : 'text-gray-400',
                 starClassName
               )}
-              onMouseEnter={() => setHoverValue(ratingValue)}
+              onMouseEnter={() => handleMouseEnter(ratingValue)}
               onClick={() => handleStarClick(ratingValue)}
             />
           );
