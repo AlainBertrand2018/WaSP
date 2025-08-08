@@ -204,6 +204,16 @@ const appCategories = [
             initialRating: 4.4,
             initialRaters: 140,
         },
+        {
+            icon: <FileText className="h-8 w-8 text-primary" />,
+            title: 'Social Posts Generator',
+            description: 'Generate and schedule posts for your social media channels.',
+            href: '/marketing/social-posts-generator',
+            pro: false,
+            imageSrc: '/images/TilePics/marketing_ContentGenerator_AppTile.webp',
+            initialRating: 4.2,
+            initialRaters: 115,
+        },
     ]
   },
   {
