@@ -479,7 +479,7 @@ export default function Home() {
                               <DialogDescription>
                                 Have a question or want to work with us? Fill out the form below.
                               </DialogDescription>
-                            </DialogHeader>
+                            </Header>
                             <div className="grid gap-4 py-4">
                               <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="name-footer" className="text-right">
