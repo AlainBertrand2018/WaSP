@@ -134,6 +134,16 @@ const appCategories = [
             imageSrc: '/images/TilePics/business_ExpensesLogger_AppTile.webp',
             initialRating: 4.3,
             initialRaters: 120,
+          },
+          {
+            icon: <CircleDollarSign className="h-8 w-8 text-primary" />,
+            title: 'VAT Calculator & Reporter',
+            description: 'Calculate and prepare your VAT reports for MRA.',
+            href: '/financials/vat-calculator',
+            pro: false,
+            imageSrc: '/images/TilePics/business_VatCalculator_AppTile-.webp',
+            initialRating: 4.9,
+            initialRaters: 410,
           }
     ]
   },
