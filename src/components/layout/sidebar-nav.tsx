@@ -220,14 +220,6 @@ export function SidebarNav() {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/faq'}>
-              <Link href="/faq">
-                <HelpCircle />
-                <span>FAQ</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
     </Sidebar>
