@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -425,6 +426,9 @@ export default function Home() {
                     <button className="text-primary-foreground/60 hover:text-primary-foreground">About</button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>About StudioFlow AI</DialogTitle>
+                    </DialogHeader>
                     <div className="mb-4">
                       <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
@@ -460,6 +464,9 @@ export default function Home() {
                     <button className="text-primary-foreground/60 hover:text-primary-foreground">Careers</button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Careers at StudioFlow AI</DialogTitle>
+                    </DialogHeader>
                     <div className="mb-4">
                       <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
