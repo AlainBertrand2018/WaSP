@@ -17,8 +17,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useMounted } from '@/hooks/use-mounted';
 
 export default function PrivacyPolicyPage() {
+  const isMounted = useMounted();
+
+  if (!isMounted) {
+    return null;
+  }
+  
   return (
     <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
       <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">

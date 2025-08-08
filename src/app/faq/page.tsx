@@ -25,9 +25,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useMounted } from '@/hooks/use-mounted';
 
 export default function FaqPage() {
   const [faqs, setFaqs] = React.useState<{ question: string; answer: string }[]>([]);
+  const isMounted = useMounted();
 
   React.useEffect(() => {
     generateFaq().then(result => setFaqs(result.faqs));
@@ -45,6 +47,10 @@ export default function FaqPage() {
       },
     })),
   };
+  
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
