@@ -268,7 +268,7 @@ export default function AppGalleryPage() {
                                                         </div>
                                                     </Card>
                                                 </Link>
-                                                <div className="mt-2">
+                                                <div className="relative z-10 mt-2">
                                                     <h3 className="font-light text-base text-foreground group-hover:text-primary">{app.title}</h3>
                                                     <Rating rating={app.rating || 0} />
                                                 </div>
@@ -472,3 +472,5 @@ export default function AppGalleryPage() {
     </div>
   );
 }
+
+    
