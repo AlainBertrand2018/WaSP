@@ -256,7 +256,7 @@ export default function AppGalleryPage() {
                                                     <Image src="/images/business_Validation_thbn.png" alt={app.title} layout="fill" className="object-cover rounded-lg" data-ai-hint="business validation abstract"/>
                                                     <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-primary/40 to-accent/40 opacity-40 rounded-lg"></div>
                                                     <div className="absolute inset-0 w-full h-full flex flex-col justify-end p-4">
-                                                        <h3 className="text-white font-bold text-xl [text-shadow:1px_1px_3px_rgba(0,0,0,0.6)]">{app.title}</h3>
+                                                        <h3 className="text-white font-bold text-2xl [text-shadow:1px_1px_3px_rgba(0,0,0,0.6)]">{app.title}</h3>
                                                     </div>
                                                 </div>
                                                 {/* Card Back */}
@@ -377,7 +377,7 @@ export default function AppGalleryPage() {
                       <DialogTitle>Careers at BusinessStudio AI</DialogTitle>
                     </DialogHeader>
                     <div className="mb-4">
-                      <Image src="/images/businessStudio_logo.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                      <Image src="/images/studioFlowLogo_1024.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
                     <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                       <h1 className="text-lg font-semibold text-foreground">Recruitment starts soon at BusinessStudio AI.</h1>
@@ -463,3 +463,4 @@ export default function AppGalleryPage() {
     </div>
   );
 }
+
