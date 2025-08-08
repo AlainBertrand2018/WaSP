@@ -21,7 +21,6 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: 'white',
         }}
       >
         <img src="https://firebasestudio-hosting.web.app/images/studioFlow_website_Image.png" alt="StudioFlow AI Icon" width="32" height="32" />

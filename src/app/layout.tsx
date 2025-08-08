@@ -60,9 +60,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  icons: {
-    icon: '/favicon.ico', // Make sure to have a favicon.ico in your public folder
-  }
 };
 
 
