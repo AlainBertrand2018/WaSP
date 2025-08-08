@@ -1,4 +1,4 @@
-import { LayoutGrid } from 'lucide-react';
+
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
@@ -14,21 +14,17 @@ export default function Icon() {
     (
       <div
         style={{
-          background: '#3F51B5',
+          fontSize: 24,
+          background: 'transparent',
           width: '100%',
           height: '100%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          borderRadius: '8px',
+          color: 'white',
         }}
       >
-        <LayoutGrid
-          style={{
-            color: 'white',
-          }}
-          size={20}
-        />
+        <img src="https://firebasestudio-hosting.web.app/images/studioFlow_website_Image.png" alt="StudioFlow AI Icon" width="32" height="32" />
       </div>
     ),
     {

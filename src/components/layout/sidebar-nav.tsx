@@ -14,6 +14,7 @@ import {
   FileText,
 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   Collapsible,
@@ -104,7 +105,7 @@ export function SidebarNav() {
     <Sidebar>
       <SidebarHeader className="p-4">
         <div className="flex items-center gap-2">
-          <LayoutGrid className="h-6 w-6 text-primary" />
+          <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={24} height={24} />
           <h1 className="text-xl font-bold tracking-tighter">StudioFlow AI</h1>
         </div>
       </SidebarHeader>

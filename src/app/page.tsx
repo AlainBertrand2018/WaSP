@@ -105,7 +105,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
-            <LayoutGrid className="h-8 w-8 text-primary" />
+            <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={32} height={32} />
             <span className="text-xl font-bold">StudioFlow AI</span>
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
@@ -391,7 +391,7 @@ export default function Home() {
         <div className="container mx-auto grid grid-cols-2 gap-8 px-4 py-12 md:grid-cols-5">
             <div className="col-span-2 md:col-span-1">
                  <Link href="/" className="flex items-center gap-2">
-                    <LayoutGrid className="h-8 w-8 text-accent" />
+                    <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={32} height={32} />
                     <span className="text-xl font-bold">StudioFlow AI</span>
                 </Link>
                 <p className="mt-4 text-sm text-primary-foreground/60">The future of business creation.</p>
