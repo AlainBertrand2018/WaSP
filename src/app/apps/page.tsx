@@ -256,7 +256,7 @@ export default function AppGalleryPage() {
                                                     <Image src="/images/business_validation_thbn.png" alt={app.title} layout="fill" className="object-cover rounded-lg" data-ai-hint="business validation abstract"/>
                                                     <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-primary/40 to-accent/40 opacity-40 rounded-lg"></div>
                                                     <div className="absolute inset-0 w-full h-full flex flex-col justify-end p-4">
-                                                        <h3 className="text-white font-bold text-lg">{app.title}</h3>
+                                                        <h3 className="text-white font-bold text-xl [text-shadow:1px_1px_3px_rgba(0,0,0,0.6)]">{app.title}</h3>
                                                     </div>
                                                 </div>
                                                 {/* Card Back */}
