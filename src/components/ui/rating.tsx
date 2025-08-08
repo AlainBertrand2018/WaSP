@@ -54,8 +54,16 @@ export function Rating({
           );
         })}
       </div>
+      {value > 0 && (
+        <span className="text-xs font-semibold text-muted-foreground">
+          {value.toFixed(1)}
+        </span>
+      )}
+      {raters !== undefined && value > 0 && (
+         <span className="text-xs text-muted-foreground">•</span>
+      )}
       {raters !== undefined && (
-        <span className="text-xs text-muted-foreground">({raters})</span>
+        <span className="text-xs text-muted-foreground">{raters} ratings</span>
       )}
     </div>
   );
