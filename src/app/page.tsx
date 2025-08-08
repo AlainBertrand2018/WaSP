@@ -420,7 +420,7 @@ export default function Home() {
                                 <DialogTitle>About StudioFlow AI</DialogTitle>
                             </DialogHeader>
                              <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
-                                <h1 className="text-lg font-bold text-foreground">About StudioFlow AI</h1>
+                                
                                 <p>
                                   StudioFlow AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, StudioFlow AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
                                 </p>
@@ -435,10 +435,7 @@ export default function Home() {
                                     <li><b>Unified workspace</b>: plan, execute and track your venture end-to-end.</li>
                                 </ul>
                                 <p className="font-bold text-foreground pt-2">
-                                  Made in Mauritius... Built for Mauritius.
-                                </p>
-                                <p>
-                                  If you’re starting up or scaling, StudioFlow AI gives you the clarity and speed to move from idea to execution with confidence.
+                                  <b>Made in Mauritius... Built for Mauritius</b>. If you’re starting up or scaling, StudioFlow AI gives you the clarity and speed to move from idea to execution with confidence.
                                 </p>
                              </div>
                              <DialogFooter className="justify-center">
