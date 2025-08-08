@@ -420,7 +420,6 @@ export default function Home() {
                                 <DialogTitle>About StudioFlow AI</DialogTitle>
                             </DialogHeader>
                              <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
-                                
                                 <p>
                                   StudioFlow AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, StudioFlow AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
                                 </p>
@@ -452,10 +451,26 @@ export default function Home() {
                              <button className="text-primary-foreground/60 hover:text-primary-foreground">Careers</button>
                           </DialogTrigger>
                           <DialogContent>
+                            <div className="mb-4">
+                                <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                            </div>
                             <DialogHeader>
                                 <DialogTitle>Careers</DialogTitle>
                             </DialogHeader>
-                             <p className="font-bold">Coming Soon</p>
+                             <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
+                                <h2 className="text-lg font-semibold text-foreground">Recruitment starts soon at StudioFlow AI.</h2>
+                                <p>We’re building a local-first, AI-first platform that helps Mauritian entrepreneurs and executives go from idea to investor-ready—fast. In the next few weeks we’ll start listening from you:</p>
+                                <ul className="space-y-2 list-disc pl-5">
+                                    <li>Product & UX</li>
+                                    <li>Engineering / AI</li>
+                                    <li>Growth Marketing & Content</li>
+                                    <li>Customer Success & Partnerships</li>
+                                    <li>Operations</li>
+                                </ul>
+                                <p>Follow us, on our social networks or DM your profile.</p>
+                                <p>We’re an equal-opportunity team—talent from all backgrounds is welcome.</p>
+                                <p className="font-mono text-xs">#Hiring #MadeInMauritius #AI #SaaS #Startups #SME #Careers</p>
+                             </div>
                           </DialogContent>
                         </Dialog>
                     </li>
