@@ -386,11 +386,11 @@ export default function AppGalleryPage() {
                 <Card className="bg-muted/30">
                 <CardContent className="p-2 flex justify-center items-center">
                     <Image
-                        src="https://placehold.co/970x250.png"
+                        src="/images/ads/Blue Digital Etsy banner.jpg"
                         alt="Advertisement"
-                        width={970}
-                        height={250}
-                        className="w-full h-auto rounded-md"
+                        width={760}
+                        height={100}
+                        className="rounded-md"
                         data-ai-hint="advertisement banner"
                     />
                 </CardContent>
