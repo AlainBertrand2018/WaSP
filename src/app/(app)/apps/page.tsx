@@ -1,12 +1,17 @@
 
-import { Button } from '@/components/ui/button';
+'use client';
+
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
 import {
   ArrowRight,
   Briefcase,
@@ -154,43 +159,54 @@ export default function AppGalleryPage() {
       <div className="space-y-12">
         {appCategories.map((category) => (
           <section key={category.category}>
-            <h2 className="text-2xl font-semibold tracking-tight">
-              {category.category}
-            </h2>
-            <p className="text-muted-foreground mt-1">
-              {category.description}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
-              {category.apps.map((app) => (
-                <Card
-                  key={app.title}
-                  className="flex flex-col hover:border-primary transition-colors"
-                >
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      {app.icon}
-                      {app.pro && (
-                        <div className="text-xs font-semibold bg-primary text-primary-foreground px-2 py-1 rounded-full">
-                          PRO
-                        </div>
-                      )}
-                    </div>
-                    <CardTitle className="pt-4">{app.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex-grow">
-                    <CardDescription>{app.description}</CardDescription>
-                  </CardContent>
-                  <CardContent>
-                    <Button asChild className="w-full group">
-                      <Link href={app.href}>
-                        <span>Launch App</span>
-                        <ArrowRight className="transition-transform group-hover:translate-x-1" />
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
+            <div className="flex items-center justify-between mb-4">
+                <div>
+                    <h2 className="text-2xl font-semibold tracking-tight">
+                        {category.category}
+                    </h2>
+                    <p className="text-muted-foreground mt-1">
+                        {category.description}
+                    </p>
+                </div>
+                <Link href="#" className="text-sm font-semibold text-primary hover:underline flex items-center gap-1">
+                    See all
+                    <ArrowRight size={16} />
+                </Link>
             </div>
+            <Carousel opts={{
+                align: "start",
+                slidesToScroll: 'auto',
+            }}
+            className="w-full">
+                <CarouselContent>
+                    {category.apps.map((app) => (
+                        <CarouselItem key={app.title} className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
+                             <Link href={app.href} className="block group">
+                                <Card
+                                    key={app.title}
+                                    className="h-full flex flex-col hover:border-primary transition-colors p-4"
+                                >
+                                    <CardContent className="p-0 flex flex-col items-center text-center gap-4">
+                                        <div className="relative">
+                                            {app.icon}
+                                            {app.pro && (
+                                                <div className="absolute -top-2 -right-2 text-xs font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full text-[10px]">
+                                                PRO
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex-grow">
+                                            <p className="font-semibold text-sm group-hover:text-primary">{app.title}</p>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden md:flex" />
+                <CarouselNext className="hidden md:flex" />
+            </Carousel>
           </section>
         ))}
       </div>
