@@ -6,6 +6,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
+import { generateFaq as generateFaqFlow } from './generate-faq-flow';
 
 const FaqItemSchema = z.object({
   question: z.string().describe('A frequently asked question.'),
@@ -54,7 +55,7 @@ The answers should be clear, helpful, and written in a professional yet approach
 Produce the output in the required JSON format.`,
 });
 
-const generateFaqFlow = ai.defineFlow(
+const generateFaqFlowInternal = ai.defineFlow(
   {
     name: 'generateFaqFlow',
     outputSchema: GenerateFaqOutputSchema,
@@ -69,6 +70,6 @@ const generateFaqFlow = ai.defineFlow(
 );
 
 export async function generateFaq(): Promise<GenerateFaqOutput> {
-  const result = await generateFaqFlow();
+  const result = await generateFaqFlowInternal();
   return result;
 }

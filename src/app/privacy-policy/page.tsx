@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Shield } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -255,7 +257,7 @@ export default function PrivacyPolicyPage() {
                               <DialogDescription>
                                 Have a question or want to work with us? Fill out the form below.
                               </DialogDescription>
-                            </Header>
+                            </DialogHeader>
                             <div className="grid gap-4 py-4">
                               <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="name-footer" className="text-right">
