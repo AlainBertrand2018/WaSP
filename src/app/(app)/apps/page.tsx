@@ -184,7 +184,7 @@ export default function AppGalleryPage() {
                              <Link href={app.href} className="block group">
                                 <Card
                                     key={app.title}
-                                    className="h-full flex flex-col hover:border-primary transition-colors p-4"
+                                    className="aspect-square flex flex-col items-center justify-center hover:border-primary transition-colors p-4"
                                 >
                                     <CardContent className="p-0 flex flex-col items-center text-center gap-4">
                                         <div className="relative">
@@ -195,7 +195,7 @@ export default function AppGalleryPage() {
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="flex-grow">
+                                        <div>
                                             <p className="font-semibold text-sm group-hover:text-primary">{app.title}</p>
                                         </div>
                                     </CardContent>
