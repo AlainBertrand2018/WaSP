@@ -124,6 +124,16 @@ const appCategories = [
             imageSrc: '/images/TilePics/business_AssetManagement_AppTile.webp',
             initialRating: 4.2,
             initialRaters: 85,
+          },
+          {
+            icon: <CircleDollarSign className="h-8 w-8 text-primary" />,
+            title: 'Business Expenses Logger',
+            description: 'Log and categorize your business expenses.',
+            href: '/financials/expense-logger',
+            pro: false,
+            imageSrc: '/images/TilePics/business_ExpensesLogger_AppTile.webp',
+            initialRating: 4.3,
+            initialRaters: 120,
           }
     ]
   },
@@ -491,5 +501,3 @@ export default function AppGalleryPage() {
     </div>
   );
 }
-
-    
