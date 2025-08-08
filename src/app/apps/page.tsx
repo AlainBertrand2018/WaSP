@@ -75,7 +75,7 @@ const appCategories = [
             description: 'Manage customers, appointments, and invoices.',
             href: '/business-management/crm-suite',
             pro: false,
-            imageSrc: 'https://placehold.co/400x400.png',
+            imageSrc: '/images/TilePics/business_CRM_AppTile.webp',
             initialRating: 4.0,
             initialRaters: 90,
         },
