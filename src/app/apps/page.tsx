@@ -24,6 +24,7 @@ import {
   Megaphone,
   Package,
   Users,
+  Star,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -250,22 +251,31 @@ export default function AppGalleryPage() {
                                 <CarouselItem key={app.title} className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
                                     <Link href={app.href} className="block group [perspective:1000px]">
                                         {app.isSpecial ? (
-                                            <Card className="relative aspect-square w-full h-full rounded-lg shadow-lg transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] border-primary">
-                                                {/* Card Front */}
-                                                <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
-                                                    <Image src="/images/business_validation_thbn_45sq.png" alt={app.title} layout="fill" className="object-cover rounded-lg" data-ai-hint="business validation abstract"/>
-                                                    <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-primary/40 to-accent/40 opacity-40 rounded-lg"></div>
-                                                    <div className="absolute inset-0 w-full h-full flex flex-col justify-end p-4">
-                                                        <h3 className="text-white font-bold text-2xl [text-shadow:1px_1px_3px_rgba(0,0,0,0.6)]">{app.title}</h3>
+                                            <div>
+                                                <Card className="relative aspect-square w-full h-full rounded-lg shadow-lg transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] border-primary">
+                                                    {/* Card Front */}
+                                                    <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
+                                                        <Image src="/images/business_validation_thbn_45sq.png" alt={app.title} layout="fill" className="object-cover rounded-lg" data-ai-hint="business validation abstract"/>
+                                                        <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-primary/40 to-accent/40 opacity-40 rounded-lg"></div>
+                                                    </div>
+                                                    {/* Card Back */}
+                                                    <div className="absolute inset-0 w-full h-full [transform:rotateY(180deg)] [backface-visibility:hidden] bg-secondary rounded-lg p-4 flex flex-col justify-center items-center">
+                                                        <p className="text-center text-sm text-secondary-foreground">
+                                                            Get AI-powered feedback on your business concept's viability in the Mauritian market.
+                                                        </p>
+                                                    </div>
+                                                </Card>
+                                                <div className="mt-2">
+                                                    <h3 className="font-medium text-base text-foreground group-hover:text-primary">{app.title}</h3>
+                                                    <div className="flex items-center gap-0.5">
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
                                                     </div>
                                                 </div>
-                                                {/* Card Back */}
-                                                <div className="absolute inset-0 w-full h-full [transform:rotateY(180deg)] [backface-visibility:hidden] bg-secondary rounded-lg p-4 flex flex-col justify-center items-center">
-                                                    <p className="text-center text-sm text-secondary-foreground">
-                                                        Get AI-powered feedback on your business concept's viability in the Mauritian market.
-                                                    </p>
-                                                </div>
-                                            </Card>
+                                            </div>
                                         ) : (
                                             <Card
                                                 className="aspect-square flex flex-col items-center justify-center border-primary hover:border-primary transition-colors p-4 relative overflow-hidden"
