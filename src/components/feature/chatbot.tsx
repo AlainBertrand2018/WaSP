@@ -78,13 +78,13 @@ export default function Chatbot() {
   }
 
   return (
-    <Card className="fixed bottom-6 right-6 z-50 w-full max-w-sm h-[600px] flex flex-col shadow-lg">
-      <CardHeader className="flex flex-row items-center justify-between">
+    <Card className="fixed bottom-6 right-6 z-50 w-full max-w-sm h-[600px] flex flex-col shadow-lg bg-secondary">
+      <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground">
         <div className="flex items-center gap-2">
-          <Bot size={20} className="text-primary" />
+          <Bot size={20} />
           <CardTitle className="text-lg">CLAIRE - Your Compliance, Leadership & AI-powered Regulations Expert</CardTitle>
         </div>
-        <Button variant="ghost" size="icon" onClick={handleToggle}>
+        <Button variant="ghost" size="icon" onClick={handleToggle} className="hover:bg-primary/80">
           <X size={20} />
           <span className="sr-only">Close Chat</span>
         </Button>
