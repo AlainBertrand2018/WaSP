@@ -1,40 +1,62 @@
 "use client";
 
-import { Star, StarHalf } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 type RatingProps = {
-  rating: number;
+  value: number;
   totalStars?: number;
   className?: string;
   starClassName?: string;
+  raters?: number;
+  onChange?: (rating: number) => void;
 };
 
-export function Rating({ rating = 0, totalStars = 5, className, starClassName }: RatingProps) {
-  const fullStars = Math.floor(rating);
-  const halfStar = rating % 1 >= 0.5 ? 1 : 0;
-  const emptyStars = totalStars - fullStars - halfStar;
+export function Rating({
+  value = 0,
+  totalStars = 5,
+  raters,
+  className,
+  starClassName,
+  onChange,
+}: RatingProps) {
+  const [hoverValue, setHoverValue] = React.useState<number | undefined>(undefined);
+
+  const handleStarClick = (rating: number) => {
+    if (onChange) {
+      onChange(rating);
+    }
+  };
+
+  const displayValue = hoverValue ?? value;
 
   return (
-    <div className={cn('flex items-center gap-0.5', className)}>
-      {[...Array(fullStars)].map((_, i) => (
-        <Star
-          key={`full-${i}`}
-          className={cn('w-4 h-4 text-yellow-400 fill-yellow-400', starClassName)}
-        />
-      ))}
-      {halfStar === 1 && (
-        <StarHalf
-          key="half"
-          className={cn('w-4 h-4 text-yellow-400 fill-yellow-400', starClassName)}
-        />
+    <div className={cn('flex items-center gap-2', className)}>
+      <div
+        className="flex items-center gap-0.5"
+        onMouseLeave={() => setHoverValue(undefined)}
+      >
+        {[...Array(totalStars)].map((_, i) => {
+          const ratingValue = i + 1;
+          const isFilled = ratingValue <= displayValue;
+          return (
+            <Star
+              key={ratingValue}
+              className={cn(
+                'w-4 h-4 cursor-pointer',
+                isFilled ? 'text-yellow-400 fill-yellow-400' : 'text-gray-400',
+                starClassName
+              )}
+              onMouseEnter={() => setHoverValue(ratingValue)}
+              onClick={() => handleStarClick(ratingValue)}
+            />
+          );
+        })}
+      </div>
+      {raters !== undefined && (
+        <span className="text-xs text-muted-foreground">({raters})</span>
       )}
-      {[...Array(emptyStars)].map((_, i) => (
-        <Star
-          key={`empty-${i}`}
-          className={cn('w-4 h-4 text-yellow-400', starClassName)}
-        />
-      ))}
     </div>
   );
 }

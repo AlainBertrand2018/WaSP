@@ -50,6 +50,7 @@ const appCategories = [
         badge: { text: 'Popular', className: 'bg-blue-600' },
         isSpecial: true,
         rating: 5,
+        raters: 200,
       },
     ],
   },
@@ -137,6 +138,17 @@ const appCategories = [
 
 export default function AppGalleryPage() {
     const isMounted = useMounted();
+    const [rating, setRating] = React.useState(5);
+    const [raters, setRaters] = React.useState(200);
+
+    const handleRatingChange = (newRating: number) => {
+      // In a real app, you'd send this to a server.
+      // For this demo, we'll calculate the new average rating locally.
+      const newTotalRating = rating * raters + newRating;
+      const newRaters = raters + 1;
+      setRating(newTotalRating / newRaters);
+      setRaters(newRaters);
+    };
 
     if (!isMounted) {
       return null;
@@ -272,7 +284,11 @@ export default function AppGalleryPage() {
                                                 </div>
                                                 <div className="mt-2">
                                                     <h3 className="font-light text-base text-foreground group-hover:text-primary">{app.title}</h3>
-                                                    <Rating rating={app.rating || 0} />
+                                                    <Rating 
+                                                        value={rating}
+                                                        raters={raters}
+                                                        onChange={handleRatingChange}
+                                                    />
                                                 </div>
                                             </>
                                         ) : (
