@@ -85,7 +85,7 @@ const appCategories = [
             description: 'Organize projects and track tasks efficiently.',
             href: '/business-management/project-task-manager',
             pro: false,
-            imageSrc: 'https://placehold.co/400x400.png',
+            imageSrc: '/images/TilePics/business_ProjectMan_AppTile.webp',
             initialRating: 4.6,
             initialRaters: 180,
         },
