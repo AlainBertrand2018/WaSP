@@ -258,7 +258,7 @@ export default function AppGalleryPage() {
                                     <Link href={app.href} className="block group">
                                         <Card
                                             key={app.title}
-                                            className="aspect-square flex flex-col items-center justify-center hover:border-primary transition-colors p-4 relative overflow-hidden"
+                                            className="aspect-square flex flex-col items-center justify-center border-primary hover:border-primary transition-colors p-4 relative overflow-hidden"
                                         >
                                             {app.badge && (
                                                 <div className="absolute top-0 left-0 w-24 h-24">
