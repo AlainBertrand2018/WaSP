@@ -27,6 +27,7 @@ import {
   Megaphone,
   Package,
   Users,
+  Video,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -150,7 +151,7 @@ const appCategories = [
           },
           {
             icon: <BookText className="h-8 w-8 text-primary" />,
-            title: 'Digital Logbook (for BRN)',
+            title: 'Digital Logbook',
             description: 'Maintain your required digital log of business transactions.',
             href: '/financials/digital-logbook',
             pro: false,
@@ -213,6 +214,16 @@ const appCategories = [
             imageSrc: '/images/TilePics/marketing_ContentGenerator_AppTile.webp',
             initialRating: 4.2,
             initialRaters: 115,
+        },
+        {
+            icon: <Video className="h-8 w-8 text-primary" />,
+            title: 'Video Script Generator',
+            description: 'Create engaging video content with AI assistance.',
+            href: '/marketing/video-generator',
+            pro: false,
+            imageSrc: '/images/TilePics/marketing_VideoScriptGen_AppTile.webp',
+            initialRating: 4.1,
+            initialRaters: 105,
         },
     ]
   },
