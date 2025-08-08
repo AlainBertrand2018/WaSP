@@ -12,7 +12,7 @@ export default function AuthLayout({
         {children}
       </main>
       <footer className="text-center p-4 text-sm text-muted-foreground">
-        © 2025 StudioFlow AI (Alain BERTRAND). All rights reserved.
+        © 2025 BusinessStudio AI (Alain BERTRAND). All rights reserved.
       </footer>
     </div>
   );

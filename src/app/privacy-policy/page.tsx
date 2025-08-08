@@ -31,8 +31,8 @@ export default function PrivacyPolicyPage() {
       <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={32} height={32} />
-            <span className="text-xl font-bold">StudioFlow AI</span>
+            <Image src="/images/studioFlowLogo_1024.png" alt="BusinessStudio AI Logo" width={32} height={32} />
+            <span className="text-xl font-bold">BusinessStudio AI</span>
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
             <Link href="/#features" className="text-sm font-medium hover:text-primary">
@@ -89,7 +89,7 @@ export default function PrivacyPolicyPage() {
             <div className="bg-card p-8 rounded-lg text-card-foreground">
                 <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
                     <Shield className="text-primary h-8 w-8" />
-                    Privacy Policy for StudioFlow AI
+                    Privacy Policy for BusinessStudio AI
                 </h1>
                 <p className="text-muted-foreground mt-2">
                     Last Updated: August 08, 2025
@@ -97,39 +97,39 @@ export default function PrivacyPolicyPage() {
 
                 <div className="prose prose-invert prose-p:text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground max-w-none mt-6">
                     <h2>1. Introduction</h2>
-                    <p>Welcome to StudioFlow AI! This Privacy Policy explains how we collect, use, and share information about you when you use our AI-powered SaaS platform designed for entrepreneurs and SMEs in Mauritius. We are committed to protecting your privacy and complying with the General Data Protection Regulation (GDPR).</p>
+                    <p>Welcome to BusinessStudio AI! This Privacy Policy explains how we collect, use, and share information about you when you use our AI-powered SaaS platform designed for entrepreneurs and SMEs in Mauritius. We are committed to protecting your privacy and complying with the General Data Protection Regulation (GDPR).</p>
 
                     <h2>2. Information We Collect</h2>
                     <p>We collect the following types of information:</p>
                     <p><b>Personal Data:</b> This includes your name and email address, which you provide when registering for an account.</p>
-                    <p><b>Usage Data:</b> We automatically collect certain information about your use of StudioFlow AI, such as your IP address, browser type, operating system, referring URLs, pages visited, and the dates/times of your visits. This data helps us understand how you use our platform and improve its performance.</p>
-                    <p><b>Business Data:</b> This includes any information you input into StudioFlow AI related to your business, such as business plans, financial models, marketing materials, and other data you upload, create, or modify using our services. This may contain sensitive financial and business information.</p>
+                    <p><b>Usage Data:</b> We automatically collect certain information about your use of BusinessStudio AI, such as your IP address, browser type, operating system, referring URLs, pages visited, and the dates/times of your visits. This data helps us understand how you use our platform and improve its performance.</p>
+                    <p><b>Business Data:</b> This includes any information you input into BusinessStudio AI related to your business, such as business plans, financial models, marketing materials, and other data you upload, create, or modify using our services. This may contain sensitive financial and business information.</p>
                     <p><b>Cookies:</b> We use cookies for session management and analytics purposes. See section 5 for more details.</p>
                     <p><b>AI Chatbot Data:</b> When you interact with our AI chatbot CLAIRE, we log the conversation history to improve its performance and provide better support. This includes your questions and CLAIRE's responses.</p>
 
                     <h2>3. How We Use Your Information</h2>
                     <p>We use your information for the following purposes:</p>
-                    <p><b>To Provide and Maintain the Service:</b> We use your Personal Data and Business Data to provide you with access to StudioFlow AI and its features, and to ensure the platform is functioning correctly.</p>
-                    <p><b>To Personalize User Experience:</b> We may use your Usage Data and Business Data to personalize your experience on StudioFlow AI and provide you with tailored recommendations and insights.</p>
+                    <p><b>To Provide and Maintain the Service:</b> We use your Personal Data and Business Data to provide you with access to BusinessStudio AI and its features, and to ensure the platform is functioning correctly.</p>
+                    <p><b>To Personalize User Experience:</b> We may use your Usage Data and Business Data to personalize your experience on BusinessStudio AI and provide you with tailored recommendations and insights.</p>
                     <p><b>For Customer Support:</b> We use your Personal Data and AI Chatbot Data to respond to your inquiries and provide you with customer support.</p>
-                    <p><b>For Analytics:</b> We use your Usage Data to analyze how users are using StudioFlow AI and to identify areas for improvement.</p>
+                    <p><b>For Analytics:</b> We use your Usage Data to analyze how users are using BusinessStudio AI and to identify areas for improvement.</p>
                     <p><b>To Communicate with You:</b> We may use your Personal Data to send you important notices, updates, and promotional materials.</p>
                     <p><b>To Improve CLAIRE:</b> AI Chatbot data is used to continuously improve the AI's ability to generate relevant and useful information.</p>
 
                     <h2>4. How We Share Your Information</h2>
                     <p>We may share your information in the following circumstances:</p>
-                    <p><b>With Service Providers:</b> We may share your information with third-party service providers who assist us with providing and maintaining StudioFlow AI, such as hosting providers, analytics providers, and customer support providers. These providers are contractually obligated to protect your information and only use it for the purposes we specify.</p>
+                    <p><b>With Service Providers:</b> We may share your information with third-party service providers who assist us with providing and maintaining BusinessStudio AI, such as hosting providers, analytics providers, and customer support providers. These providers are contractually obligated to protect your information and only use it for the purposes we specify.</p>
                     <p><b>For Legal Compliance:</b> We may disclose your information if required to do so by law or in response to a valid legal request, such as a subpoena or court order.</p>
                     <p><b>Business Transfers:</b> In the event of a merger, acquisition, or sale of all or a portion of our assets, your information may be transferred as part of the transaction.</p>
                     <p><b>Aggregated/Anonymized Data:</b> We may share aggregated or anonymized data with third parties for research or marketing purposes. This data will not identify you personally.</p>
                     <p><b>Confidentiality of Business Data:</b> We understand that your Business Data is confidential and sensitive. We will treat your Business Data as confidential and will not share it with any third parties except as described in this Privacy Policy (e.g., with service providers under strict confidentiality agreements).</p>
                     
                     <h2>5. Cookies and Tracking Technologies</h2>
-                    <p>We use cookies to improve your experience on StudioFlow AI. Cookies are small text files that are stored on your device when you visit a website. We use the following types of cookies:</p>
-                    <p><b>Essential Cookies:</b> These cookies are necessary for the operation of StudioFlow AI. They enable you to log in to your account and access secure areas of the platform.</p>
-                    <p><b>Performance Cookies:</b> These cookies collect information about how you use StudioFlow AI, such as the pages you visit and the errors you encounter. This information helps us improve the performance of the platform.</p>
-                    <p><b>Analytics Cookies:</b> These cookies are used to track website usage and engagement. This information helps us understand how users are interacting with StudioFlow AI.</p>
-                    <p><b>Managing Cookies:</b> You can manage your cookie preferences in your browser settings. You can choose to block all cookies, or to only allow certain types of cookies. Please note that if you block essential cookies, you may not be able to access certain features of StudioFlow AI.</p>
+                    <p>We use cookies to improve your experience on BusinessStudio AI. Cookies are small text files that are stored on your device when you visit a website. We use the following types of cookies:</p>
+                    <p><b>Essential Cookies:</b> These cookies are necessary for the operation of BusinessStudio AI. They enable you to log in to your account and access secure areas of the platform.</p>
+                    <p><b>Performance Cookies:</b> These cookies collect information about how you use BusinessStudio AI, such as the pages you visit and the errors you encounter. This information helps us improve the performance of the platform.</p>
+                    <p><b>Analytics Cookies:</b> These cookies are used to track website usage and engagement. This information helps us understand how users are interacting with BusinessStudio AI.</p>
+                    <p><b>Managing Cookies:</b> You can manage your cookie preferences in your browser settings. You can choose to block all cookies, or to only allow certain types of cookies. Please note that if you block essential cookies, you may not be able to access certain features of BusinessStudio AI.</p>
 
                     <h2>6. Data Security</h2>
                     <p>We take the security of your information seriously. We implement appropriate technical and organizational measures to protect your information from unauthorized access, use, or disclosure. These measures include:</p>
@@ -139,7 +139,7 @@ export default function PrivacyPolicyPage() {
                     <p>While we strive to protect your information, please be aware that no method of transmission over the internet or method of electronic storage is 100% secure. Therefore, we cannot guarantee the absolute security of your information.</p>
 
                     <h2>7. Data Retention</h2>
-                    <p>We retain your information for as long as necessary to provide you with StudioFlow AI and to fulfill the purposes described in this Privacy Policy, unless a longer retention period is required or permitted by law. Specifically:</p>
+                    <p>We retain your information for as long as necessary to provide you with BusinessStudio AI and to fulfill the purposes described in this Privacy Policy, unless a longer retention period is required or permitted by law. Specifically:</p>
                     <p><b>Personal Data:</b> We retain your Personal Data as long as your account is active. Once you close your account, we will delete your Personal Data within 120 days, unless we are required to retain it for legal or regulatory purposes.</p>
                     <p><b>Usage Data:</b> We retain Usage Data for [Number] months to analyze trends and improve the platform. After [Number] months, we aggregate or anonymize this data.</p>
                     <p><b>Business Data:</b> We retain your Business Data as long as your account is active. You have the ability to delete your Business Data at any time. Once you close your account, we will delete your Business Data within [Number] days, unless we are required to retain it for legal or regulatory purposes.</p>
@@ -160,10 +160,10 @@ export default function PrivacyPolicyPage() {
                     <p>Your information may be stored and processed in countries outside of Mauritius. We will take appropriate measures to ensure that your information is protected in accordance with this Privacy Policy and applicable data protection laws, including the implementation of Standard Contractual Clauses (SCCs) where required.</p>
 
                     <h2>10. Children's Privacy</h2>
-                    <p>StudioFlow AI is not intended for children under the age of 18. We do not knowingly collect personal data from children under 18. If you are a parent or guardian and you believe that your child has provided us with personal data, please contact us at admin[at]avantaz[dot]online and we will take steps to delete the information.</p>
+                    <p>BusinessStudio AI is not intended for children under the age of 18. We do not knowingly collect personal data from children under 18. If you are a parent or guardian and you believe that your child has provided us with personal data, please contact us at admin[at]avantaz[dot]online and we will take steps to delete the information.</p>
 
                     <h2>11. Changes to This Privacy Policy</h2>
-                    <p>We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on our website and sending you an email. You are advised to review this Privacy Policy periodically for any changes. Your continued use of StudioFlow AI after the posting of any changes constitutes acceptance of those changes.</p>
+                    <p>We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new Privacy Policy on our website and sending you an email. You are advised to review this Privacy Policy periodically for any changes. Your continued use of BusinessStudio AI after the posting of any changes constitutes acceptance of those changes.</p>
 
                     <h2>12. Contact Us</h2>
                     <p>If you have any questions about this Privacy Policy, please contact us at <b>admin[at]avantaz[dot]online</b></p>
@@ -176,8 +176,8 @@ export default function PrivacyPolicyPage() {
         <div className="container mx-auto grid grid-cols-2 gap-8 px-4 py-12 md:grid-cols-5">
             <div className="col-span-2 md:col-span-1">
                  <Link href="/" className="flex items-center gap-2">
-                    <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={32} height={32} />
-                    <span className="text-xl font-bold">StudioFlow AI</span>
+                    <Image src="/images/studioFlowLogo_1024.png" alt="BusinessStudio AI Logo" width={32} height={32} />
+                    <span className="text-xl font-bold">BusinessStudio AI</span>
                 </Link>
                 <p className="mt-4 text-sm text-primary-foreground/60">The future of business creation.</p>
             </div>
@@ -199,17 +199,17 @@ export default function PrivacyPolicyPage() {
                             </DialogTrigger>
                              <DialogContent className="sm:max-w-2xl">
                                 <DialogHeader>
-                                  <DialogTitle>About StudioFlow AI</DialogTitle>
+                                  <DialogTitle>About BusinessStudio AI</DialogTitle>
                                 </DialogHeader>
                                 <div className="mb-4">
-                                    <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                                    <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                                 </div>
                                 <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                                     <p>
-                                    StudioFlow AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, StudioFlow AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
+                                    BusinessStudio AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, BusinessStudio AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
                                     </p>
                                     <p>
-                                    Built by Alain Bertrand, a serial entrepreneur using AI co-development, StudioFlow AI is designed with an AI-first, digital-first mindset to give Mauritian entrepreneurs and executives a real competitive edge. Our goal is simple: <b>help you thrive, not just survive</b>. 
+                                    Built by Alain Bertrand, a serial entrepreneur using AI co-development, BusinessStudio AI is designed with an AI-first, digital-first mindset to give Mauritian entrepreneurs and executives a real competitive edge. Our goal is simple: <b>help you thrive, not just survive</b>. 
                                     </p>
                                     <h2 className="font-bold text-foreground">What we do</h2>
                                      <ul className="space-y-2 list-disc pl-5">
@@ -219,7 +219,7 @@ export default function PrivacyPolicyPage() {
                                         <li><b>Unified workspace</b>: plan, execute and track your venture end-to-end.</li>
                                     </ul>
                                     <p className="font-bold text-foreground pt-2">
-                                    <b>Made in Mauritius... Built for Mauritius</b>. If you’re starting up or scaling, StudioFlow AI gives you the clarity and speed to move from idea to execution with confidence.
+                                    <b>Made in Mauritius... Built for Mauritius</b>. If you’re starting up or scaling, BusinessStudio AI gives you the clarity and speed to move from idea to execution with confidence.
                                     </p>
                                 </div>
                                 <DialogFooter className="justify-center">
@@ -237,13 +237,13 @@ export default function PrivacyPolicyPage() {
                             </DialogTrigger>
                             <DialogContent className="sm:max-w-2xl">
                                 <DialogHeader>
-                                    <DialogTitle>Careers at StudioFlow AI</DialogTitle>
+                                    <DialogTitle>Careers at BusinessStudio AI</DialogTitle>
                                 </DialogHeader>
                                 <div className="mb-4">
-                                    <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                                    <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                                 </div>
                                 <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
-                                    <h1 className="text-lg font-semibold text-foreground">Recruitment starts soon at StudioFlow AI.</h1>
+                                    <h1 className="text-lg font-semibold text-foreground">Recruitment starts soon at BusinessStudio AI.</h1>
                                     <p>We’re building a local-first, AI-first platform that helps Mauritian entrepreneurs and executives go from idea to investor-ready—fast. In the next few weeks we’ll start listening from you:</p>
                                     <ul className="space-y-2 list-disc pl-5">
                                         <li>Product & UX</li>
@@ -317,7 +317,7 @@ export default function PrivacyPolicyPage() {
             </div>
         </div>
         <div className="container mx-auto border-t border-primary-foreground/10 px-4 py-6 text-center text-sm text-primary-foreground/60">
-           © 2025 StudioFlow AI (Alain BERTRAND). All rights reserved.
+           © 2025 BusinessStudio AI (Alain BERTRAND). All rights reserved.
         </div>
       </footer>
     </div>

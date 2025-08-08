@@ -31,9 +31,9 @@ export type GenerateFaqOutput = z.infer<typeof GenerateFaqOutputSchema>;
 const prompt = ai.definePrompt({
   name: 'generateFaqPrompt',
   output: { schema: GenerateFaqOutputSchema },
-  prompt: `You are a customer support and marketing specialist for a SaaS product called "StudioFlow AI". Your task is to generate a list of Frequently Asked Questions (FAQs) that a new or potential user might have.
+  prompt: `You are a customer support and marketing specialist for a SaaS product called "BusinessStudio AI". Your task is to generate a list of Frequently Asked Questions (FAQs) that a new or potential user might have.
 
-Your knowledge base about StudioFlow AI is:
+Your knowledge base about BusinessStudio AI is:
 - It's a comprehensive, AI-powered suite of tools for entrepreneurs in Mauritius.
 - Its core feature is a 4-step "Business Creation" suite: Idea Validation, MVP Planner, Startup Budget Planner, and Business Plan Generator.
 - It helps users go from a simple idea to an investor-ready business plan.

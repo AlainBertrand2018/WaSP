@@ -54,7 +54,7 @@ const featureCards = [
 const testimonials = [
   {
     quote:
-      'StudioFlow AI transformed my vision of creating, launching, and managing a business in Mauritius. The insights from the idea validation were pure gold. One can go from a vague concept to an investor-ready plan in less than a week.',
+      'BusinessStudio AI transformed my vision of creating, launching, and managing a business in Mauritius. The insights from the idea validation were pure gold. One can go from a vague concept to an investor-ready plan in less than a week.',
     author: 'Wesley R.',
     title: 'Founder of Affilia Ltd',
     avatar: '/images/wr.png',
@@ -109,8 +109,8 @@ export default function Home() {
       <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={32} height={32} />
-            <span className="text-xl font-bold">StudioFlow AI</span>
+            <Image src="/images/studioFlowLogo_1024.png" alt="BusinessStudio AI Logo" width={32} height={32} />
+            <span className="text-xl font-bold">BusinessStudio AI</span>
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
             <Link href="#features" className="text-sm font-medium hover:text-primary">
@@ -175,7 +175,7 @@ export default function Home() {
                 The Future of Business Creation <br /> is Here
               </h1>
               <p className="max-w-xl text-lg text-primary-foreground/80 mx-auto md:mx-0">
-                StudioFlow AI is your unified command center for launching and managing your business in Mauritius. Leverage our AI-powered suite to go from idea to investor-ready, faster than ever before.
+                BusinessStudio AI is your unified command center for launching and managing your business in Mauritius. Leverage our AI-powered suite to go from idea to investor-ready, faster than ever before.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
                 <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
@@ -277,7 +277,7 @@ export default function Home() {
                   <p className="text-4xl font-bold mt-2">MUR 0</p>
                 </CardHeader>
                 <CardContent className="flex-grow space-y-4 text-left">
-                  <p>For entrepreneurs and Business owners who want get a feel of StudioFlow.</p>
+                  <p>For entrepreneurs and Business owners who want get a feel of BusinessStudio.</p>
                   <ul className="space-y-2">
                     <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5" /> 1 Business Project</li>
                     <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5" /> 1 seat</li>
@@ -360,7 +360,7 @@ export default function Home() {
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Trusted by Innovators</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/70">
-              Don't just take our word for it. Here's what founders and business owners are saying about StudioFlow AI.
+              Don't just take our word for it. Here's what founders and business owners are saying about BusinessStudio AI.
             </p>
             <Carousel
               plugins={[plugin.current]}
@@ -404,8 +404,8 @@ export default function Home() {
         <div className="container mx-auto grid grid-cols-2 gap-8 px-4 py-12 md:grid-cols-5">
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2">
-              <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={32} height={32} />
-              <span className="text-xl font-bold">StudioFlow AI</span>
+              <Image src="/images/studioFlowLogo_1024.png" alt="BusinessStudio AI Logo" width={32} height={32} />
+              <span className="text-xl font-bold">BusinessStudio AI</span>
             </Link>
             <p className="mt-4 text-sm text-primary-foreground/60">The future of business creation.</p>
           </div>
@@ -427,17 +427,17 @@ export default function Home() {
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-2xl">
                     <DialogHeader>
-                      <DialogTitle>About StudioFlow AI</DialogTitle>
+                      <DialogTitle>About BusinessStudio AI</DialogTitle>
                     </DialogHeader>
                     <div className="mb-4">
-                      <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                      <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
                     <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                       <p>
-                        StudioFlow AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, StudioFlow AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
+                        BusinessStudio AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, BusinessStudio AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
                       </p>
                       <p>
-                        Built by Alain Bertrand, a serial entrepreneur using AI co-development, StudioFlow AI is designed with an AI-first, digital-first mindset to give Mauritian entrepreneurs and executives a real competitive edge. Our goal is simple: <b>help you thrive, not just survive</b>.
+                        Built by Alain Bertrand, a serial entrepreneur using AI co-development, BusinessStudio AI is designed with an AI-first, digital-first mindset to give Mauritian entrepreneurs and executives a real competitive edge. Our goal is simple: <b>help you thrive, not just survive</b>.
                       </p>
                       <h2 className="font-bold text-foreground">What we do</h2>
                       <ul className="space-y-2 list-disc pl-5">
@@ -447,7 +447,7 @@ export default function Home() {
                         <li><b>Unified workspace</b>: plan, execute and track your venture end-to-end.</li>
                       </ul>
                       <p className="font-bold text-foreground pt-2">
-                        <b>Made in Mauritius... Built for Mauritius</b>. If you’re starting up or scaling, StudioFlow AI gives you the clarity and speed to move from idea to execution with confidence.
+                        <b>Made in Mauritius... Built for Mauritius</b>. If you’re starting up or scaling, BusinessStudio AI gives you the clarity and speed to move from idea to execution with confidence.
                       </p>
                     </div>
                     <DialogFooter className="justify-center">
@@ -465,13 +465,13 @@ export default function Home() {
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-2xl">
                     <DialogHeader>
-                      <DialogTitle>Careers at StudioFlow AI</DialogTitle>
+                      <DialogTitle>Careers at BusinessStudio AI</DialogTitle>
                     </DialogHeader>
                     <div className="mb-4">
-                      <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                      <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
                     <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
-                      <h1 className="text-lg font-semibold text-foreground">Recruitment starts soon at StudioFlow AI.</h1>
+                      <h1 className="text-lg font-semibold text-foreground">Recruitment starts soon at BusinessStudio AI.</h1>
                       <p>We’re building a local-first, AI-first platform that helps Mauritian entrepreneurs and executives go from idea to investor-ready—fast. In the next few weeks we’ll start listening from you:</p>
                       <ul className="space-y-2 list-disc pl-5">
                         <li>Product & UX</li>
@@ -545,7 +545,7 @@ export default function Home() {
           </div>
         </div>
         <div className="container mx-auto border-t border-primary-foreground/10 px-4 py-6 text-center text-sm text-primary-foreground/60">
-          © 2025 StudioFlow AI (Alain BERTRAND). All rights reserved.
+          © 2025 BusinessStudio AI (Alain BERTRAND). All rights reserved.
         </div>
       </footer>
     </div>

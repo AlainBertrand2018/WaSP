@@ -1,4 +1,4 @@
-# **App Name**: StudioFlow AI
+# **App Name**: BusinessStudio AI
 
 ## Core Features:
 
