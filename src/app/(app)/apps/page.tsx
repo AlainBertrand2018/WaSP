@@ -42,14 +42,6 @@ const appCategories = [
         pro: true,
         badge: { text: 'Popular', className: 'bg-blue-600' },
       },
-      {
-        icon: <FileText className="h-8 w-8 text-primary" />,
-        title: 'Business Plan Generator',
-        description: 'Synthesize data into a professional business plan.',
-        href: '/business-management/business-plan-generator?view=standalone',
-        pro: true,
-        badge: { text: 'Best Rated', className: 'bg-yellow-500' },
-      },
     ],
   },
   {
