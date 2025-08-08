@@ -34,7 +34,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Rating } from '@/components/ui/rating';
+import { AppCard } from '@/components/feature/app-card';
+
 
 const appCategories = [
   {
@@ -44,13 +45,13 @@ const appCategories = [
       {
         icon: <Lightbulb className="h-8 w-8 text-primary" />,
         title: 'Business Idea Validation',
-        description: 'Assess your business idea against the Mauritian market.',
+        description: "Get AI-powered feedback on your business concept's viability in the Mauritian market.",
         href: '/business-management/business-idea-validation?view=standalone',
         pro: true,
+        imageSrc: '/images/business_validation_thbn_45sq.png',
         badge: { text: 'Popular', className: 'bg-blue-600' },
-        isSpecial: true,
-        rating: 5,
-        raters: 200,
+        initialRating: 4.5,
+        initialRaters: 200,
       },
     ],
   },
@@ -64,6 +65,9 @@ const appCategories = [
             description: 'AI-powered insights for your business.',
             href: '/business-management/insights-dashboard',
             pro: true,
+            imageSrc: 'https://placehold.co/400x400.png',
+            initialRating: 4.2,
+            initialRaters: 150,
         },
         {
             icon: <CheckCheck className="h-8 w-8 text-primary" />,
@@ -71,6 +75,9 @@ const appCategories = [
             description: 'Ensure your business complies with local regulations.',
             href: '/compliance-validator',
             pro: false,
+            imageSrc: 'https://placehold.co/400x400.png',
+            initialRating: 4.8,
+            initialRaters: 320,
         },
         {
             icon: <HeartHandshake className="h-8 w-8 text-primary" />,
@@ -78,6 +85,9 @@ const appCategories = [
             description: 'Manage customers, appointments, and invoices.',
             href: '/business-management/crm-suite',
             pro: false,
+            imageSrc: 'https://placehold.co/400x400.png',
+            initialRating: 4.0,
+            initialRaters: 90,
         },
         {
             icon: <GanttChartSquare className="h-8 w-8 text-primary" />,
@@ -85,6 +95,9 @@ const appCategories = [
             description: 'Organize projects and track tasks efficiently.',
             href: '/business-management/project-task-manager',
             pro: false,
+            imageSrc: 'https://placehold.co/400x400.png',
+            initialRating: 4.6,
+            initialRaters: 180,
         },
         {
             icon: <Users className="h-8 w-8 text-primary" />,
@@ -92,6 +105,9 @@ const appCategories = [
             description: 'Manage payroll, leave, and employee information.',
             href: '/business-management/hr-system',
             pro: false,
+            imageSrc: 'https://placehold.co/400x400.png',
+            initialRating: 4.1,
+            initialRaters: 110,
         },
     ]
   },
@@ -105,6 +121,9 @@ const appCategories = [
             description: 'Explore funding opportunities for your SME.',
             href: '/financials/grants-financing',
             pro: false,
+            imageSrc: 'https://placehold.co/400x400.png',
+            initialRating: 4.7,
+            initialRaters: 250,
           }
     ]
   },
@@ -118,6 +137,9 @@ const appCategories = [
             description: 'Build and manage your marketing campaigns.',
             href: '/marketing/campaign-builder',
             pro: false,
+            imageSrc: 'https://placehold.co/400x400.png',
+            initialRating: 4.3,
+            initialRaters: 130,
         }
     ]
   },
@@ -131,25 +153,55 @@ const appCategories = [
             description: 'Track and manage your stock levels and product info.',
             href: '/products/inventory',
             pro: false,
+            imageSrc: 'https://placehold.co/400x400.png',
+            initialRating: 4.4,
+            initialRaters: 160,
         }
     ]
   }
 ];
 
+type RatingState = {
+    [key: string]: {
+        rating: number;
+        raters: number;
+        hasVoted: boolean;
+    }
+}
+
 export default function AppGalleryPage() {
     const isMounted = useMounted();
-    const [rating, setRating] = React.useState(4.5);
-    const [raters, setRaters] = React.useState(200);
-    const [hasVoted, setHasVoted] = React.useState(false);
+    
+    // Initialize state for all apps
+    const initialRatings = appCategories.flatMap(cat => cat.apps).reduce((acc, app) => {
+        acc[app.title] = {
+            rating: app.initialRating || 0,
+            raters: app.initialRaters || 0,
+            hasVoted: false
+        };
+        return acc;
+    }, {} as RatingState);
 
-    const handleRatingChange = (newRating: number) => {
-      if (hasVoted) return;
-      
-      const newTotalRating = rating * raters + newRating;
-      const newRaters = raters + 1;
-      setRating(newTotalRating / newRaters);
-      setRaters(newRaters);
-      setHasVoted(true);
+    const [ratings, setRatings] = React.useState<RatingState>(initialRatings);
+
+    const handleRatingChange = (title: string, newRating: number) => {
+      setRatings(prevRatings => {
+          const current = prevRatings[title];
+          if (current.hasVoted) return prevRatings;
+
+          const newTotalRating = current.rating * current.raters + newRating;
+          const newRaters = current.raters + 1;
+          const newAverageRating = newTotalRating / newRaters;
+
+          return {
+              ...prevRatings,
+              [title]: {
+                  rating: newAverageRating,
+                  raters: newRaters,
+                  hasVoted: true
+              }
+          }
+      });
     };
 
     if (!isMounted) {
@@ -264,63 +316,11 @@ export default function AppGalleryPage() {
                         <CarouselContent>
                             {category.apps.map((app) => (
                                 <CarouselItem key={app.title} className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
-                                    {app.isSpecial ? (
-                                        <div>
-                                            <div className="group [perspective:1000px]">
-                                                <Link href={app.href} className="block">
-                                                    <Card className="relative aspect-square w-full h-full rounded-lg shadow-lg transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] border-primary">
-                                                        {/* Card Front */}
-                                                        <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
-                                                            <Image src="/images/business_validation_thbn_45sq.png" alt={app.title} layout="fill" className="object-cover rounded-lg" data-ai-hint="business validation abstract"/>
-                                                            <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-primary/40 to-accent/40 opacity-40 rounded-lg"></div>
-                                                        </div>
-                                                        {/* Card Back */}
-                                                        <div className="absolute inset-0 w-full h-full [transform:rotateY(180deg)] [backface-visibility:hidden] bg-secondary rounded-lg p-4 flex flex-col justify-center items-center">
-                                                            <p className="text-center text-sm text-secondary-foreground">
-                                                                Get AI-powered feedback on your business concept's viability in the Mauritian market.
-                                                            </p>
-                                                        </div>
-                                                    </Card>
-                                                </Link>
-                                            </div>
-                                            <div className="mt-2">
-                                                <h3 className="font-light text-base text-foreground group-hover:text-primary">{app.title}</h3>
-                                                <Rating 
-                                                    value={rating}
-                                                    raters={raters}
-                                                    onChange={handleRatingChange}
-                                                    disabled={hasVoted}
-                                                />
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <Link href={app.href}>
-                                            <Card
-                                                className="aspect-square flex flex-col items-center justify-center border-primary hover:border-primary transition-colors p-4 relative overflow-hidden"
-                                            >
-                                                {app.badge && (
-                                                    <div className="absolute top-0 left-0 w-24 h-24">
-                                                        <div className={`absolute transform -rotate-45 text-center text-white font-semibold py-1 left-[-50px] top-[22px] w-[170px] ${app.badge.className}`}>
-                                                            {app.badge.text}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                <CardContent className="p-0 flex flex-col items-center text-center gap-4">
-                                                    <div className="relative">
-                                                        {app.icon}
-                                                        {app.pro && (
-                                                            <div className="absolute -top-2 -right-2 text-xs font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full text-[10px]">
-                                                            PRO
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                    <div>
-                                                        <p className="font-semibold text-sm group-hover:text-primary">{app.title}</p>
-                                                    </div>
-                                                </CardContent>
-                                            </Card>
-                                        </Link>
-                                    )}
+                                    <AppCard
+                                        app={app}
+                                        ratingState={ratings[app.title]}
+                                        onRatingChange={(newRating) => handleRatingChange(app.title, newRating)}
+                                    />
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
