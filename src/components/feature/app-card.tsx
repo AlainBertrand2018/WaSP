@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Rating } from '@/components/ui/rating';
+import { cn } from '@/lib/utils';
 
 type AppData = {
     icon: React.ReactNode;
@@ -41,6 +42,14 @@ export function AppCard({ app, ratingState, onRatingChange }: AppCardProps) {
                         <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
                             <Image src={app.imageSrc} alt={app.title} layout="fill" className="object-cover rounded-lg" data-ai-hint="business validation abstract"/>
                             <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-primary/40 to-accent/40 opacity-40 rounded-lg"></div>
+                             {app.badge && (
+                                <div className={cn(
+                                    "absolute top-2 right-2 text-xs font-bold text-white py-1 px-3 rounded-full",
+                                    app.badge.className
+                                )}>
+                                    {app.badge.text}
+                                </div>
+                            )}
                         </div>
                         {/* Card Back */}
                         <div className="absolute inset-0 w-full h-full [transform:rotateY(180deg)] [backface-visibility:hidden] bg-secondary rounded-lg p-4 flex flex-col justify-center items-center">
