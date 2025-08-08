@@ -60,16 +60,6 @@ const appCategories = [
     description: 'Tools to streamline your daily operations.',
     apps: [
         {
-            icon: <LineChart className="h-8 w-8 text-primary" />,
-            title: 'Insights Dashboard',
-            description: 'AI-powered insights for your business.',
-            href: '/business-management/insights-dashboard',
-            pro: true,
-            imageSrc: 'https://placehold.co/400x400.png',
-            initialRating: 4.2,
-            initialRaters: 150,
-        },
-        {
             icon: <CheckCheck className="h-8 w-8 text-primary" />,
             title: 'Compliance Validator',
             description: 'Ensure your business complies with local regulations.',
