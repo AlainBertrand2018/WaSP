@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/carousel"
 import {
   ArrowRight,
+  BookText,
   Briefcase,
   CheckCheck,
   CircleDollarSign,
@@ -144,6 +145,16 @@ const appCategories = [
             imageSrc: '/images/TilePics/business_VatCalculator_AppTile-.webp',
             initialRating: 4.9,
             initialRaters: 410,
+          },
+          {
+            icon: <BookText className="h-8 w-8 text-primary" />,
+            title: 'Digital Logbook (for BRN)',
+            description: 'Maintain your required digital log of business transactions.',
+            href: '/financials/digital-logbook',
+            pro: false,
+            imageSrc: '/images/TilePics/business_DigitalLogbook_AppTile.webp',
+            initialRating: 4.4,
+            initialRaters: 150,
           }
     ]
   },
