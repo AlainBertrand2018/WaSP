@@ -18,6 +18,7 @@ import {
   Briefcase,
   CheckCheck,
   CircleDollarSign,
+  FileText,
   HeartHandshake,
   GanttChartSquare,
   Lightbulb,
@@ -155,6 +156,16 @@ const appCategories = [
             imageSrc: '/images/TilePics/business_DigitalLogbook_AppTile.webp',
             initialRating: 4.4,
             initialRaters: 150,
+          },
+          {
+            icon: <FileText className="h-8 w-8 text-primary" />,
+            title: 'Annual Reports Generator',
+            description: 'Generate professional annual financial reports.',
+            href: '/financials/reports',
+            pro: false,
+            imageSrc: '/images/TilePics/business_AnnReportBuilder_AppTile.webp',
+            initialRating: 4.6,
+            initialRaters: 190,
           }
     ]
   },
