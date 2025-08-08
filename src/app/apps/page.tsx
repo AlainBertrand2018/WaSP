@@ -180,7 +180,7 @@ const appCategories = [
             description: 'Build and manage your marketing campaigns.',
             href: '/marketing/campaign-builder',
             pro: false,
-            imageSrc: 'https://placehold.co/400x400.png',
+            imageSrc: '/images/TilePics/marketing_CampaignBuilder_AppTile.webp',
             initialRating: 4.3,
             initialRaters: 130,
         },
