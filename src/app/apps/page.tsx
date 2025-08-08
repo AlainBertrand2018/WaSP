@@ -24,7 +24,6 @@ import {
   Megaphone,
   Package,
   Users,
-  Star,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,6 +34,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Rating } from '@/components/ui/rating';
 
 const appCategories = [
   {
@@ -49,6 +49,7 @@ const appCategories = [
         pro: true,
         badge: { text: 'Popular', className: 'bg-blue-600' },
         isSpecial: true,
+        rating: 5,
       },
     ],
   },
@@ -266,14 +267,8 @@ export default function AppGalleryPage() {
                                                     </div>
                                                 </Card>
                                                 <div className="mt-2">
-                                                    <h3 className="font-medium text-base text-foreground group-hover:text-primary">{app.title}</h3>
-                                                    <div className="flex items-center gap-0.5">
-                                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                                                    </div>
+                                                    <h3 className="font-light text-base text-foreground group-hover:text-primary">{app.title}</h3>
+                                                    <Rating rating={app.rating || 0} />
                                                 </div>
                                             </div>
                                         ) : (
