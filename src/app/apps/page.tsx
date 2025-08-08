@@ -65,7 +65,7 @@ const appCategories = [
             description: 'Ensure your business complies with local regulations.',
             href: '/compliance-validator',
             pro: false,
-            imageSrc: 'https://placehold.co/400x400.png',
+            imageSrc: '/images/TilePics/business_ComplianceValidator_AppTile.webp',
             initialRating: 4.8,
             initialRaters: 320,
         },
