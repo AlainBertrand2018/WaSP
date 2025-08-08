@@ -409,69 +409,63 @@ export default function Home() {
                 <ul className="mt-4 space-y-2 text-sm">
                     <li>
                         <Dialog>
-                          <DialogTrigger asChild>
-                            <button className="text-primary-foreground/60 hover:text-primary-foreground">About</button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <div className="mb-4">
-                                <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
-                            </div>
-                            <DialogHeader>
-                                <DialogTitle>About StudioFlow AI</DialogTitle>
-                            </DialogHeader>
-                             <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
-                                <p>
-                                  StudioFlow AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, StudioFlow AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
-                                </p>
-                                <p>
-                                  Built by Alain Bertrand, a serial entrepreneur using AI co-development, StudioFlow AI is designed with an AI-first, digital-first mindset to give Mauritian entrepreneurs and executives a real competitive edge. Our goal is simple: <b>help you thrive, not just survive</b>.
-                                </p>
-                                <h2 className="font-bold text-foreground">What we do</h2>
-                                <ul className="space-y-2 list-disc pl-5">
-                                    <li><b>Local-first validation</b>: test your idea against Mauritian market realities.</li>
-                                    <li><b>Financial modelling</b>: generate projections and budget scenarios in minutes.</li>
-                                    <li><b>Investor-ready docs</b>: produce clear, professional business plans.</li>
-                                    <li><b>Unified workspace</b>: plan, execute and track your venture end-to-end.</li>
-                                </ul>
-                                <p className="font-bold text-foreground pt-2">
-                                  <b>Made in Mauritius... Built for Mauritius</b>. If you’re starting up or scaling, StudioFlow AI gives you the clarity and speed to move from idea to execution with confidence.
-                                </p>
-                             </div>
-                             <DialogFooter className="justify-center">
-                                <Button asChild>
-                                    <Link href="/login">Try The Demo</Link>
-                                </Button>
-                             </DialogFooter>
-                          </DialogContent>
+                            <DialogTrigger asChild>
+                                <button className="text-primary-foreground/60 hover:text-primary-foreground">About</button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-2xl">
+                                <div className="mb-4">
+                                    <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                                </div>
+                                <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
+                                    <p>
+                                    StudioFlow AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, StudioFlow AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
+                                    </p>
+                                    <p>
+                                    Built by Alain Bertrand, a serial entrepreneur using AI co-development, StudioFlow AI is designed with an AI-first, digital-first mindset to give Mauritian entrepreneurs and executives a real competitive edge. Our goal is simple: <b>help you thrive, not just survive</b>.
+                                    </p>
+                                    <h2 className="font-bold text-foreground">What we do</h2>
+                                    <ul className="space-y-2 list-disc pl-5">
+                                        <li><b>Local-first validation</b>: test your idea against Mauritian market realities.</li>
+                                        <li><b>Financial modelling</b>: generate projections and budget scenarios in minutes.</li>
+                                        <li><b>Investor-ready docs</b>: produce clear, professional business plans.</li>
+                                        <li><b>Unified workspace</b>: plan, execute and track your venture end-to-end.</li>
+                                    </ul>
+                                    <p className="font-bold text-foreground pt-2">
+                                    <b>Made in Mauritius... Built for Mauritius</b>. If you’re starting up or scaling, StudioFlow AI gives you the clarity and speed to move from idea to execution with confidence.
+                                    </p>
+                                </div>
+                                <DialogFooter className="justify-center">
+                                    <Button asChild>
+                                        <Link href="/login">Try The Demo</Link>
+                                    </Button>
+                                </DialogFooter>
+                            </DialogContent>
                         </Dialog>
                     </li>
                     <li>
-                         <Dialog>
-                          <DialogTrigger asChild>
-                             <button className="text-primary-foreground/60 hover:text-primary-foreground">Careers</button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <div className="mb-4">
-                                <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
-                            </div>
-                            <DialogHeader>
-                                <DialogTitle>Careers</DialogTitle>
-                            </DialogHeader>
-                             <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
-                                <h2 className="text-lg font-semibold text-foreground">Recruitment starts soon at StudioFlow AI.</h2>
-                                <p>We’re building a local-first, AI-first platform that helps Mauritian entrepreneurs and executives go from idea to investor-ready—fast. In the next few weeks we’ll start listening from you:</p>
-                                <ul className="space-y-2 list-disc pl-5">
-                                    <li>Product & UX</li>
-                                    <li>Engineering / AI</li>
-                                    <li>Growth Marketing & Content</li>
-                                    <li>Customer Success & Partnerships</li>
-                                    <li>Operations</li>
-                                </ul>
-                                <p>Follow us, on our social networks or DM your profile.</p>
-                                <p>We’re an equal-opportunity team—talent from all backgrounds is welcome.</p>
-                                <p className="font-mono text-xs">#Hiring #MadeInMauritius #AI #SaaS #Startups #SME #Careers</p>
-                             </div>
-                          </DialogContent>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <button className="text-primary-foreground/60 hover:text-primary-foreground">Careers</button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-2xl">
+                                <div className="mb-4">
+                                    <Image src="/images/studioFlow_Logotype.png" alt="StudioFlow AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                                </div>
+                                <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
+                                    <h1 className="text-lg font-semibold text-foreground">Recruitment starts soon at StudioFlow AI.</h1>
+                                    <p>We’re building a local-first, AI-first platform that helps Mauritian entrepreneurs and executives go from idea to investor-ready—fast. In the next few weeks we’ll start listening from you:</p>
+                                    <ul className="space-y-2 list-disc pl-5">
+                                        <li>Product & UX</li>
+                                        <li>Engineering / AI</li>
+                                        <li>Growth Marketing & Content</li>
+                                        <li>Customer Success & Partnerships</li>
+                                        <li>Operations</li>
+                                    </ul>
+                                    <p>Follow us, on our social networks or DM your profile.</p>
+                                    <p>We’re an equal-opportunity team—talent from all backgrounds is welcome.</p>
+                                    <p className="font-mono text-xs">#Hiring #MadeInMauritius #AI #SaaS #Startups #SME #Careers</p>
+                                </div>
+                            </DialogContent>
                         </Dialog>
                     </li>
                     <li>
@@ -518,7 +512,7 @@ export default function Home() {
                 <h4 className="font-semibold">Resources</h4>
                 <ul className="mt-4 space-y-2 text-sm">
                     <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Blog</Link></li>
-                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Help Center</Link></li>
+                    <li><Link href="/faq" className="text-primary-foreground/60 hover:text-primary-foreground">Help Center</Link></li>
                     <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Privacy Policy</Link></li>
                 </ul>
             </div>

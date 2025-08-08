@@ -12,6 +12,7 @@ import {
   Package,
   Rocket,
   FileText,
+  HelpCircle,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -216,6 +217,14 @@ export function SidebarNav() {
               <Link href="/business-resources">
                 <Book />
                 <span>Business Resources</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname === '/faq'}>
+              <Link href="/faq">
+                <HelpCircle />
+                <span>FAQ</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
