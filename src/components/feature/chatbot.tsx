@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -78,7 +79,7 @@ export default function Chatbot() {
   }
 
   return (
-    <Card className="fixed bottom-6 right-6 z-50 w-full max-w-sm h-[600px] flex flex-col shadow-lg bg-secondary">
+    <Card className="fixed bottom-6 right-6 z-50 w-full max-w-sm h-[600px] flex flex-col shadow-lg bg-secondary rounded-lg">
       <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground">
         <div className="flex items-center gap-2">
           <Bot size={20} />
