@@ -105,7 +105,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/images/studioFlowLogo_1024.png" alt="StudioFlow AI Logo" width={32} height={32} />
+            <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={32} height={32} />
             <span className="text-xl font-bold">StudioFlow AI</span>
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
@@ -391,7 +391,7 @@ export default function Home() {
         <div className="container mx-auto grid grid-cols-2 gap-8 px-4 py-12 md:grid-cols-5">
             <div className="col-span-2 md:col-span-1">
                  <Link href="/" className="flex items-center gap-2">
-                    <Image src="/images/studioFlowLogo_1024.png" alt="StudioFlow AI Logo" width={32} height={32} />
+                    <Image src="/images/studioFlow_website_Image.png" alt="StudioFlow AI Logo" width={32} height={32} />
                     <span className="text-xl font-bold">StudioFlow AI</span>
                 </Link>
                 <p className="mt-4 text-sm text-primary-foreground/60">The future of business creation.</p>
@@ -407,9 +407,72 @@ export default function Home() {
             <div>
                 <h4 className="font-semibold">Company</h4>
                 <ul className="mt-4 space-y-2 text-sm">
-                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">About</Link></li>
-                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Careers</Link></li>
-                    <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Contact</Link></li>
+                    <li>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <button className="text-primary-foreground/60 hover:text-primary-foreground">About</button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>About StudioFlow AI</DialogTitle>
+                            </DialogHeader>
+                            <DialogDescription className="text-base">
+                                StudioFlow AI is a comprehensive, AI-powered suite of tools designed to help entrepreneurs create, launch, and manage a business in Mauritius.
+                            </DialogDescription>
+                          </DialogContent>
+                        </Dialog>
+                    </li>
+                    <li>
+                         <Dialog>
+                          <DialogTrigger asChild>
+                             <button className="text-primary-foreground/60 hover:text-primary-foreground">Careers</button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                                <DialogTitle>Careers</DialogTitle>
+                            </DialogHeader>
+                             <p className="font-bold">Coming Soon</p>
+                          </DialogContent>
+                        </Dialog>
+                    </li>
+                    <li>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <button className="text-primary-foreground/60 hover:text-primary-foreground">Contact</button>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                              <DialogTitle>Contact Us</DialogTitle>
+                              <DialogDescription>
+                                Have a question or want to work with us? Fill out the form below.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="name-footer" className="text-right">
+                                  Name
+                                </Label>
+                                <Input id="name-footer" placeholder="John Doe" className="col-span-3" />
+                              </div>
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="email-footer" className="text-right">
+                                  Email
+                                </Label>
+                                <Input id="email-footer" type="email" placeholder="john@example.com" className="col-span-3" />
+                              </div>
+                               <div className="grid grid-cols-4 items-start gap-4">
+                                <Label htmlFor="message-footer" className="text-right pt-2">
+                                  Message
+                                </Label>
+                                <Textarea id="message-footer" placeholder="Your message..." className="col-span-3" />
+                              </div>
+                            </div>
+                            <DialogFooter>
+                              <Button type="submit">Send Message</Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
+                    </li>
                 </ul>
             </div>
             <div>
