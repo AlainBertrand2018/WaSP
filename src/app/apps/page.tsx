@@ -247,7 +247,7 @@ const appCategories = [
             description: 'Track and manage your stock levels and product info.',
             href: '/products/inventory',
             pro: false,
-            imageSrc: 'https://placehold.co/400x400.png',
+            imageSrc: '/images/TilePics/product_Inventory_AppTile.webp',
             initialRating: 4.4,
             initialRaters: 160,
         },
