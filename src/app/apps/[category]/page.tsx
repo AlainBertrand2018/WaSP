@@ -3,7 +3,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { appCategories } from '@/lib/app-data';
 import { AppCard } from '@/components/feature/app-card';
@@ -28,10 +28,13 @@ function slugify(text: string) {
     .replace(/\-\-+/g, '-'); // Replace multiple - with single -
 }
 
-export default function CategoryPage({ params }: { params: { category: string } }) {
+export default function CategoryPage() {
   const isMounted = useMounted();
+  const params = useParams();
+  const categorySlug = typeof params.category === 'string' ? params.category : '';
+
   const categoryData = appCategories.find(
-    (cat) => slugify(cat.category) === params.category
+    (cat) => slugify(cat.category) === categorySlug
   );
   
   // Initialize state for all apps in the category
