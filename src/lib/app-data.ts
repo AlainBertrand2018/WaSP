@@ -16,16 +16,36 @@ import {
   Package,
   Users,
   Video,
+  type LucideIcon,
 } from 'lucide-react';
 import React from 'react';
 
-export const appCategories = [
+export type AppData = {
+    icon: LucideIcon;
+    title: string;
+    description: string;
+    href: string;
+    pro?: boolean;
+    imageSrc: string;
+    badge?: { text: string; className: string; };
+    initialRating: number;
+    initialRaters: number;
+};
+
+export type AppCategory = {
+    category: string;
+    description: string;
+    apps: AppData[];
+};
+
+
+export const appCategories: AppCategory[] = [
   {
     category: 'Business Creation',
     description: 'Tools to take your idea from concept to investor-ready.',
     apps: [
       {
-        icon: <Lightbulb className="h-8 w-8 text-primary" />,
+        icon: Lightbulb,
         title: 'Business Idea Validation',
         description: "Get AI-powered feedback on your business concept's viability in the Mauritian market.",
         href: '/business-management/business-idea-validation?view=standalone',
@@ -42,7 +62,7 @@ export const appCategories = [
     description: 'Tools to streamline your daily operations.',
     apps: [
         {
-            icon: <CheckCheck className="h-8 w-8 text-primary" />,
+            icon: CheckCheck,
             title: 'Compliance Validator',
             description: 'Ensure your business complies with local regulations.',
             href: '/compliance-validator',
@@ -52,7 +72,7 @@ export const appCategories = [
             initialRaters: 320,
         },
         {
-            icon: <HeartHandshake className="h-8 w-8 text-primary" />,
+            icon: HeartHandshake,
             title: 'CRM SUITE',
             description: 'Manage customers, appointments, and invoices.',
             href: '/business-management/crm-suite',
@@ -63,7 +83,7 @@ export const appCategories = [
             initialRaters: 90,
         },
         {
-            icon: <GanttChartSquare className="h-8 w-8 text-primary" />,
+            icon: GanttChartSquare,
             title: 'Project & Task Manager',
             description: 'Organize projects and track tasks efficiently.',
             href: '/business-management/project-task-manager',
@@ -73,7 +93,7 @@ export const appCategories = [
             initialRaters: 180,
         },
         {
-            icon: <Users className="h-8 w-8 text-primary" />,
+            icon: Users,
             title: 'HR System',
             description: 'Manage payroll, leave, and employee information.',
             href: '/business-management/hr-system',
@@ -89,7 +109,7 @@ export const appCategories = [
     description: 'Manage your finances and plan for growth.',
     apps: [
           {
-            icon: <Briefcase className="h-8 w-8 text-primary" />,
+            icon: Briefcase,
             title: 'Grants & Financing',
             description: 'Explore funding opportunities for your SME.',
             href: '/financials/grants-financing',
@@ -99,7 +119,7 @@ export const appCategories = [
             initialRaters: 250,
           },
           {
-            icon: <LineChart className="h-8 w-8 text-primary" />,
+            icon: LineChart,
             title: 'Asset Management',
             description: "Track and manage your company's assets.",
             href: '/financials/asset-management',
@@ -109,7 +129,7 @@ export const appCategories = [
             initialRaters: 85,
           },
           {
-            icon: <CircleDollarSign className="h-8 w-8 text-primary" />,
+            icon: CircleDollarSign,
             title: 'Business Expenses Logger',
             description: 'Log and categorize your business expenses.',
             href: '/financials/expense-logger',
@@ -119,7 +139,7 @@ export const appCategories = [
             initialRaters: 120,
           },
           {
-            icon: <CircleDollarSign className="h-8 w-8 text-primary" />,
+            icon: CircleDollarSign,
             title: 'VAT Calculator & Reporter',
             description: 'Calculate and prepare your VAT reports for MRA.',
             href: '/financials/vat-calculator',
@@ -129,7 +149,7 @@ export const appCategories = [
             initialRaters: 410,
           },
           {
-            icon: <BookText className="h-8 w-8 text-primary" />,
+            icon: BookText,
             title: 'Digital Logbook',
             description: 'Maintain your required digital log of business transactions.',
             href: '/financials/digital-logbook',
@@ -139,7 +159,7 @@ export const appCategories = [
             initialRaters: 150,
           },
           {
-            icon: <FileText className="h-8 w-8 text-primary" />,
+            icon: FileText,
             title: 'Annual Reports Generator',
             description: 'Generate professional annual financial reports.',
             href: '/financials/reports',
@@ -155,7 +175,7 @@ export const appCategories = [
     description: 'Tools to grow your audience and drive sales.',
     apps: [
         {
-            icon: <Megaphone className="h-8 w-8 text-primary" />,
+            icon: Megaphone,
             title: 'Marketing Campaign Builder',
             description: 'Build and manage your marketing campaigns.',
             href: '/marketing/campaign-builder',
@@ -166,7 +186,7 @@ export const appCategories = [
             initialRaters: 130,
         },
         {
-            icon: <LayoutTemplate className="h-8 w-8 text-primary" />,
+            icon: LayoutTemplate,
             title: 'Landing Page Builder',
             description: 'Create and publish high-converting landing pages.',
             href: '/marketing/landing-page-builder',
@@ -176,7 +196,7 @@ export const appCategories = [
             initialRaters: 150,
         },
         {
-            icon: <FileText className="h-8 w-8 text-primary" />,
+            icon: FileText,
             title: 'Blog and Podcast Content Generator',
             description: 'Generate, schedule, and post content automatically.',
             href: '/marketing/content-generator',
@@ -186,7 +206,7 @@ export const appCategories = [
             initialRaters: 140,
         },
         {
-            icon: <FileText className="h-8 w-8 text-primary" />,
+            icon: FileText,
             title: 'Social Posts Generator',
             description: 'Generate and schedule posts for your social media channels.',
             href: '/marketing/social-posts-generator',
@@ -196,7 +216,7 @@ export const appCategories = [
             initialRaters: 115,
         },
         {
-            icon: <Video className="h-8 w-8 text-primary" />,
+            icon: Video,
             title: 'Video Script Generator',
             description: 'Create engaging video content with AI assistance.',
             href: '/marketing/video-generator',
@@ -212,7 +232,7 @@ export const appCategories = [
     description: 'Manage your product lifecycle from sourcing to sale.',
     apps: [
         {
-            icon: <Package className="h-8 w-8 text-primary" />,
+            icon: Package,
             title: 'Product Creator',
             description: 'Design and define new products for your business.',
             href: '/products/creator',
@@ -222,7 +242,7 @@ export const appCategories = [
             initialRaters: 75,
         },
         {
-            icon: <Package className="h-8 w-8 text-primary" />,
+            icon: Package,
             title: 'Product Inventory',
             description: 'Track and manage your stock levels and product info.',
             href: '/products/inventory',
@@ -232,7 +252,7 @@ export const appCategories = [
             initialRaters: 160,
         },
         {
-            icon: <CircleDollarSign className="h-8 w-8 text-primary" />,
+            icon: CircleDollarSign,
             title: 'Product Pricing Manager',
             description: 'Set and manage your product pricing strategies.',
             href: '/products/pricing',

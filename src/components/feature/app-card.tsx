@@ -7,16 +7,7 @@ import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Rating } from '@/components/ui/rating';
 import { cn } from '@/lib/utils';
-
-type AppData = {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-    href: string;
-    pro?: boolean;
-    imageSrc: string;
-    badge?: { text: string; className: string; };
-};
+import type { AppData } from '@/lib/app-data';
 
 type RatingState = {
     rating: number;
@@ -32,6 +23,7 @@ type AppCardProps = {
 
 export function AppCard({ app, ratingState, onRatingChange }: AppCardProps) {
     const { rating, raters, hasVoted } = ratingState;
+    const Icon = app.icon;
 
     return (
         <div>
