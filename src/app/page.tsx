@@ -27,6 +27,14 @@ import {
 } from '@/components/ui/carousel';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Autoplay from 'embla-carousel-autoplay';
+import { ThemeToggle } from '@/components/layout/theme-toggle';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { ChevronDown } from 'lucide-react';
 
 const featureCards = [
   {
@@ -113,8 +121,24 @@ export default function Home() {
             <span className="text-xl font-bold">BusinessStudio AI</span>
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
-            <Link href="#features" className="text-sm font-medium hover:text-primary">
-              Features
+             <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-primary">
+                Welcome to Business Studio <ChevronDown className="h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem asChild>
+                    <Link href="#features">Features</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="#whatis">About The Platform</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="#testimonials">Testimonials</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Link href="/apps" className="text-sm font-medium hover:text-primary">
+              The Apps Gallery
             </Link>
             <Link href="#pricing" className="text-sm font-medium hover:text-primary">
               Pricing
@@ -156,9 +180,12 @@ export default function Home() {
               </DialogContent>
             </Dialog>
           </nav>
-          <Button asChild variant="ghost">
-            <Link href="/login">Sign In</Link>
-          </Button>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Button asChild variant="ghost">
+              <Link href="/login">Sign In</Link>
+            </Button>
+          </div>
         </div>
       </header>
 
