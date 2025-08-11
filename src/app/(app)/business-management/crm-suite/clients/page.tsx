@@ -86,7 +86,7 @@ export default function CrmSuiteClientsPage() {
                 </p>
             </div>
             <Button asChild>
-                <Link href="#">
+                <Link href="/business-management/crm-suite/clients/new">
                     <PlusCircle className="mr-2 h-4 w-4" />
                     New Client
                 </Link>
