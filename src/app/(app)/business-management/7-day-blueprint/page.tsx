@@ -4,6 +4,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Check, Rocket, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 
 const blueprintDays = [
@@ -136,13 +137,17 @@ export default function SevenDayBlueprintPage() {
                 </div>
               </Card>
             ))}
-            <div className="flex items-center justify-center">
-                 <Button size="lg" className="group" disabled>
-                    <span>Let's Setup Your 7-Day Launching Plan</span>
-                    <ArrowRight className="transition-transform group-hover:translate-x-1" />
-                </Button>
-            </div>
         </div>
+      </section>
+      
+      {/* CTA Section */}
+      <section className="text-center pt-8">
+          <Button size="lg" className="group" asChild>
+            <Link href="/business-management/business-idea-validation">
+                <span>Let's Setup Your 7 Day Business Launching Plan</span>
+                <ArrowRight className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Button>
       </section>
     </div>
   );
