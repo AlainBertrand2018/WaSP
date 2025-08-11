@@ -18,6 +18,7 @@ import {
   Video,
   type LucideIcon,
   BrainCircuit,
+  CalendarCheck,
 } from 'lucide-react';
 import React from 'react';
 
@@ -73,6 +74,17 @@ export const appCategories: AppCategory[] = [
         initialRating: 4.5,
         initialRaters: 200,
       },
+      {
+        icon: CalendarCheck,
+        title: '7-Day Business Blueprint',
+        description: 'A guided, week-long sprint to take you from initial idea to a launch-ready business plan.',
+        href: '/business-management/7-day-blueprint',
+        pro: true,
+        imageSrc: 'https://placehold.co/600x400.png',
+        badge: { text: 'New', className: 'bg-blue-500' },
+        initialRating: 0,
+        initialRaters: 0,
+      }
     ],
   },
   {
