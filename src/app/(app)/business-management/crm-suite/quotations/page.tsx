@@ -124,7 +124,11 @@ export default function CrmSuiteQuotationsPage() {
                     <TableBody>
                         {mockQuotations.map((quote) => (
                             <TableRow key={quote.id}>
-                                <TableCell className="font-medium">{quote.id}</TableCell>
+                                <TableCell className="font-medium">
+                                    <Link href={`/business-management/crm-suite/quotations/${quote.id}`} className="text-primary hover:underline">
+                                        {quote.id}
+                                    </Link>
+                                </TableCell>
                                 <TableCell>{quote.client}</TableCell>
                                 <TableCell>{quote.project}</TableCell>
                                 <TableCell>{quote.amount}</TableCell>
@@ -141,7 +145,11 @@ export default function CrmSuiteQuotationsPage() {
                                         </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuItem>View details</DropdownMenuItem>
+                                             <DropdownMenuItem asChild>
+                                                <Link href={`/business-management/crm-suite/quotations/${quote.id}`} className="w-full">
+                                                    View details
+                                                </Link>
+                                            </DropdownMenuItem>
                                             <DropdownMenuItem>Delete</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
