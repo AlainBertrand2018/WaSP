@@ -125,7 +125,7 @@ export default function SevenDayBlueprintPage() {
                         </ul>
                     </div>
                 </CardContent>
-                <CardDescription className="p-6 pt-0">
+                <div className="p-6 pt-0">
                     <div className="bg-muted p-4 rounded-md">
                         <h3 className="font-semibold flex items-center gap-2 text-sm">
                             <Rocket className="h-5 w-5 text-accent" />
@@ -133,7 +133,7 @@ export default function SevenDayBlueprintPage() {
                         </h3>
                         <p className="text-muted-foreground mt-2 text-sm">{day.outcome}</p>
                     </div>
-                </CardDescription>
+                </div>
               </Card>
             ))}
         </div>
