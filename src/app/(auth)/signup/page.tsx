@@ -42,7 +42,7 @@ export default function SignupPage() {
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
         <Button className="w-full" asChild>
-          <Link href="/business-management/insights-dashboard">Create account</Link>
+          <Link href="/apps">Create account</Link>
         </Button>
         <div className="text-sm text-muted-foreground">
           Already have an account?{' '}
