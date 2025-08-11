@@ -45,7 +45,7 @@ export function MainHeader() {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem asChild>
-                <Link href="#features">Features</Link>
+                <Link href="/#features">Features</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href="#whatis">About The Platform</Link>
