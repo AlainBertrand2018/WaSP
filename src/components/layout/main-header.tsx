@@ -45,13 +45,16 @@ export function MainHeader() {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem asChild>
+                <Link href="/">Welcome</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
                 <Link href="/#features">Features</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="#whatis">About The Platform</Link>
+                <Link href="/#whatis">About the Platform</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="#testimonials">Testimonials</Link>
+                <Link href="/#testimonials">Testimonials</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
