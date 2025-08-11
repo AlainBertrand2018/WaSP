@@ -168,11 +168,8 @@ export function SidebarNav() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-4">
-        <div className="flex items-center gap-2">
-          <Image src="/images/studioFlow_website_Image.png" alt="BusinessStudio AI Logo" width={24} height={24} />
-          <h1 className="text-xl font-bold tracking-tighter">BusinessStudio AI</h1>
-        </div>
+      <SidebarHeader className="p-4 h-[60px] flex items-center">
+          {/* The logo and title are now in the main app layout header */}
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
