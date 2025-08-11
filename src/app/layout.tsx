@@ -20,6 +20,7 @@ const siteConfig = {
   ogImage: '/images/og-image.png',
 }
 
+// Even with 'use client', metadata exports are still supported
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
