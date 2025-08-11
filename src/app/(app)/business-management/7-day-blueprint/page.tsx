@@ -11,49 +11,49 @@ const blueprintDays = [
     day: 1,
     title: 'Business Discovery',
     tasks: [
-      'Run a self-assessment with your LLM to create a personal entrepreneurial profile.',
-      'Brainstorm 10–15 AI-powered business ideas matched to your strengths.',
-      'Conduct deep market research on your top 1–3 ideas.',
+      'Conducting a self-assessment to create your personal entrepreneurial profile.',
+      'Brainstorming 10–15 business ideas aligned with your strengths and interests.',
+      'Performing a deep market research on your top three ideas.',
     ],
     outcome: 'A market-backed idea you’re excited about.',
   },
   {
     day: 2,
-    title: 'Define Your Business Foundation',
+    title: 'Business Foundation',
     tasks: [
-      'Craft a clear value proposition (max 5 points, benefits-focused).',
-      'Build 2–3 customer personas with demographics, values, and buying behavior.',
+      'Define a clear value proposition with a maximum of five benefits-focused points.',
+      'Design 2–3 detailed customer personas including demographics, values, and purchase behaviors.',
       'Map the customer journey from awareness to loyalty.',
     ],
-    outcome: 'A blueprint of who you serve, why it matters, and the customer experience.',
+    outcome: 'A solid understanding of your audience, value, and positioning.',
   },
   {
     day: 3,
     title: 'Brand Identity Development',
     tasks: [
-      'Develop brand identity: name, tagline, tone of voice.',
-      'Create visual elements: logo, colors, typography, style guide.',
-      'Write your positioning statement, key messages, and unique selling points.',
+      'Creating your brand identity: name, tagline, and tone of voice.',
+      'Designing visual elements: logo, color palette, typography, and style guide.',
+      'Writing your positioning statement, key messages, and unique selling points.',
     ],
     outcome: 'A brand that communicates value instantly.',
   },
   {
     day: 4,
-    title: 'Designing Your Offer',
+    title: 'Designing the Offer',
     tasks: [
-      'Define the offer: deliverables, problem solved, transformation delivered.',
-      'Create mockups, service blueprints, or wireframes.',
-      'Set value-based pricing tiers.',
+      'Defining your offer: deliverables, problem solved, and transformation delivered.',
+      'Creating mockups, service blueprints, or wireframes.',
+      'Setting value-based pricing tiers.',
     ],
     outcome: 'A clear, visual, outcome-driven offer.',
   },
   {
     day: 5,
-    title: 'Building Your Business Engine',
+    title: 'Building the Business Engine',
     tasks: [
-      'Map all core processes from lead generation to delivery.',
-      'Identify automation opportunities using AI and low-code tools.',
-      'Create reusable branded templates (contracts, proposals, onboarding docs).',
+      'Mapping all core processes from lead generation to delivery.',
+      'Identifying automation opportunities to save time and reduce manual work.',
+      'Creating reusable templates for key business documents and workflows.',
     ],
     outcome: 'A scalable, efficient operational system.',
   },
@@ -61,9 +61,9 @@ const blueprintDays = [
     day: 6,
     title: 'Customer Acquisition',
     tasks: [
-      'Develop a marketing strategy based on audience habits.',
-      'Create a 30-day content plan with content pillars and posting cadence.',
-      'Build a lead generation funnel from lead magnet to sales close.',
+      'Developping a marketing strategy based on audience habits and preferred channels.',
+      'Creating a 30-day content plan with content pillars and posting cadence.',
+      'Building a lead generation strategy from lead magnet to sales conversion.',
     ],
     outcome: 'A repeatable system for attracting and converting leads.',
   },
@@ -71,9 +71,9 @@ const blueprintDays = [
     day: 7,
     title: 'Launch Preparation',
     tasks: [
-      'Plan a 30-day launch sequence (pre-launch, soft launch, full launch).',
-      'Create 3-month financial projections including break-even analysis.',
-      'Draft a personalized outreach plan for warm leads and partners.',
+      'Planning a 30-day launch sequence (pre-launch, soft launch, full launch).',
+      'Creating 3-month financial projections, including break-even analysis.',
+      'Drafting a personalized outreach plan for warm leads and partners.',
     ],
     outcome: 'A complete plan, projections, and outreach strategy for launch.',
   },
@@ -85,10 +85,10 @@ export default function SevenDayBlueprintPage() {
       {/* Hero Section */}
       <section className="text-center">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-          The 7-Day Business Blueprint
+          The 7-Day Blueprint
         </h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-          Your intensive, one-week guided sprint to go from a raw idea to a fully-formed, launch-ready business plan. Let's build your future, together.
+          Turning your idea into a market-ready business in just one week.
         </p>
         <Button size="lg" className="mt-8 group" disabled>
           <span>Start Your 7-Day Blueprint</span>
@@ -123,7 +123,7 @@ export default function SevenDayBlueprintPage() {
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <div>
-                            <h3 className="font-semibold mb-2">Tasks for Today:</h3>
+                            <h3 className="font-semibold mb-2">Task Flow:</h3>
                             <ul className="space-y-2">
                                 {day.tasks.map((task, taskIndex) => (
                                     <li key={taskIndex} className="flex items-start gap-3">
@@ -136,7 +136,7 @@ export default function SevenDayBlueprintPage() {
                          <div className="bg-muted p-4 rounded-md">
                             <h3 className="font-semibold flex items-center gap-2">
                                 <Rocket className="h-5 w-5 text-accent" />
-                                <span>Day {day.day} Outcome</span>
+                                <span>Target Outcome</span>
                             </h3>
                             <p className="text-muted-foreground mt-2">{day.outcome}</p>
                         </div>
