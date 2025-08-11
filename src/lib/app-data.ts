@@ -51,7 +51,7 @@ export const appCategories: AppCategory[] = [
         description: 'A multi-step, guided app to find a business idea that fits your profile and the Mauritian market.',
         href: '/ideation/brainstorming',
         pro: false,
-        imageSrc: '/images/TilePics/ideation_Brainstorming_AppTile.webp',
+        imageSrc: '/images/business_Ideation_Apptile_4.webp',
         badge: { text: 'New', className: 'bg-blue-500' },
         initialRating: 0,
         initialRaters: 0,
