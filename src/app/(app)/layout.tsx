@@ -10,6 +10,7 @@ import { Toaster } from '@/components/ui/toaster';
 import Chatbot from '@/components/feature/chatbot';
 import Link from 'next/link';
 import Image from 'next/image';
+import { MainHeader } from '@/components/layout/main-header';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   
@@ -52,3 +53,5 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     </ThemeProvider>
   );
 }
+
+    
