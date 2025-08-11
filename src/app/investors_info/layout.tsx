@@ -2,7 +2,6 @@
 'use client';
 
 import { MainHeader } from '@/components/layout/main-header';
-import { useMounted } from '@/hooks/use-mounted';
 import React from 'react';
 
 export default function InfoLayout({
@@ -10,11 +9,10 @@ export default function InfoLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isMounted = useMounted();
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-        {isMounted && <MainHeader />}
+      <MainHeader />
       <main className="flex-1 flex items-center justify-center p-4">
         {children}
       </main>
