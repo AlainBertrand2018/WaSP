@@ -10,7 +10,6 @@ export default function CrmSuiteLayout({ children }: { children: React.ReactNode
     <SidebarProvider>
       <CrmSidebarNav />
       <SidebarInset>
-        {/* The main layout's header will now be used, so no header is needed here. */}
         <div className="flex flex-col">
           <main className="flex-1 p-6 sm:p-8">
             {children}

@@ -20,7 +20,7 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
-  SidebarMenuSubItem
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import React from 'react';
@@ -96,17 +96,14 @@ export function CrmSidebarNav() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-4">
-        <div className="flex items-center gap-2">
-          <Image src="/images/studioFlow_website_Image.png" alt="BusinessStudio AI Logo" width={24} height={24} />
-          <h1 className="text-xl font-bold tracking-tighter">CRM Suite</h1>
-        </div>
+       <SidebarHeader className="p-4 h-[60px] flex items-center">
+        {/* The logo is now in the main app header, this is for spacing */}
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/business-management/crm-suite'}>
-              <Link href="/business-management/crm-suite">
+            <SidebarMenuButton asChild isActive={pathname === '/business-management/crm-suite' || pathname === '/business-management/crm-suite/projects'}>
+              <Link href="/business-management/crm-suite/projects">
                 <Home />
                 <span>Dashboard</span>
               </Link>
