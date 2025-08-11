@@ -16,7 +16,7 @@ const poppins = Poppins({
 const siteConfig = {
   name: 'BusinessStudio AI',
   description: 'Your unified command center for launching and managing your business in Mauritius. Leverage our AI-powered suite to go from idea to investor-ready, faster than ever before.',
-  url: 'https://studioflow-ai.vercel.app/', // Replace with your actual domain
+  url: 'https://www.avantaz.online', // Replace with your actual domain
   ogImage: '/images/og-image.png',
 }
 
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: siteConfig.ogImage,
+        url: `${siteConfig.url}${siteConfig.ogImage}`,
         width: 1200,
         height: 630,
         alt: siteConfig.name,
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [siteConfig.ogImage],
+    images: [`${siteConfig.url}${siteConfig.ogImage}`],
   },
   robots: {
     index: true,
