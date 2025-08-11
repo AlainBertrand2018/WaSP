@@ -53,7 +53,7 @@ export function AppCard({ app, ratingState, onRatingChange }: AppCardProps) {
                 </Link>
             </div>
             <div className="mt-2">
-                <h3 className="font-light text-sm text-foreground group-hover:text-primary">{app.title}</h3>
+                <h3 className="font-light text-sm text-gray-800 dark:text-foreground group-hover:text-primary">{app.title}</h3>
                 <Rating 
                     value={rating}
                     raters={raters}
