@@ -14,6 +14,7 @@ import {
   FileText,
   HelpCircle,
   BrainCircuit,
+  CalendarCheck,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -203,6 +204,7 @@ export function SidebarNav() {
               dashboardHref="/business-management"
               items={[
                 { href: '/business-management/business-idea-validation', label: 'Business Idea Validation' },
+                { href: '/business-management/7-day-blueprint', label: '7-Day Business Blueprint' },
                 { href: '/business-management/mvp-planner', label: 'MVP Planner' },
                 { href: '/financials/startup-budget-planner', label: 'Startup Budget Planner'},
                 { href: '/business-management/business-plan-generator', label: 'Business Plan Generator' },
