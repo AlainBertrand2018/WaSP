@@ -49,7 +49,7 @@ export const appCategories: AppCategory[] = [
         icon: BrainCircuit,
         title: 'Brainstorming Tool',
         description: 'A multi-step, guided app to find a business idea that fits your profile and the Mauritian market.',
-        href: '/ideation/brainstorming',
+        href: '/ideation',
         pro: false,
         imageSrc: '/images/business_Ideation_Apptile_4.webp',
         badge: { text: 'New', className: 'bg-blue-500' },
