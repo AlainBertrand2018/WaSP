@@ -62,6 +62,14 @@ export function MainHeader() {
             The Apps Gallery
           </Link>
           <Link
+            href="/sme-info"
+            className="text-sm font-medium hover:text-primary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Entrepreneurship in Mauritius
+          </Link>
+          <Link
             href="#pricing"
             className="text-sm font-medium hover:text-primary"
           >
@@ -138,5 +146,3 @@ export function MainHeader() {
     </header>
   );
 }
-
-    
