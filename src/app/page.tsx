@@ -260,7 +260,7 @@ export default function Home() {
                   </ul>
                 </CardContent>
                 <Button asChild variant="outline" className="w-full mt-6">
-                  <Link href="/login?redirect=/business-management">Get Started</Link>
+                  <Link href="/login?redirect=/apps">Get Started</Link>
                 </Button>
               </Card>
               {/* Business Tool Kits */}
