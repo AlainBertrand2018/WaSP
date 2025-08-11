@@ -15,6 +15,7 @@ import {
   HelpCircle,
   BrainCircuit,
   CalendarCheck,
+  CheckCheck,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -93,7 +94,7 @@ const SubMenu = ({
                         className="w-full justify-start"
                         isActive={isCrmActive}
                     >
-                        <Link href="/business-management/crm-suite">CRM Suite</Link>
+                        <Link href="/business-management/crm-suite/projects">CRM Suite</Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
               {items.map((item) => (
@@ -220,7 +221,6 @@ export function SidebarNav() {
               dashboardHref="/business-management/insights-dashboard"
               items={[
                 { href: '/business-management/insights-dashboard', label: 'Insights Dashboard' },
-                { href: '/business-management/compliance-validator', label: 'Compliance Validator' },
                 { href: '/business-management/project-task-manager', label: 'Project & Task Manager' },
                 { href: '/business-management/hr-system', label: 'HR System' },
               ]}
