@@ -31,6 +31,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const mockClients = [
     {
+        id: 'john-doe',
         name: 'John Doe',
         title: 'Marketing Director, TechCorp',
         avatar: 'https://placehold.co/32x32.png',
@@ -40,6 +41,7 @@ const mockClients = [
         addedOn: '2024-07-15',
     },
     {
+        id: 'jane-smith',
         name: 'Jane Smith',
         title: 'CEO, Innovate Ltd.',
         avatar: 'https://placehold.co/32x32.png',
@@ -49,6 +51,7 @@ const mockClients = [
         addedOn: '2024-07-10',
     },
     {
+        id: 'samuel-brown',
         name: 'Samuel Brown',
         title: 'Lead Developer, DevHouse',
         avatar: 'https://placehold.co/32x32.png',
@@ -58,6 +61,7 @@ const mockClients = [
         addedOn: '2024-06-28',
     },
     {
+        id: 'emily-white',
         name: 'Emily White',
         title: 'Project Manager, Creative Co.',
         avatar: 'https://placehold.co/32x32.png',
@@ -112,16 +116,16 @@ export default function CrmSuiteClientsPage() {
                         {mockClients.map((client) => (
                             <TableRow key={client.email}>
                                 <TableCell>
-                                    <div className="flex items-center gap-3">
+                                    <Link href={`/business-management/crm-suite/clients/${client.id}`} className="flex items-center gap-3 group">
                                         <Avatar className="h-8 w-8">
                                             <AvatarImage src={client.avatar} alt={client.name} data-ai-hint="placeholder avatar" />
                                             <AvatarFallback>{client.name.charAt(0)}</AvatarFallback>
                                         </Avatar>
                                         <div>
-                                            <p className="font-medium">{client.name}</p>
+                                            <p className="font-medium group-hover:underline">{client.name}</p>
                                             <p className="text-xs text-muted-foreground">{client.title}</p>
                                         </div>
-                                    </div>
+                                    </Link>
                                 </TableCell>
                                 <TableCell>
                                     <p className="font-medium">{client.email}</p>
@@ -140,8 +144,10 @@ export default function CrmSuiteClientsPage() {
                                         </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                        <DropdownMenuItem>View details</DropdownMenuItem>
-                                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                                            <DropdownMenuItem asChild>
+                                                <Link href={`/business-management/crm-suite/clients/${client.id}`}>View details</Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem>Delete</DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>
                                 </TableCell>
