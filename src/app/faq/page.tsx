@@ -26,6 +26,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useMounted } from '@/hooks/use-mounted';
+import { MainHeader } from '@/components/layout/main-header';
 
 export default function FaqPage() {
   const [faqs, setFaqs] = React.useState<{ question: string; answer: string }[]>([]);
@@ -58,55 +59,7 @@ export default function FaqPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/images/studioFlow_website_Image.png" alt="BusinessStudio AI Logo" width={32} height={32} />
-            <span className="text-xl font-bold">BusinessStudio AI</span>
-          </Link>
-          <nav className="hidden items-center gap-6 md:flex">
-            <Link href="/#features" className="text-sm font-medium hover:text-primary">
-              Features
-            </Link>
-            <Link href="/#pricing" className="text-sm font-medium hover:text-primary">
-              Pricing
-            </Link>
-            <Dialog>
-              <DialogTrigger asChild>
-                <button className="text-sm font-medium hover:text-primary">Contact</button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Contact Us</DialogTitle>
-                  <DialogDescription>
-                    Have a question or want to work with us? Fill out the form below.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">Name</Label>
-                    <Input id="name" placeholder="John Doe" className="col-span-3" />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="email" className="text-right">Email</Label>
-                    <Input id="email" type="email" placeholder="john@example.com" className="col-span-3" />
-                  </div>
-                  <div className="grid grid-cols-4 items-start gap-4">
-                    <Label htmlFor="message" className="text-right pt-2">Message</Label>
-                    <Textarea id="message" placeholder="Your message..." className="col-span-3" />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button type="submit">Send Message</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          </nav>
-          <Button asChild variant="ghost">
-            <Link href="/login">Sign In</Link>
-          </Button>
-        </div>
-      </header>
+      <MainHeader />
 
       <main className="flex-1 bg-secondary-darker">
         <section className="container mx-auto px-4 py-20 lg:py-32">
