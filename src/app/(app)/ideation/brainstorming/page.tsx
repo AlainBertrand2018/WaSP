@@ -16,6 +16,7 @@ import { z } from 'zod';
 import { cn } from '@/lib/utils';
 import { generateSuggestionsForUser, type SectorSuggestion } from '@/ai/flows/ideation/generate-user-profile-analysis-flow';
 import { Skeleton } from '@/components/ui/skeleton';
+import Link from 'next/link';
 
 const profileSchema = z.object({
   expertise: z.string().min(10, "Please describe your expertise in a bit more detail."),
@@ -164,42 +165,57 @@ export default function BrainstormingPage() {
           {currentStep === 2 && (
             <div>
               <h3 className="text-lg font-semibold text-center mb-4">Step 2: AI-Powered Sector Hints</h3>
-              <p className="text-center text-muted-foreground mb-6">Based on your profile, here are some sectors where you might have a unique advantage. Select one or enter your own.</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {sectors.map((sector) => (
-                    <Card
-                      key={sector.title}
-                      onClick={() => handleSelectSector(sector.title)}
-                      className={cn(
-                        'cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary flex flex-col',
-                        selectedSector === sector.title ? 'border-primary ring-2 ring-primary shadow-lg' : 'border-border'
-                      )}
-                    >
-                      <CardHeader>
-                        <CardTitle className="text-xl flex items-center justify-between">
-                            <span>{sector.title}</span>
-                             {selectedSector === sector.title && <CheckCircle className="text-primary" />}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="flex-grow space-y-4">
-                         <div className="space-y-2 text-sm bg-muted p-3 rounded-md">
-                           <div className="flex items-center gap-2"><Users className="h-4 w-4 text-muted-foreground"/> <span>{sector.marketSize}</span></div>
-                           <div className="flex items-center gap-2"><Target className="h-4 w-4 text-muted-foreground"/> <span>{sector.marketValue}</span></div>
-                           <div className="flex items-center gap-2"><CircleDollarSign className="h-4 w-4 text-muted-foreground"/> <span>{sector.averageSalePrice}</span></div>
-                         </div>
-                         <p className="text-sm font-semibold mb-2">Why it's a good fit for you:</p>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                          {sector.reasonsWhy.map((reason, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                                <Sparkles className="h-4 w-4 text-accent flex-shrink-0 mt-1" />
-                                <span>{reason}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+              <p className="text-center text-muted-foreground mb-6">Based on your profile, here are some sectors where you might have a unique advantage. Select one or enter your own to proceed.</p>
+                
+                {isLoading ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {[...Array(3)].map((_, i) => (
+                          <Card key={i} className="p-4 space-y-3">
+                              <Skeleton className="h-6 w-3/4" />
+                              <Skeleton className="h-4 w-full" />
+                              <Skeleton className="h-4 w-5/6" />
+                              <Skeleton className="h-4 w-full" />
+                          </Card>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {sectors.map((sector) => (
+                            <Card
+                            key={sector.title}
+                            onClick={() => handleSelectSector(sector.title)}
+                            className={cn(
+                                'cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary flex flex-col',
+                                selectedSector === sector.title ? 'border-primary ring-2 ring-primary shadow-lg' : 'border-border'
+                            )}
+                            >
+                            <CardHeader>
+                                <CardTitle className="text-xl flex items-center justify-between">
+                                    <span>{sector.title}</span>
+                                    {selectedSector === sector.title && <CheckCircle className="text-primary" />}
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="flex-grow space-y-4">
+                                <div className="space-y-2 text-sm bg-muted p-3 rounded-md">
+                                <div className="flex items-center gap-2"><Users className="h-4 w-4 text-muted-foreground"/> <span>{sector.marketSize}</span></div>
+                                <div className="flex items-center gap-2"><Target className="h-4 w-4 text-muted-foreground"/> <span>{sector.marketValue}</span></div>
+                                <div className="flex items-center gap-2"><CircleDollarSign className="h-4 w-4 text-muted-foreground"/> <span>{sector.averageSalePrice}</span></div>
+                                </div>
+                                <p className="text-sm font-semibold mb-2">Why it's a good fit for you:</p>
+                                <ul className="space-y-2 text-sm text-muted-foreground">
+                                {sector.reasonsWhy.map((reason, i) => (
+                                    <li key={i} className="flex items-start gap-2">
+                                        <Sparkles className="h-4 w-4 text-accent flex-shrink-0 mt-1" />
+                                        <span>{reason}</span>
+                                    </li>
+                                ))}
+                                </ul>
+                            </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                )}
+
 
               <div className="mt-8 text-center">
                 <p className="text-muted-foreground mb-2">...or enter another sector</p>
@@ -216,9 +232,11 @@ export default function BrainstormingPage() {
                   <ArrowLeft />
                   <span>Back to Profile</span>
                 </Button>
-                <Button size="lg" disabled={!canProceedFromHints}>
-                  <span>Next Step</span>
-                  <ArrowRight />
+                <Button size="lg" disabled={!canProceedFromHints} asChild>
+                  <Link href="/business-management/business-idea-validation">
+                    <span>Next Step</span>
+                    <ArrowRight />
+                  </Link>
                 </Button>
               </div>
             </div>

@@ -1,4 +1,6 @@
 
+'use client';
+
 import { MainHeader } from '@/components/layout/main-header';
 import React from 'react';
 

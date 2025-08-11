@@ -13,6 +13,7 @@ import {
   Rocket,
   FileText,
   HelpCircle,
+  BrainCircuit,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -180,6 +181,18 @@ export function SidebarNav() {
                 <span>360° Business Dashboard</span>
               </Link>
             </SidebarMenuButton>
+          </SidebarMenuItem>
+
+           <SidebarMenuItem>
+            <SubMenu
+              icon={<BrainCircuit />}
+              title="Ideation"
+              pathname={pathname}
+              dashboardHref="/ideation"
+              items={[
+                { href: '/ideation/brainstorming', label: 'Brainstorming Tool' },
+              ]}
+            />
           </SidebarMenuItem>
 
           <SidebarMenuItem>
