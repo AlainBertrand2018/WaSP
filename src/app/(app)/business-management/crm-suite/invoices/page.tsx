@@ -106,7 +106,11 @@ export default function CrmSuiteInvoicesPage() {
                     <TableBody>
                         {mockInvoices.map((invoice) => (
                             <TableRow key={invoice.id}>
-                                <TableCell className="font-medium">{invoice.id}</TableCell>
+                                <TableCell className="font-medium">
+                                    <Link href={`/business-management/crm-suite/invoices/${invoice.id}`} className="text-primary hover:underline">
+                                        {invoice.id}
+                                    </Link>
+                                </TableCell>
                                 <TableCell>{invoice.client}</TableCell>
                                 <TableCell>{invoice.project}</TableCell>
                                 <TableCell>{invoice.amount}</TableCell>
@@ -124,7 +128,11 @@ export default function CrmSuiteInvoicesPage() {
                                         </Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent align="end">
-                                            <DropdownMenuItem>View details</DropdownMenuItem>
+                                            <DropdownMenuItem>
+                                                <Link href={`/business-management/crm-suite/invoices/${invoice.id}`} className="w-full">
+                                                    View details
+                                                </Link>
+                                            </DropdownMenuItem>
                                             <DropdownMenuItem>Download PDF</DropdownMenuItem>
                                             <DropdownMenuItem>Delete</DropdownMenuItem>
                                         </DropdownMenuContent>
