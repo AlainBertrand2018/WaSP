@@ -201,13 +201,13 @@ export function SidebarNav() {
               icon={<Rocket />}
               title="Business Creation"
               pathname={pathname}
-              dashboardHref="/business-management"
+              dashboardHref="/business-creation"
               items={[
-                { href: '/business-management/business-idea-validation', label: 'Business Idea Validation' },
-                { href: '/business-management/mvp-planner', label: 'MVP Planner' },
-                { href: '/financials/startup-budget-planner', label: 'Startup Budget Planner'},
-                { href: '/business-management/business-plan-generator', label: 'Business Plan Generator' },
-                { href: '/business-management/7-day-blueprint', label: '7-Day Business Blueprint' },
+                { href: '/business-creation/business-idea-validation', label: 'Business Idea Validation' },
+                { href: '/business-creation/mvp-planner', label: 'MVP Planner' },
+                { href: '/business-creation/startup-budget-planner', label: 'Startup Budget Planner'},
+                { href: '/business-creation/business-plan-generator', label: 'Business Plan Generator' },
+                { href: '/business-creation/7-day-blueprint', label: '7-Day Business Blueprint' },
               ]}
             />
           </SidebarMenuItem>

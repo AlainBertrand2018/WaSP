@@ -449,7 +449,7 @@ export default function BrainstormingPage() {
                         <span>Back to Hints</span>
                     </Button>
                     <Button size="lg" asChild>
-                        <Link href="/business-management/business-idea-validation">
+                        <Link href="/business-creation/business-idea-validation">
                             <span>Next: Validate My Idea</span>
                             <Rocket />
                         </Link>

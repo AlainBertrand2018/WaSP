@@ -143,7 +143,7 @@ export default function SevenDayBlueprintPage() {
       {/* CTA Section */}
       <section className="text-center pt-8">
           <Button size="lg" className="group" asChild>
-            <Link href="/business-management/business-idea-validation">
+            <Link href="/business-creation/business-idea-validation">
                 <span>Let's Setup Your 7 Day Business Launching Plan</span>
                 <ArrowRight className="transition-transform group-hover:translate-x-1" />
             </Link>

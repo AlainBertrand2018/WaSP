@@ -18,28 +18,28 @@ const steps = [
     title: '1. Validate Your Idea',
     description:
       'Start with our AI-powered validation to assess your business idea against the Mauritian market, analyzing its viability, potential, and weaknesses.',
-    href: '/business-management/business-idea-validation',
+    href: '/business-creation/business-idea-validation',
   },
   {
     icon: <Rocket className="h-8 w-8 text-primary" />,
     title: '2. Plan Your MVP',
     description:
       'Define the core features, required staff, and technology for your Minimum Viable Product to get to market quickly and efficiently.',
-    href: '/business-management/mvp-planner',
+    href: '/business-creation/mvp-planner',
   },
   {
     icon: <Wallet className="h-8 w-8 text-primary" />,
     title: '3. Create Your Budget',
     description:
       'Use our AI-driven planner to map out your startup costs, fixed and variable expenses, and calculate your crucial break-even point.',
-    href: '/financials/startup-budget-planner',
+    href: '/business-creation/startup-budget-planner',
   },
   {
     icon: <FileText className="h-8 w-8 text-primary" />,
     title: '4. Generate Your Business Plan',
     description:
       'Synthesize all your data into a comprehensive, investor-ready business plan that you can edit and export for funding applications.',
-    href: '/business-management/business-plan-generator',
+    href: '/business-creation/business-plan-generator',
   },
 ];
 
@@ -72,7 +72,7 @@ export default function BusinessCreationLandingPage() {
           and generate your professional business plan with confidence.
         </p>
         <Button asChild size="lg" className="mt-8 group">
-          <Link href="/business-management/business-idea-validation">
+          <Link href="/business-creation/business-idea-validation">
             <span>Let's Get Started</span>
             <ArrowRight className="transition-transform group-hover:translate-x-1" />
           </Link>
@@ -136,7 +136,7 @@ export default function BusinessCreationLandingPage() {
           Stop wondering and start validating. The first step towards a successful business is just a click away.
         </p>
         <Button asChild size="lg" className="mt-8 group">
-          <Link href="/business-management/business-idea-validation">
+          <Link href="/business-creation/business-idea-validation">
             <span>Start the Validation Process Now</span>
             <ArrowRight className="transition-transform group-hover:translate-x-1" />
           </Link>

@@ -1,6 +1,6 @@
 
 // Fixed version of Startup Budget Planner page to resolve JSX parsing errors
-// File: src/app/(app)/financials/startup-budget-planner/page.tsx
+// File: src/app/(app)/business-creation/startup-budget-planner/page.tsx
 
 'use client';
 
@@ -268,7 +268,7 @@ const FundingStep = () => {
           create an MVP plan.
         </p>
         <Button asChild className="group">
-          <Link href="/business-management/business-idea-validation">
+          <Link href="/business-creation/business-idea-validation">
             <ArrowLeft />
             <span>Start with Business Idea Validation</span>
           </Link>
@@ -980,7 +980,7 @@ const SummaryStep = () => {
 
              <div className="flex justify-center pt-4 border-t mt-4">
                <Button asChild className="group">
-                  <Link href="/business-management/business-plan-generator">
+                  <Link href="/business-creation/business-plan-generator">
                     <span>Next: Generate Business Plan</span>
                     <ChevronRight className="transition-transform group-hover:translate-x-1" />
                   </Link>

@@ -148,7 +148,7 @@ const handleDownloadPdf = () => {
           "Business Creation" steps first.
         </p>
         <Button asChild className="group">
-          <Link href="/business-management/business-idea-validation">
+          <Link href="/business-creation/business-idea-validation">
             <ArrowLeft />
             <span>Start with Business Idea Validation</span>
           </Link>

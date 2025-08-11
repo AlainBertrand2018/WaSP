@@ -137,7 +137,7 @@ export default function MvpPlannerPage() {
                 </CardHeader>
                 <CardContent>
                     <Button size="lg" className="w-full group" asChild>
-                        <Link href="/business-management/business-idea-validation">
+                        <Link href="/business-creation/business-idea-validation">
                              <ArrowLeft />
                              <span>Validate Your Business Idea First</span>
                         </Link>
@@ -277,7 +277,7 @@ export default function MvpPlannerPage() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 border-t mt-4">
           <Button asChild className="group">
-            <Link href="/financials/startup-budget-planner">
+            <Link href="/business-creation/startup-budget-planner">
               <span>Go to Startup Budget Planner</span>
               <ChevronRight className="transition-transform group-hover:translate-x-1" />
             </Link>
@@ -292,7 +292,7 @@ export default function MvpPlannerPage() {
             <span>{isGeneratingPrd ? 'Generating...' : 'Generate PRD (PDF)'}</span>
           </Button>
           <Button asChild variant="ghost">
-            <Link href="/business-management/business-idea-validation">
+            <Link href="/business-creation/business-idea-validation">
               <ArrowLeft />
               <span>Back to Validation</span>
             </Link>

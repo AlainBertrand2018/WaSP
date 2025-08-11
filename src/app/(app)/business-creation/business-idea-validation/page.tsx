@@ -464,7 +464,7 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4 border-t mt-4">
           {!isStandalone && (
             <Button asChild className="group">
-              <Link href="/business-management/mvp-planner">
+              <Link href="/business-creation/mvp-planner">
                 <span>Let's Figure Out Your Minimum Viable Product</span>
                 <ChevronRight className="transition-transform group-hover:translate-x-1" />
               </Link>
