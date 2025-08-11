@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mauritius SME & Startup Ecosystem — Executive Dashboard</title>
+<style>
+  :root{
+    --bg:#0b1020; --panel:#121935; --muted:#1a2348; --text:#e6ebff; --sub:#aab5ff;
+    --accent:#7c9cff; --accent2:#7ef0c5; --warn:#ffd27e; --danger:#ff9c9c;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:linear-gradient(180deg,#0a0f1e 0%, #0d1530 100%);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial}
+  .wrap{max-width:1200px;margin:0 auto;padding:28px}
+  header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;gap:16px}
+  h1{font-size:clamp(22px,3vw,30px);margin:0;font-weight:700;letter-spacing:.3px}
+  .tag{font-size:12px;color:var(--sub);border:1px solid #24305e;padding:6px 10px;border-radius:999px;background:#0e1734}
+  .grid{display:grid;gap:16px}
+  .kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .panels{grid-template-columns:2fr 1fr}
+  .panel{background:linear-gradient(180deg,#10173a 0%, #0e1533 100%);border:1px solid #1f2a55;border-radius:16px;padding:18px;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+  .panel h2{margin:0 0 10px;font-size:18px;font-weight:700}
+  .kpi{display:flex;flex-direction:column;gap:8px;min-height:110px;justify-content:space-between}
+  .kpi .label{color:var(--sub);font-size:13px}
+  .kpi .value{font-size:28px;font-weight:800;letter-spacing:.2px}
+  .spark{height:46px}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#0f1b44;border:1px solid #2a3a78;font-size:12px;color:var(--sub)}
+  .list{display:grid;gap:10px}
+  ul{margin:8px 0 0 18px;color:var(--sub)}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .legend .item{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--sub)}
+  .dot{width:10px;height:10px;border-radius:2px;background:var(--accent)}
+  .dot.alt{background:var(--accent2)}
+  .foot{margin-top:16px;color:#99a6ff80;font-size:12px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .note{font-size:12px;color:#9db0ff;opacity:.9}
+  .callout{background:#0e1c40;border:1px dashed #3451b6;border-radius:12px;padding:12px;color:#d6e1ff}
+  canvas, svg{width:100%;height:320px;display:block}
+  .mini svg{height:56px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:#0c1738;border:1px solid #223371;color:#b9c6ff;padding:6px 10px;border-radius:999px;font-size:12px}
+  a{color:#a8c5ff}
+  @media (max-width:1000px){.kpis{grid-template-columns:repeat(2,1fr)} .panels{grid-template-columns:1fr} .row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>SME & Startup Ecosystem — Mauritius</h1>
+      <span class="tag">Macro overview • Updated: 2025</span>
+    </header>
+
+    <!-- KPI CARDS -->
+    <section class="grid kpis">
+      <div class="panel kpi">
+        <div class="label">Active SMEs (≈)</div>
+        <div class="value">127,000</div>
+        <div class="mini" id="spark-smes"></div>
+      </div>
+      <div class="panel kpi">
+        <div class="label">Share of GDP (GVA) by SMEs</div>
+        <div class="value">~38%</div>
+        <div class="pill">Target 52% by 2026 (policy)</div>
+      </div>
+      <div class="panel kpi">
+        <div class="label">Employment in SMEs</div>
+        <div class="value">~54%</div>
+        <div class="pill">Incl. micro-entrepreneurs</div>
+      </div>
+      <div class="panel kpi">
+        <div class="label">New business registrations</div>
+        <div class="value">13,055 (2024)</div>
+        <div class="mini" id="spark-registrations"></div>
+      </div>
+    </section>
+
+    <!-- MAIN PANELS -->
+    <section class="grid panels" style="margin-top:16px">
+      <div class="panel">
+        <h2>New Business Registrations (2022–2024)</h2>
+        <svg id="line-registrations" viewBox="0 0 800 320" role="img" aria-label="New business registrations line chart"></svg>
+        <div class="legend">
+          <span class="item"><span class="dot"></span> Registrations</span>
+        </div>
+        <div class="foot note">Source: Corporate & Business Registration Department (CBRD). 2022: 7,812 • 2023: 10,876 • 2024: 13,055.</div>
+      </div>
+      <div class="panel">
+        <h2>SME Composition</h2>
+        <svg id="donut-size" viewBox="0 0 300 300" role="img" aria-label="SME size split donut"></svg>
+        <div class="legend">
+          <span class="item"><span class="dot" style="background:#7c9cff"></span> Micro 81%</span>
+          <span class="item"><span class="dot" style="background:#7ef0c5"></span> Small 18%</span>
+          <span class="item"><span class="dot" style="background:#ffd27e"></span> Medium 1%</span>
+        </div>
+        <div class="foot note">Stats Mauritius (Census of Economic Activities): micro/small/medium distribution.</div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:16px">
+      <h2>Sector Distribution of SMEs</h2>
+      <svg id="bar-sectors" viewBox="0 0 800 320" role="img" aria-label="SME sector distribution bar chart"></svg>
+      <div class="foot note">Shares (approx.): Trade 27%, Agriculture 27%, Transport 12%, Manufacturing 9%, Construction 8%, Other Services 17%.</div>
+    </section>
+
+    <section class="row" style="margin-top:16px">
+      <div class="panel">
+        <h2>Exports & Innovation</h2>
+        <div class="list">
+          <div class="callout">SME share of domestic exports ≈ <b>12%</b> — most SMEs serve the local market.</div>
+          <ul>
+            <li>High-growth pockets: Fintech, ICT services, niche agro-processing, creative tech.</li>
+            <li>Innovation funding via MRIC (PoC, NSIS incubators), but R&amp;D intensity remains low.</li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Fintech</span><span class="chip">ICT/SaaS</span><span class="chip">Agro-processing</span><span class="chip">Creative Industries</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Key Challenges</h2>
+        <ul>
+          <li><b>Finance:</b> Collateral-heavy lending; limited venture/angel capital.</li>
+          <li><b>Skills:</b> Gaps in digital, managerial &amp; technical capabilities.</li>
+          <li><b>Scale:</b> Small domestic market; export readiness uneven.</li>
+          <li><b>Productivity:</b> Tech adoption and process efficiency lag among micro-firms.</li>
+        </ul>
+        <div class="foot note">Policy focus: streamline schemes, upskill workforce, catalyze innovation, and boost SME internationalization.</div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:16px">
+      <h2>Institutions & Support (Snapshot)</h2>
+      <div class="chips">
+        <span class="chip">SME Mauritius</span>
+        <span class="chip">DBM Loans</span>
+        <span class="chip">MRIC & NSIS</span>
+        <span class="chip">EDB & Sandbox</span>
+        <span class="chip">Business Mauritius</span>
+        <span class="chip">Chambers & Incubators</span>
+      </div>
+      <div class="foot note">Use cases: modernization grants, export refunds, incubator programs, credit guarantees, and procurement linkages.</div>
+    </section>
+
+    <p class="foot">Notes: This dashboard summarizes figures cited in your ecosystem report (2022–2025). Values rounded for clarity.</p>
+  </div>
+
+<script>
+// Tiny helpers to draw simple charts (no external libs)
+function lineChart(svgId, labels, values, color){
+  const svg = document.getElementById(svgId);
+  const W = 800, H = 320, P = 40;
+  svg.setAttribute('viewBox', '0 0 '+W+' '+H);
+  const min = Math.min(...values), max = Math.max(...values);
+  const yMin = Math.floor(min*0.9), yMax = Math.ceil(max*1.1);
+  const n = values.length;
+  const stepX = (W - P*2) / (n-1);
+  // axes
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  const ax = document.createElementNS('http://www.w3.org/2000/svg','line');
+  ax.setAttribute('x1',P); ax.setAttribute('y1',H-P); ax.setAttribute('x2',W-P); ax.setAttribute('y2',H-P);
+  ax.setAttribute('stroke','#2a3a78'); ax.setAttribute('stroke-width','1');
+  g.appendChild(ax);
+  // y ticks
+  for(let i=0;i<4;i++){
+    const yv = yMin + (i*(yMax-yMin)/3);
+    const y = H-P - ((yv-yMin)/(yMax-yMin))*(H-P*2);
+    const l = document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',P); l.setAttribute('x2',W-P); l.setAttribute('y1',y); l.setAttribute('y2',y);
+    l.setAttribute('stroke','#1b295e'); l.setAttribute('stroke-width','1');
+    l.setAttribute('opacity','0.6');
+    g.appendChild(l);
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',8); t.setAttribute('y',y+4); t.setAttribute('fill','#8ea3ff'); t.setAttribute('font-size','12');
+    t.textContent = Math.round(yv).toLocaleString();
+    g.appendChild(t);
+  }
+  // path
+  let d = '';
+  values.forEach((v,i)=>{
+    const x = P + i*stepX;
+    const y = H-P - ((v-yMin)/(yMax-yMin))*(H-P*2);
+    d += (i? ' L':'M')+x+' '+y;
+  });
+  const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('d',d);
+  path.setAttribute('fill','none');
+  path.setAttribute('stroke',color||'#7c9cff');
+  path.setAttribute('stroke-width','3');
+  g.appendChild(path);
+  // points & labels
+  values.forEach((v,i)=>{
+    const x = P + i*stepX;
+    const y = H-P - ((v-yMin)/(yMax-yMin))*(H-P*2);
+    const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r','4'); c.setAttribute('fill',color||'#7c9cff');
+    g.appendChild(c);
+    const tl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    tl.setAttribute('x',x); tl.setAttribute('y',H-12); tl.setAttribute('text-anchor','middle');
+    tl.setAttribute('fill','#aab5ff'); tl.setAttribute('font-size','12'); tl.textContent = labels[i];
+    g.appendChild(tl);
+  });
+  svg.appendChild(g);
+}
+
+function donut(svgId, slices){
+  const svg = document.getElementById(svgId);
+  const size = 300, cx = 150, cy = 150, r = 100, thick = 28;
+  svg.setAttribute('viewBox', '0 0 '+size+' '+size);
+  const total = slices.reduce((a,b)=>a+b.value,0);
+  let angle = -Math.PI/2;
+  slices.forEach(s=>{
+    const a2 = angle + (s.value/total)*Math.PI*2;
+    const x1 = cx + r * Math.cos(angle);
+    const y1 = cy + r * Math.sin(angle);
+    const x2 = cx + r * Math.cos(a2);
+    const y2 = cy + r * Math.sin(a2);
+    const large = ((a2-angle) > Math.PI)?1:0;
+    const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d', [
+      'M', x1, y1,
+      'A', r, r, 0, large, 1, x2, y2,
+      'L', cx + (r-thick)*Math.cos(a2), cy + (r-thick)*Math.sin(a2),
+      'A', r-thick, r-thick, 0, large, 0, cx + (r-thick)*Math.cos(angle), cy + (r-thick)*Math.sin(angle),
+      'Z'
+    ].join(' '));
+    p.setAttribute('fill', s.color);
+    svg.appendChild(p);
+    angle = a2;
+  });
+  // center label
+  const t1 = document.createElementNS('http://www.w3.org/2000/svg','text');
+  t1.setAttribute('x',cx); t1.setAttribute('y',cy-4); t1.setAttribute('text-anchor','middle');
+  t1.setAttribute('fill','#dbe3ff'); t1.setAttribute('font-size','18'); t1.setAttribute('font-weight','700');
+  t1.textContent = 'SME Size Split';
+  svg.appendChild(t1);
+}
+
+function barChart(svgId, cats, vals){
+  const svg = document.getElementById(svgId);
+  const W=800,H=320,P=48;
+  const max = Math.max(...vals)*1.1;
+  const bw = (W-P*2)/vals.length - 14;
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  // grid
+  for(let i=0;i<=4;i++){
+    const y = H-P - i*(H-P*2)/4;
+    const l = document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',P); l.setAttribute('x2',W-P); l.setAttribute('y1',y); l.setAttribute('y2',y);
+    l.setAttribute('stroke','#1b295e'); l.setAttribute('opacity','0.6');
+    g.appendChild(l);
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',8); t.setAttribute('y',y+4); t.setAttribute('fill','#8ea3ff'); t.setAttribute('font-size','12');
+    t.textContent = Math.round((i*max/4)) + '%';
+    g.appendChild(t);
+  }
+  vals.forEach((v,i)=>{
+    const x = P + i*((W-P*2)/vals.length) + 7;
+    const h = ((v)/max)*(H-P*2);
+    const y = H-P - h;
+    const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    rect.setAttribute('x',x); rect.setAttribute('y',y); rect.setAttribute('width',bw); rect.setAttribute('height',h);
+    rect.setAttribute('fill', i%2? '#7ef0c5':'#7c9cff');
+    rect.setAttribute('rx','6');
+    g.appendChild(rect);
+    const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',x+bw/2); t.setAttribute('y',H-14); t.setAttribute('text-anchor','middle');
+    t.setAttribute('fill','#aab5ff'); t.setAttribute('font-size','12');
+    t.textContent = cats[i];
+    g.appendChild(t);
+
+    const vtxt = document.createElementNS('http://www.w3.org/2000/svg','text');
+    vtxt.setAttribute('x',x+bw/2); vtxt.setAttribute('y',y-6); vtxt.setAttribute('text-anchor','middle');
+    vtxt.setAttribute('fill','#dbe3ff'); vtxt.setAttribute('font-size','12'); vtxt.setAttribute('font-weight','700');
+    vtxt.textContent = v + '%';
+    g.appendChild(vtxt);
+  });
+  svg.appendChild(g);
+}
+
+(function init(){
+  // Sparklines (simple inline SVGs)
+  document.getElementById('spark-smes').innerHTML = '<svg viewBox=\"0 0 120 56\"><polyline fill=\"none\" stroke=\"#7ef0c5\" stroke-width=\"2\" points=\"2,40 30,38 58,36 86,35 118,34\" opacity=\"0.9\"/></svg>';
+  document.getElementById('spark-registrations').innerHTML = '<svg viewBox=\"0 0 120 56\"><polyline fill=\"none\" stroke=\"#7c9cff\" stroke-width=\"2\" points=\"2,48 60,30 118,14\"/></svg>';
+
+  // Line chart
+  lineChart('line-registrations', ['2022','2023','2024'], [7812,10876,13055],'#7c9cff');
+
+  // Donut
+  donut('donut-size',[
+    {label:'Micro', value:81, color:'#7c9cff'},
+    {label:'Small', value:18, color:'#7ef0c5'},
+    {label:'Medium', value:1, color:'#ffd27e'}
+  ]);
+
+  // Sector bars
+  barChart('bar-sectors',
+    ['Trade','Agri','Transport','Mfg','Constr','Other'],
+    [27,27,12,9,8,17]
+  );
+})();
+</script>
+</body>
+</html>

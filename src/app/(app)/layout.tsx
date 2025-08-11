@@ -10,7 +10,6 @@ import { Toaster } from '@/components/ui/toaster';
 import Chatbot from '@/components/feature/chatbot';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MainHeader } from '@/components/layout/main-header';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   
@@ -39,7 +38,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <UserNav />
               </div>
             </header>
-            <main className="flex-1 p-6 sm:p-8 z-20">
+            <main className="flex-1 p-6 sm:p-8">
               {children}
             </main>
             <footer className="text-center p-4 text-sm text-muted-foreground border-t">
@@ -53,5 +52,3 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     </ThemeProvider>
   );
 }
-
-    
