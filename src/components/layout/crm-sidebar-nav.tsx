@@ -5,6 +5,7 @@ import {
   Home,
   Briefcase,
   Users,
+  FileText,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -53,6 +54,14 @@ export function CrmSidebarNav() {
               <Link href="/business-management/crm-suite/clients">
                 <Users />
                 <span>Clients</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname.startsWith('/business-management/crm-suite/quotations')}>
+              <Link href="/business-management/crm-suite/quotations">
+                <FileText />
+                <span>Quotations</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
