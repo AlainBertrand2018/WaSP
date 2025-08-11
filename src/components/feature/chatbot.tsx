@@ -83,7 +83,7 @@ export default function Chatbot() {
       <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground">
         <div className="flex items-center gap-2">
           <Bot size={20} />
-          <CardTitle className="text-lg">CLAIRE - Your Compliance, Leadership & AI-powered Regulations Expert</CardTitle>
+          <CardTitle className="text-lg">CLAIRE - Your AI Assistant</CardTitle>
         </div>
         <Button variant="ghost" size="icon" onClick={handleToggle} className="hover:bg-primary/80">
           <X size={20} />
@@ -114,8 +114,9 @@ export default function Chatbot() {
             ))}
             {isLoading && (
               <div className="flex justify-start gap-3">
-                <div className="rounded-lg px-4 py-2 bg-muted flex items-center">
+                 <div className="rounded-lg px-4 py-2 bg-muted flex items-center space-x-2">
                   <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                  <span className="text-sm text-muted-foreground">Claire is typing...</span>
                 </div>
               </div>
             )}
@@ -130,8 +131,8 @@ export default function Chatbot() {
             placeholder="Ask about Mauritian business..."
             disabled={isLoading}
           />
-          <Button type="submit" disabled={isLoading}>
-            <Send size={16} />
+          <Button type="submit" disabled={isLoading || !inputValue.trim()}>
+            {isLoading ? <Loader2 className="animate-spin" /> : <Send size={16} />}
             <span className="sr-only">Send</span>
           </Button>
         </form>
@@ -139,3 +140,5 @@ export default function Chatbot() {
     </Card>
   );
 }
+
+    

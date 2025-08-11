@@ -89,7 +89,7 @@ import {
 } from '@/ai/flows/financials/generate-financing-options-flow';
 import {
   generateProductionCost,
-  type generateProductionCost,
+  type GenerateProductionCostOutput,
 } from '@/ai/flows/financials/generate-production-cost-flow';
 import {
   generateFixedCosts,
@@ -101,7 +101,7 @@ import {
 } from '@/ai/flows/financials/generate-variable-costs-flow';
 import {
   generateBudgetSummary,
-  type generateBudgetSummary,
+  type GenerateBudgetSummaryOutput,
 } from '@/ai/flows/financials/generate-budget-summary-flow';
 
 import { cn } from '@/lib/utils';
@@ -531,7 +531,7 @@ const FixedCostsTab = () => {
     const { analysisResult: businessIdea, formData } = useBusinessIdeaStore(
       (state) => state,
     );
-    const { fixedCosts, setFixedCost, setFixedCosts } = useBudgetPlannerStore();
+    const { fixedCosts, setFixedCost, setTotalFixedCosts } = useBudgetPlannerStore();
 
     const [isLoading, setIsLoading] = useState(false);
     const [costItems, setCostItems] = useState<FixedCostItem[]>([]);
@@ -565,8 +565,8 @@ const FixedCostsTab = () => {
     );
 
     useEffect(() => {
-      setFixedCosts(totalFixedCosts);
-    }, [totalFixedCosts, setFixedCosts]);
+      setTotalFixedCosts(totalFixedCosts);
+    }, [totalFixedCosts, setTotalFixedCosts]);
 
     const groupedCosts = useMemo(() => {
       return costItems.reduce(
@@ -1079,3 +1079,5 @@ export default function StartupBudgetPlannerPage() {
     </div>
   );
 }
+
+    

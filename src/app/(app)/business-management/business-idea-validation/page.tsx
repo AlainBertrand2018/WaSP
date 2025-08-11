@@ -852,8 +852,10 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
 
 export default function BusinessIdeaValidationPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="flex items-center justify-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
             <BusinessIdeaValidationContent />
         </Suspense>
     )
 }
+
+    
