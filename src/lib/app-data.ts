@@ -80,7 +80,7 @@ export const appCategories: AppCategory[] = [
         description: 'A guided, week-long sprint to take you from initial idea to a launch-ready business plan.',
         href: '/business-management/7-day-blueprint',
         pro: true,
-        imageSrc: 'https://placehold.co/600x400.png',
+        imageSrc: '/images/buisiness-7day_apptile.webp',
         badge: { text: 'New', className: 'bg-blue-500' },
         initialRating: 0,
         initialRaters: 0,
