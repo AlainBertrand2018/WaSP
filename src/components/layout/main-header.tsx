@@ -73,7 +73,7 @@ export function MainHeader() {
             The Apps Gallery
           </Link>
           <Link
-            href="#pricing"
+            href="/#pricing"
             className="text-sm font-medium hover:text-primary"
           >
             Pricing
