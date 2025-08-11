@@ -13,5 +13,6 @@ import './flows/financials/generate-budget-summary-flow';
 import './flows/chatbot/generate-chat-response-flow';
 import './flows/marketing/generate-faq-flow';
 import './flows/ideation/generate-brainstorm-ideas-flow';
-import './flows/ideation/generate-promising-sectors-flow';
+import './flows/ideation/generate-user-profile-analysis-flow';
+
 
