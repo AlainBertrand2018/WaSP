@@ -81,7 +81,7 @@ const blueprintDays = [
 
 export default function SevenDayBlueprintPage() {
   return (
-    <div className="flex flex-col gap-12 py-8 md:py-12 max-w-5xl mx-auto">
+    <div className="flex flex-col gap-12 py-8 md:py-12 max-w-7xl mx-auto">
       {/* Hero Section */}
       <section className="text-center">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
@@ -97,54 +97,45 @@ export default function SevenDayBlueprintPage() {
          <p className="text-sm text-muted-foreground mt-2">(Coming Soon)</p>
       </section>
 
-      {/* Blueprint Steps Section */}
+      {/* Blueprint Steps Section - Horizontal Grid */}
       <section>
-        <div className="relative">
-          {/* Vertical line for desktop */}
-          <div className="hidden md:block absolute left-9 top-0 w-px h-full bg-border" aria-hidden="true" />
-          
-          <div className="space-y-12">
-            {blueprintDays.map((day, index) => (
-              <div key={day.day} className="md:grid md:grid-cols-[auto,1fr] md:gap-x-8 items-start">
-                <div className="relative flex items-center justify-center">
-                    <div className="hidden md:flex w-20 h-20 bg-card border-4 border-primary rounded-full items-center justify-center text-primary font-bold text-2xl z-10">
-                        {`D${day.day}`}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {blueprintDays.map((day) => (
+              <Card key={day.day} className="flex flex-col">
+                <CardHeader>
+                  <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-xl shrink-0">
+                          {`D${day.day}`}
+                      </div>
+                      <div>
+                          <CardTitle>{day.title}</CardTitle>
+                      </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4 flex-grow">
+                    <div>
+                        <h3 className="font-semibold mb-2 text-sm">Task Flow:</h3>
+                        <ul className="space-y-2">
+                            {day.tasks.map((task, taskIndex) => (
+                                <li key={taskIndex} className="flex items-start gap-3">
+                                    <Check className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
+                                    <span className="text-sm text-muted-foreground">{task}</span>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                     <div className="md:hidden flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-xl z-10">
-                            {`D${day.day}`}
-                        </div>
-                         <h2 className="text-2xl font-bold md:hidden">{day.title}</h2>
+                </CardContent>
+                <CardDescription className="p-6 pt-0">
+                    <div className="bg-muted p-4 rounded-md">
+                        <h3 className="font-semibold flex items-center gap-2 text-sm">
+                            <Rocket className="h-5 w-5 text-accent" />
+                            <span>Target Outcome</span>
+                        </h3>
+                        <p className="text-muted-foreground mt-2 text-sm">{day.outcome}</p>
                     </div>
-                </div>
-                <Card className="w-full">
-                    <CardHeader>
-                        <CardTitle className="hidden md:block">{day.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div>
-                            <h3 className="font-semibold mb-2">Task Flow:</h3>
-                            <ul className="space-y-2">
-                                {day.tasks.map((task, taskIndex) => (
-                                    <li key={taskIndex} className="flex items-start gap-3">
-                                        <Check className="h-5 w-5 text-green-500 mt-0.5 shrink-0" />
-                                        <span className="text-muted-foreground">{task}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                         <div className="bg-muted p-4 rounded-md">
-                            <h3 className="font-semibold flex items-center gap-2">
-                                <Rocket className="h-5 w-5 text-accent" />
-                                <span>Target Outcome</span>
-                            </h3>
-                            <p className="text-muted-foreground mt-2">{day.outcome}</p>
-                        </div>
-                    </CardContent>
-                </Card>
-              </div>
+                </CardDescription>
+              </Card>
             ))}
-          </div>
         </div>
       </section>
     </div>
