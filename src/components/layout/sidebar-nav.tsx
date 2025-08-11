@@ -53,6 +53,66 @@ const SubMenu = ({
     items.some((item) => pathname.startsWith(item.href)) || pathname === dashboardHref
   );
 
+  // Special case for CRM suite
+  if (title === 'Business Management') {
+      const isCrmActive = pathname.startsWith('/business-management/crm-suite');
+       return (
+        <Collapsible open={isOpen || isCrmActive} onOpenChange={setIsOpen}>
+          <div className="flex items-center">
+            <SidebarMenuButton
+              asChild
+              variant="ghost"
+              className="w-full justify-start gap-2"
+              isActive={pathname === dashboardHref && !isCrmActive}
+            >
+              <Link href={dashboardHref}>
+                {icon}
+                <span>{title}</span>
+              </Link>
+            </SidebarMenuButton>
+            <CollapsibleTrigger asChild>
+              <SidebarMenuAction
+                className={cn(
+                  'relative ml-auto transition-transform',
+                  (isOpen || isCrmActive) && 'rotate-180'
+                )}
+              >
+                <ChevronDown />
+              </SidebarMenuAction>
+            </CollapsibleTrigger>
+          </div>
+          <CollapsibleContent>
+            <SidebarMenu className="ml-7 border-l pl-4 py-2 gap-0">
+                 <SidebarMenuItem>
+                    <SidebarMenuButton
+                        asChild
+                        size="sm"
+                        variant="ghost"
+                        className="w-full justify-start"
+                        isActive={isCrmActive}
+                    >
+                        <Link href="/business-management/crm-suite">CRM Suite</Link>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  <SidebarMenuButton
+                    asChild
+                    size="sm"
+                    variant="ghost"
+                    className="w-full justify-start"
+                    isActive={pathname === item.href}
+                  >
+                    <Link href={item.href}>{item.label}</Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </CollapsibleContent>
+        </Collapsible>
+       )
+  }
+
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
       <div className="flex items-center">
@@ -102,6 +162,10 @@ const SubMenu = ({
 export function SidebarNav() {
   const pathname = usePathname();
 
+  if (pathname.startsWith('/business-management/crm-suite')) {
+      return null; // The CRM layout will render its own sidebar
+  }
+
   return (
     <Sidebar>
       <SidebarHeader className="p-4">
@@ -145,7 +209,6 @@ export function SidebarNav() {
               items={[
                 { href: '/business-management/insights-dashboard', label: 'Insights Dashboard' },
                 { href: '/business-management/compliance-validator', label: 'Compliance Validator' },
-                { href: '/business-management/crm-suite', label: 'CRM, Appointments & Invoices' },
                 { href: '/business-management/project-task-manager', label: 'Project & Task Manager' },
                 { href: '/business-management/hr-system', label: 'HR System' },
               ]}
