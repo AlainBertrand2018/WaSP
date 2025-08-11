@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Check, Rocket, ArrowRight } from 'lucide-react';
 import React from 'react';
 
@@ -136,6 +136,12 @@ export default function SevenDayBlueprintPage() {
                 </div>
               </Card>
             ))}
+            <div className="flex items-center justify-center">
+                 <Button size="lg" className="group" disabled>
+                    <span>Let's Setup Your 7-Day Launching Plan</span>
+                    <ArrowRight className="transition-transform group-hover:translate-x-1" />
+                </Button>
+            </div>
         </div>
       </section>
     </div>
