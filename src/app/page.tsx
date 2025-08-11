@@ -159,8 +159,22 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Straddling Image */}
+        <div className="relative z-20 -mt-20 md:-mt-32 flex justify-center">
+            <div className="w-1/2">
+                <Image
+                src="/images/digital-device-mockup_02.webp"
+                width={1200}
+                height={600}
+                alt="Digital device mockup showing the app interface"
+                className="mx-auto"
+                data-ai-hint="app interface mockup"
+                />
+            </div>
+        </div>
+
         {/* Features Section */}
-        <section id="features" className="bg-secondary py-20 lg:py-32">
+        <section id="features" className="bg-secondary pt-20 lg:pt-32 pb-20 lg:pb-32">
           <div className="container mx-auto px-4">
             <div className="mx-auto max-w-3xl text-center">
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
