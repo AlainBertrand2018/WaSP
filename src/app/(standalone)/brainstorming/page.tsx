@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Lightbulb, Loader2, Sparkles, ArrowRight, CheckCircle } from 'lucide-react';
 import { generatePromisingSectors, type PromisingSector } from '@/ai/flows/ideation/generate-promising-sectors-flow';
 import { cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 export default function BrainstormingPage() {
