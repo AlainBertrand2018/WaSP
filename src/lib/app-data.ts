@@ -48,7 +48,7 @@ export const appCategories: AppCategory[] = [
       {
         icon: BrainCircuit,
         title: 'Brainstorming',
-        description: 'Brainstorm business ideas through the Mauritian SME landscape.',
+        description: 'A multi-step, guided app to help you brainstorm business ideas within the Mauritian SME landscape.',
         href: '/brainstorming',
         pro: false,
         imageSrc: '/images/TilePics/ideation_Brainstorming_AppTile.webp',
