@@ -148,6 +148,16 @@ export function CrmSidebarNav() {
               ]}
             />
           </SidebarMenuItem>
+          
+           <SidebarMenuItem>
+             <SubMenu
+              icon={<FileText />}
+              title="Invoices"
+              pathname={pathname}
+              dashboardHref="/business-management/crm-suite/invoices"
+              items={[]}
+            />
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
     </Sidebar>
