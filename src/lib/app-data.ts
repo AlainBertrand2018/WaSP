@@ -17,6 +17,7 @@ import {
   Users,
   Video,
   type LucideIcon,
+  BrainCircuit,
 } from 'lucide-react';
 import React from 'react';
 
@@ -40,6 +41,23 @@ export type AppCategory = {
 
 
 export const appCategories: AppCategory[] = [
+  {
+    category: 'Business Ideation',
+    description: 'Tools to spark and refine your next big idea.',
+    apps: [
+      {
+        icon: BrainCircuit,
+        title: 'Brainstorming',
+        description: 'Brainstorm business ideas through the Mauritian SME landscape.',
+        href: '/brainstorming',
+        pro: false,
+        imageSrc: '/images/TilePics/ideation_Brainstorming_AppTile.webp',
+        badge: { text: 'New', className: 'bg-blue-500' },
+        initialRating: 0,
+        initialRaters: 0,
+      },
+    ],
+  },
   {
     category: 'Business Creation',
     description: 'Tools to take your idea from concept to investor-ready.',
