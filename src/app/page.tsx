@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { CheckCircle, LayoutGrid, XCircle, Zap } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useMounted } from '@/hooks/use-mounted';
 import {
   Dialog,
@@ -100,6 +100,19 @@ const testimonials = [
 export default function Home() {
   const isMounted = useMounted();
   const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+
+  useEffect(() => {
+    if (isMounted) {
+      const hash = window.location.hash;
+      if (hash) {
+        const id = hash.substring(1); // remove #
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  }, [isMounted]);
 
   if (!isMounted) {
     return null;
@@ -498,5 +511,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
