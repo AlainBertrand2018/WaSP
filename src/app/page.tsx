@@ -123,7 +123,7 @@ export default function Home() {
           <nav className="hidden items-center gap-6 md:flex">
              <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium hover:text-primary">
-                Welcome to Business Studio <ChevronDown className="h-4 w-4" />
+                Welcome <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem asChild>
@@ -142,6 +142,9 @@ export default function Home() {
             </Link>
             <Link href="#pricing" className="text-sm font-medium hover:text-primary">
               Pricing
+            </Link>
+            <Link href="/investors_info" className="text-sm font-medium hover:text-primary" target="_blank" rel="noopener noreferrer">
+              Investors' Information
             </Link>
             <Dialog>
               <DialogTrigger asChild>
