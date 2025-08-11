@@ -56,18 +56,18 @@ export function MainHeader() {
             </DropdownMenuContent>
           </DropdownMenu>
           <Link
-            href="/apps"
-            className="text-sm font-medium hover:text-primary"
-          >
-            The Apps Gallery
-          </Link>
-          <Link
             href="/sme-info"
             className="text-sm font-medium hover:text-primary"
             target="_blank"
             rel="noopener noreferrer"
           >
             Entrepreneurship in Mauritius
+          </Link>
+          <Link
+            href="/apps"
+            className="text-sm font-medium hover:text-primary"
+          >
+            The Apps Gallery
           </Link>
           <Link
             href="#pricing"
