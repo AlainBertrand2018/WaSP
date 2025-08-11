@@ -9,12 +9,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Lightbulb, Loader2, Sparkles, ArrowRight, ArrowLeft, User, CheckCircle } from 'lucide-react';
+import { Lightbulb, Loader2, Sparkles, ArrowRight, ArrowLeft, User, CheckCircle, Users, Target, CircleDollarSign } from 'lucide-react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { cn } from '@/lib/utils';
-import { generateSuggestionsForUser, type GenerateSuggestionsForUserInput, type SectorSuggestion } from '@/ai/flows/ideation/generate-user-profile-analysis-flow';
+import { generateSuggestionsForUser, type SectorSuggestion } from '@/ai/flows/ideation/generate-user-profile-analysis-flow';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const profileSchema = z.object({
   expertise: z.string().min(10, "Please describe your expertise in a bit more detail."),
@@ -65,7 +66,7 @@ export default function BrainstormingPage() {
   const canProceedFromHints = selectedSector || customSector.trim();
 
   return (
-    <div className="w-full max-w-4xl mx-auto py-8">
+    <div className="w-full max-w-5xl mx-auto py-8">
       <Card className="w-full shadow-lg">
         <CardHeader className="text-center items-center">
           <div className="p-4 bg-primary/10 rounded-full">
@@ -79,7 +80,7 @@ export default function BrainstormingPage() {
         <CardContent className="space-y-8">
           
           {/* Step Indicator */}
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex justify-center items-center gap-4 px-4">
               <div className="flex flex-col items-center gap-1">
                   <div className={cn("w-8 h-8 rounded-full flex items-center justify-center font-bold", currentStep >= 1 ? "bg-primary text-primary-foreground" : "bg-muted")}>1</div>
                   <span className="text-xs font-semibold">Your Profile</span>
@@ -160,7 +161,6 @@ export default function BrainstormingPage() {
             </form>
           )}
 
-          {/* Step 2: AI Hints */}
           {currentStep === 2 && (
             <div>
               <h3 className="text-lg font-semibold text-center mb-4">Step 2: AI-Powered Sector Hints</h3>
@@ -171,7 +171,7 @@ export default function BrainstormingPage() {
                       key={sector.title}
                       onClick={() => handleSelectSector(sector.title)}
                       className={cn(
-                        'cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary',
+                        'cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-primary flex flex-col',
                         selectedSector === sector.title ? 'border-primary ring-2 ring-primary shadow-lg' : 'border-border'
                       )}
                     >
@@ -181,7 +181,12 @@ export default function BrainstormingPage() {
                              {selectedSector === sector.title && <CheckCircle className="text-primary" />}
                         </CardTitle>
                       </CardHeader>
-                      <CardContent>
+                      <CardContent className="flex-grow space-y-4">
+                         <div className="space-y-2 text-sm bg-muted p-3 rounded-md">
+                           <div className="flex items-center gap-2"><Users className="h-4 w-4 text-muted-foreground"/> <span>{sector.marketSize}</span></div>
+                           <div className="flex items-center gap-2"><Target className="h-4 w-4 text-muted-foreground"/> <span>{sector.marketValue}</span></div>
+                           <div className="flex items-center gap-2"><CircleDollarSign className="h-4 w-4 text-muted-foreground"/> <span>{sector.averageSalePrice}</span></div>
+                         </div>
                          <p className="text-sm font-semibold mb-2">Why it's a good fit for you:</p>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           {sector.reasonsWhy.map((reason, i) => (
@@ -223,4 +228,3 @@ export default function BrainstormingPage() {
     </div>
   );
 }
-

@@ -20,7 +20,10 @@ export type GenerateSuggestionsForUserInput = z.infer<typeof GenerateSuggestions
 // Define the schema for a single suggested sector
 export const SectorSuggestionSchema = z.object({
     title: z.string().describe("The name of the promising business sector."),
-    reasonsWhy: z.array(z.string()).describe("A list of 3-4 bullet points explaining why this sector is a good fit for the user, based on their profile and the provided document.")
+    reasonsWhy: z.array(z.string()).describe("A list of 3-4 bullet points explaining why this sector is a good fit for the user, based on their profile and the provided document."),
+    marketSize: z.string().describe("The potential market size in terms of the number of potential customers (e.g., '5,000-10,000 customers')."),
+    marketValue: z.string().describe("The potential annual market value in Mauritian Rupees (e.g., 'MUR 10M - 15M')."),
+    averageSalePrice: z.string().describe("A suggested average sale price per unit or service (e.g., 'MUR 500 - 1,500 per transaction')."),
 });
 export type SectorSuggestion = z.infer<typeof SectorSuggestionSchema>;
 

@@ -34,7 +34,7 @@ const prompt = ai.definePrompt({
   name: 'generateUserSuggestionsPrompt',
   input: { schema: z.object({ userProfile: GenerateSuggestionsForUserInputSchema, document: z.string() }) },
   output: { schema: GenerateSuggestionsForUserOutputSchema },
-  prompt: `You are an expert business consultant and career coach specializing in the Mauritian SME landscape. Your task is to analyze a user's profile and a document about the Mauritian SME ecosystem to suggest highly personalized business sectors.
+  prompt: `You are an expert business consultant and market analyst specializing in the Mauritian SME landscape. Your task is to analyze a user's profile and a document about the Mauritian SME ecosystem to suggest highly personalized business sectors with quantitative estimates.
 
 **Analysis Document on Mauritian SME Ecosystem:**
 ---
@@ -51,11 +51,14 @@ const prompt = ai.definePrompt({
 **Your Task:**
 Based *only* on the provided document and the user's profile, identify the top 3 most promising business sectors for this specific individual.
 
-For each of the 3 sectors you suggest:
-1.  Provide a clear **title** for the sector.
-2.  Provide a list of 3-4 compelling **reasonsWhy** this sector is a good fit. These reasons MUST connect the opportunities mentioned in the document with the user's specific profile (their expertise, passion, budget, etc.). For example, if the document mentions a rise in eco-tourism and the user is passionate about sustainable living, you should connect these two points.
+For each of the 3 sectors you suggest, you must provide:
+1.  A clear **title** for the sector.
+2.  A list of 3-4 compelling **reasonsWhy** this sector is a good fit. These reasons MUST connect the opportunities mentioned in the document with the user's specific profile (their expertise, passion, budget, etc.).
+3.  An estimated **marketSize** in terms of the potential number of customers (e.g., "5,000-10,000 customers").
+4.  An estimated annual **marketValue** in Mauritian Rupees (e.g., "MUR 8M - 12M").
+5.  A suggested **averageSalePrice** per unit or service, relevant to the sector (e.g., "MUR 1,000 - 2,500 per service").
 
-Produce the output in the specified JSON format. Your suggestions must be deeply personalized and directly reference the synergy between the user's profile and the market opportunities in the document.
+Produce the output in the specified JSON format. Your suggestions and estimations must be deeply personalized and directly reference the synergy between the user's profile and the market opportunities in the document.
 `,
 });
 
