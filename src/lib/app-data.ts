@@ -68,7 +68,7 @@ export const appCategories: AppCategory[] = [
         description: "Get AI-powered feedback on your business concept's viability in the Mauritian market.",
         href: '/business-management/business-idea-validation?view=standalone',
         pro: true,
-        imageSrc: '/images/business_validation_thbn_45sq.png',
+        imageSrc: '/images/business_Validation-Apptile_2.webp',
         badge: { text: 'Top Value', className: 'bg-yellow-500' },
         initialRating: 4.5,
         initialRaters: 200,
