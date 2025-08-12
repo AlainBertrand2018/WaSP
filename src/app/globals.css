@@ -52,10 +52,6 @@
     --sidebar-accent: hsl(var(--accent));
     --sidebar-accent-foreground: hsl(var(--accent-foreground));
   }
-
-  html {
-    @apply scroll-smooth;
-  }
 }
 
 @layer base {
@@ -64,5 +60,8 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  html {
+    @apply scroll-smooth;
   }
 }

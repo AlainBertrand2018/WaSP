@@ -7,6 +7,7 @@ import {
   Users,
   FileText,
   Plus,
+  Receipt,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -148,7 +149,7 @@ export function CrmSidebarNav() {
           
            <SidebarMenuItem>
              <SubMenu
-              icon={<FileText />}
+              icon={<Receipt />}
               title="Invoices"
               pathname={pathname}
               dashboardHref="/business-management/crm-suite/invoices"
