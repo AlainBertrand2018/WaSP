@@ -49,15 +49,13 @@ export function ClaireIntroPopup() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-md">
             <DialogHeader className="items-center text-center">
-                <div className="p-3 bg-primary/10 rounded-full w-fit">
-                     <Image 
-                        src="/images/claire-1.webp" 
-                        alt="CLAIRE BusinessStudio AI Assistant" 
-                        width={64} 
-                        height={64}
-                        className="rounded-full object-cover"
-                    />
-                </div>
+                 <Image 
+                    src="/images/claire-1.webp" 
+                    alt="CLAIRE BusinessStudio AI Assistant" 
+                    width={100} 
+                    height={100}
+                    className="rounded-full object-cover"
+                />
               <DialogTitle className="mt-2 text-2xl">Meet CLAIRE, Your AI Assistant</DialogTitle>
               <DialogDescription className="mt-2">
                 Have a question about starting a business in Mauritius or how to use our tools? Just ask me! I'm here to help you navigate your entrepreneurial journey.
