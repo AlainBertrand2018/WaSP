@@ -20,7 +20,7 @@ const items = [
     {
         title: "Manage Your Business",
         description: "Access your CRM, project manager, and other operational tools.",
-        header: <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>,
+        header: <Image src="/images/TilePics/business_ProjectMan_AppTile.webp" width={300} height={300} alt="Manage your business" className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover" data-ai-hint="project management" />,
         icon: <Rocket className="h-4 w-4 text-neutral-500" />,
         className: "md:col-span-1",
     },
