@@ -25,8 +25,8 @@
     --input: 240 5.9% 90%;
     --ring: 226 94% 60%;
     --radius: 0.5rem;
-    --sidebar-accent: hsl(var(--primary));
-    --sidebar-accent-foreground: hsl(var(--primary-foreground));
+    --sidebar-accent: hsl(var(--accent));
+    --sidebar-accent-foreground: hsl(var(--accent-foreground));
   }
   .dark {
     --background: 220 29% 11%; /* Black: #111828 */
@@ -49,8 +49,8 @@
     --border: 212 28% 16%;
     --input: 212 28% 16%;
     --ring: 226 94% 60%;
-    --sidebar-accent: hsl(var(--primary));
-    --sidebar-accent-foreground: hsl(var(--primary-foreground));
+    --sidebar-accent: hsl(var(--accent));
+    --sidebar-accent-foreground: hsl(var(--accent-foreground));
   }
 
   html {
