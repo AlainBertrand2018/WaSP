@@ -103,24 +103,23 @@ export function CrmSidebarNav() {
       <SidebarContent>
         <SidebarMenu>
           <SidebarMenuItem>
+                 <SidebarMenuButton asChild>
+                    <Link href="/dashboard">
+                        <Home />
+                        <span>Back to Dashboard</span>
+                    </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+             <li className='px-2'>
+                <hr className='my-2' />
+            </li>
+          <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={pathname === '/business-management/crm-suite' || pathname === '/business-management/crm-suite/projects'}>
               <Link href="/business-management/crm-suite/projects">
-                <Home />
+                <Briefcase />
                 <span>Dashboard</span>
               </Link>
             </SidebarMenuButton>
-          </SidebarMenuItem>
-
-           <SidebarMenuItem>
-             <SubMenu
-              icon={<Briefcase />}
-              title="Projects"
-              pathname={pathname}
-              dashboardHref="/business-management/crm-suite/projects"
-              items={[
-                { href: '/business-management/crm-suite/projects/new', label: 'New Project' },
-              ]}
-            />
           </SidebarMenuItem>
           
            <SidebarMenuItem>

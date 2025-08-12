@@ -4,6 +4,7 @@
 import {
   CalendarCheck,
   Circle,
+  Home,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -33,6 +34,17 @@ export function SevenDayBlueprintSidebarNav() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
+           <SidebarMenuItem>
+                 <SidebarMenuButton asChild>
+                    <Link href="/dashboard">
+                        <Home />
+                        <span>Back to Dashboard</span>
+                    </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+             <li className='px-2'>
+                <hr className='my-2' />
+            </li>
           {navigationItems.map((item) => (
              <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton asChild isActive={pathname.startsWith(item.href)}>
