@@ -1,4 +1,3 @@
-
 'use client';
 
 import {
@@ -165,8 +164,8 @@ const SubMenu = ({
 export function SidebarNav() {
   const pathname = usePathname();
 
-  if (pathname.startsWith('/business-management/crm-suite') || pathname.startsWith('/ideation')) {
-      return null; // The CRM or Ideation layout will render its own sidebar
+  if (pathname.startsWith('/business-management/crm-suite') || pathname.startsWith('/ideation') || pathname.startsWith('/business-creation')) {
+      return null; // The layout for the specific suite will render its own sidebar
   }
 
   return (
@@ -195,19 +194,12 @@ export function SidebarNav() {
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <SubMenu
-              icon={<Rocket />}
-              title="Business Creation"
-              pathname={pathname}
-              dashboardHref="/business-creation"
-              items={[
-                { href: '/business-creation/business-idea-validation', label: 'Business Idea Validation' },
-                { href: '/business-creation/mvp-planner', label: 'MVP Planner' },
-                { href: '/business-creation/startup-budget-planner', label: 'Startup Budget Planner'},
-                { href: '/business-creation/business-plan-generator', label: 'Business Plan Generator' },
-                { href: '/business-creation/7-day-blueprint', label: '7-Day Business Blueprint' },
-              ]}
-            />
+            <SidebarMenuButton asChild isActive={pathname.startsWith('/business-creation')}>
+              <Link href="/business-creation">
+                <Rocket />
+                <span>Business Creation</span>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
 
           <SidebarMenuItem>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { SidebarNav } from '@/components/layout/sidebar-nav';
@@ -10,9 +9,18 @@ import { Toaster } from '@/components/ui/toaster';
 import Chatbot from '@/components/feature/chatbot';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   
+  // Conditionally render a different sidebar trigger for specific layouts
+  const showMainSidebar = !(
+    pathname.startsWith('/business-management/crm-suite') || 
+    pathname.startsWith('/ideation') ||
+    pathname.startsWith('/business-creation')
+  );
+
   return (
     <ThemeProvider
       attribute="class"
@@ -21,7 +29,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       disableTransitionOnChange
     >
       <SidebarProvider>
-        <SidebarNav />
+        {showMainSidebar && <SidebarNav />}
         <SidebarInset>
           <div className="flex flex-col min-h-screen">
             <header className="flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6 sticky top-0 z-30">
