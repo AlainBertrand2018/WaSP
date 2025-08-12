@@ -11,7 +11,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 import { Bot, Loader2, MessageSquare, Send, X } from 'lucide-react';
 import { useChatStore } from '@/store/chat-store';
 import { generateChatResponse } from '@/ai/flows/chatbot/generate-chat-response-flow';
@@ -24,12 +25,12 @@ export default function Chatbot() {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { messages, addMessage, isChatOpen, toggleChat } = useChatStore();
-  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const viewportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTo({
-        top: scrollAreaRef.current.scrollHeight,
+    if (viewportRef.current) {
+      viewportRef.current.scrollTo({
+        top: viewportRef.current.scrollHeight,
         behavior: 'smooth',
       });
     }
@@ -110,36 +111,40 @@ export default function Chatbot() {
                 </Button>
               </CardHeader>
               <CardContent className="flex-1 overflow-hidden p-0">
-                <ScrollArea className="h-full" ref={scrollAreaRef}>
-                  <div className="p-6 space-y-4">
-                    {messages.map((message, index) => (
-                      <div
-                        key={index}
-                        className={cn(
-                          'flex gap-3',
-                          message.role === 'user' ? 'justify-end' : 'justify-start'
+                <ScrollArea className="h-full">
+                   <ScrollAreaPrimitive.Viewport ref={viewportRef} className="h-full w-full rounded-[inherit]">
+                      <div className="p-6 space-y-4">
+                        {messages.map((message, index) => (
+                          <div
+                            key={index}
+                            className={cn(
+                              'flex gap-3',
+                              message.role === 'user' ? 'justify-end' : 'justify-start'
+                            )}
+                          >
+                            <div
+                              className={cn(
+                                'rounded-lg px-4 py-2 max-w-xs prose prose-sm',
+                                message.role === 'user'
+                                  ? 'bg-primary text-primary-foreground'
+                                  : 'bg-muted'
+                              )}
+                              dangerouslySetInnerHTML={{ __html: marked(message.content) }}
+                            />
+                          </div>
+                        ))}
+                        {isLoading && (
+                          <div className="flex justify-start gap-3">
+                            <div className="rounded-lg px-4 py-2 bg-muted flex items-center space-x-2">
+                              <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                              <span className="text-sm text-muted-foreground">Claire is typing...</span>
+                            </div>
+                          </div>
                         )}
-                      >
-                        <div
-                          className={cn(
-                            'rounded-lg px-4 py-2 max-w-xs prose prose-sm',
-                            message.role === 'user'
-                              ? 'bg-primary text-primary-foreground'
-                              : 'bg-muted'
-                          )}
-                          dangerouslySetInnerHTML={{ __html: marked(message.content) }}
-                        />
                       </div>
-                    ))}
-                    {isLoading && (
-                      <div className="flex justify-start gap-3">
-                        <div className="rounded-lg px-4 py-2 bg-muted flex items-center space-x-2">
-                          <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                          <span className="text-sm text-muted-foreground">Claire is typing...</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  </ScrollAreaPrimitive.Viewport>
+                  <ScrollBar />
+                  <ScrollAreaPrimitive.Corner />
                 </ScrollArea>
               </CardContent>
               <CardFooter>
