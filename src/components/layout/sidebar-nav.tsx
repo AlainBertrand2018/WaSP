@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -164,7 +165,7 @@ const SubMenu = ({
 export function SidebarNav() {
   const pathname = usePathname();
 
-  if (pathname.startsWith('/business-management/crm-suite') || pathname.startsWith('/ideation') || pathname.startsWith('/business-creation')) {
+  if (pathname.startsWith('/business-management/crm-suite') || pathname.startsWith('/ideation') || pathname.startsWith('/business-creation') || pathname.startsWith('/7-day-blueprint')) {
       return null; // The layout for the specific suite will render its own sidebar
   }
 
@@ -198,6 +199,15 @@ export function SidebarNav() {
               <Link href="/business-creation">
                 <Rocket />
                 <span>Business Creation</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          
+           <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname.startsWith('/7-day-blueprint')}>
+              <Link href="/7-day-blueprint">
+                <CalendarCheck />
+                <span>7-Day Blueprint</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

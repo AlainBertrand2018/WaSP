@@ -2,10 +2,8 @@
 'use client';
 
 import {
-  FileText,
-  Lightbulb,
-  Rocket,
-  Wallet,
+  CalendarCheck,
+  Circle,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -20,13 +18,12 @@ import {
 import React from 'react';
 
 const navigationItems = [
-    { href: '/business-creation/business-idea-validation', label: '1. Idea Validation', icon: <Lightbulb /> },
-    { href: '/business-creation/mvp-planner', label: '2. MVP Planner', icon: <Rocket /> },
-    { href: '/business-creation/startup-budget-planner', label: '3. Startup Budget', icon: <Wallet /> },
-    { href: '/business-creation/business-plan-generator', label: '4. Business Plan', icon: <FileText /> },
+    { href: '/7-day-blueprint', label: 'Blueprint Overview', icon: <CalendarCheck /> },
+    { href: '/7-day-blueprint/d1', label: 'Day 1: Discovery', icon: <Circle /> },
+    // Add other days here as they are created
 ];
 
-export function BusinessCreationSidebarNav() {
+export function SevenDayBlueprintSidebarNav() {
   const pathname = usePathname();
 
   return (

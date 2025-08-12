@@ -17,7 +17,7 @@ export default function Day1Page() {
     <div className="max-w-4xl mx-auto py-8">
       <div className="mb-6">
         <Button asChild variant="outline">
-          <Link href="/business-creation/7-day-blueprint">
+          <Link href="/7-day-blueprint">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Blueprint Overview
           </Link>
