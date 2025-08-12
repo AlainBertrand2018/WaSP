@@ -52,7 +52,7 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col w-full">
        <section
-        className="relative w-full h-[50vh] min-h-[400px]"
+        className="relative w-full min-h-screen"
         style={{ backgroundColor: '#121212' }}
        >
          <Spline
