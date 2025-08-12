@@ -30,6 +30,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import { MainHeader } from '@/components/layout/main-header';
 import { appCategories } from '@/lib/app-data';
 import { AppCard } from '@/components/feature/app-card';
+import { ClaireIntroPopup } from '@/components/feature/claire-intro-popup';
 
 const featureCards = [
   {
@@ -166,6 +167,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
       <MainHeader />
+      <ClaireIntroPopup />
 
       <main className="flex-1">
         {/* Hero Section */}
