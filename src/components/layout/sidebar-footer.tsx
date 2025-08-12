@@ -1,7 +1,7 @@
 
 'use client';
 
-import { ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -12,25 +12,28 @@ import {
 export function SidebarFooter() {
   const { setOpen, open } = useSidebar();
 
-  if (open) {
-    return null; // Don't show the button if the sidebar is already open
-  }
-
   return (
     <div className="mt-auto">
       <SidebarMenu>
         <SidebarMenuItem>
-          <SidebarMenuButton
-            onClick={() => setOpen(true)}
-            tooltip={{
-              children: 'Expand for more',
-              side: 'right',
-              align: 'center',
-            }}
-          >
-            <ChevronRight />
-            <span className="sr-only">Expand for more</span>
-          </SidebarMenuButton>
+          {open ? (
+            <SidebarMenuButton onClick={() => setOpen(false)}>
+              <ChevronLeft />
+              <span>Collapse</span>
+            </SidebarMenuButton>
+          ) : (
+            <SidebarMenuButton
+              onClick={() => setOpen(true)}
+              tooltip={{
+                children: 'Expand for more',
+                side: 'right',
+                align: 'center',
+              }}
+            >
+              <ChevronRight />
+              <span className="sr-only">Expand for more</span>
+            </SidebarMenuButton>
+          )}
         </SidebarMenuItem>
       </SidebarMenu>
     </div>
