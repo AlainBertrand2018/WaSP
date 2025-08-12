@@ -7,12 +7,13 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { FileText, Lightbulb, Rocket, Wallet } from 'lucide-react';
+import Image from 'next/image';
 
 const items = [
     {
         title: "Start a New Venture",
         description: "Begin the 4-step journey to validate your idea and create a full business plan.",
-        header: <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>,
+        header: <Image src="/images/TilePics/val2Bp_600x300.webp" width={600} height={300} alt="Start a new venture" className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover" data-ai-hint="business plan journey" />,
         icon: <Lightbulb className="h-4 w-4 text-neutral-500" />,
         className: "md:col-span-2",
     },
