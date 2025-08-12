@@ -813,7 +813,7 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
               <Button
                 type="button"
                 onClick={handleNextStep}
-                className="w-full md:w-auto"
+                className="w-full sm:w-auto"
                 disabled={
                   (currentStep === 3 && formData.marketPotential === null) ||
                   (currentStep === 6 &&
@@ -829,7 +829,7 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
                 <ArrowRight />
               </Button>
             ) : (
-                <div className="flex gap-2 w-full md:w-auto">
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                     {!isStandalone && (
                          <Button type="button" variant="outline" onClick={resetForm} className="gap-2">
                             <RefreshCcw />
@@ -857,5 +857,3 @@ export default function BusinessIdeaValidationPage() {
         </Suspense>
     )
 }
-
-    

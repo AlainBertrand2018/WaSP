@@ -17,7 +17,6 @@ import { cn } from '@/lib/utils';
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   
-  // Conditionally render a different sidebar trigger for specific layouts
   const showMainSidebar = !(
     pathname.startsWith('/business-management/crm-suite') || 
     pathname.startsWith('/ideation') ||
@@ -48,7 +47,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      <SidebarProvider>
+      <SidebarProvider defaultOpen={false}>
         {showMainSidebar && <SidebarNav />}
         <SidebarInset>
           <div className="flex flex-col min-h-screen">
@@ -68,7 +67,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </header>
             <main className={cn(
               "flex-1",
-              !isLandingPage && "p-6 sm:p-8" // Apply padding to all pages except specified landing pages
+              !isLandingPage && "p-4 sm:p-6" // Apply padding to all pages except specified landing pages
             )}>
               {children}
             </main>
