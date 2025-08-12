@@ -17,6 +17,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import React from 'react';
 
@@ -32,8 +33,12 @@ export function BusinessCreationSidebarNav() {
 
   return (
     <Sidebar>
-       <SidebarHeader className="p-4 h-[60px] flex items-center">
-        {/* Spacing for consistency with main header */}
+       <SidebarHeader className="p-4 h-[60px] flex items-center justify-between">
+          <div className="md:hidden">
+            <SidebarTrigger />
+          </div>
+          <div className="flex-grow"></div>
+          <SidebarTrigger className="hidden md:flex" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>

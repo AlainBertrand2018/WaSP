@@ -98,8 +98,12 @@ export function CrmSidebarNav() {
 
   return (
     <Sidebar>
-       <SidebarHeader className="p-4 h-[60px] flex items-center">
-        {/* The logo is now in the main app header, this is for spacing */}
+       <SidebarHeader className="p-4 h-[60px] flex items-center justify-between">
+          <div className="md:hidden">
+            <SidebarTrigger />
+          </div>
+          <div className="flex-grow"></div>
+          <SidebarTrigger className="hidden md:flex" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
