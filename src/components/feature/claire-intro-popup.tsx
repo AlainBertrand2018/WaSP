@@ -6,7 +6,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
-import Spline from '@splinetool/react-spline';
 
 export function ClaireIntroPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,16 +38,7 @@ export function ClaireIntroPopup() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-md overflow-hidden p-0">
-        <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0">
-                <Spline 
-                    scene="https://prod.spline.design/1yyg9ayUBahxStA8/scene.splinecode" 
-                    className="w-full h-full"
-                />
-            </div>
-        </div>
-        <div className="relative z-10 p-6 bg-background/80 backdrop-blur-sm rounded-lg">
+      <DialogContent className="sm:max-w-md">
             <DialogHeader className="items-center text-center">
                 <div className="p-3 bg-primary/10 rounded-full w-fit">
                      <Image src="/images/studioFlowLogo_1024.png" alt="BusinessStudio AI Logo" width={32} height={32} />
@@ -64,7 +54,6 @@ export function ClaireIntroPopup() {
                 <span>Start Chatting</span>
               </Button>
             </div>
-        </div>
       </DialogContent>
     </Dialog>
   );
