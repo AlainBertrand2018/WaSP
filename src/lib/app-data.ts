@@ -105,7 +105,7 @@ export const appCategories: AppCategory[] = [
             icon: HeartHandshake,
             title: 'CRM SUITE',
             description: 'Manage customers, appointments, and invoices.',
-            href: '/business-management/crm-suite/projects',
+            href: '/business-management/crm-suite',
             pro: false,
             imageSrc: '/images/TilePics/business_CRM_AppTile.webp',
             badge: { text: 'Hot', className: 'bg-red-600' },
