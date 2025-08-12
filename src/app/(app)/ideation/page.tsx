@@ -46,9 +46,9 @@ const benefits = [
 
 export default function IdeationLandingPage() {
   return (
-    <div className="flex flex-col w-full -mt-8 -mx-8">
+    <div className="flex flex-col w-full">
       {/* Hero Section with Spline Background */}
-      <section className="relative w-full h-screen flex items-center justify-center text-center">
+      <section className="relative w-full h-screen flex items-center justify-center text-center" style={{ backgroundColor: '#121212' }}>
         <div className="absolute top-0 left-0 w-full h-full z-0">
              <Spline scene="https://prod.spline.design/8OQkArk1AgEuDdgZ/scene.splinecode" />
         </div>
