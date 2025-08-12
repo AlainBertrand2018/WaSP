@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
-import Spline from '@splinetool/react-spline';
+import { SplineHero } from '@/components/layout/spline-hero';
 
 const steps = [
   {
@@ -47,12 +47,10 @@ const benefits = [
 export default function IdeationLandingPage() {
   return (
     <div className="flex flex-col w-full">
-      {/* Hero Section with Spline Background */}
-      <section className="relative w-full h-screen" style={{ backgroundColor: '#121212' }}>
-        <a href="#why-use" className="absolute top-0 left-0 w-full h-full z-0 cursor-pointer">
-             <Spline scene="https://prod.spline.design/FKmWkI9k5Dkb9cLz/scene.splinecode" />
-        </a>
-      </section>
+      <SplineHero
+        splineUrl="https://prod.spline.design/FKmWkI9k5Dkb9cLz/scene.splinecode"
+        scrollToId="why-use"
+      />
 
       <div className='px-8 py-8 md:py-12'>
         {/* Benefits Section */}
