@@ -180,7 +180,7 @@ export function SidebarNav() {
             <SidebarMenuButton asChild isActive={pathname === '/dashboard'}>
               <Link href="/dashboard">
                 <Home />
-                <span>360° Business Dashboard</span>
+                <span>Active Tool Kits</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
