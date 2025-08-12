@@ -67,7 +67,7 @@ export const appCategories: AppCategory[] = [
         icon: Lightbulb,
         title: 'Business Idea Validation',
         description: "Get AI-powered feedback on your business concept's viability in the Mauritian market.",
-        href: '/business-creation/business-idea-validation?view=standalone',
+        href: '/business-creation',
         pro: true,
         imageSrc: '/images/business_Validation-Apptile_2.webp',
         badge: { text: 'Top Value', className: 'bg-yellow-500' },
