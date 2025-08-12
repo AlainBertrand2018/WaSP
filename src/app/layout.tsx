@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/layout/theme-provider';
 import Chatbot from '@/components/feature/chatbot';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -87,6 +88,7 @@ export default function RootLayout({
           <Chatbot />
         </ThemeProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
