@@ -8,20 +8,32 @@ import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 import { useChatStore } from '@/store/chat-store';
 
+const POPUP_STORAGE_KEY = 'clairePopupLastSeen';
+const POPUP_DELAY_MS = 48 * 60 * 60 * 1000; // 48 hours
+
 export function ClaireIntroPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const { toggleChat } = useChatStore();
 
   useEffect(() => {
-    // Show the popup after a 3-second delay on page load.
+    const lastSeen = localStorage.getItem(POPUP_STORAGE_KEY);
+    const now = Date.now();
+
+    if (lastSeen && (now - parseInt(lastSeen, 10) < POPUP_DELAY_MS)) {
+      // If seen within the last 48 hours, don't show the popup.
+      return;
+    }
+
+    // Show the popup after a 1-second delay.
     const showTimer = setTimeout(() => {
       setIsOpen(true);
+      localStorage.setItem(POPUP_STORAGE_KEY, now.toString());
     }, 1000);
 
-    // Set a timer to automatically close the popup after 20 seconds.
+    // Set a timer to automatically close the popup after 12 seconds if not interacted with.
     const autoCloseTimer = setTimeout(() => {
       setIsOpen(false);
-    }, 13000); // 3s delay + 10s display time
+    }, 13000); // 1s delay + 12s display time
 
     // Cleanup timers if the component unmounts.
     return () => {
