@@ -31,7 +31,7 @@ export function IdeationSidebarNav() {
                  <SidebarMenuButton asChild>
                     <Link href="/dashboard">
                         <Home />
-                        <span>Back to Dashboard</span>
+                        <span>Back to Tools Dashboard</span>
                     </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>
