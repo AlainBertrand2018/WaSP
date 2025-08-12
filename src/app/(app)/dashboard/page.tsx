@@ -1,5 +1,8 @@
 
+'use client';
+
 import { BentoGrid, BentoGridItem } from '@/components/aceternity/bento-grid';
+import Spline from '@splinetool/react-spline';
 import {
   Card,
   CardContent,
@@ -47,31 +50,44 @@ const items = [
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col gap-8 py-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">
-          360° Business Dashboard
-        </h1>
-        <p className="text-muted-foreground">
-          A comprehensive overview of your entire business ecosystem.
-        </p>
-      </div>
-
-      <section>
-        <BentoGrid className="max-w-4xl mx-auto">
-            {items.map((item, i) => (
-              <Link href={item.href || '#'} key={i} className={item.className}>
-                <BentoGridItem
-                    title={item.title}
-                    description={item.description}
-                    header={item.header}
-                    icon={item.icon}
-                    className="h-full"
-                />
-              </Link>
-            ))}
-        </BentoGrid>
+    <div className="flex flex-col w-full">
+       <section
+        className="relative w-full h-[50vh] min-h-[400px]"
+        style={{ backgroundColor: '#121212' }}
+       >
+         <Spline
+          scene="https://prod.spline.design/VYewelMi9Zmpa9NU/scene.splinecode"
+          className="!absolute !top-0 !left-0 !w-full !h-full"
+        />
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4 bg-black/50">
+            <div className="max-w-4xl space-y-4">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
+                    Your Active Toolkits
+                </h1>
+                <p className="text-lg text-white/80">
+                  A comprehensive overview of your entire business ecosystem.
+                </p>
+            </div>
+        </div>
       </section>
+      
+      <div className="px-8 py-8 md:py-12">
+        <section>
+            <BentoGrid className="max-w-4xl mx-auto">
+                {items.map((item, i) => (
+                <Link href={item.href || '#'} key={i} className={item.className}>
+                    <BentoGridItem
+                        title={item.title}
+                        description={item.description}
+                        header={item.header}
+                        icon={item.icon}
+                        className="h-full"
+                    />
+                </Link>
+                ))}
+            </BentoGrid>
+        </section>
+      </div>
     </div>
   );
 }

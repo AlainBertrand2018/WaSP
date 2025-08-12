@@ -36,7 +36,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   const appTitle = getAppTitle();
   
-  const isLandingPage = pathname === '/ideation' || pathname === '/business-creation';
+  const isLandingPage = 
+    pathname === '/ideation' || 
+    pathname === '/business-creation' || 
+    pathname === '/dashboard';
 
   return (
     <ThemeProvider
