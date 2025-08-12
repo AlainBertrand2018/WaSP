@@ -36,7 +36,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   const appTitle = getAppTitle();
   
-  const isIdeationPage = pathname === '/ideation';
+  const isLandingPage = pathname === '/ideation' || pathname === '/business-creation';
 
   return (
     <ThemeProvider
@@ -65,7 +65,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </header>
             <main className={cn(
               "flex-1",
-              !isIdeationPage && "p-6 sm:p-8" // Apply padding to all pages except the ideation landing page
+              !isLandingPage && "p-6 sm:p-8" // Apply padding to all pages except specified landing pages
             )}>
               {children}
             </main>

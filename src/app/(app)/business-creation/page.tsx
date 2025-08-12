@@ -1,9 +1,10 @@
 
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ArrowRight,
-  ChevronRight,
   FileText,
   Lightbulb,
   Rocket,
@@ -11,6 +12,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import { SplineHero } from '@/components/layout/spline-hero';
 
 const steps = [
   {
@@ -60,88 +62,77 @@ const benefits = [
 
 export default function BusinessCreationLandingPage() {
   return (
-    <div className="flex flex-col gap-12 py-8 md:py-12">
-      {/* Hero Section */}
-      <section className="text-center">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-          From a Spark of an Idea to an Investor-Ready Business Plan
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-          Our AI-powered Business Creation suite guides you through every critical
-          step of launching your venture in Mauritius. Validate, plan, budget,
-          and generate your professional business plan with confidence.
-        </p>
-        <Button asChild size="lg" className="mt-8 group">
-          <Link href="/business-creation/business-idea-validation">
-            <span>Let's Get Started</span>
-            <ArrowRight className="transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Button>
-      </section>
+    <div className="flex flex-col w-full">
+      <SplineHero
+        splineUrl="https://prod.spline.design/8OQkArk1AgEuDdgZ/scene.splinecode"
+        scrollToId="why-use-toolkit"
+      />
 
-      {/* Benefits Section */}
-      <section>
-          <h2 className="text-3xl font-bold text-center">Why Use This Toolkit?</h2>
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-              {benefits.map((benefit) => (
-                  <Card key={benefit.title} className="text-center">
-                      <CardHeader>
-                          <CardTitle>{benefit.title}</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                          <p className="text-muted-foreground">{benefit.description}</p>
-                      </CardContent>
+      <div className='px-8 py-8 md:py-12'>
+        {/* Benefits Section */}
+        <section id="why-use-toolkit" className="py-8 md:py-12">
+            <h2 className="text-3xl font-bold text-center">Why Use This Toolkit?</h2>
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                {benefits.map((benefit) => (
+                    <Card key={benefit.title} className="text-center">
+                        <CardHeader>
+                            <CardTitle>{benefit.title}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground">{benefit.description}</p>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+        </section>
+
+        {/* Steps Section */}
+        <section className="py-8 md:py-12">
+          <h2 className="text-3xl font-bold text-center">
+            Your 4-Step Path to a Business Plan
+          </h2>
+          <div className="relative mt-8">
+            {/* Dashed line for desktop */}
+            <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-transparent">
+              <div className="absolute top-1/2 left-0 w-full h-px bg-border-dashed" style={{
+                  background: `repeating-linear-gradient(to right, hsl(var(--border)), hsl(var(--border)) 4px, transparent 4px, transparent 8px))`
+              }}></div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              {steps.map((step, index) => (
+                <div key={step.title} className="relative flex flex-col items-center">
+                  <Card className="w-full h-full">
+                    <CardHeader className="items-center">{step.icon}</CardHeader>
+                    <CardContent className="text-center">
+                      <h3 className="font-bold">{step.title}</h3>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        {step.description}
+                      </p>
+                    </CardContent>
                   </Card>
+                </div>
               ))}
+            </div>
           </div>
-      </section>
+        </section>
 
-      {/* Steps Section */}
-      <section>
-        <h2 className="text-3xl font-bold text-center">
-          Your 4-Step Path to a Business Plan
-        </h2>
-        <div className="relative mt-8">
-          {/* Dashed line for desktop */}
-          <div className="hidden md:block absolute top-1/2 left-0 w-full h-px bg-transparent">
-             <div className="absolute top-1/2 left-0 w-full h-px bg-border-dashed" style={{
-                 background: `repeating-linear-gradient(to right, hsl(var(--border)), hsl(var(--border)) 4px, transparent 4px, transparent 8px))`
-             }}></div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {steps.map((step, index) => (
-              <div key={step.title} className="relative flex flex-col items-center">
-                 <Card className="w-full h-full">
-                  <CardHeader className="items-center">{step.icon}</CardHeader>
-                  <CardContent className="text-center">
-                    <h3 className="font-bold">{step.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {step.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA Section */}
-      <section className="text-center border-t pt-12 mt-4">
-        <h2 className="text-3xl font-bold">
-          Ready to Bring Your Idea to Life?
-        </h2>
-        <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-          Stop wondering and start validating. The first step towards a successful business is just a click away.
-        </p>
-        <Button asChild size="lg" className="mt-8 group">
-          <Link href="/business-creation/business-idea-validation">
-            <span>Start the Validation Process Now</span>
-            <ArrowRight className="transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Button>
-      </section>
+        {/* Final CTA Section */}
+        <section className="text-center border-t pt-12 mt-4">
+          <h2 className="text-3xl font-bold">
+            Ready to Bring Your Idea to Life?
+          </h2>
+          <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
+            Stop wondering and start validating. The first step towards a successful business is just a click away.
+          </p>
+          <Button asChild size="lg" className="mt-8 group">
+            <Link href="/business-creation/business-idea-validation">
+              <span>Start the Validation Process Now</span>
+              <ArrowRight className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Button>
+        </section>
+      </div>
     </div>
   );
 }
