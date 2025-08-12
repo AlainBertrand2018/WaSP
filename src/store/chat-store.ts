@@ -1,3 +1,4 @@
+
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
@@ -8,8 +9,10 @@ type Message = {
 
 type ChatState = {
   messages: Message[];
+  isChatOpen: boolean;
   addMessage: (message: Message) => void;
   clearMessages: () => void;
+  toggleChat: () => void;
 };
 
 export const useChatStore = create<ChatState>()(
@@ -18,14 +21,16 @@ export const useChatStore = create<ChatState>()(
       messages: [
         {
             role: 'model',
-            content: `Hello! My name is Claire which stands for Creative Launchpad for Aspiration, Innovation,
+            content: `Hello! My name is CLAIRE which stands for Creative Launchpad for Aspiration, Innovation,
 Revenue &
 Expansion, your AI assistant. How can I help you with your business today?`
         }
       ],
+      isChatOpen: false,
       addMessage: (message) =>
         set((state) => ({ messages: [...state.messages, message] })),
       clearMessages: () => set({ messages: [] }),
+      toggleChat: () => set((state) => ({ isChatOpen: !state.isChatOpen })),
     }),
     {
       name: 'chat-storage', // name of the item in the storage (must be unique)

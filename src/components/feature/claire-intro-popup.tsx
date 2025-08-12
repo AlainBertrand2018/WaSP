@@ -6,9 +6,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
+import { useChatStore } from '@/store/chat-store';
 
 export function ClaireIntroPopup() {
   const [isOpen, setIsOpen] = useState(false);
+  const { toggleChat } = useChatStore();
 
   // For development: Show the popup immediately without timers.
   useEffect(() => {
@@ -39,16 +41,16 @@ export function ClaireIntroPopup() {
   */
 
   const handleOpenChat = () => {
-    // This function will likely need to interact with your global chat state
-    // For now, it just closes the intro popup.
+    // Close this pop-up
     setIsOpen(false);
-    // You would add logic here to open the main chat window, e.g., by calling a function from your chat store.
+    // Open the main chat window via global state
+    toggleChat();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-md">
-            <DialogHeader className="items-center">
+            <DialogHeader className="items-center text-center">
                  <Image 
                     src="/images/claire-1.webp" 
                     alt="CLAIRE BusinessStudio AI Assistant" 

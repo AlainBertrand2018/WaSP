@@ -19,10 +19,9 @@ import { cn } from '@/lib/utils';
 import { marked } from 'marked';
 
 export default function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { messages, addMessage } = useChatStore();
+  const { messages, addMessage, isChatOpen, toggleChat } = useChatStore();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,10 +33,6 @@ export default function Chatbot() {
     }
   }, [messages]);
   
-  const handleToggle = () => {
-    setIsOpen((prev) => !prev);
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
@@ -66,10 +61,10 @@ export default function Chatbot() {
     }
   };
 
-  if (!isOpen) {
+  if (!isChatOpen) {
     return (
       <Button
-        onClick={handleToggle}
+        onClick={toggleChat}
         className="fixed bottom-6 right-6 z-50 rounded-full w-16 h-16 shadow-lg"
       >
         <MessageSquare size={24} />
@@ -89,7 +84,7 @@ export default function Chatbot() {
           <Bot size={20} />
           <CardTitle className="text-lg">CLAIRE - Your AI Assistant</CardTitle>
         </div>
-        <Button variant="ghost" size="icon" onClick={handleToggle} className="hover:bg-primary/80">
+        <Button variant="ghost" size="icon" onClick={toggleChat} className="hover:bg-primary/80">
           <X size={20} />
           <span className="sr-only">Close Chat</span>
         </Button>
