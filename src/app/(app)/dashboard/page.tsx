@@ -25,7 +25,7 @@ const items = [
         header: <Image src="/images/TilePics/business_CRM_AppTile.webp" width={300} height={300} alt="Manage your business" className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover" data-ai-hint="customer relationship management" />,
         icon: <Rocket className="h-4 w-4 text-neutral-500" />,
         className: "md:col-span-1",
-        href: "/business-management/insights-dashboard",
+        href: "/business-management/crm-suite",
     },
     {
         title: "Financial Planning",
