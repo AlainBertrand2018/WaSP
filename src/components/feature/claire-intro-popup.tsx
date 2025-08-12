@@ -57,7 +57,7 @@ export function ClaireIntroPopup() {
                     className="rounded-full object-cover"
                 />
               <DialogTitle className="mt-2 text-2xl">
-                Hello I am CLAIRE,
+                Hello I'm CLAIRE,
                 <br />
                 Your Personal AI Assistant
               </DialogTitle>
