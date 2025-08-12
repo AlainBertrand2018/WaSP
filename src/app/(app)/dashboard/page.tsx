@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { FileText, Lightbulb, Rocket, Wallet } from 'lucide-react';
+import { ChevronDown, FileText, Lightbulb, Rocket, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -49,6 +49,14 @@ const items = [
 ];
 
 export default function DashboardPage() {
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="flex flex-col w-full">
        <section
@@ -59,10 +67,20 @@ export default function DashboardPage() {
           scene="https://prod.spline.design/VYewelMi9Zmpa9NU/scene.splinecode"
           className="!absolute !top-0 !left-0 !w-full !h-full"
         />
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
+            <Link 
+              href="#toolkits"
+              onClick={(e) => handleScrollTo(e, 'toolkits')}
+              className="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/50 flex items-center justify-center text-primary-foreground animate-bounce hover:bg-primary/40 transition-colors"
+              aria-label="Scroll to next section"
+            >
+              <ChevronDown size={32} />
+            </Link>
+        </div>
       </section>
       
       <div className="px-4 sm:px-6 md:px-8 py-8 md:py-12">
-        <section className="text-center mb-12">
+        <section className="text-center mb-12" id="toolkits">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
                 Your Active Toolkits
             </h1>
