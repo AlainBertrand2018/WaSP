@@ -78,7 +78,7 @@ export const appCategories: AppCategory[] = [
         icon: CalendarCheck,
         title: '7-Day Business Blueprint',
         description: 'A guided, week-long sprint to take you from initial idea to a launch-ready business plan.',
-        href: '/business-creation/7-day-blueprint',
+        href: '/7-day-blueprint',
         pro: true,
         imageSrc: '/images/buisiness-7day_apptile.webp',
         badge: { text: 'New', className: 'bg-blue-500' },
