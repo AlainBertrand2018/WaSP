@@ -36,10 +36,12 @@ import {
   SidebarMenuItem,
   SidebarMenuAction,
   SidebarTrigger,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
+import { Button } from '../ui/button';
 
 const SubMenu = ({
   icon,
@@ -54,15 +56,23 @@ const SubMenu = ({
   pathname: string;
   dashboardHref: string;
 }) => {
-  const [isOpen, setIsOpen] = React.useState(
-    items.some((item) => pathname.startsWith(item.href)) || pathname === dashboardHref
-  );
+  const { open } = useSidebar();
+  const isParentActive = pathname.startsWith(dashboardHref);
+
+  const [isOpen, setIsOpen] = React.useState(isParentActive);
+  
+  React.useEffect(() => {
+    if (!open) {
+      setIsOpen(false);
+    }
+  }, [open]);
+
 
   // Special case for CRM suite
   if (title === 'Business Management') {
       const isCrmActive = pathname.startsWith('/business-management/crm-suite');
        return (
-        <Collapsible open={isOpen || isCrmActive} onOpenChange={setIsOpen}>
+        <Collapsible open={(isOpen || isCrmActive) && open} onOpenChange={setIsOpen}>
           <SidebarMenuButton
             asChild
             variant="ghost"
@@ -95,7 +105,7 @@ const SubMenu = ({
                         className="w-full justify-start"
                         isActive={isCrmActive}
                     >
-                        <Link href="/business-management/crm-suite/projects">CRM Suite</Link>
+                        <Link href="/business-management/crm-suite">CRM Suite</Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
               {items.map((item) => (
@@ -118,27 +128,29 @@ const SubMenu = ({
   }
 
   return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+    <Collapsible open={isOpen && open} onOpenChange={setIsOpen}>
         <SidebarMenuButton
             asChild
             variant="ghost"
             className="w-full justify-start gap-2"
-            isActive={pathname === dashboardHref}
+            isActive={pathname === dashboardHref && !items.some(item => pathname.startsWith(item.href))}
             tooltip={title}
         >
             <Link href={dashboardHref}>
                 {icon}
                 <span>{title}</span>
-                <CollapsibleTrigger asChild>
-                    <SidebarMenuAction
-                        className={cn(
-                        'relative ml-auto transition-transform',
-                        isOpen && 'rotate-180'
-                        )}
-                    >
-                        <ChevronDown />
-                    </SidebarMenuAction>
-                </CollapsibleTrigger>
+                {items.length > 0 && (
+                    <CollapsibleTrigger asChild>
+                        <SidebarMenuAction
+                            className={cn(
+                            'relative ml-auto transition-transform',
+                            isOpen && 'rotate-180'
+                            )}
+                        >
+                            <ChevronDown />
+                        </SidebarMenuAction>
+                    </CollapsibleTrigger>
+                )}
             </Link>
         </SidebarMenuButton>
       <CollapsibleContent>
@@ -150,7 +162,7 @@ const SubMenu = ({
                 size="sm"
                 variant="ghost"
                 className="w-full justify-start"
-                isActive={pathname === item.href}
+                isActive={pathname.startsWith(item.href)}
               >
                 <Link href={item.href}>{item.label}</Link>
               </SidebarMenuButton>
@@ -177,9 +189,11 @@ export function SidebarNav() {
            <div className="md:hidden">
                 <SidebarTrigger />
             </div>
-            <SidebarMenuButton variant="ghost" size="icon" className="hidden md:flex" tooltip="Toggle Sidebar">
-                <PanelLeft />
-            </SidebarMenuButton>
+            <SidebarTrigger asChild className="hidden md:flex">
+                <Button variant="ghost" size="icon" tooltip="Toggle Sidebar">
+                    <PanelLeft />
+                </Button>
+            </SidebarTrigger>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
