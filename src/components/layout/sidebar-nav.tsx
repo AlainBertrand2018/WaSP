@@ -42,6 +42,7 @@ import { cn } from '@/lib/utils';
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '../ui/button';
+import { SidebarFooter } from './sidebar-footer';
 
 const SubMenu = ({
   icon,
@@ -311,6 +312,7 @@ export function SidebarNav() {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
+        <SidebarFooter />
       </SidebarContent>
     </Sidebar>
   );

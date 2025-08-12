@@ -28,6 +28,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import React from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { SidebarFooter } from './sidebar-footer';
 
 const SubMenu = ({
   icon,
@@ -103,7 +104,7 @@ export function CrmSidebarNav() {
             <SidebarTrigger />
           </div>
           <div className="flex-grow"></div>
-          <SidebarTrigger className="hidden md:flex" />
+          <SidebarTrigger className="hidden md:flex" tooltip="Toggle Sidebar" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -161,6 +162,7 @@ export function CrmSidebarNav() {
             />
           </SidebarMenuItem>
         </SidebarMenu>
+        <SidebarFooter />
       </SidebarContent>
     </Sidebar>
   );

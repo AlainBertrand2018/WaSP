@@ -20,6 +20,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import React from 'react';
+import { SidebarFooter } from './sidebar-footer';
 
 const navigationItems = [
     { href: '/business-creation/business-idea-validation', label: '1. Idea Validation', icon: <Lightbulb /> },
@@ -38,7 +39,7 @@ export function BusinessCreationSidebarNav() {
             <SidebarTrigger />
           </div>
           <div className="flex-grow"></div>
-          <SidebarTrigger className="hidden md:flex" />
+          <SidebarTrigger className="hidden md:flex" tooltip="Toggle Sidebar" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -64,6 +65,7 @@ export function BusinessCreationSidebarNav() {
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
+        <SidebarFooter />
       </SidebarContent>
     </Sidebar>
   );

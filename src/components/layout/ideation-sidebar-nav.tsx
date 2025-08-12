@@ -17,6 +17,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import React from 'react';
+import { SidebarFooter } from './sidebar-footer';
 
 export function IdeationSidebarNav() {
   const pathname = usePathname();
@@ -28,7 +29,7 @@ export function IdeationSidebarNav() {
             <SidebarTrigger />
           </div>
           <div className="flex-grow"></div>
-          <SidebarTrigger className="hidden md:flex" />
+          <SidebarTrigger className="hidden md:flex" tooltip="Toggle Sidebar" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -52,6 +53,7 @@ export function IdeationSidebarNav() {
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
+        <SidebarFooter />
       </SidebarContent>
     </Sidebar>
   );

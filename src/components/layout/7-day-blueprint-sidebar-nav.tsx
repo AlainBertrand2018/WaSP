@@ -18,6 +18,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import React from 'react';
+import { SidebarFooter } from './sidebar-footer';
 
 const navigationItems = [
     { href: '/7-day-blueprint', label: 'Blueprint Overview', icon: <CalendarCheck /> },
@@ -35,7 +36,7 @@ export function SevenDayBlueprintSidebarNav() {
             <SidebarTrigger />
           </div>
           <div className="flex-grow"></div>
-          <SidebarTrigger className="hidden md:flex" />
+          <SidebarTrigger className="hidden md:flex" tooltip="Toggle Sidebar" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -61,6 +62,7 @@ export function SevenDayBlueprintSidebarNav() {
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
+        <SidebarFooter />
       </SidebarContent>
     </Sidebar>
   );
