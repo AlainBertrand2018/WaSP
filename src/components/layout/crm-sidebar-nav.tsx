@@ -21,8 +21,8 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarTrigger,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import React from 'react';
@@ -44,37 +44,41 @@ const SubMenu = ({
   dashboardHref: string;
 }) => {
   const isParentActive = pathname.startsWith(dashboardHref);
+  const { open } = useSidebar();
   const [isOpen, setIsOpen] = React.useState(isParentActive);
+
+  React.useEffect(() => {
+    if (!open) {
+      setIsOpen(false);
+    }
+  }, [open]);
   
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <div className="flex items-center">
-        <SidebarMenuButton
-          asChild
-          variant="ghost"
-          className="w-full justify-start gap-2"
-          isActive={pathname === dashboardHref && !items.some(item => pathname.startsWith(item.href))}
-        >
-          <Link href={dashboardHref}>
-            {icon}
-            <span>{title}</span>
-          </Link>
-        </SidebarMenuButton>
-        {items.length > 0 && (
-          <CollapsibleTrigger asChild>
-            <SidebarMenuButton
-              size="icon"
-              variant="ghost"
-              className={cn(
-                'ml-auto transition-transform',
-                isOpen && 'rotate-180'
-              )}
-            >
-              <ChevronDown />
-            </SidebarMenuButton>
-          </CollapsibleTrigger>
-        )}
-      </div>
+      <SidebarMenuButton
+        asChild={!open}
+        variant="ghost"
+        className="w-full justify-start gap-2"
+        isActive={pathname === dashboardHref && !items.some(item => pathname.startsWith(item.href))}
+        tooltip={title}
+      >
+        <Link href={dashboardHref}>
+          {icon}
+          <span>{title}</span>
+           {items.length > 0 && open && (
+              <CollapsibleTrigger asChild>
+                <button
+                  className={cn(
+                    'ml-auto transition-transform',
+                    isOpen && 'rotate-180'
+                  )}
+                >
+                  <ChevronDown />
+                </button>
+              </CollapsibleTrigger>
+            )}
+        </Link>
+      </SidebarMenuButton>
       <CollapsibleContent>
         <SidebarMenuSub>
           {items.map((item) => (
@@ -109,7 +113,7 @@ export function CrmSidebarNav() {
       <SidebarContent>
         <SidebarMenu>
           <SidebarMenuItem>
-                 <SidebarMenuButton asChild>
+                 <SidebarMenuButton asChild tooltip="Back to Tools Dashboard">
                     <Link href="/dashboard">
                         <Home />
                         <span>Back to Tools Dashboard</span>
@@ -120,7 +124,7 @@ export function CrmSidebarNav() {
                 <hr className='my-2' />
             </li>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/business-management/crm-suite'}>
+            <SidebarMenuButton asChild isActive={pathname === '/business-management/crm-suite'} tooltip="Dashboard">
               <Link href="/business-management/crm-suite">
                 <Briefcase />
                 <span>Dashboard</span>

@@ -59,7 +59,6 @@ const SubMenu = ({
 }) => {
   const { open } = useSidebar();
   const isParentActive = pathname.startsWith(dashboardHref);
-
   const [isOpen, setIsOpen] = React.useState(isParentActive);
   
   React.useEffect(() => {
@@ -68,70 +67,10 @@ const SubMenu = ({
     }
   }, [open]);
 
-
-  // Special case for CRM suite
-  if (title === 'Business Management') {
-      const isCrmActive = pathname.startsWith('/business-management/crm-suite');
-       return (
-        <Collapsible open={(isOpen || isCrmActive) && open} onOpenChange={setIsOpen}>
-          <SidebarMenuButton
-            asChild
-            variant="ghost"
-            className="w-full justify-start gap-2"
-            isActive={pathname === dashboardHref && !isCrmActive}
-            tooltip={title}
-          >
-            <Link href={dashboardHref}>
-              {icon}
-              <span>{title}</span>
-              <CollapsibleTrigger asChild>
-                <SidebarMenuAction
-                  className={cn(
-                    'relative ml-auto transition-transform',
-                    (isOpen || isCrmActive) && 'rotate-180'
-                  )}
-                >
-                  <ChevronDown />
-                </SidebarMenuAction>
-              </CollapsibleTrigger>
-            </Link>
-          </SidebarMenuButton>
-          <CollapsibleContent>
-            <SidebarMenu className="ml-7 border-l pl-4 py-2 gap-0">
-                 <SidebarMenuItem>
-                    <SidebarMenuButton
-                        asChild
-                        size="sm"
-                        variant="ghost"
-                        className="w-full justify-start"
-                        isActive={isCrmActive}
-                    >
-                        <Link href="/business-management/crm-suite">CRM Suite</Link>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton
-                    asChild
-                    size="sm"
-                    variant="ghost"
-                    className="w-full justify-start"
-                    isActive={pathname === item.href}
-                  >
-                    <Link href={item.href}>{item.label}</Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </CollapsibleContent>
-        </Collapsible>
-       )
-  }
-
   return (
-    <Collapsible open={isOpen && open} onOpenChange={setIsOpen}>
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <SidebarMenuButton
-            asChild
+            asChild={!open}
             variant="ghost"
             className="w-full justify-start gap-2"
             isActive={pathname === dashboardHref && !items.some(item => pathname.startsWith(item.href))}
@@ -140,16 +79,16 @@ const SubMenu = ({
             <Link href={dashboardHref}>
                 {icon}
                 <span>{title}</span>
-                {items.length > 0 && (
+                {items.length > 0 && open && (
                     <CollapsibleTrigger asChild>
-                        <SidebarMenuAction
-                            className={cn(
-                            'relative ml-auto transition-transform',
+                       <button
+                          className={cn(
+                            'ml-auto transition-transform',
                             isOpen && 'rotate-180'
-                            )}
+                          )}
                         >
-                            <ChevronDown />
-                        </SidebarMenuAction>
+                          <ChevronDown />
+                        </button>
                     </CollapsibleTrigger>
                 )}
             </Link>
@@ -189,7 +128,7 @@ export function SidebarNav() {
             <SidebarTrigger />
           </div>
           <div className="flex-grow"></div>
-          <SidebarTrigger className="hidden md:flex" tooltip="Toggle Sidebar" />
+          <SidebarTrigger className="hidden md:flex" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
@@ -236,6 +175,7 @@ export function SidebarNav() {
               pathname={pathname}
               dashboardHref="/business-management/insights-dashboard"
               items={[
+                { href: '/business-management/crm-suite', label: 'CRM Suite' },
                 { href: '/business-management/insights-dashboard', label: 'Insights Dashboard' },
                 { href: '/business-management/project-task-manager', label: 'Project & Task Manager' },
                 { href: '/business-management/hr-system', label: 'HR System' },
