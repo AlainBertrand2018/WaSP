@@ -142,6 +142,14 @@ export function SidebarNav() {
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
+           <SidebarMenuItem>
+            <SidebarMenuButton asChild isActive={pathname.startsWith('/apps')} tooltip="App Gallery">
+              <Link href="/apps">
+                <LayoutGrid />
+                <span>App Gallery</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
 
            <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={pathname.startsWith('/ideation')} tooltip="Ideation">
