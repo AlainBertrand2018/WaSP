@@ -94,9 +94,9 @@ export default function Chatbot() {
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className={cn(
-              "fixed z-50 h-[720px] flex flex-col",
-              "w-[90%] bottom-4 left-1/2 -translate-x-1/2",
-              "sm:w-full sm:max-w-sm sm:bottom-6 sm:right-6 sm:left-auto sm:translate-x-0"
+              "fixed z-50 h-[calc(100%-2rem)] max-h-[720px] flex flex-col",
+              "w-[90%] bottom-4 left-0 right-0 mx-auto", // Centered for mobile
+              "sm:w-full sm:max-w-sm sm:bottom-6 sm:right-6 sm:left-auto sm:mx-0" // Positioned to the right for desktop
             )}
           >
             <Card className="w-full h-full flex flex-col shadow-lg bg-secondary rounded-lg">
