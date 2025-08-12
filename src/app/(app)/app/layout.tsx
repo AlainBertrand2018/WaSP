@@ -12,6 +12,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { appTitles } from '@/lib/app-titles';
+import { cn } from '@/lib/utils';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -34,6 +35,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   };
 
   const appTitle = getAppTitle();
+  
+  const isLandingPage = 
+    pathname === '/ideation' || 
+    pathname === '/business-creation' || 
+    pathname === '/dashboard';
 
   return (
     <ThemeProvider
@@ -48,9 +54,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="flex flex-col min-h-screen">
             <header className="flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6 sticky top-0 z-30">
                 <div className='flex items-center gap-2'>
-                    <div className='md:hidden'>
-                        <SidebarTrigger/>
-                    </div>
+                    {/* The mobile trigger is now handled inside each respective sidebar nav component */}
                      <Link href="/dashboard" className="flex items-center gap-2">
                         <Image src="/images/studioFlow_website_Image.png" alt="BusinessStudio AI Logo" width={24} height={24} />
                         <span className="font-bold tracking-tighter hidden md:block">{appTitle}</span>
@@ -60,7 +64,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <UserNav />
               </div>
             </header>
-            <main className="flex-1 p-6 sm:p-8">
+            <main className={cn(
+              "flex-1",
+              !isLandingPage && "p-4" // Apply padding to all pages except specified landing pages
+            )}>
               {children}
             </main>
             <footer className="text-center p-4 text-sm text-muted-foreground border-t">

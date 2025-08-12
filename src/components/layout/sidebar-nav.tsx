@@ -16,6 +16,7 @@ import {
   BrainCircuit,
   CalendarCheck,
   CheckCheck,
+  PanelLeft,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -34,6 +35,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuAction,
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 import React from 'react';
@@ -61,29 +63,28 @@ const SubMenu = ({
       const isCrmActive = pathname.startsWith('/business-management/crm-suite');
        return (
         <Collapsible open={isOpen || isCrmActive} onOpenChange={setIsOpen}>
-          <div className="flex items-center">
-            <SidebarMenuButton
-              asChild
-              variant="ghost"
-              className="w-full justify-start gap-2"
-              isActive={pathname === dashboardHref && !isCrmActive}
-            >
-              <Link href={dashboardHref}>
-                {icon}
-                <span>{title}</span>
-              </Link>
-            </SidebarMenuButton>
-            <CollapsibleTrigger asChild>
-              <SidebarMenuAction
-                className={cn(
-                  'relative ml-auto transition-transform',
-                  (isOpen || isCrmActive) && 'rotate-180'
-                )}
-              >
-                <ChevronDown />
-              </SidebarMenuAction>
-            </CollapsibleTrigger>
-          </div>
+          <SidebarMenuButton
+            asChild
+            variant="ghost"
+            className="w-full justify-start gap-2"
+            isActive={pathname === dashboardHref && !isCrmActive}
+            tooltip={title}
+          >
+            <Link href={dashboardHref}>
+              {icon}
+              <span>{title}</span>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuAction
+                  className={cn(
+                    'relative ml-auto transition-transform',
+                    (isOpen || isCrmActive) && 'rotate-180'
+                  )}
+                >
+                  <ChevronDown />
+                </SidebarMenuAction>
+              </CollapsibleTrigger>
+            </Link>
+          </SidebarMenuButton>
           <CollapsibleContent>
             <SidebarMenu className="ml-7 border-l pl-4 py-2 gap-0">
                  <SidebarMenuItem>
@@ -118,29 +119,28 @@ const SubMenu = ({
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <div className="flex items-center">
         <SidebarMenuButton
-          asChild
-          variant="ghost"
-          className="w-full justify-start gap-2"
-          isActive={pathname === dashboardHref}
+            asChild
+            variant="ghost"
+            className="w-full justify-start gap-2"
+            isActive={pathname === dashboardHref}
+            tooltip={title}
         >
-          <Link href={dashboardHref}>
-            {icon}
-            <span>{title}</span>
-          </Link>
+            <Link href={dashboardHref}>
+                {icon}
+                <span>{title}</span>
+                <CollapsibleTrigger asChild>
+                    <SidebarMenuAction
+                        className={cn(
+                        'relative ml-auto transition-transform',
+                        isOpen && 'rotate-180'
+                        )}
+                    >
+                        <ChevronDown />
+                    </SidebarMenuAction>
+                </CollapsibleTrigger>
+            </Link>
         </SidebarMenuButton>
-        <CollapsibleTrigger asChild>
-          <SidebarMenuAction
-            className={cn(
-              'relative ml-auto transition-transform',
-              isOpen && 'rotate-180'
-            )}
-          >
-            <ChevronDown />
-          </SidebarMenuAction>
-        </CollapsibleTrigger>
-      </div>
       <CollapsibleContent>
         <SidebarMenu className="ml-7 border-l pl-4 py-2 gap-0">
           {items.map((item) => (
@@ -171,13 +171,20 @@ export function SidebarNav() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-4 h-[60px] flex items-center">
+      <SidebarHeader className="p-4 h-[60px] flex items-center justify-between">
           {/* The logo and title are now in the main app layout header */}
+          <div className="flex-grow"></div>
+           <div className="md:hidden">
+                <SidebarTrigger />
+            </div>
+            <SidebarMenuButton variant="ghost" size="icon" className="hidden md:flex" tooltip="Toggle Sidebar">
+                <PanelLeft />
+            </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/dashboard'}>
+            <SidebarMenuButton asChild isActive={pathname === '/dashboard'} tooltip="Active Tool Kits">
               <Link href="/dashboard">
                 <Home />
                 <span>Active Tool Kits</span>
@@ -186,7 +193,7 @@ export function SidebarNav() {
           </SidebarMenuItem>
 
            <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.startsWith('/ideation')}>
+            <SidebarMenuButton asChild isActive={pathname.startsWith('/ideation')} tooltip="Ideation">
               <Link href="/ideation">
                 <BrainCircuit />
                 <span>Ideation</span>
@@ -195,7 +202,7 @@ export function SidebarNav() {
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.startsWith('/business-creation')}>
+            <SidebarMenuButton asChild isActive={pathname.startsWith('/business-creation')} tooltip="Business Creation">
               <Link href="/business-creation">
                 <Rocket />
                 <span>Business Creation</span>
@@ -204,7 +211,7 @@ export function SidebarNav() {
           </SidebarMenuItem>
           
            <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.startsWith('/7-day-blueprint')}>
+            <SidebarMenuButton asChild isActive={pathname.startsWith('/7-day-blueprint')} tooltip="7-Day Blueprint">
               <Link href="/7-day-blueprint">
                 <CalendarCheck />
                 <span>7-Day Blueprint</span>
@@ -279,7 +286,7 @@ export function SidebarNav() {
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/todo'}>
+            <SidebarMenuButton asChild isActive={pathname === '/todo'} tooltip="To-do">
               <Link href="/todo">
                 <ClipboardList />
                 <span>To-do</span>
@@ -287,7 +294,7 @@ export function SidebarNav() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/business-resources'}>
+            <SidebarMenuButton asChild isActive={pathname === '/business-resources'} tooltip="Business Resources">
               <Link href="/business-resources">
                 <Book />
                 <span>Business Resources</span>
