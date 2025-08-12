@@ -59,19 +59,17 @@ export default function DashboardPage() {
           scene="https://prod.spline.design/VYewelMi9Zmpa9NU/scene.splinecode"
           className="!absolute !top-0 !left-0 !w-full !h-full"
         />
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4 bg-black/50">
-            <div className="max-w-4xl space-y-4">
-                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
-                    Your Active Toolkits
-                </h1>
-                <p className="text-lg text-white/80">
-                  A comprehensive overview of your entire business ecosystem.
-                </p>
-            </div>
-        </div>
       </section>
       
       <div className="px-8 py-8 md:py-12">
+        <section className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+                Your Active Toolkits
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+              A comprehensive overview of your entire business ecosystem.
+            </p>
+        </section>
         <section>
             <BentoGrid className="max-w-4xl mx-auto">
                 {items.map((item, i) => (
