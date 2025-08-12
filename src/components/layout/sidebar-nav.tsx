@@ -165,8 +165,8 @@ const SubMenu = ({
 export function SidebarNav() {
   const pathname = usePathname();
 
-  if (pathname.startsWith('/business-management/crm-suite')) {
-      return null; // The CRM layout will render its own sidebar
+  if (pathname.startsWith('/business-management/crm-suite') || pathname.startsWith('/ideation')) {
+      return null; // The CRM or Ideation layout will render its own sidebar
   }
 
   return (
@@ -186,15 +186,12 @@ export function SidebarNav() {
           </SidebarMenuItem>
 
            <SidebarMenuItem>
-            <SubMenu
-              icon={<BrainCircuit />}
-              title="Ideation"
-              pathname={pathname}
-              dashboardHref="/ideation"
-              items={[
-                { href: '/ideation/brainstorming', label: 'Brainstorming Tool' },
-              ]}
-            />
+            <SidebarMenuButton asChild isActive={pathname.startsWith('/ideation')}>
+              <Link href="/ideation">
+                <BrainCircuit />
+                <span>Ideation</span>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
 
           <SidebarMenuItem>
