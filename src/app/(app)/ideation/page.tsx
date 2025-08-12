@@ -54,7 +54,7 @@ export default function IdeationLandingPage() {
         </a>
       </section>
 
-      <div className='px-8'>
+      <div className='px-8 py-8 md:py-12'>
         {/* Benefits Section */}
         <section id="why-use" className="py-8 md:py-12">
             <h2 className="text-3xl font-bold text-center">Why Use This Toolkit?</h2>
