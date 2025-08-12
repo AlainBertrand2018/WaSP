@@ -1,4 +1,6 @@
 
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -8,6 +10,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import Spline from '@splinetool/react-spline';
 
 const steps = [
   {
@@ -43,25 +46,30 @@ const benefits = [
 
 export default function IdeationLandingPage() {
   return (
-    <div className="flex flex-col gap-12 py-8 md:py-12">
-      {/* Hero Section */}
-      <section className="text-center">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-          Find Your Perfect Business Idea
-        </h1>
-        <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-          Our AI Ideation suite helps you move from self-assessment to a curated list of personalized, data-driven business ideas tailored for the Mauritian market.
-        </p>
-        <Button asChild size="lg" className="mt-8 group">
-          <Link href="/ideation/brainstorming">
-            <span>Start Brainstorming</span>
-            <ArrowRight className="transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Button>
+    <div className="flex flex-col gap-12">
+      {/* Hero Section with Spline Background */}
+      <section className="relative w-full min-h-screen flex items-center justify-center text-center -mt-8 -mx-8">
+        <div className="absolute top-0 left-0 w-full h-full z-0">
+             <Spline scene="https://prod.spline.design/rLqk7T6xWwzYtVjA/scene.splinecode" />
+        </div>
+        <div className="relative z-10 p-4">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+            Find Your Perfect Business Idea
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+            Our AI Ideation suite helps you move from self-assessment to a curated list of personalized, data-driven business ideas tailored for the Mauritian market.
+            </p>
+            <Button asChild size="lg" className="mt-8 group">
+            <Link href="/ideation/brainstorming">
+                <span>Start Brainstorming</span>
+                <ArrowRight className="transition-transform group-hover:translate-x-1" />
+            </Link>
+            </Button>
+        </div>
       </section>
 
       {/* Benefits Section */}
-      <section>
+      <section className="py-8 md:py-12">
           <h2 className="text-3xl font-bold text-center">Why Use This Toolkit?</h2>
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
               {benefits.map((benefit) => (
@@ -78,7 +86,7 @@ export default function IdeationLandingPage() {
       </section>
 
       {/* Steps Section */}
-      <section>
+      <section className="py-8 md:py-12">
         <h2 className="text-3xl font-bold text-center">
           Your 2-Step Path to a Great Idea
         </h2>
