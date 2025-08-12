@@ -56,7 +56,7 @@ const mockProjects = [
   },
 ];
 
-const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' } = {
+const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
   'In Progress': 'default',
   Planning: 'secondary',
   Completed: 'default', // would be nice to have a success variant

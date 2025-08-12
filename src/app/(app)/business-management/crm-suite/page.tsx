@@ -1,7 +1,6 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -18,103 +17,205 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { PlusCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { ArrowRight, Briefcase, FileText, Users, Receipt } from 'lucide-react';
 
 const mockProjects = [
   {
     id: 'PROJ-001',
     name: 'E-commerce Platform Launch',
     client: 'Glamour Boutique',
-    startDate: '2024-08-01',
-    endDate: '2024-12-15',
     status: 'In Progress',
   },
   {
     id: 'PROJ-002',
     name: 'Corporate Website Redesign',
     client: 'Fintech Solutions Ltd',
-    startDate: '2024-09-10',
-    endDate: '2025-01-20',
     status: 'Planning',
   },
   {
     id: 'PROJ-003',
     name: 'Mobile App Development',
     client: 'EatWell Restaurant',
-    startDate: '2024-06-15',
-    endDate: '2024-11-30',
     status: 'Completed',
-  },
-  {
-    id: 'PROJ-004',
-    name: 'Marketing Campaign for Summer',
-    client: 'Sun-kissed Resorts',
-    startDate: '2024-05-01',
-    endDate: '2024-08-31',
-    status: 'On Hold',
   },
 ];
 
-const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
+const mockQuotations = [
+    {
+        id: 'QUO-001',
+        client: 'TechCorp',
+        amount: 'MUR 250,000',
+        status: 'Sent',
+    },
+    {
+        id: 'QUO-003',
+        client: 'DevHouse',
+        amount: 'MUR 120,000',
+        status: 'To Send',
+    },
+     {
+        id: 'QUO-005',
+        client: 'Sun-kissed Resorts',
+        amount: 'MUR 320,000',
+        status: 'Sent',
+    },
+];
+
+
+const projectStatusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
   'In Progress': 'default',
   Planning: 'secondary',
-  Completed: 'default', // would be nice to have a success variant
+  Completed: 'default',
   'On Hold': 'destructive',
 };
 
+const quoteStatusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
+  Sent: 'secondary',
+  Won: 'default',
+  'To Send': 'outline',
+  Rejected: 'destructive',
+};
 
-export default function CrmSuiteProjectsPage() {
-    return (
-      <div className="flex flex-col gap-8">
-        <div className="flex items-center justify-between">
-            <div>
-                <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
-                <p className="text-muted-foreground">
-                    Manage all your client projects from here.
-                </p>
-            </div>
-            <Button asChild>
-                <Link href="/business-management/crm-suite/projects/new">
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Create New Project
-                </Link>
-            </Button>
-        </div>
+
+export default function CrmSuiteDashboardPage() {
+  return (
+    <div className="flex flex-col gap-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">CRM Dashboard</h1>
+        <p className="text-muted-foreground">
+          A comprehensive overview of your customer relationships and projects.
+        </p>
+      </div>
+
+      {/* Stat Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
-            <CardHeader>
-                <CardTitle>Projects List</CardTitle>
-                <CardDescription>A list of all current and past projects.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Project ID</TableHead>
-                            <TableHead>Project Name</TableHead>
-                            <TableHead>Client</TableHead>
-                            <TableHead>Start Date</TableHead>
-                            <TableHead>End Date</TableHead>
-                            <TableHead>Status</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {mockProjects.map((project) => (
-                            <TableRow key={project.id}>
-                                <TableCell className="font-medium">{project.id}</TableCell>
-                                <TableCell>{project.name}</TableCell>
-                                <TableCell>{project.client}</TableCell>
-                                <TableCell>{project.startDate}</TableCell>
-                                <TableCell>{project.endDate}</TableCell>
-                                <TableCell>
-                                    <Badge variant={statusVariant[project.status] || 'default'}>{project.status}</Badge>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </CardContent>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">4</div>
+            <p className="text-xs text-muted-foreground">+2 since last month</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            <Briefcase className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">4</div>
+             <p className="text-xs text-muted-foreground">1 project on hold</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Pending Quotations</CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">3</div>
+            <p className="text-xs text-muted-foreground">Total value: MUR 690,000</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Overdue Invoices</CardTitle>
+            <Receipt className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-destructive">1</div>
+            <p className="text-xs text-muted-foreground">Total overdue: MUR 320,000</p>
+          </CardContent>
         </Card>
       </div>
-    );
-  }
+
+      <div className="grid gap-8 lg:grid-cols-2">
+        {/* Recent Projects */}
+        <Card>
+          <CardHeader className="flex flex-row items-center">
+            <div className="grid gap-2">
+                <CardTitle>Recent Projects</CardTitle>
+                <CardDescription>
+                    A snapshot of your most recent client projects.
+                </CardDescription>
+            </div>
+            <Button asChild size="sm" className="ml-auto gap-1">
+              <Link href="/business-management/crm-suite/projects">
+                View All
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+             <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Project</TableHead>
+                  <TableHead>Client</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {mockProjects.map((project) => (
+                  <TableRow key={project.id}>
+                    <TableCell className="font-medium">{project.name}</TableCell>
+                    <TableCell>{project.client}</TableCell>
+                    <TableCell>
+                      <Badge variant={projectStatusVariant[project.status] || 'default'}>
+                        {project.status}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+        
+        {/* Recent Quotations */}
+        <Card>
+           <CardHeader className="flex flex-row items-center">
+            <div className="grid gap-2">
+                <CardTitle>Recent Quotations</CardTitle>
+                <CardDescription>
+                    Your most recently created quotations.
+                </CardDescription>
+            </div>
+            <Button asChild size="sm" className="ml-auto gap-1">
+              <Link href="/business-management/crm-suite/quotations">
+                View All
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Client</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead>Status</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {mockQuotations.map((quote) => (
+                        <TableRow key={quote.id}>
+                            <TableCell>{quote.client}</TableCell>
+                            <TableCell>{quote.amount}</TableCell>
+                            <TableCell>
+                                <Badge variant={quoteStatusVariant[quote.status] || 'outline'}>{quote.status}</Badge>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
