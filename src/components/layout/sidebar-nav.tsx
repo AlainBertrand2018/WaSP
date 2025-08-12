@@ -70,28 +70,29 @@ const SubMenu = ({
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <SidebarMenuButton
-            asChild={!open}
             variant="ghost"
-            className="w-full justify-start gap-2"
+            className="w-full justify-start h-auto"
             isActive={pathname === dashboardHref && !items.some(item => pathname.startsWith(item.href))}
             tooltip={title}
         >
-            <Link href={dashboardHref}>
-                {icon}
-                <span>{title}</span>
-                {items.length > 0 && open && (
-                    <CollapsibleTrigger asChild>
-                       <button
-                          className={cn(
-                            'ml-auto transition-transform',
-                            isOpen && 'rotate-180'
-                          )}
-                        >
-                          <ChevronDown />
-                        </button>
-                    </CollapsibleTrigger>
-                )}
-            </Link>
+            <div className='flex items-center gap-2 w-full'>
+              <Link href={dashboardHref} className='flex items-center gap-2 flex-grow'>
+                  {icon}
+                  <span>{title}</span>
+              </Link>
+               {items.length > 0 && open && (
+                  <CollapsibleTrigger asChild>
+                    <button
+                        className={cn(
+                          'p-1 ml-auto transition-transform rounded-md hover:bg-muted',
+                          isOpen && 'rotate-180'
+                        )}
+                      >
+                        <ChevronDown />
+                    </button>
+                  </CollapsibleTrigger>
+              )}
+            </div>
         </SidebarMenuButton>
       <CollapsibleContent>
         <SidebarMenu className="ml-7 border-l pl-4 py-2 gap-0">
