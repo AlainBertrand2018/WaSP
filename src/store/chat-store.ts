@@ -18,7 +18,9 @@ export const useChatStore = create<ChatState>()(
       messages: [
         {
             role: 'model',
-            content: "Hello! I'm Claire, your AI assistant. How can I help you with your business today?"
+            content: `Hello! My name is Claire which stands for Creative Launchpad for Aspiration, Innovation,
+Revenue &
+Expansion, your AI assistant. How can I help you with your business today?`
         }
       ],
       addMessage: (message) =>
