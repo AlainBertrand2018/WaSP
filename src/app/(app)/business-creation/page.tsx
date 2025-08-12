@@ -64,7 +64,7 @@ export default function BusinessCreationLandingPage() {
   return (
     <div className="flex flex-col w-full">
       <SplineHero
-        splineUrl="https://prod.spline.design/8OQkArk1AgEuDdgZ/scene.splinecode"
+        splineUrl="https://prod.spline.design/QuGprpHs0-AN3r4y/scene.splinecode"
         scrollToId="why-use-toolkit"
       />
 
