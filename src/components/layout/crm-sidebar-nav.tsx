@@ -55,41 +55,43 @@ const SubMenu = ({
   
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <SidebarMenuButton
-        asChild={!open}
-        variant="ghost"
-        className="w-full justify-start gap-2"
-        isActive={pathname === dashboardHref && !items.some(item => pathname.startsWith(item.href))}
-        tooltip={title}
-      >
-        <Link href={dashboardHref}>
-          {icon}
-          <span>{title}</span>
-           {items.length > 0 && open && (
-              <CollapsibleTrigger asChild>
-                <button
-                  className={cn(
-                    'ml-auto transition-transform',
-                    isOpen && 'rotate-180'
-                  )}
-                >
-                  <ChevronDown />
-                </button>
-              </CollapsibleTrigger>
+        <div className="flex items-center">
+            <SidebarMenuButton
+                asChild
+                variant="ghost"
+                className="w-full justify-start gap-2 flex-grow"
+                isActive={pathname === dashboardHref && !items.some(item => pathname.startsWith(item.href))}
+                tooltip={title}
+            >
+                <Link href={dashboardHref}>
+                {icon}
+                <span>{title}</span>
+                </Link>
+            </SidebarMenuButton>
+            {items.length > 0 && open && (
+                <CollapsibleTrigger asChild>
+                    <button
+                    className={cn(
+                        'p-1 ml-auto transition-transform rounded-md hover:bg-muted',
+                        isOpen && 'rotate-180'
+                    )}
+                    >
+                    <ChevronDown />
+                    </button>
+                </CollapsibleTrigger>
             )}
-        </Link>
-      </SidebarMenuButton>
+        </div>
       <CollapsibleContent>
         <SidebarMenuSub>
           {items.map((item) => (
-            <SidebarMenuSubItem key={item.href}>
+            <SidebarMenuItem key={item.href}>
               <SidebarMenuSubButton
                 asChild
                 isActive={pathname.startsWith(item.href)}
               >
                 <Link href={item.href}>{item.label}</Link>
               </SidebarMenuSubButton>
-            </SidebarMenuSubItem>
+            </SidebarMenuItem>
           ))}
         </SidebarMenuSub>
       </CollapsibleContent>

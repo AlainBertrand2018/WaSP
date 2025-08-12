@@ -69,31 +69,32 @@ const SubMenu = ({
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <SidebarMenuButton
-            variant="ghost"
-            className="w-full justify-start h-auto"
-            isActive={pathname === dashboardHref && !items.some(item => pathname.startsWith(item.href))}
-            tooltip={title}
-        >
-            <div className='flex items-center gap-2 w-full'>
-              <Link href={dashboardHref} className='flex items-center gap-2 flex-grow'>
-                  {icon}
-                  <span>{title}</span>
-              </Link>
-               {items.length > 0 && open && (
-                  <CollapsibleTrigger asChild>
+        <div className='flex items-center h-auto'>
+            <SidebarMenuButton
+                asChild
+                variant="ghost"
+                className="w-full justify-start h-auto flex-grow"
+                isActive={pathname === dashboardHref && !items.some(item => pathname.startsWith(item.href))}
+                tooltip={title}
+            >
+                <Link href={dashboardHref} className='flex items-center gap-2'>
+                    {icon}
+                    <span>{title}</span>
+                </Link>
+            </SidebarMenuButton>
+            {items.length > 0 && open && (
+                <CollapsibleTrigger asChild>
                     <button
                         className={cn(
-                          'p-1 ml-auto transition-transform rounded-md hover:bg-muted',
-                          isOpen && 'rotate-180'
+                        'p-1 ml-auto transition-transform rounded-md hover:bg-muted',
+                        isOpen && 'rotate-180'
                         )}
-                      >
+                    >
                         <ChevronDown />
                     </button>
-                  </CollapsibleTrigger>
-              )}
-            </div>
-        </SidebarMenuButton>
+                </CollapsibleTrigger>
+            )}
+        </div>
       <CollapsibleContent>
         <SidebarMenu className="ml-7 border-l pl-4 py-2 gap-0">
           {items.map((item) => (
