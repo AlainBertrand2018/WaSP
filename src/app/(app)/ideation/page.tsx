@@ -48,29 +48,15 @@ export default function IdeationLandingPage() {
   return (
     <div className="flex flex-col w-full">
       {/* Hero Section with Spline Background */}
-      <section className="relative w-full h-screen flex items-center justify-center text-center" style={{ backgroundColor: '#121212' }}>
-        <div className="absolute top-0 left-0 w-full h-full z-0">
+      <section className="relative w-full h-screen" style={{ backgroundColor: '#121212' }}>
+        <a href="#why-use" className="absolute top-0 left-0 w-full h-full z-0 cursor-pointer">
              <Spline scene="https://prod.spline.design/FKmWkI9k5Dkb9cLz/scene.splinecode" />
-        </div>
-        <div className="relative z-10 p-4">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-            Find Your Perfect Business Idea
-            </h1>
-            <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            Our AI Ideation suite helps you move from self-assessment to a curated list of personalized, data-driven business ideas tailored for the Mauritian market.
-            </p>
-            <Button asChild size="lg" className="mt-8 group">
-            <Link href="/ideation/brainstorming">
-                <span>Start Brainstorming</span>
-                <ArrowRight className="transition-transform group-hover:translate-x-1" />
-            </Link>
-            </Button>
-        </div>
+        </a>
       </section>
 
       <div className='px-8'>
         {/* Benefits Section */}
-        <section className="py-8 md:py-12">
+        <section id="why-use" className="py-8 md:py-12">
             <h2 className="text-3xl font-bold text-center">Why Use This Toolkit?</h2>
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
                 {benefits.map((benefit) => (
