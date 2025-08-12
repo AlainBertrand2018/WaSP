@@ -21,7 +21,7 @@ export function ClaireIntroPopup() {
     // Set a timer to automatically close the popup after 20 seconds.
     const autoCloseTimer = setTimeout(() => {
       setIsOpen(false);
-    }, 23000); // 3s delay + 20s display time
+    }, 13000); // 3s delay + 10s display time
 
     // Cleanup timers if the component unmounts.
     return () => {
