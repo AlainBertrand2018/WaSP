@@ -184,16 +184,11 @@ export function SidebarNav() {
   return (
     <Sidebar>
       <SidebarHeader className="p-4 h-[60px] flex items-center justify-between">
-          {/* The logo and title are now in the main app layout header */}
+          <div className="md:hidden">
+            <SidebarTrigger />
+          </div>
           <div className="flex-grow"></div>
-           <div className="md:hidden">
-                <SidebarTrigger />
-            </div>
-            <SidebarTrigger asChild className="hidden md:flex">
-                <Button variant="ghost" size="icon" tooltip="Toggle Sidebar">
-                    <PanelLeft />
-                </Button>
-            </SidebarTrigger>
+          <SidebarTrigger className="hidden md:flex" tooltip="Toggle Sidebar" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
