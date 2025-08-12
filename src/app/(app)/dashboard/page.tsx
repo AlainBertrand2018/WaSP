@@ -34,7 +34,7 @@ const items = [
     {
         title: "Recent Documents",
         description: "Quickly access your recently created business plans and reports.",
-        header: <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>,
+        header: <Image src="/images/TilePics/recDoc_600x300.webp" width={600} height={300} alt="Recent Documents" className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover" data-ai-hint="documents folder" />,
         icon: <FileText className="h-4 w-4 text-neutral-500" />,
         className: "md:col-span-2",
     },
