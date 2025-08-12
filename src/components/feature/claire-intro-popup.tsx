@@ -50,7 +50,13 @@ export function ClaireIntroPopup() {
       <DialogContent className="sm:max-w-md">
             <DialogHeader className="items-center text-center">
                 <div className="p-3 bg-primary/10 rounded-full w-fit">
-                     <Image src="/images/studioFlowLogo_1024.png" alt="BusinessStudio AI Logo" width={32} height={32} />
+                     <Image 
+                        src="/images/claire-1.webp" 
+                        alt="CLAIRE BusinessStudio AI Assistant" 
+                        width={64} 
+                        height={64}
+                        className="rounded-full object-cover"
+                    />
                 </div>
               <DialogTitle className="mt-2 text-2xl">Meet CLAIRE, Your AI Assistant</DialogTitle>
               <DialogDescription className="mt-2">
