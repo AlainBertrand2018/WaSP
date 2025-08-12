@@ -176,7 +176,7 @@ const Sidebar = React.forwardRef<
     },
     ref
   ) => {
-    const { isMobile, state, openMobile, setOpenMobile } => useSidebar()
+    const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
 
     if (collapsible === "none") {
       return (
@@ -264,7 +264,7 @@ const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ className, onClick, ...props }, ref) => {
-  const { toggleSidebar, open } = useSidebar();
+  const { toggleSidebar, open } = useSidebar()
   const tooltipText = open ? 'Collapse' : 'Expand';
 
   return (
@@ -277,8 +277,8 @@ const SidebarTrigger = React.forwardRef<
           size="icon"
           className={cn("h-7 w-7", className)}
           onClick={(event) => {
-            onClick?.(event);
-            toggleSidebar();
+            onClick?.(event)
+            toggleSidebar()
           }}
           {...props}
         >
@@ -290,8 +290,8 @@ const SidebarTrigger = React.forwardRef<
         {tooltipText}
       </TooltipContent>
     </Tooltip>
-  );
-});
+  )
+})
 SidebarTrigger.displayName = "SidebarTrigger"
 
 const SidebarRail = React.forwardRef<
@@ -564,7 +564,7 @@ const SidebarMenuButton = React.forwardRef<
     ref
   ) => {
     const Comp = asChild ? Slot : "button"
-    const { isMobile, state } => useSidebar()
+    const { isMobile, state } = useSidebar()
 
     const button = (
       <Comp
