@@ -10,7 +10,15 @@ import Image from 'next/image';
 export function ClaireIntroPopup() {
   const [isOpen, setIsOpen] = useState(false);
 
-  // This effect handles the timing for the popup to appear and disappear.
+  // For development: Show the popup immediately without timers.
+  useEffect(() => {
+    setIsOpen(true);
+    // The timers have been removed for development.
+    // To restore, uncomment the original useEffect block.
+  }, []);
+
+  /*
+  // Original timer-based effect:
   useEffect(() => {
     // Show the popup after a 3-second delay on page load.
     const showTimer = setTimeout(() => {
@@ -28,6 +36,7 @@ export function ClaireIntroPopup() {
       clearTimeout(autoCloseTimer);
     };
   }, []);
+  */
 
   const handleOpenChat = () => {
     // This function will likely need to interact with your global chat state
