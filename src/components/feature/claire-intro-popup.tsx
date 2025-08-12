@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Bot, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 import Spline from '@splinetool/react-spline';
 
@@ -41,12 +41,17 @@ export function ClaireIntroPopup() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-md overflow-hidden p-0">
         <div className="absolute inset-0 z-0">
-            <Spline scene="https://prod.spline.design/1yyg9ayUBahxStA8/scene.splinecode" />
+            <div className="absolute inset-0">
+                <Spline 
+                    scene="https://prod.spline.design/1yyg9ayUBahxStA8/scene.splinecode" 
+                    className="w-full h-full"
+                />
+            </div>
         </div>
         <div className="relative z-10 p-6 bg-background/80 backdrop-blur-sm rounded-lg">
             <DialogHeader className="items-center text-center">
                 <div className="p-3 bg-primary/10 rounded-full w-fit">
-                     <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={32} height={32} />
+                     <Image src="/images/studioFlowLogo_1024.png" alt="BusinessStudio AI Logo" width={32} height={32} />
                 </div>
               <DialogTitle className="mt-2 text-2xl">Meet CLAIRE, Your AI Assistant</DialogTitle>
               <DialogDescription className="mt-2">
