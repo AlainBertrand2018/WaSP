@@ -3,7 +3,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle, LayoutGrid, XCircle, Zap } from 'lucide-react';
+import { ArrowRight, CheckCircle, LayoutGrid, XCircle, Zap } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useRef, useEffect } from 'react';
@@ -28,6 +28,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Autoplay from 'embla-carousel-autoplay';
 import { MainHeader } from '@/components/layout/main-header';
+import { appCategories } from '@/lib/app-data';
+import { AppCard } from '@/components/feature/app-card';
 
 const featureCards = [
   {
@@ -97,9 +99,52 @@ const testimonials = [
   },
 ];
 
+type RatingState = {
+  [key: string]: {
+    rating: number;
+    raters: number;
+    hasVoted: boolean;
+  };
+};
+
 export default function Home() {
   const isMounted = useMounted();
   const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
+  const firstFourApps = appCategories.flatMap(cat => cat.apps).slice(0, 4);
+
+  const initialRatings = React.useMemo(() => {
+    return firstFourApps.reduce((acc, app) => {
+        acc[app.title] = {
+            rating: app.initialRating || 0,
+            raters: app.initialRaters || 0,
+            hasVoted: false
+        };
+        return acc;
+    }, {} as RatingState);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [ratings, setRatings] = React.useState<RatingState>(initialRatings);
+
+  const handleRatingChange = (title: string, newRating: number) => {
+    setRatings(prevRatings => {
+        const current = prevRatings[title];
+        if (current.hasVoted) return prevRatings;
+
+        const newTotalRating = current.rating * current.raters + newRating;
+        const newRaters = current.raters + 1;
+        const newAverageRating = newTotalRating / newRaters;
+
+        return {
+            ...prevRatings,
+            [title]: {
+                rating: newAverageRating,
+                raters: newRaters,
+                hasVoted: true
+            }
+        }
+    });
+  };
 
   useEffect(() => {
     if (isMounted) {
@@ -235,9 +280,41 @@ export default function Home() {
             </div>
           </div>
         </section>
+        
+        {/* App Gallery Section */}
+        <section id="gallery" className="bg-secondary py-20 lg:py-32">
+          <div className="container mx-auto px-4">
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+                Explore Our Core Applications
+              </h2>
+              <p className="mt-4 text-lg text-primary-foreground/70">
+                Discover some of our most powerful tools, designed to help you at every stage of your business journey.
+              </p>
+            </div>
+            <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+               {firstFourApps.map((app) => (
+                    <AppCard
+                        key={app.title}
+                        app={app}
+                        ratingState={ratings[app.title]}
+                        onRatingChange={(newRating) => handleRatingChange(app.title, newRating)}
+                    />
+                ))}
+            </div>
+             <div className="mt-12 text-center">
+                <Button size="lg" asChild>
+                    <Link href="/apps" className="group">
+                        <span>View Full App Gallery</span>
+                        <ArrowRight className="transition-transform group-hover:translate-x-1" />
+                    </Link>
+                </Button>
+            </div>
+          </div>
+        </section>
 
         {/* Pricing Section */}
-        <section id="pricing" className="bg-secondary py-20 lg:py-32">
+        <section id="pricing" className="bg-secondary-darker py-20 lg:py-32">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Pricing Plans</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/70">
@@ -330,7 +407,7 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section */}
-        <section id="testimonials" className="bg-secondary-darker py-20 lg:py-32">
+        <section id="testimonials" className="bg-secondary py-20 lg:py-32">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Trusted by Innovators</h2>
             <p className="mt-4 max-w-2xl mx-auto text-lg text-primary-foreground/70">
