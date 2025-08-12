@@ -19,7 +19,7 @@ const steps = [
     icon: <Lightbulb className="h-8 w-8 text-primary" />,
     title: '1. Validate Your Idea',
     description:
-      'Start with our AI-powered validation to assess your business idea against the Mauritian market, analyzing its viability, potential, and weaknesses.',
+      "Start with our AI-powered validation to assess your business idea against the Mauritian market, analyzing its viability, potential, and weaknesses.",
     href: '/business-creation/business-idea-validation',
   },
   {
