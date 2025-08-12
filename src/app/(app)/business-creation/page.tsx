@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
-import { SplineHero } from '@/components/layout/spline-hero';
+import Spline from '@splinetool/react-spline';
 
 const steps = [
   {
@@ -61,12 +61,38 @@ const benefits = [
 ]
 
 export default function BusinessCreationLandingPage() {
+  const handleScrollTo = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="flex flex-col w-full">
-      <SplineHero
-        splineUrl="https://prod.spline.design/QuGprpHs0-AN3r4y/scene.splinecode"
-        scrollToId="why-use-toolkit"
-      />
+       <section
+        className="relative w-full min-h-screen"
+        style={{ backgroundColor: '#121212' }}
+       >
+         <Spline
+          scene="https://prod.spline.design/QuGprpHs0-AN3r4y/scene.splinecode"
+          className="!absolute !top-0 !left-0 !w-full !h-full"
+        />
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4 bg-black/50">
+            <div className="max-w-4xl space-y-6">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
+                    From a Spark of an Idea to an Investor-Ready Business Plan
+                </h1>
+                <p className="text-lg text-white/80">
+                    Our AI-powered Business Creation suite guides you through every critical step of launching your venture in Mauritius. Validate, plan, budget, and generate your professional business plan with confidence.
+                </p>
+                <Button size="lg" onClick={() => handleScrollTo('why-use-toolkit')}>
+                    <span>Let's Get Started</span>
+                    <ArrowRight />
+                </Button>
+            </div>
+        </div>
+      </section>
 
       <div className='px-8 py-8 md:py-12'>
         {/* Benefits Section */}
