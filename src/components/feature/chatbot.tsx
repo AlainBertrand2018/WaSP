@@ -101,7 +101,7 @@ export default function Chatbot() {
             <Card className="w-full h-full flex flex-col shadow-lg bg-secondary rounded-lg">
               <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground">
                 <div className="flex items-center gap-2">
-                  <Image src="/images/claire-1.webp" alt="CLAIRE avatar" width={24} height={24} className="rounded-full" />
+                  <Image src="/images/claire-1.webp" alt="CLAIRE avatar" width={40} height={40} className="rounded-full" />
                   <CardTitle className="text-lg">CLAIRE - Your AI Assistant</CardTitle>
                 </div>
                 <Button variant="ghost" size="icon" onClick={toggleChat} className="hover:bg-primary/80">
