@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/card';
 import { FileText, Lightbulb, Rocket, Wallet } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const items = [
     {
@@ -16,6 +17,7 @@ const items = [
         header: <Image src="/images/TilePics/val2Bp_600x300.webp" width={600} height={300} alt="Start a new venture" className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover" data-ai-hint="business plan journey" />,
         icon: <Lightbulb className="h-4 w-4 text-neutral-500" />,
         className: "md:col-span-2",
+        href: "/business-creation",
     },
     {
         title: "Manage Your Business",
@@ -23,6 +25,7 @@ const items = [
         header: <Image src="/images/TilePics/business_CRM_AppTile.webp" width={300} height={300} alt="Manage your business" className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover" data-ai-hint="customer relationship management" />,
         icon: <Rocket className="h-4 w-4 text-neutral-500" />,
         className: "md:col-span-1",
+        href: "/business-management/insights-dashboard",
     },
     {
         title: "Financial Planning",
@@ -30,6 +33,7 @@ const items = [
         header: <Image src="/images/TilePics/business_ExpensesLogger_AppTile.webp" width={300} height={300} alt="Financial Planning" className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover" data-ai-hint="financial planning" />,
         icon: <Wallet className="h-4 w-4 text-neutral-500" />,
         className: "md:col-span-1",
+        href: "/financials/dashboard",
     },
     {
         title: "Recent Documents",
@@ -37,6 +41,7 @@ const items = [
         header: <Image src="/images/TilePics/recDoc_600x300.webp" width={600} height={300} alt="Recent Documents" className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover" data-ai-hint="documents folder" />,
         icon: <FileText className="h-4 w-4 text-neutral-500" />,
         className: "md:col-span-2",
+        href: "/business-creation",
     },
 ];
 
@@ -55,14 +60,15 @@ export default function DashboardPage() {
       <section>
         <BentoGrid className="max-w-4xl mx-auto">
             {items.map((item, i) => (
+              <Link href={item.href || '#'} key={i} className={item.className}>
                 <BentoGridItem
-                    key={i}
                     title={item.title}
                     description={item.description}
                     header={item.header}
                     icon={item.icon}
-                    className={item.className}
+                    className="h-full"
                 />
+              </Link>
             ))}
         </BentoGrid>
       </section>
