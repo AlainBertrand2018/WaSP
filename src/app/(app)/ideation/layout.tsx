@@ -11,7 +11,7 @@ export default function IdeationSuiteLayout({ children }: { children: React.Reac
       <IdeationSidebarNav />
       <SidebarInset>
         <div className="flex flex-col">
-          <main className="flex-1 p-4">
+          <main className="flex-1">
             {children}
           </main>
         </div>
