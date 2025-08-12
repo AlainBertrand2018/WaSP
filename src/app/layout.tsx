@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/layout/theme-provider';
 import Chatbot from '@/components/feature/chatbot';
+import { Analytics } from '@vercel/analytics/react';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -85,6 +86,7 @@ export default function RootLayout({
           <Toaster />
           <Chatbot />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
