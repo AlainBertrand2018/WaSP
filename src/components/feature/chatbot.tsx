@@ -79,7 +79,11 @@ export default function Chatbot() {
   }
 
   return (
-    <Card className="fixed bottom-6 right-6 z-50 w-full max-w-sm h-[600px] flex flex-col shadow-lg bg-secondary rounded-lg">
+    <Card className={cn(
+        "fixed z-50 h-[600px] flex flex-col shadow-lg bg-secondary rounded-lg",
+        "w-[90%] bottom-4 left-1/2 -translate-x-1/2",
+        "sm:w-full sm:max-w-sm sm:bottom-6 sm:right-6 sm:left-auto sm:translate-x-0"
+    )}>
       <CardHeader className="flex flex-row items-center justify-between bg-primary text-primary-foreground">
         <div className="flex items-center gap-2">
           <Bot size={20} />
@@ -140,5 +144,3 @@ export default function Chatbot() {
     </Card>
   );
 }
-
-    
