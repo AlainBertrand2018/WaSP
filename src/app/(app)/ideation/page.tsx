@@ -50,7 +50,7 @@ export default function IdeationLandingPage() {
       {/* Hero Section with Spline Background */}
       <section className="relative w-full min-h-screen flex items-center justify-center text-center -mt-8 -mx-8">
         <div className="absolute top-0 left-0 w-full h-full z-0">
-             <Spline scene="https://prod.spline.design/rLqk7T6xWwzYtVjA/scene.splinecode" />
+             <Spline scene="https://prod.spline.design/8OQkArk1AgEuDdgZ/scene.splinecode" />
         </div>
         <div className="relative z-10 p-4">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
