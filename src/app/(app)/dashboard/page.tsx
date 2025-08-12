@@ -12,6 +12,7 @@ import {
 import { ChevronDown, FileText, Lightbulb, Rocket, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 
 const items = [
     {
@@ -71,7 +72,7 @@ export default function DashboardPage() {
             <Link 
               href="#toolkits"
               onClick={(e) => handleScrollTo(e, 'toolkits')}
-              className="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/50 flex items-center justify-center text-primary-foreground hover:bg-primary/40 transition-colors"
+              className="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/50 flex items-center justify-center text-primary-foreground hover:bg-primary/40 transition-colors animate-bounce"
               aria-label="Scroll to next section"
             >
               <ChevronDown size={32} />
