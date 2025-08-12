@@ -114,8 +114,8 @@ export function CrmSidebarNav() {
                 <hr className='my-2' />
             </li>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname === '/business-management/crm-suite' || pathname === '/business-management/crm-suite/projects'}>
-              <Link href="/business-management/crm-suite/projects">
+            <SidebarMenuButton asChild isActive={pathname === '/business-management/crm-suite'}>
+              <Link href="/business-management/crm-suite">
                 <Briefcase />
                 <span>Dashboard</span>
               </Link>
