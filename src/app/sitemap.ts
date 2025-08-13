@@ -1,21 +1,26 @@
-
-import { MetadataRoute } from 'next'
+// app/sitemap.ts
+import type { MetadataRoute } from 'next';
 import { appCategories } from '@/lib/app-data';
 import { siteConfig } from '@/config/site';
 
+// Slugify helper (kept from your version, minor tweaks)
 function slugify(text: string) {
-    return text
-      .toString()
-      .toLowerCase()
-      .replace(/\s+/g, '-') // Replace spaces with -
-      .replace(/&/g, 'and') // Replace & with 'and'
-      .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-      .replace(/\-\-+/g, '-'); // Replace multiple - with single -
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')       // spaces -> dashes
+    .replace(/&/g, 'and')       // "&" -> "and"
+    .replace(/[^\w-]+/g, '')    // strip non-word chars except dash
+    .replace(/--+/g, '-');      // collapse multiple dashes
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = [
-    '',
+  // Ensure absolute base URL with no trailing slash
+  const base = (siteConfig?.url ?? 'https://example.com').replace(/\/+$/, '');
+
+  const routes = [
+    '', // home
     '/apps',
     '/faq',
     '/investors_info',
@@ -32,17 +37,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/7-day-blueprint',
     '/7-day-blueprint/d1',
     '/business-management/crm-suite',
-  ].map((route) => ({
-    url: `${siteConfig.url}${route}`,
-    lastModified: new Date().toISOString(),
+  ];
+
+  const staticEntries: MetadataRoute.Sitemap = routes.map((route) => ({
+    url: route ? `${base}${route}` : `${base}/`,
+    lastModified: new Date(),
     priority: route === '' ? 1 : 0.8,
+    changeFrequency: 'monthly',
   }));
 
-  const dynamicCategoryRoutes = appCategories.map((category) => ({
-    url: `${siteConfig.url}/apps/${slugify(category.category)}`,
-    lastModified: new Date().toISOString(),
-    priority: 0.6,
-  }));
+  // Coerce appCategories into an array of items with a "category" field
+  const raw = (appCategories as any);
+  const categories: Array<{ category: string }> =
+    Array.isArray(raw)
+      ? raw
+      : Array.isArray(raw?.categories)
+        ? raw.categories
+        : [];
 
-  return [...staticRoutes, ...dynamicCategoryRoutes];
+  const dynamicEntries: MetadataRoute.Sitemap = categories
+    .filter((c) => c && typeof c.category === 'string' && c.category.trim().length > 0)
+    .map((c) => ({
+      url: `${base}/apps/${slugify(c.category)}`,
+      lastModified: new Date(),
+      priority: 0.6,
+      changeFrequency: 'weekly',
+    }));
+
+  return [...staticEntries, ...dynamicEntries];
 }
