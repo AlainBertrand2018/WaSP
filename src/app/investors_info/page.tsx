@@ -1,8 +1,12 @@
 
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye } from "lucide-react";
 import Link from "next/link";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
+import React from "react";
 
 const Section = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
     <div className="mb-8">
@@ -59,6 +63,32 @@ export default function InvestorsInfoPage() {
                             <li><strong>Existing SMEs:</strong> Small and medium-sized enterprises looking to innovate, expand, or streamline their operations with modern, AI-driven tools.</li>
                         </ul>
                     </Section>
+
+                    <div className="text-center my-8">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="outline" className="gap-2">
+                                    <Eye className="h-4 w-4" />
+                                    Take a Glance at our target market
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-6xl h-[90vh] flex flex-col">
+                                <DialogHeader>
+                                    <DialogTitle>SME & Startup Dashboard for Mauritius</DialogTitle>
+                                    <DialogDescription>
+                                        An interactive dashboard providing insights into the Mauritian SME landscape.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="flex-1 border rounded-lg overflow-hidden">
+                                    <iframe
+                                        src="/documents/mauritius_sme_startup_dashboard.html"
+                                        title="SME & Startup Dashboard for Mauritius"
+                                        className="w-full h-full border-0"
+                                    />
+                                </div>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
 
                     <Section title="Business & Monetization Model" icon={<BarChart className="text-primary" />}>
                         <p>We operate on a freemium SaaS model designed for accessibility and scalability. This model serves as a powerful customer acquisition funnel, allowing users to experience the platform's value before committing to a paid plan.</p>
