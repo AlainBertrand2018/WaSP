@@ -125,7 +125,7 @@ export default function InvestorsInfoPage() {
                     </Section>
 
                     <Section title="The Ask" icon={<Coins className="text-primary" />}>
-                        <p>To achieve our aggressive growth targets and solidify our market leadership, we are seeking **MUR 4,500,000** in seed funding. This investment will provide an 18 to 24-month runway to execute our strategy, reach key milestones, and prepare for our next phase of growth.</p>
+                        <p>To achieve our aggressive growth targets and solidify our market leadership, we are seeking MUR 4,500,000 in seed funding. This investment will provide an 18 to 24-month runway to execute our strategy, reach key milestones, and prepare for our next phase of growth.</p>
                         <h4 className="font-semibold text-foreground mt-4">Allocation of Funds:</h4>
                         <p>The requested capital will be strategically allocated across the following key areas to maximize growth and value creation:</p>
                         <ul className="list-disc pl-5">
