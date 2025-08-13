@@ -78,7 +78,7 @@ export default function InvestorsInfoPage() {
                         </ul>
                         
                         <h4 className="font-semibold text-foreground mt-4">Growth Potential:</h4>
-                        <p>The growth strategy is centered on converting free users to paid subscribers and upselling existing clients. As businesses grow with our tools, their needs will evolve, naturally leading them from a single Tool Kit to the comprehensive PRO plan. The Enterprise tier offers a high-margin service for larger, established companies, representing significant expansion potential. Given the high demand for digital transformation and the lack of localized solutions, we are confident in our ability to rapidly acquire market share.</p>
+                        <p>Our growth strategy is twofold. Firstly, we will focus on user conversion and upselling within our SaaS model, guiding businesses from free trials to comprehensive PRO plans as they scale. Secondly, while strengthening our professional position in Mauritius, we will increasingly offer premium "AI Transformation Blueprints" to larger companies seeking modernization and expansion. This enterprise-level service not only creates a high-margin revenue stream but also positions BusinessStudio AI as a leader in corporate AI adoption. We envision this locally-acquired expertise as a critical springboard for our future, allowing us to expand into regional and continental markets with a proven, battle-tested service offering.</p>
                     </Section>
                     
                     <div className="text-center mt-12 pt-6 border-t">
