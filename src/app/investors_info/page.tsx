@@ -59,14 +59,25 @@ export default function InvestorsInfoPage() {
                         </ul>
                     </Section>
 
-                    <Section title="Business Model" icon={<BarChart className="text-primary" />}>
-                        <p>We operate on a freemium SaaS model designed for accessibility and scalability:</p>
+                    <Section title="Business & Monetization Model" icon={<BarChart className="text-primary" />}>
+                        <p>We operate on a freemium SaaS model designed for accessibility and scalability. This model serves as a powerful customer acquisition funnel, allowing users to experience the platform's value before committing to a paid plan.</p>
+                        <h4 className="font-semibold text-foreground mt-4">Pricing Tiers:</h4>
                         <ul className="list-disc pl-5">
-                            <li><strong>Test Drive (Free):</strong> Allows users to explore the platform's capabilities with limited features.</li>
-                            <li><strong>Business Tool Kits (Subscription):</strong> A per-seat, monthly subscription giving access to specific tool suites (e.g., CRM, Financials).</li>
-                            <li><strong>PRO (Subscription):</strong> A premium per-seat, monthly subscription offering unlimited access to all tool suites, ideal for serious founders and teams.</li>
-                            <li><strong>AI Transformation Blueprints (Enterprise):</strong> Custom solutions and training for established companies seeking to integrate AI workflows.</li>
+                            <li><strong>Test Drive (Freemium):</strong> Offers limited access to core features, serving as an entry point to demonstrate value and capture leads.</li>
+                            <li><strong>Business Tool Kits (MUR 200/seat/month):</strong> A la carte access to specific tool suites, providing a flexible, low-cost entry for SMEs with targeted needs.</li>
+                            <li><strong>PRO (MUR 400/seat/month):</strong> Our flagship offering with unlimited access to all tool suites, designed for serious founders and teams requiring a comprehensive solution.</li>
+                            <li><strong>AI Transformation Blueprints (Enterprise):</strong> Custom-priced solutions for established companies seeking to integrate AI workflows, including training and support.</li>
                         </ul>
+
+                        <h4 className="font-semibold text-foreground mt-4">Revenue Projections (Based on Assumptions):</h4>
+                        <p>Our projections are based on capturing a conservative fraction of the addressable SME market in Mauritius over the initial years.</p>
+                        <ul className="list-disc pl-5">
+                            <li><strong>Minimum ARR Target (Year 1): ~MUR 360,000.</strong> This conservative forecast is based on acquiring 100 small businesses on the "Business Tool Kits" plan, with an average of 1.5 seats per business. This serves as our baseline key performance indicator.</li>
+                            <li><strong>Potential MRR (Year 2-3): ~MUR 150,000+.</strong> Our optimistic target aims for a user base of 500 businesses, with a mix of 80% on "Tool Kits" and 20% on the premium "PRO" plan (avg. 2 seats), plus one enterprise client. This demonstrates strong growth potential and product-market fit.</li>
+                        </ul>
+                        
+                        <h4 className="font-semibold text-foreground mt-4">Growth Potential:</h4>
+                        <p>The growth strategy is centered on converting free users to paid subscribers and upselling existing clients. As businesses grow with our tools, their needs will evolve, naturally leading them from a single Tool Kit to the comprehensive PRO plan. The Enterprise tier offers a high-margin service for larger, established companies, representing significant expansion potential. Given the high demand for digital transformation and the lack of localized solutions, we are confident in our ability to rapidly acquire market share.</p>
                     </Section>
                     
                     <div className="text-center mt-12 pt-6 border-t">
