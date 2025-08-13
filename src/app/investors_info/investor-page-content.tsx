@@ -3,10 +3,11 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe, Coins } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe, Coins, PlayCircle } from "lucide-react";
 import Link from "next/link";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import React from "react";
+import { useAudioPlayerStore } from "@/store/audio-player-store";
 
 const Section = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
     <div className="mb-8">
@@ -22,6 +23,12 @@ const Section = ({ title, icon, children }: { title: string, icon: React.ReactNo
 
 
 export default function InvestorPageContent() {
+    const { openPlayer } = useAudioPlayerStore();
+
+    const handlePlayIntro = () => {
+        openPlayer('/audio/Claire Presentation.mp3');
+    };
+    
     return (
         <div className="container mx-auto p-4 sm:p-8">
             <Card className="w-full max-w-4xl mx-auto">
@@ -53,6 +60,13 @@ export default function InvestorPageContent() {
                             <li><strong>Localized Content:</strong> All generated content, from market analysis to compliance checks, is tailored for Mauritius.</li>
                         </ul>
                     </Section>
+
+                    <div className="text-center my-8">
+                        <Button variant="outline" className="gap-2" onClick={handlePlayIntro}>
+                            <PlayCircle className="h-4 w-4" />
+                            Let CLAIRE Explain
+                        </Button>
+                    </div>
 
                     <Section title="Target Market" icon={<Users className="text-primary" />}>
                         <p>The addressable market in Mauritius is substantial and growing. It is composed of over 140,000 SMEs and sees approximately 15,000 new business registrations annually. Our objective is to capture between 2% and 5% of this dynamic niche within the next 24 months through aggressive advertising and social media campaigns.</p>
