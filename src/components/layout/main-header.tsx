@@ -158,6 +158,12 @@ export function MainHeader() {
           >
             Investors' Information
           </Link>
+           <Link
+            href="/faq"
+            className="text-sm font-medium hover:text-primary"
+          >
+            FAQ
+          </Link>
           <Dialog>
             <DialogTrigger asChild>
               <button className="text-sm font-medium hover:text-primary">
