@@ -18,6 +18,7 @@ export function ClaireIntroPopup() {
   const { openPlayer } = useAudioPlayerStore();
 
   useEffect(() => {
+    /*
     const lastSeen = localStorage.getItem(POPUP_STORAGE_KEY);
     const now = Date.now();
 
@@ -25,11 +26,12 @@ export function ClaireIntroPopup() {
       // If seen within the last 48 hours, don't show the popup.
       return;
     }
+    */
 
     // Show the popup after a 1-second delay.
     const showTimer = setTimeout(() => {
       setIsOpen(true);
-      localStorage.setItem(POPUP_STORAGE_KEY, now.toString());
+      localStorage.setItem(POPUP_STORAGE_KEY, Date.now().toString());
     }, 1000);
 
     // Set a timer to automatically close the popup after 12 seconds if not interacted with.
