@@ -13,6 +13,8 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { appTitles } from '@/lib/app-titles';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+import { AudioPlayer } from '@/components/feature/audio-player';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -40,6 +42,27 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     pathname === '/business-creation' || 
     pathname === '/dashboard';
 
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: 20,
+    },
+    in: {
+      opacity: 1,
+      y: 0,
+    },
+    out: {
+      opacity: 0,
+      y: -20,
+    },
+  };
+  
+  const pageTransition = {
+    type: 'tween',
+    ease: 'anticipate',
+    duration: 0.5,
+  };
+
   return (
     <ThemeProvider
       attribute="class"
@@ -65,12 +88,22 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <UserNav />
               </div>
             </header>
-            <main className={cn(
-              "flex-1",
-              !isLandingPage && "p-4 sm:p-6" // Apply padding to all pages except specified landing pages
-            )}>
-              {children}
-            </main>
+            <AnimatePresence mode="wait">
+              <motion.main
+                key={pathname}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+                className={cn(
+                  "flex-1",
+                  !isLandingPage && "p-4 sm:p-6" // Apply padding to all pages except specified landing pages
+                )}
+              >
+                {children}
+              </motion.main>
+            </AnimatePresence>
             <footer className="text-center p-4 text-sm text-muted-foreground border-t">
                © 2025 BusinessStudio AI (Alain BERTRAND). All rights reserved.
             </footer>
@@ -79,6 +112,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </SidebarProvider>
       <Toaster />
       <Chatbot />
+      <AudioPlayer />
     </ThemeProvider>
   );
 }
