@@ -45,7 +45,7 @@ export default function InvestorsInfoPage() {
                         <p className="mt-2 font-semibold">And thus, the opportunity is promisingly very clear: to provide a centralized, affordable, and localized platform that democratizes the tools for business success in Mauritius. Beyond that there is also the perspective of acquiring skills and expertise by making the Mauritius SME/ Entrepreneurs/ Startups niches the perfect sandbox in view of international expansion.</p>
                     </Section>
 
-                    <Section title="Our Solution: The WaSP (Webapps-as-Software Platform" icon={<Gem className="text-primary" />}>
+                    <Section title="Our Solution: The WaSP (Webapps-as-Software Platform)" icon={<Gem className="text-primary" />}>
                         <p>BusinessStudio AI is an all-in-one command center that guides users through every stage of business creation and management. Our key differentiator is our AI, which is fine-tuned on data specific to the Mauritian business ecosystem, providing relevant, actionable insights that generic tools cannot match.</p>
                         <ul className="list-disc pl-5">
                             <li><strong>AI-Powered Guidance:</strong> From validating an idea's market fit to generating financial projections, our AI acts as a co-pilot for the user.</li>
