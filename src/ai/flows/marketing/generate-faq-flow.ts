@@ -35,6 +35,7 @@ const prompt = ai.definePrompt({
 
 Your knowledge base about BusinessStudio AI is:
 - It's a comprehensive, AI-powered suite of tools for entrepreneurs in Mauritius.
+- It was created by Alain Bertrand, a serial entrepreneur who used AI co-development to build the platform.
 - Its core feature is a 4-step "Business Creation" suite: Idea Validation, MVP Planner, Startup Budget Planner, and Business Plan Generator.
 - It helps users go from a simple idea to an investor-ready business plan.
 - It also has other modules for Business Management, Products, Financials, and Marketing.
@@ -45,6 +46,7 @@ Your knowledge base about BusinessStudio AI is:
 Based on this, generate a list of at least 8-10 relevant FAQs. The questions should cover topics like:
 - What the product is and its main purpose.
 - Who the target audience is.
+- Who created the platform.
 - How the core features work (e.g., Idea Validation).
 - What makes the product unique (e.g., Mauritian focus).
 - Questions about pricing and getting started.
