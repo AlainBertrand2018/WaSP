@@ -7,9 +7,30 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
 export function AudioPlayer() {
   const { isOpen, audioSrc, closePlayer } = useAudioPlayerStore();
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    const handleAudioEnd = () => {
+      closePlayer();
+    };
+
+    if (audio) {
+      audio.addEventListener('ended', handleAudioEnd);
+    }
+
+    // Cleanup function to remove the event listener
+    return () => {
+      if (audio) {
+        audio.removeEventListener('ended', handleAudioEnd);
+      }
+    };
+  }, [isOpen, closePlayer]);
 
   if (!audioSrc) return null;
 
@@ -41,7 +62,7 @@ export function AudioPlayer() {
                 </Button>
             </CardHeader>
             <CardContent className="p-3 pt-0">
-              <audio controls autoPlay className="w-full">
+              <audio ref={audioRef} controls autoPlay className="w-full">
                 <source src={audioSrc} type="audio/mpeg" />
                 Your browser does not support the audio element.
               </audio>
