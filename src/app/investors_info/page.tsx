@@ -42,7 +42,7 @@ export default function InvestorsInfoPage() {
                             <li><strong>High Barrier to Entry:</strong> The cost and complexity of professional business planning, market research, and financial forecasting are prohibitive for many startups.</li>
                             <li><strong>Fragmented Workflow:</strong> Founders waste valuable time juggling disconnected tools for ideation, finance, and management, leading to inefficiency and costly errors.</li>
                         </ul>
-                        <p className="mt-2 font-semibold">And thus, the opportunity is promisingly very clear: to provide a centralized, affordable, and localized platform that democratizes the tools for business success in Mauritius. Beyond that there is also the perspective of acquiring skills and expertise by making the Mauritius SME/ Entrepreneurs/ Startups niches the perfect sandbox in view of international expansion.</p>
+                        <p className="mt-2 font-semibold">And thus, the opportunity is promisingly very clear: to provide a centralized, affordable, and localized platform that democratizes the tools for business success in Mauritius. Beyond that there is also the perspective of acquiring premium skills and expertise by making the Mauritius SME/ Entrepreneurs/ Startups niches the perfect sandbox in view of international expansion.</p>
                     </Section>
 
                     <Section title="Our Solution: The WaSP (Webapps-as-Software Platform)" icon={<Gem className="text-primary" />}>
