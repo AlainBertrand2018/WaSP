@@ -19,6 +19,21 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useMounted } from '@/hooks/use-mounted';
 import { MainHeader } from '@/components/layout/main-header';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy',
+  description: 'Learn how BusinessStudio AI collects, uses, and protects your personal and business data. We are committed to transparency and GDPR compliance.',
+  openGraph: {
+    title: 'Privacy Policy | BusinessStudio AI',
+    description: 'Learn how BusinessStudio AI collects, uses, and protects your personal and business data. We are committed to transparency and GDPR compliance.',
+  },
+  twitter: {
+    title: 'Privacy Policy | BusinessStudio AI',
+    description: 'Learn how BusinessStudio AI collects, uses, and protects your personal and business data. We are committed to transparency and GDPR compliance.',
+  }
+};
+
 
 export default function PrivacyPolicyPage() {
   const isMounted = useMounted();

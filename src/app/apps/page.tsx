@@ -27,6 +27,21 @@ import { Textarea } from '@/components/ui/textarea';
 import { AppCard } from '@/components/feature/app-card';
 import { appCategories } from '@/lib/app-data';
 import { MainHeader } from '@/components/layout/main-header';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'App Gallery',
+  description: 'Explore a powerful suite of AI-driven applications designed to help you build, launch, and manage your business in Mauritius.',
+  openGraph: {
+    title: 'App Gallery | BusinessStudio AI',
+    description: 'Explore a powerful suite of AI-driven applications designed to help you build, launch, and manage your business in Mauritius.',
+  },
+  twitter: {
+    title: 'App Gallery | BusinessStudio AI',
+    description: 'Explore a powerful suite of AI-driven applications designed to help you build, launch, and manage your business in Mauritius.',
+  }
+};
+
 
 type RatingState = {
     [key: string]: {

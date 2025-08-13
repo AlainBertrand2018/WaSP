@@ -27,6 +27,21 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useMounted } from '@/hooks/use-mounted';
 import { MainHeader } from '@/components/layout/main-header';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'FAQ',
+  description: 'Find answers to common questions about BusinessStudio AI, its features, pricing, and how it can help you build your business in Mauritius.',
+  openGraph: {
+    title: 'FAQ | BusinessStudio AI',
+    description: 'Find answers to common questions about BusinessStudio AI, its features, pricing, and how it can help you build your business in Mauritius.',
+  },
+  twitter: {
+    title: 'FAQ | BusinessStudio AI',
+    description: 'Find answers to common questions about BusinessStudio AI, its features, pricing, and how it can help you build your business in Mauritius.',
+  }
+};
+
 
 export default function FaqPage() {
   const [faqs, setFaqs] = React.useState<{ question: string; answer: string }[]>([]);

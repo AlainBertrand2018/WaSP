@@ -7,6 +7,21 @@ import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Sca
 import Link from "next/link";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import React from "react";
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Investor Memorandum',
+  description: 'An overview of the investment opportunity in BusinessStudio AI, a first-of-its-kind Webapps-as-Software Platform (WaSP) designed for the Mauritian market.',
+  openGraph: {
+    title: 'Investor Memorandum | BusinessStudio AI',
+    description: 'An overview of the investment opportunity in BusinessStudio AI, a first-of-its-kind Webapps-as-Software Platform (WaSP) designed for the Mauritian market.',
+  },
+  twitter: {
+    title: 'Investor Memorandum | BusinessStudio AI',
+    description: 'An overview of the investment opportunity in BusinessStudio AI, a first-of-its-kind Webapps-as-Software Platform (WaSP) designed for the Mauritian market.',
+  }
+};
+
 
 const Section = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
     <div className="mb-8">
