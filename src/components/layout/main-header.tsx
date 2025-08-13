@@ -139,14 +139,6 @@ export function MainHeader() {
             </DropdownMenuContent>
           </DropdownMenu>
           <Link
-            href="/sme-info"
-            className="text-sm font-medium hover:text-primary"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Entrepreneurship in Mauritius
-          </Link>
-          <Link
             href="/apps"
             className="text-sm font-medium hover:text-primary"
           >
