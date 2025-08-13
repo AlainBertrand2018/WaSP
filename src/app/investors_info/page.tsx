@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe } from "lucide-react";
 import Link from "next/link";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import React from "react";
@@ -106,9 +106,22 @@ export default function InvestorsInfoPage() {
                             <li><strong>Minimum ARR Target (Year 1): ~MUR 360,000.</strong> This conservative forecast is based on acquiring 100 small businesses on the "Business Tool Kits" plan, with an average of 1.5 seats per business. This serves as our baseline key performance indicator.</li>
                             <li><strong>Potential MRR (Year 2-3): ~MUR 150,000+.</strong> Our optimistic target aims for a user base of 500 businesses, with a mix of 80% on "Tool Kits" and 20% on the premium "PRO" plan (avg. 2 seats), plus one enterprise client. This demonstrates strong growth potential and product-market fit.</li>
                         </ul>
-                        
-                        <h4 className="font-semibold text-foreground mt-4">Growth Potential:</h4>
-                        <p>Our growth strategy is twofold. Firstly, we will focus on user conversion and upselling within our SaaS model, guiding businesses from free trials to comprehensive PRO plans as they scale. Secondly, while strengthening our professional position in Mauritius, we will increasingly offer premium "AI Transformation Blueprints" to larger companies seeking modernization and expansion. This enterprise-level service not only creates a high-margin revenue stream but also positions BusinessStudio AI as a leader in corporate AI adoption. We envision this locally-acquired expertise as a critical springboard for our future, allowing us to expand into regional and continental markets with a proven, battle-tested service offering.</p>
+                    </Section>
+
+                    <Section title="Growth Strategy: Market Share and Expertise" icon={<Scaling className="text-primary" />}>
+                         <p>Our growth strategy is twofold. Firstly, we will focus on user conversion and upselling within our SaaS model, driving towards our goal of 2-5% market capture by guiding businesses from free trials to comprehensive PRO plans as they scale.</p>
+                         <p>Secondly, we will aggressively pursue the enterprise market by offering premium "AI Transformation Blueprints." Serving larger companies that require modernization and expansion not only creates a high-margin revenue stream but also deepens our domain expertise. This positions BusinessStudio AI as a leader in corporate AI adoption and builds a powerful, defensible moat of localized knowledge.</p>
+                    </Section>
+
+                     <Section title="Long-Term Vision: Regional and Continental Expansion" icon={<Globe className="text-primary" />}>
+                        <p>Our ambition extends beyond Mauritius. We envision our locally-acquired expertise as a critical springboard for regional and continental expansion, specifically targeting the Indian Ocean Rim and the broader African market.</p>
+                         <p>The African continent represents an enormous opportunity, with an estimated 400 million+ SMEs that form the backbone of its economy. This landscape is ripe for digital transformation. Our vision is to adapt and scale our proven platform to meet the unique needs of these diverse markets.</p>
+                        <h4 className="font-semibold text-foreground mt-4">Strategic Expansion Goals (5-10 Years):</h4>
+                        <ul className="list-disc pl-5">
+                            <li><strong>Establish Key Hubs:</strong> Launch operations in strategic economic hubs like Kenya, Nigeria, and South Africa.</li>
+                            <li><strong>Form Local Partnerships:</strong> Collaborate with local incubators, financial institutions, and government bodies to tailor our offering.</li>
+                            <li><strong>Quantified Objective:</strong> Capture 0.01% of the African SME market, translating to empowering over 40,000 businesses. This represents a significant, scalable, and impactful long-term revenue opportunity.</li>
+                        </ul>
                     </Section>
                     
                     <div className="text-center mt-12 pt-6 border-t">
