@@ -51,7 +51,8 @@ export default function InvestorsInfoPage() {
                     </Section>
 
                     <Section title="Target Market" icon={<Users className="text-primary" />}>
-                        <p>Our primary market consists of three key segments within Mauritius:</p>
+                        <p>The addressable market in Mauritius is substantial and growing. It is composed of over 140,000 SMEs and sees approximately 15,000 new business registrations annually. Our objective is to capture between 2% and 5% of this dynamic niche within the next 24 months through aggressive advertising and social media campaigns.</p>
+                        <p>Our primary market consists of three key segments within this niche:</p>
                         <ul className="list-disc pl-5">
                             <li><strong>Aspiring Entrepreneurs:</strong> Individuals at the ideation stage who need guidance and structure to turn their vision into a viable plan.</li>
                             <li><strong>Early-Stage Startups:</strong> New businesses seeking to formalize their strategy, secure seed funding, and establish efficient operations.</li>
