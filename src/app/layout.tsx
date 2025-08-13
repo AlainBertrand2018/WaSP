@@ -8,6 +8,7 @@ import { ThemeProvider } from '@/components/layout/theme-provider';
 import Chatbot from '@/components/feature/chatbot';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { AudioPlayer } from '@/components/feature/audio-player';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -86,6 +87,7 @@ export default function RootLayout({
           {children}
           <Toaster />
           <Chatbot />
+          <AudioPlayer />
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

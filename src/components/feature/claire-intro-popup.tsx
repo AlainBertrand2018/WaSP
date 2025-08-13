@@ -4,9 +4,10 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, PlayCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useChatStore } from '@/store/chat-store';
+import { useAudioPlayerStore } from '@/store/audio-player-store';
 
 const POPUP_STORAGE_KEY = 'clairePopupLastSeen';
 const POPUP_DELAY_MS = 48 * 60 * 60 * 1000; // 48 hours
@@ -14,6 +15,7 @@ const POPUP_DELAY_MS = 48 * 60 * 60 * 1000; // 48 hours
 export function ClaireIntroPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const { toggleChat } = useChatStore();
+  const { openPlayer } = useAudioPlayerStore();
 
   useEffect(() => {
     const lastSeen = localStorage.getItem(POPUP_STORAGE_KEY);
@@ -31,14 +33,15 @@ export function ClaireIntroPopup() {
     }, 1000);
 
     // Set a timer to automatically close the popup after 12 seconds if not interacted with.
-    const autoCloseTimer = setTimeout(() => {
-      setIsOpen(false);
-    }, 13000); // 1s delay + 12s display time
+    // For development, we can comment this out.
+    // const autoCloseTimer = setTimeout(() => {
+    //   setIsOpen(false);
+    // }, 13000); // 1s delay + 12s display time
 
     // Cleanup timers if the component unmounts.
     return () => {
       clearTimeout(showTimer);
-      clearTimeout(autoCloseTimer);
+      // clearTimeout(autoCloseTimer);
     };
   }, []);
 
@@ -47,6 +50,11 @@ export function ClaireIntroPopup() {
     setIsOpen(false);
     // Open the main chat window via global state
     toggleChat();
+  };
+
+  const handlePlayAudio = () => {
+    setIsOpen(false);
+    openPlayer('/audio/Claire Presentation.mp3');
   };
 
   return (
@@ -69,11 +77,15 @@ export function ClaireIntroPopup() {
                 Have a question about starting a business in Mauritius or how to use our tools? Just ask me! I'm here to help you navigate your entrepreneurial journey.
               </DialogDescription>
             </DialogHeader>
-            <div className="mt-4 flex justify-center">
-              <Button onClick={handleOpenChat} className="gap-2">
-                <MessageSquare />
-                <span>Start Chatting</span>
-              </Button>
+            <div className="mt-4 flex flex-col sm:flex-row justify-center gap-2">
+                <Button onClick={handlePlayAudio} variant="outline" className="gap-2">
+                    <PlayCircle />
+                    <span>Let me tell you more...</span>
+                </Button>
+                <Button onClick={handleOpenChat} className="gap-2">
+                    <MessageSquare />
+                    <span>Start Chatting</span>
+                </Button>
             </div>
       </DialogContent>
     </Dialog>
