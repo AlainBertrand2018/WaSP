@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe, Coins } from "lucide-react";
 import Link from "next/link";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import React from "react";
@@ -122,6 +122,19 @@ export default function InvestorsInfoPage() {
                             <li><strong>Form Local Partnerships:</strong> Collaborate with local incubators, financial institutions, and government bodies to tailor our offering.</li>
                             <li><strong>Quantified Objective:</strong> Capture 0.01% of the African SME market, translating to empowering over 40,000 businesses. This represents a significant, scalable, and impactful long-term revenue opportunity.</li>
                         </ul>
+                    </Section>
+
+                    <Section title="The Ask" icon={<Coins className="text-primary" />}>
+                        <p>To achieve our aggressive growth targets and solidify our market leadership, we are seeking **MUR 4,500,000** in seed funding. This investment will provide an 18 to 24-month runway to execute our strategy, reach key milestones, and prepare for our next phase of growth.</p>
+                        <h4 className="font-semibold text-foreground mt-4">Allocation of Funds:</h4>
+                        <p>The requested capital will be strategically allocated across the following key areas to maximize growth and value creation:</p>
+                        <ul className="list-disc pl-5">
+                            <li><strong>Product Development & R&D (40% - MUR 1,800,000):</strong> Core platform enhancements, development of new AI-powered tool suites, and initial R&D for regional adaptation.</li>
+                            <li><strong>Marketing & Sales (30% - MUR 1,350,000):</strong> Funding for aggressive digital marketing campaigns, content creation, and social media outreach to achieve our target market capture rate of 2-5%.</li>
+                            <li><strong>Payroll (20% - MUR 900,000):</strong> Salaries for a lean, core team (Founder, Lead Developer, Marketing/Growth Lead) to drive the product roadmap and user acquisition.</li>
+                            <li><strong>Operational Costs & Contingency (10% - MUR 450,000):</strong> Covers hosting, software licenses, administrative costs, and a crucial buffer for unforeseen expenses and opportunities.</li>
+                        </ul>
+                        <p className="mt-2">This funding will enable us to hit our target of 100+ paying businesses, achieve a strong product-market fit, and build the foundation for our long-term vision of regional expansion.</p>
                     </Section>
                     
                     <div className="text-center mt-12 pt-6 border-t">
