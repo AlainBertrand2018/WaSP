@@ -38,33 +38,33 @@ type BusinessProfileState = {
 };
 
 const initialState: BusinessProfile = {
-  businessType: 'Not set yet',
+  businessType: 'Company',
   otherBusinessType: '',
-  businessForm: '',
+  businessForm: 'Private Company',
   otherBusinessForm: '',
-  brn: '',
-  isVatRegistered: 'No',
-  vatNumber: '',
-  isStartup: false,
-  annualTurnover: '',
-  grossIncome: '',
+  brn: 'C12345678',
+  isVatRegistered: 'Yes',
+  vatNumber: 'VAT27123456',
+  isStartup: true,
+  annualTurnover: '5000000',
+  grossIncome: '4500000',
   projectedAnnualIncomeThreshold: '',
-  hasEmployees: 'No',
-  numberOfEmployees: '',
-  industry: '',
-  businessName: '',
-  website: '',
-  description: '',
+  hasEmployees: 'Yes',
+  numberOfEmployees: '5',
+  industry: 'Information Technology & BPO',
+  businessName: 'Innovatech Solutions Ltd',
+  website: 'https://innovatech.mu',
+  description: 'A dynamic IT company providing bespoke software solutions and AI consultancy to Mauritian SMEs.',
   logo: '',
-  mainGoal: '',
-  biggestChallenge: ''
+  mainGoal: 'increase-sales',
+  biggestChallenge: 'Finding qualified talent and navigating the competitive landscape for government tenders.'
 };
 
 export const useBusinessProfileStore = create<BusinessProfileState>()(
   persist(
     (set) => ({
-      profile: null,
-      isSaved: false,
+      profile: initialState, // Start with pre-filled data
+      isSaved: true, // Assume it's "saved" by default for demo
       setProfile: (profile) => set({ profile, isSaved: true }),
       updateProfile: (data) =>
         set((state) => ({

@@ -4,7 +4,7 @@
 import Spline from '@splinetool/react-spline';
 import { Loader2, ArrowLeft, ArrowRight, Check, Briefcase, LineChart, GanttChartSquare, Users, CheckCheck } from 'lucide-react';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
@@ -23,6 +23,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { useBusinessProfileStore, type BusinessProfile } from '@/store/business-profile-store';
 
 
 const nextSteps = [
@@ -53,15 +54,16 @@ const nextSteps = [
     {
         title: 'Compliance Validator',
         description: 'Check your business compliance with local regulations.',
-        href: '/compliance-validator',
+        href: '/compliance-validator/validation-checklist',
         icon: <CheckCheck className="w-8 h-8 text-primary" />,
     },
 ];
 
 const BusinessProfileForm = () => {
+  const { profile: storedProfile, setProfile: setStoredProfile, isSaved, setIsSaved } = useBusinessProfileStore();
   const [currentStep, setCurrentStep] = useState(1);
-  const [profile, setProfile] = useState({
-    // Step 2
+  const [profile, setProfile] = useState<BusinessProfile>(storedProfile || {
+    // Default initial state if nothing in store
     businessType: 'Not set yet',
     otherBusinessType: '',
     businessForm: '',
@@ -76,18 +78,23 @@ const BusinessProfileForm = () => {
     hasEmployees: 'No',
     numberOfEmployees: '',
     industry: '',
-    // Step 3
     businessName: '',
     website: '',
     description: '',
     logo: '',
-    // Step 4
     mainGoal: '',
     biggestChallenge: ''
   });
   const [loading, setLoading] = useState(false);
-  const [isProfileSaved, setIsProfileSaved] = useState(false);
   const [isNextStepsModalOpen, setIsNextStepsModalOpen] = useState(false);
+
+  useEffect(() => {
+    // If a profile exists in the store, populate the form state
+    if (storedProfile) {
+      setProfile(storedProfile);
+    }
+  }, [storedProfile]);
+
 
   const handleChange = (e: any) => {
     const { name, value, checked, type } = e.target;
@@ -120,13 +127,13 @@ const BusinessProfileForm = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setIsProfileSaved(true);
+      setStoredProfile(profile); // Save/update profile in the global store
+      setIsSaved(true); // Mark as saved
       toast({
         title: "Profile Saved!",
         description: "Your business profile has been saved successfully.",
       });
       setIsNextStepsModalOpen(true);
-      console.log('Saved Profile:', profile);
     }, 1500);
   };
   
@@ -502,7 +509,7 @@ const BusinessProfileForm = () => {
                 ) : (
                     <Button onClick={handleSaveProfile} disabled={loading}>
                         {loading ? <Loader2 className="animate-spin mr-2" /> : null}
-                        {isProfileSaved ? 'Update Profile' : 'Save Profile'}
+                        {isSaved ? 'Update Profile' : 'Save Profile'}
                     </Button>
                 )}
         </CardFooter>
