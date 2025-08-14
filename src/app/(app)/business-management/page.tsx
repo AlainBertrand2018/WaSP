@@ -32,9 +32,9 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                 {/* Business Type */}
                 <div>
                     <Label className="text-base font-medium mb-4 block text-left">Business Type</Label>
-                     <RadioGroup 
-                        name="businessType" 
-                        value={profile.businessType} 
+                     <RadioGroup
+                        name="businessType"
+                        value={profile.businessType}
                         onValueChange={(value) => handleChange({ target: { name: 'businessType', value } })}
                         className="grid grid-cols-2 md:grid-cols-3 gap-4"
                     >
@@ -106,10 +106,56 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                                 </div>
                              )}
                         </div>
+                        
+                        {/* Business Registration Number */}
+                        <div className="space-y-2">
+                           <Label htmlFor="brn" className="text-left">Business Registration Number (BRN)</Label>
+                           <Input
+                                type="text"
+                                id="brn"
+                                name="brn"
+                                value={profile.brn}
+                                onChange={handleChange}
+                                placeholder="e.g., C12345678"
+                           />
+                        </div>
+
+                        {/* VAT Registration */}
+                        <div>
+                            <Label className="font-medium mb-2 block text-left">Is your Business Vat Registered?</Label>
+                             <RadioGroup
+                                name="isVatRegistered"
+                                value={profile.isVatRegistered}
+                                onValueChange={(value) => handleChange({ target: { name: 'isVatRegistered', value }})}
+                                className="flex gap-4"
+                            >
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="Yes" id="vat-yes" />
+                                    <Label htmlFor="vat-yes">Yes</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="No" id="vat-no" />
+                                    <Label htmlFor="vat-no">No</Label>
+                                </div>
+                            </RadioGroup>
+                             {profile.isVatRegistered === 'Yes' && (
+                                <div className="mt-4 space-y-2">
+                                    <Label htmlFor="vatNumber" className="text-left">VAT Number</Label>
+                                    <Input
+                                        type="text"
+                                        id="vatNumber"
+                                        name="vatNumber"
+                                        value={profile.vatNumber}
+                                        onChange={handleChange}
+                                        placeholder="e.g., 20123456"
+                                    />
+                                </div>
+                            )}
+                        </div>
 
                         {/* Is Startup */}
                         <div className="flex items-center space-x-2">
-                            <Switch 
+                            <Switch
                                 id="isStartup"
                                 name="isStartup"
                                 checked={profile.isStartup}
@@ -146,7 +192,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                                 placeholder="e.g., 4500000"
                             />
                             <p className="text-xs text-muted-foreground text-left">
-                                (Used for CPS/APS statements, e.g., > MUR 4 million for self-employed)
+                                (Used for CPS/APS statements, e.g., &gt; MUR 4 million for self-employed)
                             </p>
                         </div>
                     </>
@@ -173,9 +219,9 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                 {/* Has Employees */}
                 <div>
                     <Label className="font-medium mb-2 block text-left">Do you have employees?</Label>
-                    <RadioGroup 
-                        name="hasEmployees" 
-                        value={profile.hasEmployees} 
+                    <RadioGroup
+                        name="hasEmployees"
+                        value={profile.hasEmployees}
                         onValueChange={(value) => handleChange({ target: { name: 'hasEmployees', value }})}
                         className="flex gap-4"
                     >
@@ -242,6 +288,9 @@ export default function BusinessManagementLandingPage() {
     otherBusinessType: '',
     businessForm: '',
     otherBusinessForm: '',
+    brn: '',
+    isVatRegistered: 'No',
+    vatNumber: '',
     isStartup: false,
     annualTurnover: '',
     grossIncome: '',
@@ -255,7 +304,7 @@ export default function BusinessManagementLandingPage() {
 
   const handleChange = (e: any) => {
     const { name, value, checked, type } = e.target;
-    
+
     // Handle radis switch and other checkbox-like components
     if (type === 'checkbox') {
         setProfile(prev => ({
@@ -294,7 +343,7 @@ export default function BusinessManagementLandingPage() {
         console.log('Saved Profile:', profile);
     }, 1500);
   };
-  
+
   const handleScrollTo = (
     e: React.MouseEvent<HTMLAnchorElement>,
     id: string
@@ -326,7 +375,7 @@ export default function BusinessManagementLandingPage() {
 
       <div className="px-4 sm:px-6 md:px-8 py-8 md:py-12">
         <section className="mb-12" id="onboarding">
-           <BusinessProfileForm 
+           <BusinessProfileForm
                 profile={profile}
                 handleChange={handleChange}
                 handleSaveProfile={handleSaveProfile}
