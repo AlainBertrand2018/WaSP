@@ -27,7 +27,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ArrowLeft, Check, FileDown, Info, Loader2, X, FileText, Upload } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
 import {
   Tooltip,
   TooltipContent,
@@ -35,6 +34,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import ComplianceMeter from '@/components/feature/compliance-meter';
+import { cn } from '@/lib/utils';
+import { toast } from '@/hooks/use-toast';
 
 type UploadedFilesState = {
   [requirement: string]: File | null;
@@ -66,33 +67,29 @@ const ChecklistItemComponent = ({
   isChecked,
   uploadedFile,
   onCheckedChange,
+  onFileChange,
 }: {
   item: { category: string; requirement: string };
   analysis: ChecklistItemAnalysis | undefined;
   isChecked: boolean;
   uploadedFile: File | null;
   onCheckedChange: (checked: boolean) => void;
+  onFileChange: (file: File | null) => void;
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleCheckboxClick = (checked: boolean) => {
-    onCheckedChange(checked);
-    // If checking the box and it's relevant, trigger file upload
-    if (checked && analysis?.isRelevant && fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
-      onCheckedChange(true, file); // This will be a new function signature
-    } else {
-        // If user cancels file selection, uncheck the box
-        onCheckedChange(false, null);
+    onFileChange(file || null);
+    if(file) {
+      toast({
+        title: "File Uploaded",
+        description: `${file.name} has been successfully attached.`,
+      })
     }
   };
 
+  const isRelevant = analysis?.isRelevant;
 
   if (!analysis) {
     return (
@@ -106,20 +103,18 @@ const ChecklistItemComponent = ({
     );
   }
 
-  const isRelevant = analysis.isRelevant;
-
   return (
     <div className="flex items-start gap-4 py-3">
       <Checkbox
         id={item.requirement}
         checked={isChecked}
-        onCheckedChange={handleCheckboxClick}
+        onCheckedChange={(checked) => onCheckedChange(Boolean(checked))}
         disabled={!isRelevant}
         className="mt-1"
       />
       <div className="flex-1">
         <div className="flex items-center justify-between">
-          <label htmlFor={item.requirement} className={`font-medium ${!isRelevant ? 'text-muted-foreground line-through' : 'cursor-pointer'}`}>
+          <label htmlFor={item.requirement} className={cn('font-medium', !isRelevant ? 'text-muted-foreground line-through' : 'cursor-pointer')}>
             {item.requirement}
           </label>
            <div className="flex items-center gap-2">
@@ -135,14 +130,19 @@ const ChecklistItemComponent = ({
               </TooltipProvider>
           </div>
         </div>
-        {!isRelevant ? (
-            <p className="text-xs text-muted-foreground">Not Required For Your Type of Business</p>
-        ) : uploadedFile ? (
-            <p className="text-xs text-green-600 font-medium mt-1">Uploaded: {uploadedFile.name}</p>
-        ) : (
-             <p className="text-xs text-muted-foreground mt-1">Please check the box to upload the document.</p>
-        )}
+         <p className="text-xs text-muted-foreground mt-1">
+            {!isRelevant ? "Not Required For Your Type of Business" :
+             uploadedFile ? <span className="text-green-600 font-medium">Uploaded: {uploadedFile.name}</span> :
+             "Proof of document is required for full score."
+            }
+        </p>
       </div>
+       {isRelevant && (
+        <Button size="sm" variant="outline" className="gap-1" onClick={() => fileInputRef.current?.click()}>
+            <Upload size={14} />
+            <span>{uploadedFile ? 'Replace' : 'Upload'}</span>
+        </Button>
+      )}
       <input
         type="file"
         ref={fileInputRef}
@@ -200,14 +200,9 @@ export default function ValidationChecklistPage() {
       generateComplianceChecklist(profile)
         .then((result) => {
           setChecklistResult(result);
-          // Initialize checked state based on AI's initial status, only if relevant
           const initialChecked: CheckedState = {};
           result.analysis.forEach(item => {
-            if (item.isRelevant && (item.initialStatus === 'Compliant' || item.initialStatus === 'Not Applicable')) {
-                initialChecked[item.requirement] = true;
-            } else {
-                initialChecked[item.requirement] = false;
-            }
+            initialChecked[item.requirement] = item.initialStatus === 'Compliant';
           });
           setCheckedState(initialChecked);
         })
@@ -218,10 +213,13 @@ export default function ValidationChecklistPage() {
     }
   }, [profile]);
   
-  const handleCheckedChange = (requirement: string, file: File | null) => {
-    setCheckedState(prev => ({ ...prev, [requirement]: !!file }));
-    setUploadedFiles(prev => ({ ...prev, [requirement]: file }));
+  const handleCheckedChange = (requirement: string, checked: boolean) => {
+    setCheckedState(prev => ({ ...prev, [requirement]: checked }));
   };
+
+  const handleFileChange = (requirement: string, file: File | null) => {
+    setUploadedFiles(prev => ({...prev, [requirement]: file}));
+  }
 
   const groupedChecklist = useMemo(() => {
     return PREDEFINED_CHECKLIST.reduce((acc, item) => {
@@ -231,21 +229,40 @@ export default function ValidationChecklistPage() {
   }, []);
 
   const completionStats = useMemo(() => {
-    if (!checklistResult) return { percent: 0, checked: 0, total: 0 };
+    if (!checklistResult) return { percent: 0 };
     
     const relevantItems = checklistResult.analysis.filter(a => a.isRelevant);
     const totalRelevant = relevantItems.length;
 
-    if (totalRelevant === 0) return { percent: 100, checked: 0, total: 0 };
+    if (totalRelevant === 0) return { percent: 100 };
     
-    const checkedAndUploaded = relevantItems.filter(item => {
-        return checkedState[item.requirement] && uploadedFiles[item.requirement];
-    }).length;
-    
+    // Calculate AI base score percentage
+    const aiCompliantCount = relevantItems.filter(item => item.initialStatus === 'Compliant').length;
+    const aiBasePercent = (aiCompliantCount / totalRelevant) * 100;
+    let finalPercent = aiBasePercent;
+
+    // Each relevant item is worth 100 / totalRelevant percentage points.
+    const pointsPerItem = 100 / totalRelevant;
+
+    // Iterate and apply penalties
+    relevantItems.forEach(item => {
+        const hasDocument = !!uploadedFiles[item.requirement];
+        const isSelfDeclaredCompliant = checkedState[item.requirement];
+        const wasAiCompliant = item.initialStatus === 'Compliant';
+
+        // Penalty: AI said it was compliant, but user unchecked it AND has no document.
+        if (wasAiCompliant && !isSelfDeclaredCompliant && !hasDocument) {
+             finalPercent -= pointsPerItem;
+        }
+        
+        // Reward: AI said it was not compliant, but user checked it AND provided a document.
+        if (!wasAiCompliant && isSelfDeclaredCompliant && hasDocument) {
+            finalPercent += pointsPerItem;
+        }
+    });
+
     return {
-        percent: Math.round((checkedAndUploaded / totalRelevant) * 100),
-        checked: checkedAndUploaded,
-        total: totalRelevant,
+        percent: Math.max(0, Math.min(100, Math.round(finalPercent))),
     };
   }, [checkedState, uploadedFiles, checklistResult]);
   
@@ -321,7 +338,7 @@ export default function ValidationChecklistPage() {
                     <AlertTitle>AI Status Summary</AlertTitle>
                     <AlertDescription>
                         <ul className="list-disc pl-5 space-y-1">
-                            {checklistResult.statusSummary.map((point, index) => (
+                           {checklistResult.statusSummary.map((point, index) => (
                                 <li key={index}>{point}</li>
                             ))}
                         </ul>
@@ -346,7 +363,8 @@ export default function ValidationChecklistPage() {
                                 analysis={analysisMap.get(item.requirement)}
                                 isChecked={!!checkedState[item.requirement]}
                                 uploadedFile={uploadedFiles[item.requirement] || null}
-                                onCheckedChange={(checked, file) => handleCheckedChange(item.requirement, file)}
+                                onCheckedChange={(checked) => handleCheckedChange(item.requirement, checked)}
+                                onFileChange={(file) => handleFileChange(item.requirement, file)}
                             />
                         ))}
                    </div>
