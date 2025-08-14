@@ -1,149 +1,220 @@
 
 'use client';
 
-import { BentoGrid, BentoGridItem } from '@/components/aceternity/bento-grid';
-import Spline from '@splinetool/react-spline';
 import {
-  ChevronDown,
-  FileText,
-  Lightbulb,
-  Rocket,
-  Wallet,
-} from 'lucide-react';
-import Image from 'next/image';
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import React from 'react';
+import { ArrowRight, Briefcase, FileText, Users, Receipt } from 'lucide-react';
 
-const items = [
+const mockProjects = [
   {
-    title: 'Start a New Venture',
-    description:
-      'Begin the 4-step journey to validate your idea and create a full business plan.',
-    header: (
-      <Image
-        src="/images/TilePics/val2Bp_600x300.webp"
-        width={600}
-        height={300}
-        alt="Start a new venture"
-        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
-        data-ai-hint="business plan journey"
-      />
-    ),
-    icon: <Lightbulb className="h-4 w-4 text-neutral-500" />,
-    className: 'md:col-span-2',
-    href: '/business-creation',
+    id: 'PROJ-001',
+    name: 'E-commerce Platform Launch',
+    client: 'Glamour Boutique',
+    status: 'In Progress',
   },
   {
-    title: 'Manage Your Business',
-    description:
-      'Access your CRM, project manager, and other operational tools.',
-    header: (
-      <Image
-        src="/images/TilePics/business_CRM_AppTile.webp"
-        width={300}
-        height={300}
-        alt="Manage your business"
-        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
-        data-ai-hint="customer relationship management"
-      />
-    ),
-    icon: <Rocket className="h-4 w-4 text-neutral-500" />,
-    className: 'md:col-span-1',
-    href: '/business-management/crm-suite',
+    id: 'PROJ-002',
+    name: 'Corporate Website Redesign',
+    client: 'Fintech Solutions Ltd',
+    status: 'Planning',
   },
   {
-    title: 'Financial Planning',
-    description:
-      'Dive into your financial dashboard, manage expenses, and create reports.',
-    header: (
-      <Image
-        src="/images/TilePics/business_ExpensesLogger_AppTile.webp"
-        width={300}
-        height={300}
-        alt="Financial Planning"
-        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
-        data-ai-hint="financial planning"
-      />
-    ),
-    icon: <Wallet className="h-4 w-4 text-neutral-500" />,
-    className: 'md:col-span-1',
-    href: '/financials/dashboard',
-  },
-  {
-    title: 'Recent Documents',
-    description:
-      'Quickly access your recently created business plans and reports.',
-    header: (
-      <Image
-        src="/images/TilePics/recDoc_600x300.webp"
-        width={600}
-        height={300}
-        alt="Recent Documents"
-        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
-        data-ai-hint="documents folder"
-      />
-    ),
-    icon: <FileText className="h-4 w-4 text-neutral-500" />,
-    className: 'md:col-span-2',
-    href: '/business-creation',
+    id: 'PROJ-003',
+    name: 'Mobile App Development',
+    client: 'EatWell Restaurant',
+    status: 'Completed',
   },
 ];
 
-export default function InsightsDashboardPage() {
-  const handleScrollTo = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    id: string
-  ) => {
-    e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+const mockQuotations = [
+    {
+        id: 'QUO-001',
+        client: 'TechCorp',
+        amount: 'MUR 250,000',
+        status: 'Sent',
+    },
+    {
+        id: 'QUO-003',
+        client: 'DevHouse',
+        amount: 'MUR 120,000',
+        status: 'To Send',
+    },
+     {
+        id: 'QUO-005',
+        client: 'Sun-kissed Resorts',
+        amount: 'MUR 320,000',
+        status: 'Sent',
+    },
+];
 
+
+const projectStatusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
+  'In Progress': 'default',
+  Planning: 'secondary',
+  Completed: 'default',
+  'On Hold': 'destructive',
+};
+
+const quoteStatusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
+  Sent: 'secondary',
+  Won: 'default',
+  'To Send': 'outline',
+  Rejected: 'destructive',
+};
+
+
+export default function CrmSuiteDashboardPage() {
   return (
-    <div className="flex flex-col w-full -mx-4 sm:-mx-6">
-      <section
-        className="relative w-full h-[40vh] md:min-h-[90vh]"
-        style={{ backgroundColor: '#000000' }}
-      >
-        <Link
-          href="#toolkits"
-          onClick={(e) => handleScrollTo(e, 'toolkits')}
-          className="absolute inset-0 z-10 cursor-pointer"
-          aria-label="Scroll to next section"
-        >
-          <Spline
-            scene="https://prod.spline.design/FKmWkI9k5Dkb9cLz/scene.splinecode"
-            className="!absolute !top-0 !left-0 !w-full !h-full"
-          />
-        </Link>
-      </section>
+    <div className="flex flex-col gap-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Insights Dashboard</h1>
+        <p className="text-muted-foreground">
+          A comprehensive overview of your customer relationships and projects.
+        </p>
+      </div>
 
-      <div className="px-4 sm:px-6 md:px-8 py-8 md:py-12">
-        <section className="text-center mb-12" id="toolkits">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-            Your Active Toolkits
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            A comprehensive overview of your entire business ecosystem.
-          </p>
-        </section>
-        <section>
-          <BentoGrid className="max-w-4xl mx-auto">
-            {items.map((item, i) => (
-              <Link href={item.href || '#'} key={i} className={item.className}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={item.header}
-                  icon={item.icon}
-                  className="h-full"
-                />
+      {/* Stat Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">4</div>
+            <p className="text-xs text-muted-foreground">+2 since last month</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            <Briefcase className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">4</div>
+             <p className="text-xs text-muted-foreground">1 project on hold</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Pending Quotations</CardTitle>
+            <FileText className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">3</div>
+            <p className="text-xs text-muted-foreground">Total value: MUR 690,000</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Overdue Invoices</CardTitle>
+            <Receipt className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-destructive">1</div>
+            <p className="text-xs text-muted-foreground">Total overdue: MUR 320,000</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-2">
+        {/* Recent Projects */}
+        <Card>
+          <CardHeader className="flex flex-row items-center">
+            <div className="grid gap-2">
+                <CardTitle>Recent Projects</CardTitle>
+                <CardDescription>
+                    A snapshot of your most recent client projects.
+                </CardDescription>
+            </div>
+            <Button asChild size="sm" className="ml-auto gap-1">
+              <Link href="/business-management/crm-suite/projects">
+                View All
+                <ArrowRight className="h-4 w-4" />
               </Link>
-            ))}
-          </BentoGrid>
-        </section>
+            </Button>
+          </CardHeader>
+          <CardContent>
+             <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Project</TableHead>
+                  <TableHead>Client</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {mockProjects.map((project) => (
+                  <TableRow key={project.id}>
+                    <TableCell className="font-medium">{project.name}</TableCell>
+                    <TableCell>{project.client}</TableCell>
+                    <TableCell>
+                      <Badge variant={projectStatusVariant[project.status] || 'default'}>
+                        {project.status}
+                      </Badge>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+        
+        {/* Recent Quotations */}
+        <Card>
+           <CardHeader className="flex flex-row items-center">
+            <div className="grid gap-2">
+                <CardTitle>Recent Quotations</CardTitle>
+                <CardDescription>
+                    Your most recently created quotations.
+                </CardDescription>
+            </div>
+            <Button asChild size="sm" className="ml-auto gap-1">
+              <Link href="/business-management/crm-suite/quotations">
+                View All
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Client</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead>Status</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {mockQuotations.map((quote) => (
+                        <TableRow key={quote.id}>
+                            <TableCell>{quote.client}</TableCell>
+                            <TableCell>{quote.amount}</TableCell>
+                            <TableCell>
+                                <Badge variant={quoteStatusVariant[quote.status] || 'outline'}>{quote.status}</Badge>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

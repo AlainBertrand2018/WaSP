@@ -183,7 +183,7 @@ export function SidebarNav() {
               icon={<Briefcase />}
               title="Business Management"
               pathname={pathname}
-              dashboardHref="/business-management/insights-dashboard"
+              dashboardHref="/business-management"
               items={[
                 { href: '/business-management/crm-suite', label: 'CRM Suite' },
                 { href: '/business-management/insights-dashboard', label: 'Insights Dashboard' },

@@ -1,120 +1,144 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { PlusCircle } from 'lucide-react';
+import { BentoGrid, BentoGridItem } from '@/components/aceternity/bento-grid';
+import Spline from '@splinetool/react-spline';
+import { FileText, Lightbulb, Rocket, Wallet } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import React from 'react';
 
-const mockProjects = [
+const items = [
   {
-    id: 'PROJ-001',
-    name: 'E-commerce Platform Launch',
-    client: 'Glamour Boutique',
-    startDate: '2024-08-01',
-    endDate: '2024-12-15',
-    status: 'In Progress',
+    title: 'Start a New Venture',
+    description:
+      'Begin the 4-step journey to validate your idea and create a full business plan.',
+    header: (
+      <Image
+        src="/images/TilePics/val2Bp_600x300.webp"
+        width={600}
+        height={300}
+        alt="Start a new venture"
+        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
+        data-ai-hint="business plan journey"
+      />
+    ),
+    icon: <Lightbulb className="h-4 w-4 text-neutral-500" />,
+    className: 'md:col-span-2',
+    href: '/business-creation',
   },
   {
-    id: 'PROJ-002',
-    name: 'Corporate Website Redesign',
-    client: 'Fintech Solutions Ltd',
-    startDate: '2024-09-10',
-    endDate: '2025-01-20',
-    status: 'Planning',
+    title: 'Manage Your Business',
+    description:
+      'Access your CRM, project manager, and other operational tools.',
+    header: (
+      <Image
+        src="/images/TilePics/business_CRM_AppTile.webp"
+        width={300}
+        height={300}
+        alt="Manage your business"
+        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
+        data-ai-hint="customer relationship management"
+      />
+    ),
+    icon: <Rocket className="h-4 w-4 text-neutral-500" />,
+    className: 'md:col-span-1',
+    href: '/business-management/crm-suite',
   },
   {
-    id: 'PROJ-003',
-    name: 'Mobile App Development',
-    client: 'EatWell Restaurant',
-    startDate: '2024-06-15',
-    endDate: '2024-11-30',
-    status: 'Completed',
+    title: 'Financial Planning',
+    description:
+      'Dive into your financial dashboard, manage expenses, and create reports.',
+    header: (
+      <Image
+        src="/images/TilePics/business_ExpensesLogger_AppTile.webp"
+        width={300}
+        height={300}
+        alt="Financial Planning"
+        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
+        data-ai-hint="financial planning"
+      />
+    ),
+    icon: <Wallet className="h-4 w-4 text-neutral-500" />,
+    className: 'md:col-span-1',
+    href: '/financials/dashboard',
   },
   {
-    id: 'PROJ-004',
-    name: 'Marketing Campaign for Summer',
-    client: 'Sun-kissed Resorts',
-    startDate: '2024-05-01',
-    endDate: '2024-08-31',
-    status: 'On Hold',
+    title: 'Recent Documents',
+    description:
+      'Quickly access your recently created business plans and reports.',
+    header: (
+      <Image
+        src="/images/TilePics/recDoc_600x300.webp"
+        width={600}
+        height={300}
+        alt="Recent Documents"
+        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
+        data-ai-hint="documents folder"
+      />
+    ),
+    icon: <FileText className="h-4 w-4 text-neutral-500" />,
+    className: 'md:col-span-2',
+    href: '/business-creation',
   },
 ];
 
-const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
-  'In Progress': 'default',
-  Planning: 'secondary',
-  Completed: 'default', // would be nice to have a success variant
-  'On Hold': 'destructive',
-};
+export default function BusinessManagementLandingPage() {
+  const handleScrollTo = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    id: string
+  ) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
+  return (
+    <div className="flex flex-col w-full -mx-4 sm:-mx-6">
+      <section
+        className="relative w-full h-[40vh] md:min-h-[90vh]"
+        style={{ backgroundColor: '#000000' }}
+      >
+        <Link
+          href="#toolkits"
+          onClick={(e) => handleScrollTo(e, 'toolkits')}
+          className="absolute inset-0 z-10 cursor-pointer"
+          aria-label="Scroll to next section"
+        >
+          <Spline
+            scene="https://prod.spline.design/FKmWkI9k5Dkb9cLz/scene.splinecode"
+            className="!absolute !top-0 !left-0 !w-full !h-full"
+          />
+        </Link>
+      </section>
 
-export default function CrmSuiteProjectsPage() {
-    return (
-      <div className="flex flex-col gap-8">
-        <div className="flex items-center justify-between">
-            <div>
-                <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
-                <p className="text-muted-foreground">
-                    Manage all your client projects from here.
-                </p>
-            </div>
-            <Button asChild>
-                <Link href="/business-management/crm-suite/projects/new">
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Create New Project
-                </Link>
-            </Button>
-        </div>
-        <Card>
-            <CardHeader>
-                <CardTitle>Projects List</CardTitle>
-                <CardDescription>A list of all current and past projects.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Project ID</TableHead>
-                            <TableHead>Project Name</TableHead>
-                            <TableHead>Client</TableHead>
-                            <TableHead>Start Date</TableHead>
-                            <TableHead>End Date</TableHead>
-                            <TableHead>Status</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {mockProjects.map((project) => (
-                            <TableRow key={project.id}>
-                                <TableCell className="font-medium">{project.id}</TableCell>
-                                <TableCell>{project.name}</TableCell>
-                                <TableCell>{project.client}</TableCell>
-                                <TableCell>{project.startDate}</TableCell>
-                                <TableCell>{project.endDate}</TableCell>
-                                <TableCell>
-                                    <Badge variant={statusVariant[project.status] || 'default'}>{project.status}</Badge>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </CardContent>
-        </Card>
+      <div className="px-4 sm:px-6 md:px-8 py-8 md:py-12">
+        <section className="text-center mb-12" id="toolkits">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+            Business Management Command Center
+          </h1>
+          <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+            Your central hub for managing clients, projects, and operations. Streamline your workflow and drive growth with an integrated suite of powerful tools.
+          </p>
+        </section>
+        <section>
+          <BentoGrid className="max-w-4xl mx-auto">
+            {items.map((item, i) => (
+              <Link href={item.href || '#'} key={i} className={item.className}>
+                <BentoGridItem
+                  title={item.title}
+                  description={item.description}
+                  header={item.header}
+                  icon={item.icon}
+                  className="h-full"
+                />
+              </Link>
+            ))}
+          </BentoGrid>
+        </section>
       </div>
-    );
-  }
+    </div>
+  );
+}
