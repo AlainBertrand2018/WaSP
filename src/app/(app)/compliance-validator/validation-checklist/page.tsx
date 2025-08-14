@@ -90,6 +90,12 @@ const ChecklistItemComponent = ({
   };
 
   const isRelevant = analysis?.isRelevant;
+  const subtext = !isRelevant 
+    ? "Not Required For Your Type of Business"
+    : uploadedFile
+    ? <span className="text-green-600 font-medium">Proof Uploaded: {uploadedFile.name}</span>
+    : "Proof of document is required for full score.";
+
 
   if (!analysis) {
     return (
@@ -128,21 +134,16 @@ const ChecklistItemComponent = ({
                       </TooltipContent>
                   </Tooltip>
               </TooltipProvider>
+              {isRelevant && (
+                <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => fileInputRef.current?.click()}>
+                    <Upload size={14} />
+                    <span className="sr-only">Upload Document</span>
+                </Button>
+              )}
           </div>
         </div>
-         <p className="text-xs text-muted-foreground mt-1">
-            {!isRelevant ? "Not Required For Your Type of Business" :
-             uploadedFile ? <span className="text-green-600 font-medium">Uploaded: {uploadedFile.name}</span> :
-             "Upload proof to confirm compliance."
-            }
-        </p>
+         <p className="text-xs text-muted-foreground mt-1">{subtext}</p>
       </div>
-       {isRelevant && (
-        <Button size="sm" variant="outline" className="gap-1" onClick={() => fileInputRef.current?.click()}>
-            <Upload size={14} />
-            <span>{uploadedFile ? 'Replace' : 'Upload'}</span>
-        </Button>
-      )}
       <input
         type="file"
         ref={fileInputRef}
@@ -236,31 +237,24 @@ export default function ValidationChecklistPage() {
 
     if (totalPossiblePoints === 0) return { percent: 100 };
 
-    const pointsPerItem = 10 / totalPossiblePoints;
     let totalScore = 0;
-
+    
     relevantItems.forEach(item => {
-        const hasDocument = !!uploadedFiles[item.requirement];
         const isChecked = !!checkedState[item.requirement];
-
-        if (item.initialStatus === 'Compliant') {
-            // Starts with full points.
-            let itemScore = pointsPerItem;
-            // Penalize if no document is provided.
-            if (!hasDocument) {
-                itemScore -= 0.1 * pointsPerItem; // 0.1 point penalty on a 10-point scale
-            }
-            totalScore += itemScore;
-        } else if (item.initialStatus === 'Action Required') {
-            // Starts with zero points. Earns points only with proof.
-            if (isChecked && hasDocument) {
-                totalScore += pointsPerItem;
+        const hasDocument = !!uploadedFiles[item.requirement];
+        
+        // If the box is checked, award 90% of the points for this item.
+        if (isChecked) {
+            totalScore += 0.9;
+            // If the document is also uploaded, award the remaining 10%.
+            if (hasDocument) {
+                totalScore += 0.1;
             }
         }
     });
 
-    const finalPercentage = Math.max(0, Math.min(100, (totalScore / 10) * 100));
-
+    const finalPercentage = (totalScore / totalPossiblePoints) * 100;
+    
     return {
         percent: Math.round(finalPercentage),
     };
@@ -335,7 +329,7 @@ export default function ValidationChecklistPage() {
 
       {/* Main two-column layout */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-        {/* Left Column (AI Summary) */}
+         {/* Left Column (AI Summary) */}
         <div className="lg:col-span-3">
           <Card>
             <CardHeader>
@@ -391,4 +385,3 @@ export default function ValidationChecklistPage() {
     </div>
   );
 }
-
