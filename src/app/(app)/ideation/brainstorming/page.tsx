@@ -48,6 +48,7 @@ import {
 import {Skeleton} from '@/components/ui/skeleton';
 import Link from 'next/link';
 import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
+import { toast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
   businessConcept: z
@@ -95,12 +96,16 @@ export default function BrainstormingPage() {
     try {
       const result = await generateSuggestionsForUser(data);
       setAiResult(result);
-      setCurrentStep(3); // Move to hinting step after generation
     } catch (error) {
       console.error('Error generating suggestions:', error);
-      // Add user-facing error message, e.g., a toast
+      toast({
+        title: 'Error Generating Suggestions',
+        description: 'CLAIRE could not generate hints at this time. Please try again later.',
+        variant: 'destructive',
+      });
     } finally {
       setIsLoading(false);
+      setCurrentStep(3); // Always advance to step 3, even if there's an error.
     }
   };
 
@@ -353,9 +358,9 @@ export default function BrainstormingPage() {
                   </Card>
                 ))}
               </div>
-            ) : (
+            ) : aiResult ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {aiResult?.suggestions.map((sector) => (
+                {aiResult.suggestions.map((sector) => (
                   <Card
                     key={sector.title}
                     onClick={() => handleSelectSector(sector.title)}
@@ -404,6 +409,10 @@ export default function BrainstormingPage() {
                   </Card>
                 ))}
               </div>
+            ) : (
+                <div className="text-center py-8 text-muted-foreground">
+                    <p>Could not load suggestions. Please go back and try again.</p>
+                </div>
             )}
 
             <div className="mt-8 text-center">
