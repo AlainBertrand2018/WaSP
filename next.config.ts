@@ -24,11 +24,6 @@ const nextConfig: NextConfig = {
     config.externals.push('handlebars');
     return config;
   },
-  turbo: {
-    resolveAlias: {
-      '@opentelemetry/exporter-jaeger': false,
-    },
-  },
 };
 
 export default nextConfig;
