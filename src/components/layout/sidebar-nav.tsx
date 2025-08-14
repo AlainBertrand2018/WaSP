@@ -189,6 +189,7 @@ export function SidebarNav() {
                 { href: '/business-management/insights-dashboard', label: 'Insights Dashboard' },
                 { href: '/business-management/project-task-manager', label: 'Project & Task Manager' },
                 { href: '/business-management/hr-system', label: 'HR System' },
+                { href: '/compliance-validator', label: 'Compliance Validator' },
               ]}
             />
           </SidebarMenuItem>
