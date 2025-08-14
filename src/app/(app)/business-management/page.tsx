@@ -26,14 +26,14 @@ import { toast } from '@/hooks/use-toast';
 const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading, isProfileSaved }: any) => {
     return (
         <Card className="max-w-4xl mx-auto shadow-lg">
-            <CardHeader>
+            <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-semibold text-primary">Let's Generate you Business Profile</CardTitle>
             </CardHeader>
             <CardContent>
-            <form onSubmit={handleSaveProfile} className="space-y-8">
+            <form onSubmit={handleSaveProfile} className="space-y-8 text-left">
                 {/* Business Type */}
                 <div>
-                    <Label className="text-base font-medium mb-4 block">Business Type</Label>
+                    <Label className="text-base font-medium mb-4 block text-left">Business Type</Label>
                      <RadioGroup 
                         name="businessType" 
                         value={profile.businessType} 
@@ -63,7 +63,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                     </RadioGroup>
                     {profile.businessType === 'Other' && (
                         <div className="mt-4">
-                            <Label htmlFor="otherBusinessType">Please specify your business type</Label>
+                            <Label htmlFor="otherBusinessType" className="text-left">Please specify your business type</Label>
                             <Input
                                 type="text"
                                 id="otherBusinessType"
@@ -92,7 +92,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
 
                         {/* Annual Turnover */}
                         <div className="space-y-2">
-                            <Label htmlFor="annualTurnover">Annual Turnover of Taxable Supplies (MUR)</Label>
+                            <Label htmlFor="annualTurnover" className="text-left">Annual Turnover of Taxable Supplies (MUR)</Label>
                             <Input
                                 type="number"
                                 id="annualTurnover"
@@ -101,14 +101,14 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                                 onChange={handleChange}
                                 placeholder="e.g., 5000000"
                             />
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-xs text-muted-foreground text-left">
                                 (Used for VAT registration threshold, current threshold is MUR 6 million, lowering to MUR 3 million from Oct 1, 2025)
                             </p>
                         </div>
 
                         {/* Gross Income */}
                         <div className="space-y-2">
-                            <Label htmlFor="grossIncome">Gross Income for Preceding Income Year (MUR)</Label>
+                            <Label htmlFor="grossIncome" className="text-left">Gross Income for Preceding Income Year (MUR)</Label>
                             <Input
                                 type="number"
                                 id="grossIncome"
@@ -117,7 +117,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                                 onChange={handleChange}
                                 placeholder="e.g., 4500000"
                             />
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-xs text-muted-foreground text-left">
                                 (Used for CPS/APS statements, e.g., > MUR 4 million for self-employed)
                             </p>
                         </div>
@@ -125,7 +125,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                 ) : (
                     /* Projected Annual Income Threshold when "Not set yet" is selected */
                     <div className="space-y-2">
-                        <Label htmlFor="projectedAnnualIncomeThreshold">Projected Annual Income Threshold</Label>
+                        <Label htmlFor="projectedAnnualIncomeThreshold" className="text-left">Projected Annual Income Threshold</Label>
                         <Select name="projectedAnnualIncomeThreshold" value={profile.projectedAnnualIncomeThreshold} onValueChange={(value) => handleChange({ target: { name: 'projectedAnnualIncomeThreshold', value } })}>
                             <SelectTrigger id="projectedAnnualIncomeThreshold">
                                 <SelectValue placeholder="Select an option" />
@@ -136,7 +136,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                                 <SelectItem value="More than Rs 10M">More than Rs 10M</SelectItem>
                             </SelectContent>
                         </Select>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-muted-foreground text-left">
                             (This helps us understand your potential future compliance needs.)
                         </p>
                     </div>
@@ -144,7 +144,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
 
                 {/* Has Employees */}
                 <div>
-                    <Label className="font-medium mb-2 block">Do you have employees?</Label>
+                    <Label className="font-medium mb-2 block text-left">Do you have employees?</Label>
                     <RadioGroup 
                         name="hasEmployees" 
                         value={profile.hasEmployees} 
@@ -162,7 +162,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                     </RadioGroup>
                     {profile.hasEmployees === 'Yes' && (
                         <div className="mt-4 space-y-2">
-                            <Label htmlFor="numberOfEmployees">Number of employees</Label>
+                            <Label htmlFor="numberOfEmployees" className="text-left">Number of employees</Label>
                             <Input
                                 type="number"
                                 id="numberOfEmployees"
@@ -178,7 +178,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
 
                 {/* Industry/Sector */}
                 <div className="space-y-2">
-                    <Label htmlFor="industry">Industry/Sector (e.g., Construction, Retail, IT)</Label>
+                    <Label htmlFor="industry" className="text-left">Industry/Sector (e.g., Construction, Retail, IT)</Label>
                     <Input
                         type="text"
                         id="industry"
@@ -187,7 +187,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                         onChange={handleChange}
                         placeholder="e.g., Construction"
                     />
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground text-left">
                         (Used for industry-specific compliance, like CIDB for construction)
                     </p>
                 </div>
@@ -295,7 +295,7 @@ export default function BusinessManagementLandingPage() {
       </section>
 
       <div className="px-4 sm:px-6 md:px-8 py-8 md:py-12">
-        <section className="text-center mb-12" id="onboarding">
+        <section className="mb-12" id="onboarding">
            <BusinessProfileForm 
                 profile={profile}
                 handleChange={handleChange}
