@@ -103,7 +103,10 @@ export default function InsightsDashboardPage() {
 
   return (
     <div className="flex flex-col w-full">
-      <section className="relative w-full h-[40vh] md:min-h-[90vh]">
+      <section
+        className="relative w-full h-[40vh] md:min-h-[90vh]"
+        style={{ backgroundColor: '#000000' }}
+      >
         <Spline
           scene="https://prod.spline.design/FKmWkI9k5Dkb9cLz/scene.splinecode"
           className="!absolute !top-0 !left-0 !w-full !h-full"
