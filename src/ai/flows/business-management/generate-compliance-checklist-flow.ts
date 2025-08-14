@@ -37,7 +37,7 @@ const prompt = ai.definePrompt({
   name: 'generateComplianceChecklistPrompt',
   input: { schema: GenerateComplianceChecklistInputSchema },
   output: { schema: GenerateComplianceChecklistOutputSchema },
-  prompt: `You are a compliance expert specializing in the Mauritian legal and regulatory framework for businesses. Your task is to analyze a user's business profile and determine the relevance and status of a predefined list of compliance requirements.
+  prompt: `You are a compliance expert specializing in the Mauritian legal and regulatory framework for businesses. Your task is to analyze a user's business profile and determine the relevance and status of a predefined list of compliance requirements. **You must base your analysis on your knowledge of official Mauritian sources like the Mauritius Revenue Authority (MRA), the Corporate and Business Registration Department (CBRD), and relevant industry bodies.**
 
 **Analyze the following user profile:**
 - Business Type: {{businessType}}
@@ -74,7 +74,7 @@ const prompt = ai.definePrompt({
 
 3.  **Generate Status Summary:**
     - Based on the analysis you just created (specifically the items marked 'Action Required'), provide a summary as an array of strings.
-    - **IMPORTANT**: Each string in the array should be a distinct bullet point, explaining why an action is necessary and what the overall compliance picture looks like for this business.
+    - **IMPORTANT**: Each string in the array should be a distinct bullet point, explaining why an action is necessary and what the overall compliance picture looks like for this business. **You must cite the relevant official body (e.g., MRA, CBRD) for each point.** For example: "Action is required for PAYE Registration as per MRA guidelines for businesses with employees."
 
 Produce the output in the required JSON format with all three fields: businessSummary, analysis, and statusSummary. Ensure the 'analysis' array contains an object for every single item in the predefined list.
 `,

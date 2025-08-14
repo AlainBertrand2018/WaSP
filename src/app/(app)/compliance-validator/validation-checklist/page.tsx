@@ -94,7 +94,7 @@ const ChecklistItemComponent = ({
     ? "Not Required For Your Type of Business"
     : uploadedFile
     ? <span className="text-green-600 font-medium">Proof Uploaded: {uploadedFile.name}</span>
-    : "Proof of document is required for full score.";
+    : "Upload proof for a better score.";
 
 
   if (!analysis) {
@@ -243,17 +243,15 @@ export default function ValidationChecklistPage() {
         const isChecked = !!checkedState[item.requirement];
         const hasDocument = !!uploadedFiles[item.requirement];
         
-        // If the box is checked, award 90% of the points for this item.
         if (isChecked) {
-            totalScore += 0.9;
-            // If the document is also uploaded, award the remaining 10%.
-            if (hasDocument) {
-                totalScore += 0.1;
-            }
+            totalScore += 0.4; // Ticking the box accounts for 40% of the item's score
+        }
+        if (hasDocument) {
+             totalScore += 0.6; // Uploading proof accounts for the other 60%
         }
     });
 
-    const finalPercentage = (totalScore / totalPossiblePoints) * 100;
+    const finalPercentage = totalPossiblePoints > 0 ? (totalScore / totalPossiblePoints) * 100 : 100;
     
     return {
         percent: Math.round(finalPercentage),
