@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
@@ -24,6 +24,9 @@ export function AiLoadingSpinner({
         showCloseButton={false}
         onInteractOutside={(e) => e.preventDefault()}
       >
+        <DialogHeader>
+            <DialogTitle className="sr-only">{title}</DialogTitle>
+        </DialogHeader>
         <div className="flex flex-col items-center justify-center text-center p-8 gap-6">
           <div className="relative w-32 h-32">
             <Image
@@ -46,8 +49,3 @@ export function AiLoadingSpinner({
     </Dialog>
   );
 }
-
-// We can add a custom animation to tailwind.config.ts if needed
-// For now, let's just use a slower spin.
-// In tailwind.config.ts, under animation:
-// 'spin-slow': 'spin 3s linear infinite',
