@@ -6,84 +6,248 @@ import Spline from '@splinetool/react-spline';
 import { FileText, Lightbulb, Rocket, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 
-const items = [
-  {
-    title: 'Start a New Venture',
-    description:
-      'Begin the 4-step journey to validate your idea and create a full business plan.',
-    header: (
-      <Image
-        src="/images/TilePics/val2Bp_600x300.webp"
-        width={600}
-        height={300}
-        alt="Start a new venture"
-        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
-        data-ai-hint="business plan journey"
-      />
-    ),
-    icon: <Lightbulb className="h-4 w-4 text-neutral-500" />,
-    className: 'md:col-span-2',
-    href: '/business-creation',
-  },
-  {
-    title: 'Manage Your Business',
-    description:
-      'Access your CRM, project manager, and other operational tools.',
-    header: (
-      <Image
-        src="/images/TilePics/business_CRM_AppTile.webp"
-        width={300}
-        height={300}
-        alt="Manage your business"
-        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
-        data-ai-hint="customer relationship management"
-      />
-    ),
-    icon: <Rocket className="h-4 w-4 text-neutral-500" />,
-    className: 'md:col-span-1',
-    href: '/business-management/crm-suite',
-  },
-  {
-    title: 'Financial Planning',
-    description:
-      'Dive into your financial dashboard, manage expenses, and create reports.',
-    header: (
-      <Image
-        src="/images/TilePics/business_ExpensesLogger_AppTile.webp"
-        width={300}
-        height={300}
-        alt="Financial Planning"
-        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
-        data-ai-hint="financial planning"
-      />
-    ),
-    icon: <Wallet className="h-4 w-4 text-neutral-500" />,
-    className: 'md:col-span-1',
-    href: '/financials/dashboard',
-  },
-  {
-    title: 'Recent Documents',
-    description:
-      'Quickly access your recently created business plans and reports.',
-    header: (
-      <Image
-        src="/images/TilePics/recDoc_600x300.webp"
-        width={600}
-        height={300}
-        alt="Recent Documents"
-        className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl object-cover"
-        data-ai-hint="documents folder"
-      />
-    ),
-    icon: <FileText className="h-4 w-4 text-neutral-500" />,
-    className: 'md:col-span-2',
-    href: '/business-creation',
-  },
-];
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { toast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
+
+const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading, isProfileSaved }: any) => {
+    return (
+        <Card className="max-w-4xl mx-auto shadow-lg">
+            <CardHeader>
+                <CardTitle className="text-2xl font-semibold text-primary">Your Business Profile</CardTitle>
+            </CardHeader>
+            <CardContent>
+            <form onSubmit={handleSaveProfile} className="space-y-8">
+                {/* Business Type */}
+                <div>
+                    <Label className="text-base font-medium mb-4 block">Business Type:</Label>
+                     <RadioGroup 
+                        name="businessType" 
+                        value={profile.businessType} 
+                        onValueChange={(value) => handleChange({ target: { name: 'businessType', value } })}
+                        className="grid grid-cols-2 md:grid-cols-3 gap-4"
+                    >
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Not set yet" id="bt-not-set" />
+                            <Label htmlFor="bt-not-set">Not set yet</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Individual/Self-Employed" id="bt-individual" />
+                            <Label htmlFor="bt-individual">Individual/Self-Employed</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Company" id="bt-company" />
+                            <Label htmlFor="bt-company">Company</Label>
+                        </div>
+                         <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Microenterprise" id="bt-micro" />
+                            <Label htmlFor="bt-micro">Microenterprise</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Other" id="bt-other" />
+                            <Label htmlFor="bt-other">Other</Label>
+                        </div>
+                    </RadioGroup>
+                    {profile.businessType === 'Other' && (
+                        <div className="mt-4">
+                            <Label htmlFor="otherBusinessType">Please specify your business type:</Label>
+                            <Input
+                                type="text"
+                                id="otherBusinessType"
+                                name="otherBusinessType"
+                                value={profile.otherBusinessType}
+                                onChange={handleChange}
+                                placeholder="e.g., Partnership, Trust"
+                            />
+                        </div>
+                    )}
+                </div>
+
+                {/* Conditional fields based on Business Type */}
+                {profile.businessType !== 'Not set yet' ? (
+                    <>
+                        {/* Is Startup */}
+                        <div className="flex items-center space-x-2">
+                            <Switch 
+                                id="isStartup"
+                                name="isStartup"
+                                checked={profile.isStartup}
+                                onCheckedChange={(checked) => handleChange({ target: { name: 'isStartup', value: checked, type: 'checkbox' }})}
+                            />
+                            <Label htmlFor="isStartup">Is your business a Startup (newly established)?</Label>
+                        </div>
+
+                        {/* Annual Turnover */}
+                        <div className="space-y-2">
+                            <Label htmlFor="annualTurnover">Annual Turnover of Taxable Supplies (MUR):</Label>
+                            <Input
+                                type="number"
+                                id="annualTurnover"
+                                name="annualTurnover"
+                                value={profile.annualTurnover}
+                                onChange={handleChange}
+                                placeholder="e.g., 5000000"
+                            />
+                            <p className="text-xs text-muted-foreground">
+                                (Used for VAT registration threshold, current threshold is MUR 6 million, lowering to MUR 3 million from Oct 1, 2025)
+                            </p>
+                        </div>
+
+                        {/* Gross Income */}
+                        <div className="space-y-2">
+                            <Label htmlFor="grossIncome">Gross Income for Preceding Income Year (MUR):</Label>
+                            <Input
+                                type="number"
+                                id="grossIncome"
+                                name="grossIncome"
+                                value={profile.grossIncome}
+                                onChange={handleChange}
+                                placeholder="e.g., 4500000"
+                            />
+                            <p className="text-xs text-muted-foreground">
+                                (Used for CPS/APS statements, e.g., &gt; MUR 4 million for self-employed)
+                            </p>
+                        </div>
+                    </>
+                ) : (
+                    /* Projected Annual Income Threshold when "Not set yet" is selected */
+                    <div className="space-y-2">
+                        <Label htmlFor="projectedAnnualIncomeThreshold">Projected Annual Income Threshold:</Label>
+                        <Select name="projectedAnnualIncomeThreshold" value={profile.projectedAnnualIncomeThreshold} onValueChange={(value) => handleChange({ target: { name: 'projectedAnnualIncomeThreshold', value } })}>
+                            <SelectTrigger id="projectedAnnualIncomeThreshold">
+                                <SelectValue placeholder="Select an option" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="">Select an option</SelectItem>
+                                <SelectItem value="Less than Rs 3M">Less than Rs 3M</SelectItem>
+                                <SelectItem value="More than Rs 3M">More than Rs 3M</SelectItem>
+                                <SelectItem value="More than Rs 10M">More than Rs 10M</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <p className="text-xs text-muted-foreground">
+                            (This helps us understand your potential future compliance needs.)
+                        </p>
+                    </div>
+                )}
+
+                {/* Has Employees */}
+                <div>
+                    <Label className="font-medium mb-2 block">Do you have employees?</Label>
+                    <RadioGroup 
+                        name="hasEmployees" 
+                        value={profile.hasEmployees} 
+                        onValueChange={(value) => handleChange({ target: { name: 'hasEmployees', value }})}
+                        className="flex gap-4"
+                    >
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Yes" id="employees-yes" />
+                            <Label htmlFor="employees-yes">Yes</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="No" id="employees-no" />
+                            <Label htmlFor="employees-no">No</Label>
+                        </div>
+                    </RadioGroup>
+                    {profile.hasEmployees === 'Yes' && (
+                        <div className="mt-4 space-y-2">
+                            <Label htmlFor="numberOfEmployees">Number of employees:</Label>
+                            <Input
+                                type="number"
+                                id="numberOfEmployees"
+                                name="numberOfEmployees"
+                                value={profile.numberOfEmployees}
+                                onChange={handleChange}
+                                placeholder="e.g., 5"
+                                min="0"
+                            />
+                        </div>
+                    )}
+                </div>
+
+                {/* Industry/Sector */}
+                <div className="space-y-2">
+                    <Label htmlFor="industry">Industry/Sector (e.g., Construction, Retail, IT):</Label>
+                    <Input
+                        type="text"
+                        id="industry"
+                        name="industry"
+                        value={profile.industry}
+                        onChange={handleChange}
+                        placeholder="e.g., Construction"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                        (Used for industry-specific compliance, like CIDB for construction)
+                    </p>
+                </div>
+
+                <Button
+                    type="submit"
+                    className="w-full"
+                    size="lg"
+                    disabled={loading}
+                >
+                    {loading ? <Loader2 className="animate-spin" /> : null}
+                    {loading ? 'Saving Profile...' : (isProfileSaved ? 'Update Profile & Checklist' : 'Save Profile & Generate Checklist')}
+                </Button>
+            </form>
+            </CardContent>
+        </Card>
+    );
+};
+
 
 export default function BusinessManagementLandingPage() {
+  const [profile, setProfile] = useState({
+    businessType: 'Not set yet',
+    otherBusinessType: '',
+    isStartup: false,
+    annualTurnover: '',
+    grossIncome: '',
+    projectedAnnualIncomeThreshold: '',
+    hasEmployees: 'No',
+    numberOfEmployees: '',
+    industry: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [isProfileSaved, setIsProfileSaved] = useState(false);
+
+  const handleChange = (e: any) => {
+    const { name, value, type, checked } = e.target;
+    setProfile(prev => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleSaveProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    // Simulate API call
+    setTimeout(() => {
+        setLoading(false);
+        setIsProfileSaved(true);
+        toast({
+            title: "Profile Saved!",
+            description: "Your business profile has been saved successfully.",
+        });
+        console.log('Saved Profile:', profile);
+    }, 1500);
+  };
+  
   const handleScrollTo = (
     e: React.MouseEvent<HTMLAnchorElement>,
     id: string
@@ -116,27 +280,13 @@ export default function BusinessManagementLandingPage() {
 
       <div className="px-4 sm:px-6 md:px-8 py-8 md:py-12">
         <section className="text-center mb-12" id="onboarding">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-            Business Management Command Center
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            Your central hub for managing clients, projects, and operations. Streamline your workflow and drive growth with an integrated suite of powerful tools.
-          </p>
-        </section>
-        <section>
-          <BentoGrid className="max-w-4xl mx-auto">
-            {items.map((item, i) => (
-              <Link href={item.href || '#'} key={i} className={item.className}>
-                <BentoGridItem
-                  title={item.title}
-                  description={item.description}
-                  header={item.header}
-                  icon={item.icon}
-                  className="h-full"
-                />
-              </Link>
-            ))}
-          </BentoGrid>
+           <BusinessProfileForm 
+                profile={profile}
+                handleChange={handleChange}
+                handleSaveProfile={handleSaveProfile}
+                loading={loading}
+                isProfileSaved={isProfileSaved}
+           />
         </section>
       </div>
     </div>
