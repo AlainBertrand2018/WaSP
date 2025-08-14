@@ -38,6 +38,14 @@ import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { useAudioPlayerStore } from '@/store/audio-player-store';
 import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 type UploadedFilesState = {
   [requirement: string]: File | null;
@@ -129,11 +137,18 @@ const ChecklistItemComponent = ({
               <TooltipProvider>
                   <Tooltip>
                       <TooltipTrigger asChild>
-                          <button className="text-muted-foreground"><Info size={16}/></button>
+                           <Dialog>
+                                <DialogTrigger asChild>
+                                    <button className="text-muted-foreground"><Info size={16}/></button>
+                                </DialogTrigger>
+                                <DialogContent className="max-w-md">
+                                    <DialogHeader>
+                                        <DialogTitle>{analysis.requirement}</DialogTitle>
+                                    </DialogHeader>
+                                    <p>{analysis.explanation}</p>
+                                </DialogContent>
+                           </Dialog>
                       </TooltipTrigger>
-                      <TooltipContent side="left" className="max-w-xs">
-                          <p>{analysis.explanation}</p>
-                      </TooltipContent>
                   </Tooltip>
               </TooltipProvider>
               {isRelevant && (
@@ -194,34 +209,36 @@ export default function ValidationChecklistPage() {
     setUploadedFiles(prev => ({...prev, [requirement]: file}));
   }
 
- const completionStats = useMemo(() => {
-    if (!checklistResult) return { percent: 0 };
-
+  const completionStats = useMemo(() => {
+    if (!checklistResult) return { percent: 0, score: 0 };
+    
     const relevantItems = checklistResult.analysis.filter(a => a.isRelevant);
     const totalPossiblePoints = relevantItems.length;
 
-    if (totalPossiblePoints === 0) return { percent: 100 };
+    if (totalPossiblePoints === 0) return { percent: 100, score: 10 };
 
     let totalScore = 0;
     
     relevantItems.forEach(item => {
-        const isChecked = !!checkedState[item.requirement];
-        const hasDocument = !!uploadedFiles[item.requirement];
-        
-        if (isChecked) {
-            totalScore += 0.4; // Ticking the box accounts for 40% of the item's score
-        }
-        if (hasDocument) {
-             totalScore += 0.6; // Uploading proof accounts for the other 60%
-        }
+      const isTicked = !!checkedState[item.requirement];
+      const hasDocument = !!uploadedFiles[item.requirement];
+
+      if (isTicked) {
+        totalScore += 0.4;
+      }
+      if (hasDocument) {
+        totalScore += 0.6;
+      }
     });
 
-    const finalPercentage = totalPossiblePoints > 0 ? (totalScore / totalPossiblePoints) * 100 : 100;
+    const finalPercentage = (totalScore / totalPossiblePoints) * 100;
+    const finalScore = (totalScore / totalPossiblePoints) * 10;
     
     return {
         percent: Math.round(finalPercentage),
+        score: parseFloat(finalScore.toFixed(1)),
     };
-}, [checkedState, uploadedFiles, checklistResult]);
+  }, [checkedState, uploadedFiles, checklistResult]);
   
   const analysisMap = useMemo(() => {
     if (!checklistResult) return new Map();
@@ -279,23 +296,21 @@ export default function ValidationChecklistPage() {
         <p className="text-muted-foreground">A personalized checklist based on your business profile.</p>
       </div>
 
-      {/* Top Section */}
-       <Card>
-        <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
-            <Alert>
-              <FileText className="h-4 w-4" />
-              <AlertTitle>Your Business Summary</AlertTitle>
-              <AlertDescription>
-                {checklistResult.businessSummary}
-              </AlertDescription>
-            </Alert>
-            <ComplianceMeter percentage={completionStats.percent} />
-        </CardContent>
+      <Card>
+          <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+              <Alert>
+                <FileText className="h-4 w-4" />
+                <AlertTitle>Your Business Summary</AlertTitle>
+                <AlertDescription>
+                  {checklistResult.businessSummary}
+                </AlertDescription>
+              </Alert>
+              <ComplianceMeter percentage={completionStats.percent} score={completionStats.score} />
+          </CardContent>
       </Card>
       
       {/* Main two-column layout */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-         {/* Left Column (AI Summary) - 60% */}
         <div className="lg:col-span-3">
           <Card>
             <CardHeader>
@@ -321,34 +336,39 @@ export default function ValidationChecklistPage() {
           </Card>
         </div>
 
-        {/* Right Column (Checklist) - 40% */}
         <div className="lg:col-span-2">
-          <Accordion type="multiple" defaultValue={Object.keys(groupedChecklist)} className="w-full space-y-4">
-            {Object.entries(groupedChecklist).map(([category, items]) => (
-              <Card key={category}>
-                <AccordionItem value={category} className="border-b-0">
-                  <AccordionTrigger className="p-4 hover:no-underline">
-                    <h2 className="text-lg font-semibold">{category}</h2>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="divide-y px-4 pb-4">
-                      {items.map((item) => (
-                        <ChecklistItemComponent
-                          key={item.requirement}
-                          item={item}
-                          analysis={analysisMap.get(item.requirement)}
-                          isChecked={!!checkedState[item.requirement]}
-                          uploadedFile={uploadedFiles[item.requirement] || null}
-                          onCheckedChange={(checked) => handleCheckedChange(item.requirement, checked)}
-                          onFileChange={(file) => handleFileChange(item.requirement, file)}
-                        />
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Card>
-            ))}
-          </Accordion>
+          <Card>
+            <CardHeader>
+              <CardTitle>Interactive Checklist</CardTitle>
+              <CardDescription>Check off items and upload proof to improve your score.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Accordion type="multiple" defaultValue={Object.keys(groupedChecklist)} className="w-full">
+                {Object.entries(groupedChecklist).map(([category, items]) => (
+                  <AccordionItem value={category} key={category}>
+                    <AccordionTrigger>
+                      <h2 className="text-lg font-semibold">{category}</h2>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="divide-y">
+                        {items.map((item) => (
+                          <ChecklistItemComponent
+                            key={item.requirement}
+                            item={item}
+                            analysis={analysisMap.get(item.requirement)}
+                            isChecked={!!checkedState[item.requirement]}
+                            uploadedFile={uploadedFiles[item.requirement] || null}
+                            onCheckedChange={(checked) => handleCheckedChange(item.requirement, checked)}
+                            onFileChange={(file) => handleFileChange(item.requirement, file)}
+                          />
+                        ))}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </CardContent>
+          </Card>
         </div>
       </div>
        <div className="flex justify-center pt-4 border-t mt-4">
