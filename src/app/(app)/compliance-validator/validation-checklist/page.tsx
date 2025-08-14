@@ -1,12 +1,12 @@
 
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import {
   generateComplianceChecklist,
-  type ChecklistItem,
   type GenerateComplianceChecklistOutput,
+  type ChecklistItemAnalysis,
 } from '@/ai/flows/business-management/generate-compliance-checklist-flow';
 import { useBusinessProfileStore } from '@/store/business-profile-store';
 import {
@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { ArrowLeft, Check, FileDown, Info, Loader2, X, FileText } from 'lucide-react';
+import { ArrowLeft, Check, FileDown, Info, Loader2, X, FileText, Upload } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
@@ -36,54 +36,124 @@ import {
 } from '@/components/ui/tooltip';
 import ComplianceMeter from '@/components/feature/compliance-meter';
 
-type CheckedState = {
-  [requirement: string]: boolean;
+type UploadedFilesState = {
+  [requirement: string]: File | null;
 };
 
-const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
-  'Compliant': 'default',
-  'Action Required': 'destructive',
-  'Not Applicable': 'secondary',
+type CheckedState = {
+  [requirement:string]: boolean;
 };
+
+// This is now the single source of truth for the checklist structure.
+const PREDEFINED_CHECKLIST = [
+    { category: "Registration & Legal", requirement: "Company Registration Certificate" },
+    { category: "Registration & Legal", requirement: "Business Registration Number (BRN)" },
+    { category: "MRA Tax Compliance", requirement: "Tax Account Number (TAN)" },
+    { category: "MRA Tax Compliance", requirement: "VAT Registration Certificate" },
+    { category: "MRA Tax Compliance", requirement: "PAYE Registration" },
+    { category: "MRA Tax Compliance", requirement: "CSG / NSF Registration" },
+    { category: "Data Protection", requirement: "Data Protection Office (DPO) Registration" },
+    { category: "Employment Law", requirement: "Employee Contracts" },
+    { category: "Industry-Specific", requirement: "Construction Industry Development Board (CIDB) Registration" },
+    { category: "Industry-Specific", requirement: "Tourism Authority (TA) License" },
+    { category: "Industry-Specific", requirement: "Food Handler's Certificate" },
+];
+
 
 const ChecklistItemComponent = ({
   item,
+  analysis,
   isChecked,
+  uploadedFile,
   onCheckedChange,
 }: {
-  item: ChecklistItem;
+  item: { category: string; requirement: string };
+  analysis: ChecklistItemAnalysis | undefined;
   isChecked: boolean;
+  uploadedFile: File | null;
   onCheckedChange: (checked: boolean) => void;
-}) => (
-  <div className="flex items-start gap-4 py-3">
-    <Checkbox
-      id={item.requirement}
-      checked={isChecked}
-      onCheckedChange={onCheckedChange}
-      className="mt-1"
-    />
-    <div className="flex-1">
-      <div className="flex items-center justify-between">
-        <label htmlFor={item.requirement} className="font-medium cursor-pointer">
-          {item.requirement}
-        </label>
-        <div className="flex items-center gap-2">
-           <Badge variant={statusVariant[item.initialStatus]}>AI Status: {item.initialStatus}</Badge>
-            <TooltipProvider>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <button className="text-muted-foreground"><Info size={16}/></button>
-                    </TooltipTrigger>
-                    <TooltipContent side="left" className="max-w-xs">
-                        <p>{item.explanation}</p>
-                    </TooltipContent>
-                </Tooltip>
-            </TooltipProvider>
+}) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleCheckboxClick = (checked: boolean) => {
+    onCheckedChange(checked);
+    // If checking the box and it's relevant, trigger file upload
+    if (checked && analysis?.isRelevant && fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      onCheckedChange(true, file); // This will be a new function signature
+    } else {
+        // If user cancels file selection, uncheck the box
+        onCheckedChange(false, null);
+    }
+  };
+
+
+  if (!analysis) {
+    return (
+       <div className="flex items-start gap-4 py-3">
+         <Skeleton className="h-6 w-6 rounded" />
+         <div className="flex-1 space-y-2">
+            <Skeleton className="h-5 w-4/5" />
+            <Skeleton className="h-4 w-3/5" />
+         </div>
+       </div>
+    );
+  }
+
+  const isRelevant = analysis.isRelevant;
+
+  return (
+    <div className="flex items-start gap-4 py-3">
+      <Checkbox
+        id={item.requirement}
+        checked={isChecked}
+        onCheckedChange={handleCheckboxClick}
+        disabled={!isRelevant}
+        className="mt-1"
+      />
+      <div className="flex-1">
+        <div className="flex items-center justify-between">
+          <label htmlFor={item.requirement} className={`font-medium ${!isRelevant ? 'text-muted-foreground line-through' : 'cursor-pointer'}`}>
+            {item.requirement}
+          </label>
+           <div className="flex items-center gap-2">
+              <TooltipProvider>
+                  <Tooltip>
+                      <TooltipTrigger asChild>
+                          <button className="text-muted-foreground"><Info size={16}/></button>
+                      </TooltipTrigger>
+                      <TooltipContent side="left" className="max-w-xs">
+                          <p>{analysis.explanation}</p>
+                      </TooltipContent>
+                  </Tooltip>
+              </TooltipProvider>
+          </div>
         </div>
+        {!isRelevant ? (
+            <p className="text-xs text-muted-foreground">Not Required For Your Type of Business</p>
+        ) : uploadedFile ? (
+            <p className="text-xs text-green-600 font-medium mt-1">Uploaded: {uploadedFile.name}</p>
+        ) : (
+             <p className="text-xs text-muted-foreground mt-1">Please check the box to upload the document.</p>
+        )}
       </div>
+      <input
+        type="file"
+        ref={fileInputRef}
+        className="hidden"
+        accept="image/*,application/pdf"
+        onChange={handleFileChange}
+      />
     </div>
-  </div>
-);
+  );
+};
+
 
 const ChecklistSkeleton = () => (
     <div className="space-y-6">
@@ -122,6 +192,7 @@ export default function ValidationChecklistPage() {
   const [checklistResult, setChecklistResult] = useState<GenerateComplianceChecklistOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [checkedState, setCheckedState] = useState<CheckedState>({});
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFilesState>({});
 
   useEffect(() => {
     if (profile) {
@@ -129,10 +200,14 @@ export default function ValidationChecklistPage() {
       generateComplianceChecklist(profile)
         .then((result) => {
           setChecklistResult(result);
-          // Initialize checked state based on AI's initial status
+          // Initialize checked state based on AI's initial status, only if relevant
           const initialChecked: CheckedState = {};
-          result.checklist.forEach(item => {
-            initialChecked[item.requirement] = item.initialStatus === 'Compliant' || item.initialStatus === 'Not Applicable';
+          result.analysis.forEach(item => {
+            if (item.isRelevant && (item.initialStatus === 'Compliant' || item.initialStatus === 'Not Applicable')) {
+                initialChecked[item.requirement] = true;
+            } else {
+                initialChecked[item.requirement] = false;
+            }
           });
           setCheckedState(initialChecked);
         })
@@ -143,29 +218,42 @@ export default function ValidationChecklistPage() {
     }
   }, [profile]);
   
-  const handleCheckedChange = (requirement: string, checked: boolean) => {
-    setCheckedState(prev => ({ ...prev, [requirement]: checked }));
+  const handleCheckedChange = (requirement: string, file: File | null) => {
+    setCheckedState(prev => ({ ...prev, [requirement]: !!file }));
+    setUploadedFiles(prev => ({ ...prev, [requirement]: file }));
   };
 
   const groupedChecklist = useMemo(() => {
-    if (!checklistResult) return {};
-    return checklistResult.checklist.reduce((acc, item) => {
+    return PREDEFINED_CHECKLIST.reduce((acc, item) => {
       (acc[item.category] = acc[item.category] || []).push(item);
       return acc;
-    }, {} as Record<string, ChecklistItem[]>);
-  }, [checklistResult]);
+    }, {} as Record<string, { category: string; requirement: string }[]>);
+  }, []);
 
   const completionStats = useMemo(() => {
-    const totalItems = checklistResult?.checklist.length || 0;
-    if (totalItems === 0) return { percent: 0, checked: 0, total: 0 };
-    const checkedItems = Object.values(checkedState).filter(Boolean).length;
+    if (!checklistResult) return { percent: 0, checked: 0, total: 0 };
+    
+    const relevantItems = checklistResult.analysis.filter(a => a.isRelevant);
+    const totalRelevant = relevantItems.length;
+
+    if (totalRelevant === 0) return { percent: 100, checked: 0, total: 0 };
+    
+    const checkedAndUploaded = relevantItems.filter(item => {
+        return checkedState[item.requirement] && uploadedFiles[item.requirement];
+    }).length;
+    
     return {
-        percent: Math.round((checkedItems / totalItems) * 100),
-        checked: checkedItems,
-        total: totalItems,
+        percent: Math.round((checkedAndUploaded / totalRelevant) * 100),
+        checked: checkedAndUploaded,
+        total: totalRelevant,
     };
-  }, [checkedState, checklistResult]);
+  }, [checkedState, uploadedFiles, checklistResult]);
   
+  const analysisMap = useMemo(() => {
+    if (!checklistResult) return new Map();
+    return new Map(checklistResult.analysis.map(a => [a.requirement, a]));
+  }, [checklistResult]);
+
 
   if (isLoading) {
     return <ChecklistSkeleton />;
@@ -255,8 +343,10 @@ export default function ValidationChecklistPage() {
                             <ChecklistItemComponent
                                 key={item.requirement}
                                 item={item}
+                                analysis={analysisMap.get(item.requirement)}
                                 isChecked={!!checkedState[item.requirement]}
-                                onCheckedChange={(checked) => handleCheckedChange(item.requirement, !!checked)}
+                                uploadedFile={uploadedFiles[item.requirement] || null}
+                                onCheckedChange={(checked, file) => handleCheckedChange(item.requirement, file)}
                             />
                         ))}
                    </div>

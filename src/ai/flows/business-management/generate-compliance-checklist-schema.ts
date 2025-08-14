@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview Zod schemas and TypeScript types for the compliance checklist generation flow.
  */
@@ -21,20 +20,22 @@ export const GenerateComplianceChecklistInputSchema = z.object({
 
 export type GenerateComplianceChecklistInput = z.infer<typeof GenerateComplianceChecklistInputSchema>;
 
-// Zod schema for a single checklist item
-const ChecklistItemSchema = z.object({
-  category: z.string().describe('The compliance category (e.g., "MRA Registration", "Data Protection", "CIDB Compliance").'),
-  requirement: z.string().describe('The specific compliance requirement or check.'),
-  explanation: z.string().describe('A detailed explanation of the requirement and its relevance to the user\'s business profile.'),
+// Zod schema for the analysis of a single checklist item
+const ChecklistItemAnalysisSchema = z.object({
+  requirement: z.string().describe('The specific compliance requirement being analyzed (must match one from the predefined list).'),
+  isRelevant: z.boolean().describe('Whether this requirement is relevant to the user\'s business profile.'),
+  explanation: z.string().describe('A detailed explanation of the requirement and its relevance to the user\'s business profile. If not relevant, explain why.'),
   initialStatus: z.enum(['Compliant', 'Action Required', 'Not Applicable']).describe('The AI-suggested initial status of the compliance item based on the user\'s profile.'),
 });
+
+export type ChecklistItemAnalysis = z.infer<typeof ChecklistItemAnalysisSchema>;
+
 
 // Zod schema for the full checklist output
 export const GenerateComplianceChecklistOutputSchema = z.object({
   businessSummary: z.string().describe("A brief, natural language summary of the user's business profile."),
-  checklist: z.array(ChecklistItemSchema).describe('A comprehensive list of compliance checklist items.'),
+  analysis: z.array(ChecklistItemAnalysisSchema).describe('A comprehensive analysis for each predefined compliance requirement.'),
   statusSummary: z.array(z.string()).describe("An array of strings, where each string is a summary point explaining a necessary action and the overall compliance picture."),
 });
 
 export type GenerateComplianceChecklistOutput = z.infer<typeof GenerateComplianceChecklistOutputSchema>;
-export type ChecklistItem = z.infer<typeof ChecklistItemSchema>;

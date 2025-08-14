@@ -19,11 +19,25 @@ export async function generateComplianceChecklist(
   return result;
 }
 
+const predefinedChecklist = [
+    { category: "Registration & Legal", requirement: "Company Registration Certificate" },
+    { category: "Registration & Legal", requirement: "Business Registration Number (BRN)" },
+    { category: "MRA Tax Compliance", requirement: "Tax Account Number (TAN)" },
+    { category: "MRA Tax Compliance", requirement: "VAT Registration Certificate" },
+    { category: "MRA Tax Compliance", requirement: "PAYE Registration" },
+    { category: "MRA Tax Compliance", requirement: "CSG / NSF Registration" },
+    { category: "Data Protection", requirement: "Data Protection Office (DPO) Registration" },
+    { category: "Employment Law", requirement: "Employee Contracts" },
+    { category: "Industry-Specific", requirement: "Construction Industry Development Board (CIDB) Registration" },
+    { category: "Industry-Specific", requirement: "Tourism Authority (TA) License" },
+    { category: "Industry-Specific", requirement: "Food Handler's Certificate" },
+];
+
 const prompt = ai.definePrompt({
   name: 'generateComplianceChecklistPrompt',
   input: { schema: GenerateComplianceChecklistInputSchema },
   output: { schema: GenerateComplianceChecklistOutputSchema },
-  prompt: `You are a compliance expert specializing in the Mauritian legal and regulatory framework for businesses. Your task is to generate a personalized compliance checklist and insightful summaries for a user based on their business profile.
+  prompt: `You are a compliance expert specializing in the Mauritian legal and regulatory framework for businesses. Your task is to analyze a user's business profile and determine the relevance and status of a predefined list of compliance requirements.
 
 **Analyze the following user profile:**
 - Business Type: {{businessType}}
@@ -34,26 +48,35 @@ const prompt = ai.definePrompt({
 - Annual Turnover: {{annualTurnover}}
 - Is a Startup: {{isStartup}}
 
+**Here is the predefined list of all potential compliance requirements:**
+{{#each predefinedChecklist}}
+- {{requirement}}
+{{/each}}
+
 **Your Tasks:**
 
 1.  **Generate Business Summary:**
     - Write a concise, one-paragraph summary of the user's business profile in natural language. This will be displayed at the top of the page.
 
-2.  **Generate Compliance Checklist:**
-    - Create a comprehensive checklist covering all relevant compliance areas in Mauritius.
+2.  **Generate Compliance Analysis:**
+    - For **each** item in the predefined list, you must produce a corresponding analysis object.
     - For each item, determine its relevance and suggest an initial status ('Compliant', 'Action Required', 'Not Applicable').
-    - **Key Compliance Areas:** MRA (BRN, TAN, VAT, PAYE, NSF/CSG), Corporate and Business Registration Department (CBRD), Data Protection Office (DPO), Industry-Specific Regulations (Construction/CIDB, Tourism/TA, Food/Health), Employment Law (Workers' Rights Act, OSHA).
-    - For each checklist item, provide:
-        - **category:** Group items logically (e.g., "MRA Tax Compliance").
-        - **requirement:** State the specific action clearly.
-        - **explanation:** Explain what it is, why it applies to *this user*, and any deadlines/thresholds.
-        - **initialStatus:** Set based on the user's profile.
+    - **Key Compliance Areas & Logic:**
+        - MRA (BRN, TAN, VAT, PAYE, NSF/CSG): PAYE/NSF/CSG are relevant if 'hasEmployees' is 'Yes'. VAT is relevant if turnover is high or 'isVatRegistered' is 'Yes'. BRN/TAN are almost always relevant for a formal business.
+        - Corporate and Business Registration Department (CBRD): Company Registration is relevant for 'Company' business types.
+        - Data Protection Office (DPO): Relevant for most businesses that handle customer data.
+        - Industry-Specific Regulations: CIDB for 'Construction', TA for 'Tourism', Food Certificate for 'Food/Restaurant'.
+    - For each analysis object, provide:
+        - **requirement:** The name of the item from the predefined list.
+        - **isRelevant:** A boolean indicating if this applies to the user.
+        - **explanation:** Explain what it is and *why* it is or is not relevant to this specific user's profile.
+        - **initialStatus:** Set based on the user's profile. If 'isRelevant' is false, this should be 'Not Applicable'. If the user has a BRN, mark the BRN item as 'Compliant'.
 
 3.  **Generate Status Summary:**
-    - Based on the checklist you just created (specifically the items marked 'Action Required'), provide a summary as an array of strings.
-    - **IMPORTANT**: Each string in the array should be a distinct point, explaining why an action is necessary and what the overall compliance picture looks like for this business.
+    - Based on the analysis you just created (specifically the items marked 'Action Required'), provide a summary as an array of strings.
+    - **IMPORTANT**: Each string in the array should be a distinct bullet point, explaining why an action is necessary and what the overall compliance picture looks like for this business.
 
-Produce the output in the required JSON format with all three fields: businessSummary, checklist, and statusSummary.
+Produce the output in the required JSON format with all three fields: businessSummary, analysis, and statusSummary. Ensure the 'analysis' array contains an object for every single item in the predefined list.
 `,
 });
 
@@ -64,7 +87,7 @@ const generateComplianceChecklistFlow = ai.defineFlow(
     outputSchema: GenerateComplianceChecklistOutputSchema,
   },
   async (input) => {
-    const { output } = await prompt(input);
+    const { output } = await prompt({ ...input, predefinedChecklist });
     if (!output) {
       throw new Error('The AI model did not return a valid compliance checklist.');
     }
