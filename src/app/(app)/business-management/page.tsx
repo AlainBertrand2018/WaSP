@@ -3,7 +3,7 @@
 
 import { BentoGrid, BentoGridItem } from '@/components/aceternity/bento-grid';
 import Spline from '@splinetool/react-spline';
-import { FileText, Lightbulb, Rocket, Wallet, Loader2 } from 'lucide-react';
+import { FileText, Lightbulb, Loader2, Rocket, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -27,13 +27,13 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
     return (
         <Card className="max-w-4xl mx-auto shadow-lg">
             <CardHeader>
-                <CardTitle className="text-2xl font-semibold text-primary">Your Business Profile</CardTitle>
+                <CardTitle className="text-2xl font-semibold text-primary">Let's Generate you Business Profile</CardTitle>
             </CardHeader>
             <CardContent>
             <form onSubmit={handleSaveProfile} className="space-y-8">
                 {/* Business Type */}
                 <div>
-                    <Label className="text-base font-medium mb-4 block">Business Type:</Label>
+                    <Label className="text-base font-medium mb-4 block">Business Type</Label>
                      <RadioGroup 
                         name="businessType" 
                         value={profile.businessType} 
@@ -63,7 +63,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                     </RadioGroup>
                     {profile.businessType === 'Other' && (
                         <div className="mt-4">
-                            <Label htmlFor="otherBusinessType">Please specify your business type:</Label>
+                            <Label htmlFor="otherBusinessType">Please specify your business type</Label>
                             <Input
                                 type="text"
                                 id="otherBusinessType"
@@ -92,7 +92,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
 
                         {/* Annual Turnover */}
                         <div className="space-y-2">
-                            <Label htmlFor="annualTurnover">Annual Turnover of Taxable Supplies (MUR):</Label>
+                            <Label htmlFor="annualTurnover">Annual Turnover of Taxable Supplies (MUR)</Label>
                             <Input
                                 type="number"
                                 id="annualTurnover"
@@ -108,7 +108,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
 
                         {/* Gross Income */}
                         <div className="space-y-2">
-                            <Label htmlFor="grossIncome">Gross Income for Preceding Income Year (MUR):</Label>
+                            <Label htmlFor="grossIncome">Gross Income for Preceding Income Year (MUR)</Label>
                             <Input
                                 type="number"
                                 id="grossIncome"
@@ -125,7 +125,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                 ) : (
                     /* Projected Annual Income Threshold when "Not set yet" is selected */
                     <div className="space-y-2">
-                        <Label htmlFor="projectedAnnualIncomeThreshold">Projected Annual Income Threshold:</Label>
+                        <Label htmlFor="projectedAnnualIncomeThreshold">Projected Annual Income Threshold</Label>
                         <Select name="projectedAnnualIncomeThreshold" value={profile.projectedAnnualIncomeThreshold} onValueChange={(value) => handleChange({ target: { name: 'projectedAnnualIncomeThreshold', value } })}>
                             <SelectTrigger id="projectedAnnualIncomeThreshold">
                                 <SelectValue placeholder="Select an option" />
@@ -162,7 +162,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                     </RadioGroup>
                     {profile.hasEmployees === 'Yes' && (
                         <div className="mt-4 space-y-2">
-                            <Label htmlFor="numberOfEmployees">Number of employees:</Label>
+                            <Label htmlFor="numberOfEmployees">Number of employees</Label>
                             <Input
                                 type="number"
                                 id="numberOfEmployees"
@@ -178,7 +178,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
 
                 {/* Industry/Sector */}
                 <div className="space-y-2">
-                    <Label htmlFor="industry">Industry/Sector (e.g., Construction, Retail, IT):</Label>
+                    <Label htmlFor="industry">Industry/Sector (e.g., Construction, Retail, IT)</Label>
                     <Input
                         type="text"
                         id="industry"
@@ -226,7 +226,15 @@ export default function BusinessManagementLandingPage() {
   const handleChange = (e: any) => {
     // Check if the event is from a Switch component
     const isCheckbox = e.target?.type === 'checkbox';
-    const isSwitch = e.target?.role === 'switch';
+    
+    // Check if the event is coming from a radis switch
+    if (typeof e === 'boolean') {
+        setProfile(prev => ({
+            ...prev,
+            isStartup: e
+        }));
+        return;
+    }
 
     const { name, value, checked } = e.target;
     
@@ -238,7 +246,7 @@ export default function BusinessManagementLandingPage() {
 
     setProfile(prev => ({
         ...prev,
-        [name]: isCheckbox || isSwitch ? checked : value,
+        [name]: isCheckbox ? checked : value,
     }));
   };
 
