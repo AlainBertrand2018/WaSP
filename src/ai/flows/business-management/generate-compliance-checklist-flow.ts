@@ -50,7 +50,7 @@ const prompt = ai.definePrompt({
         - **initialStatus:** Set based on the user's profile.
 
 3.  **Generate Status Summary:**
-    - Based on the checklist you just created (specifically the items marked 'Action Required'), write a brief, one-paragraph summary. Explain why certain actions are necessary and what the overall compliance picture looks like for this business.
+    - Based on the checklist you just created (specifically the items marked 'Action Required'), write a brief summary in a bulleted list format. Explain why certain actions are necessary and what the overall compliance picture looks like for this business.
 
 Produce the output in the required JSON format with all three fields: businessSummary, checklist, and statusSummary.
 `,
