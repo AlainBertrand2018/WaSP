@@ -2,12 +2,12 @@
 'use client';
 
 import Spline from '@splinetool/react-spline';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -19,23 +19,149 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils';
 
-const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading, isProfileSaved }: any) => {
-    return (
-        <Card className="max-w-4xl mx-auto shadow-lg">
-            <CardHeader className="text-left">
-                <CardTitle className="text-2xl font-semibold text-foreground">Let's Generate you Business Profile</CardTitle>
-            </CardHeader>
-            <CardContent>
-            <form onSubmit={handleSaveProfile} className="space-y-8 text-left">
-                {/* Business Type */}
+const BusinessProfileForm = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [profile, setProfile] = useState({
+    // Step 2
+    businessType: 'Not set yet',
+    otherBusinessType: '',
+    businessForm: '',
+    otherBusinessForm: '',
+    brn: '',
+    isVatRegistered: 'No',
+    vatNumber: '',
+    isStartup: false,
+    annualTurnover: '',
+    grossIncome: '',
+    projectedAnnualIncomeThreshold: '',
+    hasEmployees: 'No',
+    numberOfEmployees: '',
+    industry: '',
+    // Step 3
+    businessName: '',
+    website: '',
+    description: '',
+    logo: '',
+    // Step 4
+    mainGoal: '',
+    biggestChallenge: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [isProfileSaved, setIsProfileSaved] = useState(false);
+
+  const handleChange = (e: any) => {
+    const { name, value, checked, type } = e.target;
+
+    if (type === 'checkbox' || type === 'switch') {
+      setProfile(prev => ({ ...prev, [name]: checked }));
+      return;
+    }
+    
+    // Handle select/radio group changes
+    if (!e.target) {
+        const [field, val] = Object.entries(e)[0];
+        setProfile(prev => ({...prev, [field]: val}));
+        return;
+    }
+
+    setProfile(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (name: keyof typeof profile, value: string) => {
+    setProfile(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSwitchChange = (name: keyof typeof profile, checked: boolean) => {
+      setProfile(prev => ({ ...prev, [name]: checked }));
+  }
+
+  const handleSaveProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setIsProfileSaved(true);
+      toast({
+        title: "Profile Saved!",
+        description: "Your business profile has been saved successfully.",
+      });
+      console.log('Saved Profile:', profile);
+    }, 1500);
+  };
+  
+  const nextStep = () => setCurrentStep(prev => prev + 1);
+  const prevStep = () => setCurrentStep(prev => prev - 1);
+
+  const steps = [
+    { id: 1, name: "Onboarding" },
+    { id: 2, name: "Business Profile" },
+    { id: 3, name: "Business Identity" },
+    { id: 4, name: "Goals" },
+    { id: 5, name: "Review" },
+  ];
+
+  return (
+    <Card className="max-w-4xl mx-auto shadow-lg">
+      <CardHeader>
+        {/* Stepper UI */}
+        <div className="flex justify-between items-center px-2 md:px-8">
+            {steps.map((step, index) => (
+                <React.Fragment key={step.id}>
+                    <div className="flex flex-col items-center">
+                        <div className={cn(
+                            "w-8 h-8 rounded-full flex items-center justify-center font-bold transition-colors",
+                            currentStep > step.id ? 'bg-primary text-primary-foreground' :
+                            currentStep === step.id ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+                        )}>
+                            {currentStep > step.id ? <Check /> : step.id}
+                        </div>
+                        <p className={cn(
+                            "text-xs mt-1 transition-colors text-center",
+                            currentStep >= step.id ? 'text-foreground' : 'text-muted-foreground'
+                        )}>{step.name}</p>
+                    </div>
+                    {index < steps.length - 1 && (
+                        <div className={cn(
+                            "flex-1 h-1 mx-2 transition-colors",
+                            currentStep > step.id ? 'bg-primary' : 'bg-muted'
+                        )}></div>
+                    )}
+                </React.Fragment>
+            ))}
+        </div>
+      </CardHeader>
+      <CardContent>
+        {currentStep === 1 && (
+            <div className="text-center p-4">
+                <CardTitle className="text-2xl font-semibold text-foreground">Welcome to Your Business Management Hub</CardTitle>
+                <CardDescription className="max-w-2xl mx-auto mt-4 text-lg">
+                    To tailor our AI tools and provide you with the most accurate insights, we first need to understand your business. This short onboarding process will help us create a detailed profile of your venture.
+                </CardDescription>
+                <div className="mt-6 p-4 bg-muted/50 border rounded-lg max-w-2xl mx-auto">
+                    <h3 className="font-semibold text-foreground">Your Data is Secure</h3>
+                    <p className="text-sm text-muted-foreground mt-2">
+                        We take your privacy seriously. All the information you provide is stored securely in an encrypted database. It will never be shared and is only accessible by you and accredited users you authorize.
+                    </p>
+                </div>
+                <Button onClick={nextStep} size="lg" className="mt-8">
+                    Get Started <ArrowRight className="ml-2"/>
+                </Button>
+            </div>
+        )}
+        
+        {currentStep === 2 && (
+             <form className="space-y-8 text-left">
+                <CardTitle className="text-2xl text-center font-semibold text-foreground">Let's Generate you Business Profile</CardTitle>
                 <div>
                     <Label className="text-base font-medium mb-4 block text-left">Business Type</Label>
-                     <RadioGroup
+                    <RadioGroup
                         name="businessType"
                         value={profile.businessType}
-                        onValueChange={(value) => handleChange({ target: { name: 'businessType', value } })}
+                        onValueChange={(value) => handleSelectChange('businessType', value)}
                         className="grid grid-cols-2 md:grid-cols-3 gap-4"
                     >
                         <div className="flex items-center space-x-2">
@@ -50,7 +176,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                             <RadioGroupItem value="Company" id="bt-company" />
                             <Label htmlFor="bt-company">Company</Label>
                         </div>
-                         <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2">
                             <RadioGroupItem value="Microenterprise" id="bt-micro" />
                             <Label htmlFor="bt-micro">Microenterprise</Label>
                         </div>
@@ -74,13 +200,11 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                     )}
                 </div>
 
-                {/* Conditional fields based on Business Type */}
                 {profile.businessType !== 'Not set yet' ? (
                     <>
-                        {/* Business Form */}
                         <div className="space-y-2">
                              <Label htmlFor="businessForm" className="text-left">Business Form</Label>
-                             <Select name="businessForm" value={profile.businessForm} onValueChange={(value) => handleChange({ target: { name: 'businessForm', value } })}>
+                             <Select name="businessForm" value={profile.businessForm} onValueChange={(value) => handleSelectChange('businessForm', value)}>
                                 <SelectTrigger id="businessForm">
                                     <SelectValue placeholder="Select a business form" />
                                 </SelectTrigger>
@@ -107,7 +231,6 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                              )}
                         </div>
                         
-                        {/* Business Registration Number */}
                         <div className="space-y-2">
                            <Label htmlFor="brn" className="text-left">Business Registration Number (BRN)</Label>
                            <Input
@@ -120,13 +243,12 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                            />
                         </div>
 
-                        {/* VAT Registration */}
                         <div>
                             <Label className="font-medium mb-2 block text-left">Is your Business Vat Registered?</Label>
                              <RadioGroup
                                 name="isVatRegistered"
                                 value={profile.isVatRegistered}
-                                onValueChange={(value) => handleChange({ target: { name: 'isVatRegistered', value }})}
+                                onValueChange={(value) => handleSelectChange('isVatRegistered', value)}
                                 className="flex gap-4"
                             >
                                 <div className="flex items-center space-x-2">
@@ -153,18 +275,16 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                             )}
                         </div>
 
-                        {/* Is Startup */}
                         <div className="flex items-center space-x-2">
                             <Switch
                                 id="isStartup"
                                 name="isStartup"
                                 checked={profile.isStartup}
-                                onCheckedChange={(checked) => handleChange({ target: { name: 'isStartup', value: checked, type: 'checkbox' }})}
+                                onCheckedChange={(checked) => handleSwitchChange('isStartup', checked)}
                             />
                             <Label htmlFor="isStartup">Is your business a Startup (newly established)?</Label>
                         </div>
 
-                        {/* Annual Turnover */}
                         <div className="space-y-2">
                             <Label htmlFor="annualTurnover" className="text-left">Annual Turnover of Taxable Supplies (MUR)</Label>
                             <Input
@@ -180,7 +300,6 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                             </p>
                         </div>
 
-                        {/* Gross Income */}
                         <div className="space-y-2">
                             <Label htmlFor="grossIncome" className="text-left">Gross Income for Preceding Income Year (MUR)</Label>
                             <Input
@@ -192,15 +311,14 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                                 placeholder="e.g., 4500000"
                             />
                             <p className="text-xs text-muted-foreground text-left">
-                                (Used for CPS/APS statements, e.g., &gt; MUR 4 million for self-employed)
+                                (Used for CPS/APS statements, e.g., > MUR 4 million for self-employed)
                             </p>
                         </div>
                     </>
                 ) : (
-                    /* Projected Annual Income Threshold when "Not set yet" is selected */
                     <div className="space-y-2">
                         <Label htmlFor="projectedAnnualIncomeThreshold" className="text-left">Projected Annual Income Threshold</Label>
-                        <Select name="projectedAnnualIncomeThreshold" value={profile.projectedAnnualIncomeThreshold} onValueChange={(value) => handleChange({ target: { name: 'projectedAnnualIncomeThreshold', value } })}>
+                        <Select name="projectedAnnualIncomeThreshold" value={profile.projectedAnnualIncomeThreshold} onValueChange={(value) => handleSelectChange('projectedAnnualIncomeThreshold', value)}>
                             <SelectTrigger id="projectedAnnualIncomeThreshold">
                                 <SelectValue placeholder="Select an option" />
                             </SelectTrigger>
@@ -216,13 +334,12 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                     </div>
                 )}
 
-                {/* Has Employees */}
                 <div>
                     <Label className="font-medium mb-2 block text-left">Do you have employees?</Label>
                     <RadioGroup
                         name="hasEmployees"
                         value={profile.hasEmployees}
-                        onValueChange={(value) => handleChange({ target: { name: 'hasEmployees', value }})}
+                        onValueChange={(value) => handleSelectChange('hasEmployees', value)}
                         className="flex gap-4"
                     >
                         <div className="flex items-center space-x-2">
@@ -250,7 +367,6 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                     )}
                 </div>
 
-                {/* Industry/Sector */}
                 <div className="space-y-2">
                     <Label htmlFor="industry" className="text-left">Industry/Sector (e.g., Construction, Retail, IT)</Label>
                     <Input
@@ -265,85 +381,98 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                         (Used for industry-specific compliance, like CIDB for construction)
                     </p>
                 </div>
-
-                <Button
-                    type="submit"
-                    className="w-full"
-                    size="lg"
-                    disabled={loading}
-                >
-                    {loading ? <Loader2 className="animate-spin" /> : null}
-                    {loading ? 'Saving Profile...' : (isProfileSaved ? 'Update Profile & Checklist' : 'Save Profile & Generate Checklist')}
-                </Button>
             </form>
-            </CardContent>
-        </Card>
-    );
+        )}
+
+        {currentStep === 3 && (
+            <div className="space-y-8 text-left">
+                <CardTitle className="text-2xl text-center font-semibold text-foreground">Your Business Identity</CardTitle>
+                <div className="space-y-2">
+                    <Label htmlFor="businessName">Business Name</Label>
+                    <Input id="businessName" name="businessName" value={profile.businessName} onChange={handleChange} placeholder="e.g., BusinessStudio AI" />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="website">Website</Label>
+                    <Input id="website" name="website" value={profile.website} onChange={handleChange} placeholder="https://www.example.com" />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="description">Short Business Description</Label>
+                    <Textarea id="description" name="description" value={profile.description} onChange={handleChange} placeholder="Describe what your business does in a few sentences." />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="logo">Business Logo</Label>
+                    <Input id="logo" name="logo" type="file" onChange={handleChange} />
+                    <p className="text-xs text-muted-foreground">Upload your company logo (PNG, JPG, SVG).</p>
+                </div>
+            </div>
+        )}
+        
+        {currentStep === 4 && (
+            <div className="space-y-8 text-left">
+                <CardTitle className="text-2xl text-center font-semibold text-foreground">Your Business Goals and Challenges</CardTitle>
+                <div className="space-y-2">
+                    <Label htmlFor="mainGoal">What is your main goal right now?</Label>
+                    <Select name="mainGoal" value={profile.mainGoal} onValueChange={(value) => handleSelectChange('mainGoal', value)}>
+                        <SelectTrigger id="mainGoal">
+                            <SelectValue placeholder="Select your primary objective" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="secure-funding">Secure Funding</SelectItem>
+                            <SelectItem value="increase-sales">Increase Sales & Revenue</SelectItem>
+                            <SelectItem value="improve-efficiency">Improve Operational Efficiency</SelectItem>
+                            <SelectItem value="launch-product">Launch a New Product/Service</SelectItem>
+                            <SelectItem value="understand-compliance">Understand Compliance Needs</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+                 <div className="space-y-2">
+                    <Label htmlFor="biggestChallenge">What is your biggest challenge at the moment?</Label>
+                    <Textarea id="biggestChallenge" name="biggestChallenge" value={profile.biggestChallenge} onChange={handleChange} placeholder="Describe the main obstacle you are facing..." />
+                </div>
+            </div>
+        )}
+        
+        {currentStep === 5 && (
+            <div className="space-y-6 text-left">
+                 <CardTitle className="text-2xl text-center font-semibold text-foreground">Review & Confirm</CardTitle>
+                 <CardDescription className="text-center">Please review your information before saving.</CardDescription>
+                 <div className="space-y-4 p-4 border rounded-lg bg-muted/50 max-h-96 overflow-y-auto">
+                    {Object.entries(profile).map(([key, value]) => {
+                        if (value && typeof value !== 'boolean' && value !== 'Not set yet' || typeof value === 'boolean' && value) {
+                            const formattedKey = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                            return (
+                                <div key={key} className="flex justify-between text-sm">
+                                    <span className="font-semibold text-muted-foreground">{formattedKey}:</span>
+                                    <span className="text-right">{String(value)}</span>
+                                </div>
+                            )
+                        }
+                        return null;
+                    })}
+                 </div>
+            </div>
+        )}
+      </CardContent>
+      <CardFooter className="border-t pt-6 flex justify-between">
+            <Button variant="outline" onClick={prevStep} disabled={currentStep === 1}>
+                <ArrowLeft className="mr-2" /> Previous
+            </Button>
+            {currentStep < 5 ? (
+                <Button onClick={nextStep}>
+                    Next <ArrowRight className="ml-2" />
+                </Button>
+            ) : (
+                <Button onClick={handleSaveProfile} disabled={loading}>
+                     {loading ? <Loader2 className="animate-spin mr-2" /> : null}
+                     {isProfileSaved ? 'Update Profile' : 'Save Profile'}
+                </Button>
+            )}
+      </CardFooter>
+    </Card>
+  );
 };
 
-
 export default function BusinessManagementLandingPage() {
-  const [profile, setProfile] = useState({
-    businessType: 'Not set yet',
-    otherBusinessType: '',
-    businessForm: '',
-    otherBusinessForm: '',
-    brn: '',
-    isVatRegistered: 'No',
-    vatNumber: '',
-    isStartup: false,
-    annualTurnover: '',
-    grossIncome: '',
-    projectedAnnualIncomeThreshold: '',
-    hasEmployees: 'No',
-    numberOfEmployees: '',
-    industry: '',
-  });
-  const [loading, setLoading] = useState(false);
-  const [isProfileSaved, setIsProfileSaved] = useState(false);
-
-  const handleChange = (e: any) => {
-    const { name, value, checked, type } = e.target;
-
-    // Handle radis switch and other checkbox-like components
-    if (type === 'checkbox') {
-        setProfile(prev => ({
-            ...prev,
-            [name]: checked
-        }));
-        return;
-    }
-
-    // Handle Select and RadioGroup which don't have a 'name' on the event target
-    if (!name) {
-         setProfile(prev => ({
-            ...prev,
-            ...e
-        }));
-        return;
-    }
-
-    setProfile(prev => ({
-        ...prev,
-        [name]: value,
-    }));
-  };
-
-  const handleSaveProfile = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-        setLoading(false);
-        setIsProfileSaved(true);
-        toast({
-            title: "Profile Saved!",
-            description: "Your business profile has been saved successfully.",
-        });
-        console.log('Saved Profile:', profile);
-    }, 1500);
-  };
-
   const handleScrollTo = (
     e: React.MouseEvent<HTMLAnchorElement>,
     id: string
@@ -375,13 +504,7 @@ export default function BusinessManagementLandingPage() {
 
       <div className="px-4 sm:px-6 md:px-8 py-8 md:py-12">
         <section className="mb-12" id="onboarding">
-           <BusinessProfileForm
-                profile={profile}
-                handleChange={handleChange}
-                handleSaveProfile={handleSaveProfile}
-                loading={loading}
-                isProfileSaved={isProfileSaved}
-           />
+           <BusinessProfileForm />
         </section>
       </div>
     </div>
