@@ -65,7 +65,7 @@ export default function InsightsDashboardPage() {
         style={{ backgroundColor: '#121212' }}
        >
          <Spline
-          scene="https://prod.spline.design/VYewelMi9Zmpa9NU/scene.splinecode"
+          scene="https://prod.spline.design/FKmWkI9k5Dkb9cLz/scene.splinecode"
           className="!absolute !top-0 !left-0 !w-full !h-full"
         />
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
