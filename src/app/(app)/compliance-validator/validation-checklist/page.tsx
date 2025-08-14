@@ -133,7 +133,7 @@ const ChecklistItemComponent = ({
          <p className="text-xs text-muted-foreground mt-1">
             {!isRelevant ? "Not Required For Your Type of Business" :
              uploadedFile ? <span className="text-green-600 font-medium">Uploaded: {uploadedFile.name}</span> :
-             "Proof of document is required for full score."
+             "Upload proof to confirm compliance."
             }
         </p>
       </div>
@@ -232,34 +232,39 @@ export default function ValidationChecklistPage() {
     if (!checklistResult) return { percent: 0 };
 
     const relevantItems = checklistResult.analysis.filter(a => a.isRelevant);
-    const totalRelevant = relevantItems.length;
+    const totalPossiblePoints = relevantItems.length;
 
-    if (totalRelevant === 0) return { percent: 100 };
+    if (totalPossiblePoints === 0) return { percent: 100 };
 
-    const pointsPerItem = 10 / totalRelevant; // Value of each item on a 10-point scale
+    const pointsPerItem = 10 / totalPossiblePoints;
+    let totalScore = 0;
 
-    // Calculate a base score from the AI's initial assessment.
-    const aiCompliantItems = relevantItems.filter(item => item.initialStatus === 'Compliant');
-    let score = aiCompliantItems.length * pointsPerItem;
-    
     relevantItems.forEach(item => {
         const hasDocument = !!uploadedFiles[item.requirement];
-        // If a document is uploaded, it confirms compliance, adding 0.1 points (or 1% on the percentage scale).
-        // This logic is a bit simplified, but reflects the "proof" concept. A more complex system might be needed.
-        if (hasDocument) {
-           // We can add a bonus here if needed, e.g. score += 0.1
-        } else {
-            // A missing document for a relevant item incurs a penalty.
-            score -= 0.1;
+        const isChecked = !!checkedState[item.requirement];
+
+        if (item.initialStatus === 'Compliant') {
+            // Starts with full points.
+            let itemScore = pointsPerItem;
+            // Penalize if no document is provided.
+            if (!hasDocument) {
+                itemScore -= 0.1 * pointsPerItem; // 0.1 point penalty on a 10-point scale
+            }
+            totalScore += itemScore;
+        } else if (item.initialStatus === 'Action Required') {
+            // Starts with zero points. Earns points only with proof.
+            if (isChecked && hasDocument) {
+                totalScore += pointsPerItem;
+            }
         }
     });
 
-    const finalPercentage = Math.max(0, Math.min(100, score * 10));
+    const finalPercentage = Math.max(0, Math.min(100, (totalScore / 10) * 100));
 
     return {
         percent: Math.round(finalPercentage),
     };
-  }, [uploadedFiles, checklistResult]);
+}, [checkedState, uploadedFiles, checklistResult]);
   
   const analysisMap = useMemo(() => {
     if (!checklistResult) return new Map();
@@ -386,3 +391,4 @@ export default function ValidationChecklistPage() {
     </div>
   );
 }
+
