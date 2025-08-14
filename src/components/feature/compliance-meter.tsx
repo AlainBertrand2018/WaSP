@@ -2,35 +2,36 @@
 'use client';
 
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 type ComplianceMeterProps = {
   percentage: number;
+  score: number;
 };
 
-const ComplianceMeter: React.FC<ComplianceMeterProps> = ({ percentage }) => {
+const ComplianceMeter: React.FC<ComplianceMeterProps> = ({ percentage, score }) => {
   const getFeedback = (
     value: number
   ): { text: string; className: string } => {
-    if (value <= 30) {
+    if (value <= 3) { // 30%
       return {
-        text: 'Lowly Compliant (Urgent actions required)',
+        text: 'Urgent actions required',
         className: 'text-destructive',
       };
-    } else if (value <= 80) {
+    } else if (value <= 7) { // 70%
       return {
-        text: 'Not Fully Compliant (Compliance process to be completed)',
-        className: 'text-orange-500', // Using a specific color here as there is no theme variable for warning.
+        text: 'Compliance process to be completed',
+        className: 'text-orange-500', 
       };
     } else {
       return {
-        text: 'Comfortably Compliant (Some compliance Processes may need completion)',
-        className: 'text-green-500', // Using a specific color here as there is no theme variable for success.
+        text: 'Comfortably Compliant',
+        className: 'text-green-500',
       };
     }
   };
 
-  const feedback = getFeedback(percentage);
-  const score = (percentage / 10).toFixed(1);
+  const feedback = getFeedback(score);
 
   return (
     <div className="w-full rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
@@ -42,7 +43,7 @@ const ComplianceMeter: React.FC<ComplianceMeterProps> = ({ percentage }) => {
       </div>
       <div className="flex items-center gap-4">
         <p className="text-4xl font-bold">
-          {score}
+          {score.toFixed(1)}
           <span className="text-xl text-muted-foreground">/10</span>
         </p>
         <div className="w-full pt-4">

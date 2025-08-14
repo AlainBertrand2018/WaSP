@@ -1,9 +1,9 @@
 
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
-import React from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import {
   generateComplianceChecklist,
   type GenerateComplianceChecklistOutput,
@@ -34,7 +34,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import ComplianceMeter from '@/components/feature/compliance-meter';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 import { useAudioPlayerStore } from '@/store/audio-player-store';
@@ -46,7 +45,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
+
+const ComplianceMeter = dynamic(
+  () => import('@/components/feature/compliance-meter'),
+  { 
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[124px]" />,
+  }
+);
+
 
 type UploadedFilesState = {
   [requirement: string]: File | null;
@@ -221,15 +228,15 @@ export default function ValidationChecklistPage() {
     let totalScore = 0;
     
     relevantItems.forEach(item => {
-      const isTicked = !!checkedState[item.requirement];
-      const hasDocument = !!uploadedFiles[item.requirement];
-      
-      if (isTicked) {
-        totalScore += 0.4;
-      }
-      if (hasDocument) {
-        totalScore += 0.6;
-      }
+        const isTicked = !!checkedState[item.requirement];
+        const hasDocument = !!uploadedFiles[item.requirement];
+    
+        if (isTicked) {
+            totalScore += 0.4; // 40% for ticking the box
+        }
+        if (hasDocument) {
+            totalScore += 0.6; // 60% for uploading the document
+        }
     });
 
     const finalPercentage = (totalScore / totalPossiblePoints) * 100;

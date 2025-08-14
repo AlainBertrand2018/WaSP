@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -18,12 +19,12 @@ const ViabilityMeter: React.FC<ViabilityMeterProps> = ({ score }) => {
     } else if (value <= 8) {
       return {
         text: 'Great! Project idea needs to be refined',
-        className: 'text-orange-500', // Using a specific color here as there is no theme variable for warning.
+        className: 'text-orange-500', 
       };
     } else {
       return {
         text: 'Wow! Project idea is promising and needs to be polished',
-        className: 'text-green-500', // Using a specific color here as there is no theme variable for success.
+        className: 'text-green-500',
       };
     }
   };
@@ -50,6 +51,7 @@ const ViabilityMeter: React.FC<ViabilityMeterProps> = ({ score }) => {
               className="absolute -top-1.5 h-5 w-5 rounded-full border-4 border-primary bg-primary-foreground shadow"
               style={{
                 left: `calc(${meterPercentage}% - 10px)`,
+                transition: 'left 0.5s ease-in-out',
               }}
             ></div>
           </div>

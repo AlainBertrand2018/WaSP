@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useRef, Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import {
@@ -50,12 +51,19 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { generateMarketSize } from '@/ai/flows/business-management/generate-market-size-flow';
-import ViabilityMeter from '@/components/feature/viability-meter';
 import Link from 'next/link';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
 import { Skeleton } from '@/components/ui/skeleton';
 import { generatePdf } from '@/lib/pdf-generator';
 import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
+
+const ViabilityMeter = dynamic(
+  () => import('@/components/feature/viability-meter'),
+  { 
+    ssr: false,
+    loading: () => <Skeleton className="w-full h-[124px]" />,
+  }
+);
 
 
 const totalSteps = 7;
