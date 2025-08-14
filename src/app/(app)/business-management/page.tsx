@@ -77,6 +77,36 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                 {/* Conditional fields based on Business Type */}
                 {profile.businessType !== 'Not set yet' ? (
                     <>
+                        {/* Business Form */}
+                        <div className="space-y-2">
+                             <Label htmlFor="businessForm" className="text-left">Business Form</Label>
+                             <Select name="businessForm" value={profile.businessForm} onValueChange={(value) => handleChange({ target: { name: 'businessForm', value } })}>
+                                <SelectTrigger id="businessForm">
+                                    <SelectValue placeholder="Select a business form" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="Société">Société</SelectItem>
+                                    <SelectItem value="Partnership/Limited Partnership">Partnership/Limited Partnership</SelectItem>
+                                    <SelectItem value="Private Company">Private Company</SelectItem>
+                                    <SelectItem value="GBC (Global Business Company)">GBC (Global Business Company)</SelectItem>
+                                    <SelectItem value="Other">Other</SelectItem>
+                                </SelectContent>
+                             </Select>
+                             {profile.businessForm === 'Other' && (
+                                <div className="mt-4">
+                                    <Label htmlFor="otherBusinessForm" className="text-left">Please specify</Label>
+                                    <Input
+                                        type="text"
+                                        id="otherBusinessForm"
+                                        name="otherBusinessForm"
+                                        value={profile.otherBusinessForm}
+                                        onChange={handleChange}
+                                        placeholder="Specify business form"
+                                    />
+                                </div>
+                             )}
+                        </div>
+
                         {/* Is Startup */}
                         <div className="flex items-center space-x-2">
                             <Switch 
@@ -210,6 +240,8 @@ export default function BusinessManagementLandingPage() {
   const [profile, setProfile] = useState({
     businessType: 'Not set yet',
     otherBusinessType: '',
+    businessForm: '',
+    otherBusinessForm: '',
     isStartup: false,
     annualTurnover: '',
     grossIncome: '',
@@ -222,29 +254,29 @@ export default function BusinessManagementLandingPage() {
   const [isProfileSaved, setIsProfileSaved] = useState(false);
 
   const handleChange = (e: any) => {
-    // Check if the event is from a Switch component
-    const isCheckbox = e.target?.type === 'checkbox';
+    const { name, value, checked, type } = e.target;
     
-    // Check if the event is coming from a radis switch
-    if (typeof e === 'boolean') {
+    // Handle radis switch and other checkbox-like components
+    if (type === 'checkbox') {
         setProfile(prev => ({
             ...prev,
-            isStartup: e
+            [name]: checked
         }));
         return;
     }
 
-    const { name, value, checked } = e.target;
-    
-    // Handle synthetic event for Select and RadioGroup which only pass value
-    if (!e.target) {
-        setProfile(prev => ({ ...prev, ...e }));
+    // Handle Select and RadioGroup which don't have a 'name' on the event target
+    if (!name) {
+         setProfile(prev => ({
+            ...prev,
+            ...e
+        }));
         return;
     }
 
     setProfile(prev => ({
         ...prev,
-        [name]: isCheckbox ? checked : value,
+        [name]: value,
     }));
   };
 
