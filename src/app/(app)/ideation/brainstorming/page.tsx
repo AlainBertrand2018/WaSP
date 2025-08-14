@@ -36,7 +36,7 @@ import {
   Rocket,
   Wand2,
 } from 'lucide-react';
-import {useForm, Controller} from 'react-hook-form';
+import {useForm, Controller, FieldName} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {z} from 'zod';
 import {cn} from '@/lib/utils';
@@ -72,6 +72,9 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
+const step1Fields: FieldName<FormValues>[] = ['businessConcept', 'problemToSolve', 'proposedSolution'];
+
+
 export default function BrainstormingPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -83,6 +86,7 @@ export default function BrainstormingPage() {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    mode: 'onChange',
   });
 
   const onSubmit = async (data: FormValues) => {
@@ -100,6 +104,14 @@ export default function BrainstormingPage() {
     }
   };
 
+  const handleNextStep = async () => {
+    const isValid = await form.trigger(step1Fields);
+    if (isValid) {
+        setCurrentStep(2);
+    }
+  };
+
+
   const handleSelectSector = (sectorTitle: string) => {
     setCustomSector(''); // Clear custom input
     setSelectedSector(sectorTitle === selectedSector ? null : sectorTitle);
@@ -112,7 +124,6 @@ export default function BrainstormingPage() {
 
   const canProceedFromHints = selectedSector || customSector.trim();
 
-  const next = () => setCurrentStep((s) => s + 1);
   const prev = () => setCurrentStep((s) => s - 1);
 
   const getStepClass = (step: number) => {
@@ -176,7 +187,7 @@ export default function BrainstormingPage() {
               )}
             </div>
             <div className="flex justify-end pt-4">
-              <Button type="button" size="lg" onClick={next}>
+              <Button type="button" size="lg" onClick={handleNextStep}>
                 <span>Next: Your Profile</span>
                 <ArrowRight />
               </Button>
@@ -412,7 +423,7 @@ export default function BrainstormingPage() {
                 <ArrowLeft />
                 <span>Back to Profile</span>
               </Button>
-              <Button size="lg" disabled={!canProceedFromHints} onClick={next}>
+              <Button size="lg" disabled={!canProceedFromHints} onClick={() => setCurrentStep(4)}>
                 <span>Next: Get My Assessment</span>
                 <ArrowRight />
               </Button>
