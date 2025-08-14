@@ -66,6 +66,6 @@ const brainstormFlow = ai.defineFlow(
     if (!output) {
       throw new Error('The AI model did not return valid ideas.');
     }
-    return output;
+    return { ideas: output.ideas };
   }
 );
