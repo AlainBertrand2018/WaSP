@@ -102,8 +102,8 @@ export default function BusinessManagementLandingPage() {
         style={{ backgroundColor: '#000000' }}
       >
         <Link
-          href="#toolkits"
-          onClick={(e) => handleScrollTo(e, 'toolkits')}
+          href="#onboarding"
+          onClick={(e) => handleScrollTo(e, 'onboarding')}
           className="absolute inset-0 z-10 cursor-pointer"
           aria-label="Scroll to next section"
         >
@@ -115,7 +115,7 @@ export default function BusinessManagementLandingPage() {
       </section>
 
       <div className="px-4 sm:px-6 md:px-8 py-8 md:py-12">
-        <section className="text-center mb-12" id="toolkits">
+        <section className="text-center mb-12" id="onboarding">
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
             Business Management Command Center
           </h1>
