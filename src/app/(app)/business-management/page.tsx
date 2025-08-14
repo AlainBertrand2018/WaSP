@@ -3,7 +3,7 @@
 
 import { BentoGrid, BentoGridItem } from '@/components/aceternity/bento-grid';
 import Spline from '@splinetool/react-spline';
-import { FileText, Lightbulb, Rocket, Wallet } from 'lucide-react';
+import { FileText, Lightbulb, Rocket, Wallet, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -22,7 +22,6 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { toast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
 
 const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading, isProfileSaved }: any) => {
     return (
@@ -119,7 +118,7 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                                 placeholder="e.g., 4500000"
                             />
                             <p className="text-xs text-muted-foreground">
-                                (Used for CPS/APS statements, e.g., &gt; MUR 4 million for self-employed)
+                                (Used for CPS/APS statements, e.g., > MUR 4 million for self-employed)
                             </p>
                         </div>
                     </>
@@ -132,7 +131,6 @@ const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading
                                 <SelectValue placeholder="Select an option" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="">Select an option</SelectItem>
                                 <SelectItem value="Less than Rs 3M">Less than Rs 3M</SelectItem>
                                 <SelectItem value="More than Rs 3M">More than Rs 3M</SelectItem>
                                 <SelectItem value="More than Rs 10M">More than Rs 10M</SelectItem>
@@ -226,10 +224,21 @@ export default function BusinessManagementLandingPage() {
   const [isProfileSaved, setIsProfileSaved] = useState(false);
 
   const handleChange = (e: any) => {
-    const { name, value, type, checked } = e.target;
+    // Check if the event is from a Switch component
+    const isCheckbox = e.target?.type === 'checkbox';
+    const isSwitch = e.target?.role === 'switch';
+
+    const { name, value, checked } = e.target;
+    
+    // Handle synthetic event for Select and RadioGroup which only pass value
+    if (!e.target) {
+        setProfile(prev => ({ ...prev, ...e }));
+        return;
+    }
+
     setProfile(prev => ({
         ...prev,
-        [name]: type === 'checkbox' ? checked : value,
+        [name]: isCheckbox || isSwitch ? checked : value,
     }));
   };
 
@@ -262,8 +271,7 @@ export default function BusinessManagementLandingPage() {
   return (
     <div className="flex flex-col w-full">
       <section
-        className="relative w-full h-[40vh] md:min-h-[90vh]"
-        style={{ backgroundColor: '#000000' }}
+        className="relative w-full h-[40vh] md:min-h-[90vh] bg-black"
       >
         <Link
           href="#onboarding"
