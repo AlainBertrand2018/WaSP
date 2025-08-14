@@ -33,7 +33,7 @@ const ChecklistItemSchema = z.object({
 export const GenerateComplianceChecklistOutputSchema = z.object({
   businessSummary: z.string().describe("A brief, natural language summary of the user's business profile."),
   checklist: z.array(ChecklistItemSchema).describe('A comprehensive list of compliance checklist items.'),
-  statusSummary: z.string().describe("A brief summary of the overall compliance status based on the generated checklist."),
+  statusSummary: z.array(z.string()).describe("An array of strings, where each string is a summary point explaining a necessary action and the overall compliance picture."),
 });
 
 export type GenerateComplianceChecklistOutput = z.infer<typeof GenerateComplianceChecklistOutputSchema>;

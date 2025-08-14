@@ -35,8 +35,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import ComplianceMeter from '@/components/feature/compliance-meter';
-import { marked } from 'marked';
-
 
 type CheckedState = {
   [requirement: string]: boolean;
@@ -88,7 +86,7 @@ const ChecklistItemComponent = ({
 );
 
 const ChecklistSkeleton = () => (
-    <div className="space-y-4">
+    <div className="space-y-6">
         <Skeleton className="h-10 w-2/3" />
         <Skeleton className="h-6 w-full" />
         <Card>
@@ -168,10 +166,6 @@ export default function ValidationChecklistPage() {
     };
   }, [checkedState, checklistResult]);
   
-  const statusSummaryHtml = useMemo(() => {
-    if (!checklistResult?.statusSummary) return '';
-    return marked(checklistResult.statusSummary, { breaks: true, gfm: true });
-  }, [checklistResult?.statusSummary]);
 
   if (isLoading) {
     return <ChecklistSkeleton />;
@@ -237,10 +231,13 @@ export default function ValidationChecklistPage() {
                  <Alert className="mt-4">
                     <Info className="h-4 w-4" />
                     <AlertTitle>AI Status Summary</AlertTitle>
-                    <AlertDescription
-                        className="prose prose-sm dark:prose-invert max-w-none"
-                        dangerouslySetInnerHTML={{ __html: statusSummaryHtml }}
-                    />
+                    <AlertDescription>
+                        <ul className="list-disc pl-5 space-y-1">
+                            {checklistResult.statusSummary.map((point, index) => (
+                                <li key={index}>{point}</li>
+                            ))}
+                        </ul>
+                    </AlertDescription>
                 </Alert>
             </CardContent>
         </Card>
