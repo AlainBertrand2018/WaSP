@@ -6,6 +6,7 @@ import Link from 'next/link';
 import {
   generateComplianceChecklist,
   type ChecklistItem,
+  type GenerateComplianceChecklistOutput,
 } from '@/ai/flows/business-management/generate-compliance-checklist-flow';
 import { useBusinessProfileStore } from '@/store/business-profile-store';
 import {
@@ -22,7 +23,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Check, FileDown, Info, Loader2, X } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { ArrowLeft, Check, FileDown, Info, Loader2, X, FileText } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
@@ -32,6 +34,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import ComplianceMeter from '@/components/feature/compliance-meter';
 
 type CheckedState = {
   [requirement: string]: boolean;
@@ -84,7 +87,17 @@ const ChecklistItemComponent = ({
 
 const ChecklistSkeleton = () => (
     <div className="space-y-4">
-        {[...Array(3)].map((_, i) => (
+        <Skeleton className="h-10 w-2/3" />
+        <Skeleton className="h-6 w-full" />
+        <Card>
+            <CardHeader>
+                <Skeleton className="h-8 w-1/3" />
+            </CardHeader>
+             <CardContent className="space-y-4">
+                <Skeleton className="h-20 w-full" />
+            </CardContent>
+        </Card>
+        {[...Array(2)].map((_, i) => (
             <Card key={i}>
                 <CardHeader>
                     <Skeleton className="h-6 w-1/3" />
@@ -106,7 +119,7 @@ const ChecklistSkeleton = () => (
 
 export default function ValidationChecklistPage() {
   const { profile } = useBusinessProfileStore();
-  const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
+  const [checklistResult, setChecklistResult] = useState<GenerateComplianceChecklistOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [checkedState, setCheckedState] = useState<CheckedState>({});
 
@@ -115,11 +128,11 @@ export default function ValidationChecklistPage() {
       setIsLoading(true);
       generateComplianceChecklist(profile)
         .then((result) => {
-          setChecklist(result.checklist);
+          setChecklistResult(result);
           // Initialize checked state based on AI's initial status
           const initialChecked: CheckedState = {};
           result.checklist.forEach(item => {
-            initialChecked[item.requirement] = item.initialStatus === 'Compliant';
+            initialChecked[item.requirement] = item.initialStatus === 'Compliant' || item.initialStatus === 'Not Applicable';
           });
           setCheckedState(initialChecked);
         })
@@ -135,14 +148,15 @@ export default function ValidationChecklistPage() {
   };
 
   const groupedChecklist = useMemo(() => {
-    return checklist.reduce((acc, item) => {
+    if (!checklistResult) return {};
+    return checklistResult.checklist.reduce((acc, item) => {
       (acc[item.category] = acc[item.category] || []).push(item);
       return acc;
     }, {} as Record<string, ChecklistItem[]>);
-  }, [checklist]);
+  }, [checklistResult]);
 
   const completionStats = useMemo(() => {
-    const totalItems = Object.keys(checkedState).length;
+    const totalItems = checklistResult?.checklist.length || 0;
     if (totalItems === 0) return { percent: 0, checked: 0, total: 0 };
     const checkedItems = Object.values(checkedState).filter(Boolean).length;
     return {
@@ -150,7 +164,7 @@ export default function ValidationChecklistPage() {
         checked: checkedItems,
         total: totalItems,
     };
-  }, [checkedState]);
+  }, [checkedState, checklistResult]);
 
   if (isLoading) {
     return <ChecklistSkeleton />;
@@ -173,6 +187,18 @@ export default function ValidationChecklistPage() {
       </div>
     );
   }
+  
+  if (!checklistResult) {
+     return (
+      <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+        <X className="h-12 w-12 text-destructive" />
+        <h2 className="text-2xl font-semibold tracking-tight">Could Not Generate Checklist</h2>
+        <p className="text-muted-foreground max-w-md">
+          There was an error generating your compliance checklist. Please try again later.
+        </p>
+      </div>
+     )
+  }
 
   return (
     <div className="space-y-6">
@@ -187,20 +213,27 @@ export default function ValidationChecklistPage() {
         </Button>
       </div>
 
+       <Alert>
+          <FileText className="h-4 w-4" />
+          <AlertTitle>Your Business Summary</AlertTitle>
+          <AlertDescription>
+            {checklistResult.businessSummary}
+          </AlertDescription>
+        </Alert>
+
        <Card>
             <CardHeader>
-                <CardTitle>Compliance Progress</CardTitle>
+                <CardTitle>Compliance Status</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="flex items-center gap-4">
-                    <div className="relative h-2 flex-1 rounded-full bg-muted">
-                        <div
-                            className="absolute h-2 rounded-full bg-primary transition-all"
-                            style={{ width: `${completionStats.percent}%` }}
-                        />
-                    </div>
-                    <span className="font-semibold">{completionStats.checked} / {completionStats.total} ({completionStats.percent}%)</span>
-                </div>
+                <ComplianceMeter percentage={completionStats.percent} />
+                 <Alert className="mt-4">
+                    <Info className="h-4 w-4" />
+                    <AlertTitle>AI Status Summary</AlertTitle>
+                    <AlertDescription>
+                        {checklistResult.statusSummary}
+                    </AlertDescription>
+                </Alert>
             </CardContent>
         </Card>
 
