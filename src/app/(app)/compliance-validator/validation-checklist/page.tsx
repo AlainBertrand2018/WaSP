@@ -237,15 +237,13 @@ export default function ValidationChecklistPage() {
     if (totalRelevant === 0) return { percent: 100 };
 
     // Calculate a base score from the AI's initial assessment.
-    const aiCompliantItems = relevantItems.filter(item => item.initialStatus === 'Compliant').length;
-    let basePercent = (aiCompliantItems / totalRelevant) * 100;
+    const aiCompliantItems = relevantItems.filter(item => item.initialStatus === 'Compliant');
+    let basePercent = (aiCompliantItems.length / totalRelevant) * 100;
     
     // Each relevant item is worth (100 / totalRelevant) percentage points.
     // In a 10-point scale, each item is worth (10 / totalRelevant) points.
     // A 0.1 point penalty on a 10-point scale is a 1% penalty.
-    const penaltyPerMissingDoc = 10; // This is a 10% penalty, equivalent to 1 point on a 10-point scale.
-    // The prompt change will make this more nuanced, but for now this is the logic.
-
+    const pointValue = 100 / totalRelevant;
     let scoreAdjustment = 0;
     
     relevantItems.forEach(item => {
@@ -253,14 +251,16 @@ export default function ValidationChecklistPage() {
         const isSelfDeclaredCompliant = checkedState[item.requirement];
         const wasAiCompliant = item.initialStatus === 'Compliant';
 
-        // User says they are compliant, but AI didn't detect it. Give them credit only if they upload a doc.
+        // User checks a box for an item AI considered non-compliant.
+        // If they provide a document, they get the full points.
+        // If they don't, no points are awarded or deducted for this specific action.
         if (!wasAiCompliant && isSelfDeclaredCompliant && hasDocument) {
-            scoreAdjustment += (100 / totalRelevant);
+            scoreAdjustment += pointValue;
         }
 
-        // User says they are NOT compliant, even though AI thought they were. Penalize them.
+        // User unchecks a box for an item AI considered compliant. Penalize them.
         if (wasAiCompliant && !isSelfDeclaredCompliant) {
-             scoreAdjustment -= (100 / totalRelevant);
+             scoreAdjustment -= pointValue;
         }
     });
 
@@ -322,9 +322,39 @@ export default function ValidationChecklistPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        {/* Left Sticky Column */}
-        <div className="lg:col-span-1 lg:sticky lg:top-24 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+        {/* Left Column (Checklist) */}
+        <div className="lg:col-span-3 space-y-4">
+          <Accordion type="multiple" defaultValue={Object.keys(groupedChecklist)} className="w-full space-y-4">
+            {Object.entries(groupedChecklist).map(([category, items]) => (
+              <Card key={category}>
+                <AccordionItem value={category} className="border-b-0">
+                  <AccordionTrigger className="p-4 hover:no-underline">
+                    <h2 className="text-lg font-semibold">{category}</h2>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="divide-y px-4 pb-4">
+                      {items.map((item) => (
+                        <ChecklistItemComponent
+                          key={item.requirement}
+                          item={item}
+                          analysis={analysisMap.get(item.requirement)}
+                          isChecked={!!checkedState[item.requirement]}
+                          uploadedFile={uploadedFiles[item.requirement] || null}
+                          onCheckedChange={(checked) => handleCheckedChange(item.requirement, checked)}
+                          onFileChange={(file) => handleFileChange(item.requirement, file)}
+                        />
+                      ))}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Card>
+            ))}
+          </Accordion>
+        </div>
+
+        {/* Right Sticky Column (Dashboard) */}
+        <div className="lg:col-span-2 lg:sticky lg:top-24 space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Compliance Status</CardTitle>
@@ -352,36 +382,6 @@ export default function ValidationChecklistPage() {
               {checklistResult.businessSummary}
             </AlertDescription>
           </Alert>
-        </div>
-
-        {/* Right Scrollable Column */}
-        <div className="lg:col-span-2">
-          <Accordion type="multiple" defaultValue={Object.keys(groupedChecklist)} className="w-full space-y-4">
-            {Object.entries(groupedChecklist).map(([category, items]) => (
-              <Card key={category}>
-                <AccordionItem value={category} className="border-b-0">
-                  <AccordionTrigger className="p-4 hover:no-underline">
-                    <h2 className="text-lg font-semibold">{category}</h2>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="divide-y px-4 pb-4">
-                      {items.map((item) => (
-                        <ChecklistItemComponent
-                          key={item.requirement}
-                          item={item}
-                          analysis={analysisMap.get(item.requirement)}
-                          isChecked={!!checkedState[item.requirement]}
-                          uploadedFile={uploadedFiles[item.requirement] || null}
-                          onCheckedChange={(checked) => handleCheckedChange(item.requirement, checked)}
-                          onFileChange={(file) => handleFileChange(item.requirement, file)}
-                        />
-                      ))}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Card>
-            ))}
-          </Accordion>
         </div>
       </div>
     </div>
