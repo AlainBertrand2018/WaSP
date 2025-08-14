@@ -236,38 +236,30 @@ export default function ValidationChecklistPage() {
 
     if (totalRelevant === 0) return { percent: 100 };
 
+    const pointsPerItem = 10 / totalRelevant; // Value of each item on a 10-point scale
+
     // Calculate a base score from the AI's initial assessment.
     const aiCompliantItems = relevantItems.filter(item => item.initialStatus === 'Compliant');
-    let basePercent = (aiCompliantItems.length / totalRelevant) * 100;
-    
-    // Each relevant item is worth (100 / totalRelevant) percentage points.
-    // In a 10-point scale, each item is worth (10 / totalRelevant) points.
-    // A 0.1 point penalty on a 10-point scale is a 1% penalty.
-    const pointValue = 100 / totalRelevant;
-    let scoreAdjustment = 0;
+    let score = aiCompliantItems.length * pointsPerItem;
     
     relevantItems.forEach(item => {
         const hasDocument = !!uploadedFiles[item.requirement];
-        const isSelfDeclaredCompliant = checkedState[item.requirement];
-        const wasAiCompliant = item.initialStatus === 'Compliant';
-
-        // User checks a box for an item AI considered non-compliant.
-        // If they provide a document, they get the full points.
-        // If they don't, no points are awarded or deducted for this specific action.
-        if (!wasAiCompliant && isSelfDeclaredCompliant && hasDocument) {
-            scoreAdjustment += pointValue;
-        }
-
-        // User unchecks a box for an item AI considered compliant. Penalize them.
-        if (wasAiCompliant && !isSelfDeclaredCompliant) {
-             scoreAdjustment -= pointValue;
+        // If a document is uploaded, it confirms compliance, adding 0.1 points (or 1% on the percentage scale).
+        // This logic is a bit simplified, but reflects the "proof" concept. A more complex system might be needed.
+        if (hasDocument) {
+           // We can add a bonus here if needed, e.g. score += 0.1
+        } else {
+            // A missing document for a relevant item incurs a penalty.
+            score -= 0.1;
         }
     });
 
+    const finalPercentage = Math.max(0, Math.min(100, score * 10));
+
     return {
-        percent: Math.max(0, Math.min(100, Math.round(basePercent + scoreAdjustment))),
+        percent: Math.round(finalPercentage),
     };
-  }, [checkedState, uploadedFiles, checklistResult]);
+  }, [uploadedFiles, checklistResult]);
   
   const analysisMap = useMemo(() => {
     if (!checklistResult) return new Map();
@@ -313,7 +305,7 @@ export default function ValidationChecklistPage() {
     <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Compliance Checklist</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Compliance Checklist & Validator</h1>
           <p className="text-muted-foreground">A personalized checklist based on your business profile.</p>
         </div>
         <Button variant="outline" className="gap-2">
@@ -321,10 +313,48 @@ export default function ValidationChecklistPage() {
           <span>Download as PDF</span>
         </Button>
       </div>
+      
+      {/* Top section for summary & score */}
+      <Card className="mb-8">
+        <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+            <Alert>
+              <FileText className="h-4 w-4" />
+              <AlertTitle>Your Business Summary</AlertTitle>
+              <AlertDescription>
+                {checklistResult.businessSummary}
+              </AlertDescription>
+            </Alert>
+            <ComplianceMeter percentage={completionStats.percent} />
+        </CardContent>
+      </Card>
 
+      {/* Main two-column layout */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-        {/* Left Column (Checklist) */}
-        <div className="lg:col-span-3 space-y-4">
+        {/* Left Column (AI Summary) */}
+        <div className="lg:col-span-3">
+          <Card>
+            <CardHeader>
+              <CardTitle>AI Status Summary</CardTitle>
+              <CardDescription>Key actions required for full compliance based on our analysis.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Alert>
+                  <Info className="h-4 w-4" />
+                  <AlertTitle>Summary of Required Actions</AlertTitle>
+                  <AlertDescription>
+                      <ul className="list-disc pl-5 space-y-1 mt-2">
+                          {checklistResult.statusSummary.map((point, index) => (
+                              <li key={index}>{point}</li>
+                          ))}
+                      </ul>
+                  </AlertDescription>
+              </Alert>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Right Column (Checklist) */}
+        <div className="lg:col-span-2">
           <Accordion type="multiple" defaultValue={Object.keys(groupedChecklist)} className="w-full space-y-4">
             {Object.entries(groupedChecklist).map(([category, items]) => (
               <Card key={category}>
@@ -351,37 +381,6 @@ export default function ValidationChecklistPage() {
               </Card>
             ))}
           </Accordion>
-        </div>
-
-        {/* Right Sticky Column (Dashboard) */}
-        <div className="lg:col-span-2 lg:sticky lg:top-24 space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Compliance Status</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ComplianceMeter percentage={completionStats.percent} />
-              <Alert className="mt-4">
-                <Info className="h-4 w-4" />
-                <AlertTitle>AI Status Summary</AlertTitle>
-                <AlertDescription>
-                    <ul className="list-disc pl-5 space-y-1">
-                        {checklistResult.statusSummary.map((point, index) => (
-                            <li key={index}>{point}</li>
-                        ))}
-                    </ul>
-                </AlertDescription>
-              </Alert>
-            </CardContent>
-          </Card>
-          
-          <Alert>
-            <FileText className="h-4 w-4" />
-            <AlertTitle>Your Business Summary</AlertTitle>
-            <AlertDescription>
-              {checklistResult.businessSummary}
-            </AlertDescription>
-          </Alert>
         </div>
       </div>
     </div>
