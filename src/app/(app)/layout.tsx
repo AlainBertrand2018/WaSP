@@ -40,7 +40,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const isLandingPage = 
     pathname === '/ideation' || 
     pathname === '/business-creation' || 
-    pathname === '/dashboard';
+    pathname === '/dashboard' ||
+    pathname === '/business-management/insights-dashboard';
 
   const pageVariants = {
     initial: {

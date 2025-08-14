@@ -102,7 +102,7 @@ export default function InsightsDashboardPage() {
   };
 
   return (
-    <div className="flex flex-col w-full -mx-4 sm:-mx-6">
+    <div className="flex flex-col w-full">
       <section className="relative w-full h-[40vh] md:min-h-[90vh]">
         <Spline
           scene="https://prod.spline.design/FKmWkI9k5Dkb9cLz/scene.splinecode"
