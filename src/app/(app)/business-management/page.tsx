@@ -1,4 +1,3 @@
-
 'use client';
 
 import { BentoGrid, BentoGridItem } from '@/components/aceternity/bento-grid';
