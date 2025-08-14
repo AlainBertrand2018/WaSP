@@ -1,10 +1,8 @@
 
 'use client';
 
-import { BentoGrid, BentoGridItem } from '@/components/aceternity/bento-grid';
 import Spline from '@splinetool/react-spline';
-import { FileText, Lightbulb, Loader2, Rocket, Wallet } from 'lucide-react';
-import Image from 'next/image';
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -26,8 +24,8 @@ import { toast } from '@/hooks/use-toast';
 const BusinessProfileForm = ({ profile, handleChange, handleSaveProfile, loading, isProfileSaved }: any) => {
     return (
         <Card className="max-w-4xl mx-auto shadow-lg">
-            <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-semibold text-primary">Let's Generate you Business Profile</CardTitle>
+            <CardHeader className="text-left">
+                <CardTitle className="text-2xl font-semibold text-foreground">Let's Generate you Business Profile</CardTitle>
             </CardHeader>
             <CardContent>
             <form onSubmit={handleSaveProfile} className="space-y-8 text-left">
