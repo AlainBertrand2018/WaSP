@@ -55,6 +55,7 @@ import Link from 'next/link';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
 import { Skeleton } from '@/components/ui/skeleton';
 import { generatePdf } from '@/lib/pdf-generator';
+import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
 
 const totalSteps = 7;
@@ -319,16 +320,7 @@ Your starting budget is MUR ${formData.startingBudget}, and your monetization st
 
   if (isSubmitting) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 py-16">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        <h2 className="text-2xl font-semibold tracking-tight">
-          Analyzing Your Idea
-        </h2>
-        <p className="text-muted-foreground max-w-md text-center">
-          Our AI agent is performing an in-depth analysis of your business
-          concept. This might take a moment.
-        </p>
-      </div>
+      <AiLoadingSpinner show={true} title="CLAIRE is analyzing your idea..." />
     );
   }
 

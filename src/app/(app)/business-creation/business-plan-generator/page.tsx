@@ -33,6 +33,7 @@ import {
 } from '@/ai/flows/business-management/generate-business-plan-flow';
 import { generatePdf } from '@/lib/pdf-generator';
 import { toast } from '@/hooks/use-toast';
+import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
 // A mapping from schema keys to user-friendly titles
 const sectionTitles: { [key in keyof GenerateBusinessPlanOutput]: string } = {
@@ -159,16 +160,7 @@ const handleDownloadPdf = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 py-16">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        <h2 className="text-2xl font-semibold tracking-tight">
-          Drafting Your Business Plan
-        </h2>
-        <p className="text-muted-foreground max-w-md text-center">
-          Our AI business consultant is synthesizing your data and writing a
-          professional business plan. This may take a minute.
-        </p>
-      </div>
+      <AiLoadingSpinner show={true} title="CLAIRE is drafting your plan..." />
     );
   }
 

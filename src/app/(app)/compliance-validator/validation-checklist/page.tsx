@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useEffect, useState, useMemo, useRef } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import {
   generateComplianceChecklist,
@@ -36,6 +36,8 @@ import {
 import ComplianceMeter from '@/components/feature/compliance-meter';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
+import { useAudioPlayerStore } from '@/store/audio-player-store';
+import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
 type UploadedFilesState = {
   [requirement: string]: File | null;
@@ -76,7 +78,7 @@ const ChecklistItemComponent = ({
   onCheckedChange: (checked: boolean) => void;
   onFileChange: (file: File | null) => void;
 }) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -155,45 +157,13 @@ const ChecklistItemComponent = ({
   );
 };
 
-
-const ChecklistSkeleton = () => (
-    <div className="space-y-6">
-        <Skeleton className="h-10 w-2/3" />
-        <Skeleton className="h-6 w-full" />
-        <Card>
-            <CardHeader>
-                <Skeleton className="h-8 w-1/3" />
-            </CardHeader>
-             <CardContent className="space-y-4">
-                <Skeleton className="h-20 w-full" />
-            </CardContent>
-        </Card>
-        {[...Array(2)].map((_, i) => (
-            <Card key={i}>
-                <CardHeader>
-                    <Skeleton className="h-6 w-1/3" />
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="flex gap-4 items-center">
-                        <Skeleton className="h-6 w-6 rounded" />
-                        <Skeleton className="h-5 w-4/5" />
-                    </div>
-                     <div className="flex gap-4 items-center">
-                        <Skeleton className="h-6 w-6 rounded" />
-                        <Skeleton className="h-5 w-3/4" />
-                    </div>
-                </CardContent>
-            </Card>
-        ))}
-    </div>
-);
-
 export default function ValidationChecklistPage() {
   const { profile } = useBusinessProfileStore();
   const [checklistResult, setChecklistResult] = useState<GenerateComplianceChecklistOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [checkedState, setCheckedState] = useState<CheckedState>({});
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFilesState>({});
+  const { openPlayer } = useAudioPlayerStore();
 
   useEffect(() => {
     if (profile) {
@@ -203,7 +173,9 @@ export default function ValidationChecklistPage() {
           setChecklistResult(result);
           const initialChecked: CheckedState = {};
           result.analysis.forEach(item => {
-            initialChecked[item.requirement] = item.initialStatus === 'Compliant';
+            if (item.isRelevant && item.initialStatus === 'Compliant') {
+                 initialChecked[item.requirement] = true;
+            }
           });
           setCheckedState(initialChecked);
         })
@@ -222,14 +194,7 @@ export default function ValidationChecklistPage() {
     setUploadedFiles(prev => ({...prev, [requirement]: file}));
   }
 
-  const groupedChecklist = useMemo(() => {
-    return PREDEFINED_CHECKLIST.reduce((acc, item) => {
-      (acc[item.category] = acc[item.category] || []).push(item);
-      return acc;
-    }, {} as Record<string, { category: string; requirement: string }[]>);
-  }, []);
-
-  const completionStats = useMemo(() => {
+ const completionStats = useMemo(() => {
     if (!checklistResult) return { percent: 0 };
 
     const relevantItems = checklistResult.analysis.filter(a => a.isRelevant);
@@ -263,9 +228,12 @@ export default function ValidationChecklistPage() {
     return new Map(checklistResult.analysis.map(a => [a.requirement, a]));
   }, [checklistResult]);
 
+  const handleClaireClick = () => {
+    openPlayer('/audio/Claire Presentation.mp3');
+  };
 
   if (isLoading) {
-    return <ChecklistSkeleton />;
+    return <AiLoadingSpinner show={true} />;
   }
 
   if (!profile) {
@@ -298,21 +266,21 @@ export default function ValidationChecklistPage() {
      )
   }
 
+  const groupedChecklist = PREDEFINED_CHECKLIST.reduce((acc, item) => {
+      (acc[item.category] = acc[item.category] || []).push(item);
+      return acc;
+    }, {} as Record<string, { category: string; requirement: string }[]>);
+
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Compliance Checklist & Validator</h1>
-          <p className="text-muted-foreground">A personalized checklist based on your business profile.</p>
-        </div>
-        <Button variant="outline" className="gap-2">
-          <FileDown />
-          <span>Download as PDF</span>
-        </Button>
+    <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 space-y-8">
+      {/* Page Header */}
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight">Compliance Checklist & Validator</h1>
+        <p className="text-muted-foreground">A personalized checklist based on your business profile.</p>
       </div>
-      
-      {/* Top section for summary & score */}
-      <Card className="mb-8">
+
+      {/* Top Section */}
+       <Card>
         <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
             <Alert>
               <FileText className="h-4 w-4" />
@@ -324,14 +292,17 @@ export default function ValidationChecklistPage() {
             <ComplianceMeter percentage={completionStats.percent} />
         </CardContent>
       </Card>
-
+      
       {/* Main two-column layout */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
-         {/* Left Column (AI Summary) */}
+         {/* Left Column (AI Summary) - 60% */}
         <div className="lg:col-span-3">
           <Card>
             <CardHeader>
-              <CardTitle>AI Status Summary</CardTitle>
+              <CardTitle className="flex items-center gap-1.5">
+                  <Button variant="link" className="p-0 h-auto text-xl" onClick={handleClaireClick}>CLAIRE's</Button>
+                  <span>Compliance Summary</span>
+              </CardTitle>
               <CardDescription>Key actions required for full compliance based on our analysis.</CardDescription>
             </CardHeader>
             <CardContent>
@@ -341,7 +312,7 @@ export default function ValidationChecklistPage() {
                   <AlertDescription>
                       <ul className="list-disc pl-5 space-y-1 mt-2">
                           {checklistResult.statusSummary.map((point, index) => (
-                              <li key={index}>{point}</li>
+                              <li key={index} dangerouslySetInnerHTML={{ __html: point.replace(/(MRA|CBRD)/g, '<strong>$1</strong>') }}></li>
                           ))}
                       </ul>
                   </AlertDescription>
@@ -350,7 +321,7 @@ export default function ValidationChecklistPage() {
           </Card>
         </div>
 
-        {/* Right Column (Checklist) */}
+        {/* Right Column (Checklist) - 40% */}
         <div className="lg:col-span-2">
           <Accordion type="multiple" defaultValue={Object.keys(groupedChecklist)} className="w-full space-y-4">
             {Object.entries(groupedChecklist).map(([category, items]) => (
@@ -379,6 +350,12 @@ export default function ValidationChecklistPage() {
             ))}
           </Accordion>
         </div>
+      </div>
+       <div className="flex justify-center pt-4 border-t mt-4">
+            <Button variant="outline" className="gap-2">
+              <FileDown />
+              <span>Download Summary as PDF</span>
+            </Button>
       </div>
     </div>
   );

@@ -103,6 +103,7 @@ import {
   generateBudgetSummary,
   type GenerateBudgetSummaryOutput,
 } from '@/ai/flows/financials/generate-budget-summary-flow';
+import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
 import { cn } from '@/lib/utils';
 
@@ -842,18 +843,7 @@ const SummaryStep = () => {
     };
 
     if (isLoading) {
-      return (
-        <div className="flex flex-col items-center justify-center gap-4 py-16">
-          <Loader2 className="h-12 w-12 animate-spin text-primary" />
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Analyzing Your Budget
-          </h2>
-          <p className="text-muted-foreground max-w-md text-center">
-            Our AI financial analyst is running the numbers and creating your
-            break-even analysis.
-          </p>
-        </div>
-      );
+      return <AiLoadingSpinner show={true} title="CLAIRE is analyzing your budget..." />;
     }
   
     return (

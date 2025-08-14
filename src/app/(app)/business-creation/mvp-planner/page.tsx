@@ -34,6 +34,7 @@ import {
 import Link from 'next/link';
 import { useBusinessIdeaStore } from '@/store/business-idea-store';
 import { generatePdf } from '@/lib/pdf-generator';
+import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
 export default function MvpPlannerPage() {
   const { analysisResult, formData, set, mvpResult: storedMvpResult } = useBusinessIdeaStore(
@@ -150,16 +151,7 @@ export default function MvpPlannerPage() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 py-16">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-        <h2 className="text-2xl font-semibold tracking-tight">
-          Building Your MVP Plan
-        </h2>
-        <p className="text-muted-foreground max-w-md text-center">
-          Our AI agent is crafting a detailed plan for your Minimum Viable
-          Product based on your validated idea. This might take a moment.
-        </p>
-      </div>
+      <AiLoadingSpinner show={true} title="CLAIRE is building your MVP plan..." />
     );
   }
 

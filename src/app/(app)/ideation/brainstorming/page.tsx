@@ -47,6 +47,7 @@ import {
 } from '@/ai/flows/ideation/generate-user-profile-analysis-flow';
 import {Skeleton} from '@/components/ui/skeleton';
 import Link from 'next/link';
+import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
 const formSchema = z.object({
   businessConcept: z
@@ -464,6 +465,7 @@ export default function BrainstormingPage() {
 
   return (
     <div className="w-full max-w-5xl mx-auto py-8">
+      <AiLoadingSpinner show={isLoading} title="CLAIRE is brainstorming for you..." />
       <Card className="w-full shadow-lg">
         <CardHeader className="text-center items-center">
           <div className="p-4 bg-primary/10 rounded-full">
