@@ -41,6 +41,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     pathname === '/ideation' || 
     pathname === '/business-creation' || 
     pathname === '/dashboard' ||
+    pathname === '/business-management' || // Added this line
     pathname === '/business-management/insights-dashboard';
 
   const pageVariants = {
