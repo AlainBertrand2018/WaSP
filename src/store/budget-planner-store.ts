@@ -1,3 +1,4 @@
+
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import type { GenerateBudgetSummaryOutput } from '@/ai/flows/financials/generate-budget-summary-flow';
@@ -28,7 +29,7 @@ type BudgetPlannerState = {
   summary: GenerateBudgetSummaryOutput | null;
   setFunding: (data: Partial<FundingState>) => void;
   setFixedCost: (name: string, value: number) => void;
-  setFixedCosts: (total: number) => void;
+  setTotalFixedCosts: (total: number) => void;
   setVariableCost: (name: string, value: number) => void;
   setTotalVariableCosts: (total: number) => void;
   setSalePrice: (price: number) => void;
@@ -63,7 +64,7 @@ export const useBudgetPlannerStore = create<BudgetPlannerState>()(
         set((state) => ({
           fixedCosts: { ...state.fixedCosts, [name]: value },
         })),
-      setFixedCosts: (total) => set({ totalFixedCosts: total }),
+      setTotalFixedCosts: (total) => set({ totalFixedCosts: total }),
       setVariableCost: (name, value) =>
         set((state) => ({
           variableCosts: { ...state.variableCosts, [name]: value },
