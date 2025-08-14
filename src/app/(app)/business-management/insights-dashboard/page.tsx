@@ -102,25 +102,22 @@ export default function InsightsDashboardPage() {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full -mx-4 sm:-mx-6">
       <section
         className="relative w-full h-[40vh] md:min-h-[90vh]"
         style={{ backgroundColor: '#000000' }}
       >
-        <Spline
-          scene="https://prod.spline.design/FKmWkI9k5Dkb9cLz/scene.splinecode"
-          className="!absolute !top-0 !left-0 !w-full !h-full"
-        />
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
-          <Link
-            href="#toolkits"
-            onClick={(e) => handleScrollTo(e, 'toolkits')}
-            className="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/50 flex items-center justify-center text-primary-foreground hover:bg-primary/40 transition-colors animate-bounce"
-            aria-label="Scroll to next section"
-          >
-            <ChevronDown size={32} />
-          </Link>
-        </div>
+        <Link
+          href="#toolkits"
+          onClick={(e) => handleScrollTo(e, 'toolkits')}
+          className="absolute inset-0 z-10 cursor-pointer"
+          aria-label="Scroll to next section"
+        >
+          <Spline
+            scene="https://prod.spline.design/FKmWkI9k5Dkb9cLz/scene.splinecode"
+            className="!absolute !top-0 !left-0 !w-full !h-full"
+          />
+        </Link>
       </section>
 
       <div className="px-4 sm:px-6 md:px-8 py-8 md:py-12">
