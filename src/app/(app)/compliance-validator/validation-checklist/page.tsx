@@ -2,6 +2,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import {
   generateComplianceChecklist,
@@ -222,7 +223,7 @@ export default function ValidationChecklistPage() {
     relevantItems.forEach(item => {
       const isTicked = !!checkedState[item.requirement];
       const hasDocument = !!uploadedFiles[item.requirement];
-
+      
       if (isTicked) {
         totalScore += 0.4;
       }
@@ -250,7 +251,7 @@ export default function ValidationChecklistPage() {
   };
 
   if (isLoading) {
-    return <AiLoadingSpinner show={true} />;
+    return <AiLoadingSpinner show={true} title="CLAIRE is analyzing your profile..." />;
   }
 
   if (!profile) {
@@ -327,7 +328,7 @@ export default function ValidationChecklistPage() {
                   <AlertDescription>
                       <ul className="list-disc pl-5 space-y-1 mt-2">
                           {checklistResult.statusSummary.map((point, index) => (
-                              <li key={index} dangerouslySetInnerHTML={{ __html: point.replace(/(MRA|CBRD)/g, '<strong>$1</strong>') }}></li>
+                              <li key={index} dangerouslySetInnerHTML={{ __html: point.replace(/(MRA|CBRD|DPO)/g, '<strong>$1</strong>') }}></li>
                           ))}
                       </ul>
                   </AlertDescription>
