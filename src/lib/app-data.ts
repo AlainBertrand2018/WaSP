@@ -292,5 +292,22 @@ export const appCategories: AppCategory[] = [
             initialRaters: 95,
         }
     ]
-  }
+  },
+  {
+    category: 'Specialized Apps',
+    description: 'Tailored solutions for specific industry needs.',
+    apps: [
+      {
+        icon: HeartHandshake,
+        title: 'Serena',
+        description: 'A Management app dedicated to Homecare Service Providers.',
+        href: 'https://serena.avantaz.online/',
+        pro: false,
+        imageSrc: '/images/TilePics/serena_apptile.webp',
+        badge: { text: 'New', className: 'bg-blue-500' },
+        initialRating: 0,
+        initialRaters: 0,
+      },
+    ],
+  },
 ];
