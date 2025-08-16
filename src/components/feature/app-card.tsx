@@ -32,7 +32,14 @@ export function AppCard({ app, ratingState, onRatingChange }: AppCardProps) {
             <Card className="relative aspect-square w-full h-full rounded-lg shadow-lg transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] border-primary">
                 {/* Card Front */}
                 <div className="absolute inset-0 w-full h-full [backface-visibility:hidden]">
-                    <Image src={app.imageSrc} alt={app.title} layout="fill" className="object-cover rounded-lg" data-ai-hint="business validation abstract"/>
+                    <Image 
+                        src={app.imageSrc} 
+                        alt={app.title} 
+                        fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
+                        className="object-cover rounded-lg" 
+                        data-ai-hint="business validation abstract"
+                    />
                     <div className="absolute inset-0 w-full h-full bg-gradient-to-t from-primary/40 to-accent/40 opacity-40 rounded-lg"></div>
                         {app.badge && (
                         <div className={cn(
