@@ -133,23 +133,27 @@ export default function AppGallery() {
 
             <section className="w-full my-4">
                  {/* Desktop Ad */}
-                <Image
-                    src="/images/ads/mock_ad_1200x300.webp"
-                    alt="Advertisement"
-                    width={970}
-                    height={250}
-                    className="hidden md:block rounded-md w-full h-[300px] object-cover"
-                    data-ai-hint="advertisement billboard"
-                />
+                 <Link href="https://serena.avantaz.online/" target="_blank" rel="noopener noreferrer" className="hidden md:block">
+                    <Image
+                        src="/images/ads/mock_ad_1200x300.webp"
+                        alt="Advertisement"
+                        width={970}
+                        height={250}
+                        className="rounded-md w-full h-[300px] object-cover"
+                        data-ai-hint="advertisement billboard"
+                    />
+                 </Link>
                 {/* Mobile Ad */}
-                 <Image
-                    src="/images/ads/mobileAds/mockadvert_1-1_1024.webp"
-                    alt="Advertisement"
-                    width={1024}
-                    height={1024}
-                    className="block md:hidden rounded-md w-full h-[300px] object-cover"
-                    data-ai-hint="advertisement mobile"
-                />
+                 <Link href="https://serena.avantaz.online/" target="_blank" rel="noopener noreferrer" className="block md:hidden">
+                     <Image
+                        src="/images/ads/mobileAds/mockadvert_1-1_1024.webp"
+                        alt="Advertisement"
+                        width={1024}
+                        height={1024}
+                        className="rounded-md w-full h-[300px] object-cover"
+                        data-ai-hint="advertisement mobile"
+                    />
+                 </Link>
             </section>
 
             <div className="space-y-12">
