@@ -132,25 +132,23 @@ export default function AppGallery() {
             </div>
 
             <section className="w-full my-4">
-                 {/* Desktop Ad */}
-                 <Link href="https://serena.avantaz.online/" target="_blank" rel="noopener noreferrer" className="hidden md:block">
+                 <Link href="https://serena.avantaz.online/" target="_blank" rel="noopener noreferrer">
                     <Image
                         src="/images/ads/mock_ad_1200x300.webp"
                         alt="Advertisement"
                         width={970}
                         height={250}
-                        className="rounded-md w-full h-auto object-cover"
+                        className="rounded-md w-full h-auto object-cover hidden md:block"
                         data-ai-hint="advertisement billboard"
                     />
                  </Link>
-                {/* Mobile Ad */}
-                 <Link href="https://serena.avantaz.online/" target="_blank" rel="noopener noreferrer" className="block md:hidden">
+                 <Link href="https://serena.avantaz.online/" target="_blank" rel="noopener noreferrer">
                      <Image
                         src="/images/ads/mobileAds/mockadvert_1-1_1024.webp"
                         alt="Advertisement"
                         width={1024}
                         height={1024}
-                        className="rounded-md w-full h-auto aspect-square object-cover"
+                        className="rounded-md w-full h-auto aspect-square object-cover block md:hidden"
                         data-ai-hint="advertisement mobile"
                     />
                  </Link>
@@ -219,7 +217,7 @@ export default function AppGallery() {
                       <DialogTitle>About BusinessStudio AI</DialogTitle>
                     </DialogHeader>
                     <div className="mb-4">
-                      <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                      <Image src="/images/businessStudio+Logotype.webp" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
                     <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                       <p>
@@ -258,7 +256,7 @@ export default function AppGallery() {
                       <DialogTitle>Careers at BusinessStudio AI</DialogTitle>
                     </DialogHeader>
                     <div className="mb-4">
-                      <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                      <Image src="/images/businessStudio+Logotype.webp" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
                     <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                       <h1 className="text-lg font-semibold text-foreground">Recruitment starts soon at BusinessStudio AI.</h1>

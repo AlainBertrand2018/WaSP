@@ -91,7 +91,7 @@ export function MainHeader() {
                   </DialogHeader>
                   <div className="mb-4">
                     <Image
-                      src="/images/studioFlow_Logotype.png"
+                      src="/images/businessStudio+Logotype.webp"
                       alt="BusinessStudio AI Logo"
                       width={200}
                       height={50}

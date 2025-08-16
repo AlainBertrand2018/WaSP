@@ -28,9 +28,9 @@ export default function PrivacyPolicyContent() {
   }
   
   return (
-    <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
       <MainHeader />
-      <main className="flex-1 bg-secondary-darker">
+      <main className="flex-1 bg-background">
         <section className="container mx-auto px-4 py-20 lg:py-32">
           <div className="flex flex-col gap-8 max-w-4xl mx-auto">
             <div className="bg-card p-8 rounded-lg text-card-foreground">
@@ -42,7 +42,7 @@ export default function PrivacyPolicyContent() {
                     Last Updated: August 08, 2025
                 </p>
 
-                <div className="prose prose-invert prose-p:text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground max-w-none mt-6">
+                <div className="prose prose-sm max-w-none prose-p:text-muted-foreground prose-headings:text-foreground prose-strong:text-foreground dark:prose-invert">
                     <h2>1. Introduction</h2>
                     <p>Welcome to BusinessStudio AI! This Privacy Policy explains how we collect, use, and share information about you when you use our AI-powered SaaS platform designed for entrepreneurs and SMEs in Mauritius. We are committed to protecting your privacy and complying with the General Data Protection Regulation (GDPR).</p>
 
@@ -149,7 +149,7 @@ export default function PrivacyPolicyContent() {
                                   <DialogTitle>About BusinessStudio AI</DialogTitle>
                                 </DialogHeader>
                                 <div className="mb-4">
-                                    <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                                    <Image src="/images/businessStudio+Logotype.webp" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                                 </div>
                                 <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                                     <p>
@@ -187,7 +187,7 @@ export default function PrivacyPolicyContent() {
                                     <DialogTitle>Careers at BusinessStudio AI</DialogTitle>
                                 </DialogHeader>
                                 <div className="mb-4">
-                                    <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                                    <Image src="/images/businessStudio+Logotype.webp" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                                 </div>
                                 <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                                     <h1 className="text-lg font-semibold text-foreground">Recruitment starts soon at BusinessStudio AI.</h1>

@@ -59,10 +59,6 @@ export default function FaqPageContent() {
     return null;
   }
 
-  if (isLoading) {
-    return <AiLoadingSpinner show={true} title="CLAIRE is fetching the FAQs..." />;
-  }
-
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <script
@@ -83,17 +79,20 @@ export default function FaqPageContent() {
                 Find answers to common questions about BusinessStudio AI.
               </p>
             </div>
-
-            <Accordion type="single" collapsible className="w-full bg-card p-4 sm:p-8 rounded-lg">
-              {faqs.map((faq, index) => (
-                <AccordionItem value={`item-${index}`} key={index}>
-                  <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-                  <AccordionContent className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+             {isLoading ? (
+                <AiLoadingSpinner show={true} title="CLAIRE is fetching the FAQs..." />
+             ) : (
+                <Accordion type="single" collapsible className="w-full bg-card p-4 sm:p-8 rounded-lg">
+                {faqs.map((faq, index) => (
+                    <AccordionItem value={`item-${index}`} key={index}>
+                    <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
+                    <AccordionContent className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap">
+                        {faq.answer}
+                    </AccordionContent>
+                    </AccordionItem>
+                ))}
+                </Accordion>
+             )}
           </div>
         </section>
       </main>
@@ -130,7 +129,7 @@ export default function FaqPageContent() {
                       <DialogTitle>About BusinessStudio AI</DialogTitle>
                     </DialogHeader>
                     <div className="mb-4">
-                      <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                      <Image src="/images/businessStudio+Logotype.webp" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
                     <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                       <p>
@@ -169,7 +168,7 @@ export default function FaqPageContent() {
                       <DialogTitle>Careers at BusinessStudio AI</DialogTitle>
                     </DialogHeader>
                     <div className="mb-4">
-                      <Image src="/images/studioFlow_Logotype.png" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
+                      <Image src="/images/businessStudio+Logotype.webp" alt="BusinessStudio AI Logo" width={200} height={50} className="w-1/2 mx-auto" />
                     </div>
                     <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                       <h1 className="text-lg font-semibold text-foreground">Recruitment starts soon at BusinessStudio AI.</h1>
