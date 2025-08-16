@@ -98,10 +98,10 @@ export default function AppGallery() {
                 />
                 {/* Mobile Ad */}
                  <Image
-                    src="https://placehold.co/600x600.png"
+                    src="/images/ads/mobileAds/mockadvert_1-1_1024.webp"
                     alt="Advertisement"
-                    width={600}
-                    height={600}
+                    width={1024}
+                    height={1024}
                     className="block md:hidden rounded-md w-full h-auto object-cover"
                     data-ai-hint="advertisement mobile"
                 />
