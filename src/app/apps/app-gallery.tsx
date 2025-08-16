@@ -139,7 +139,7 @@ export default function AppGallery() {
                         alt="Advertisement"
                         width={970}
                         height={250}
-                        className="rounded-md w-full h-[300px] object-cover"
+                        className="rounded-md w-full h-auto object-cover"
                         data-ai-hint="advertisement billboard"
                     />
                  </Link>
@@ -150,7 +150,7 @@ export default function AppGallery() {
                         alt="Advertisement"
                         width={1024}
                         height={1024}
-                        className="rounded-md w-full h-[300px] object-cover"
+                        className="rounded-md w-full h-auto aspect-square object-cover"
                         data-ai-hint="advertisement mobile"
                     />
                  </Link>
