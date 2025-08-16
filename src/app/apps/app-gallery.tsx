@@ -90,12 +90,12 @@ export default function AppGallery() {
                 <Card className="bg-muted/30">
                 <CardContent className="p-2 flex justify-center items-center">
                     <Image
-                        src="/images/ads/Blue Digital Etsy banner.jpg"
+                        src="https://placehold.co/970x250.png"
                         alt="Advertisement"
-                        width={760}
-                        height={100}
+                        width={970}
+                        height={250}
                         className="rounded-md"
-                        data-ai-hint="advertisement banner"
+                        data-ai-hint="advertisement billboard"
                     />
                 </CardContent>
                 </Card>
@@ -105,7 +105,7 @@ export default function AppGallery() {
                 {appCategories.map((category) => (
                 <section key={category.category}>
                     <div className="mb-4">
-                         <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3">
                             <Link href={category.href} target="_blank" rel="noopener noreferrer" className="text-2xl font-semibold tracking-tight hover:underline">
                                 {category.category}
                             </Link>
