@@ -104,7 +104,7 @@ export default function AppGallery() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex flex-wrap items-center justify-center gap-2 mb-4">
                 {appCategories.map((category) => (
-                    <Button variant="ghost" asChild key={category.category} className="rounded-full border border-black text-black hover:bg-black/10 dark:border-white dark:text-white dark:hover:bg-white/10">
+                    <Button variant="ghost" asChild key={category.category} className="rounded-full border border-black text-black hover:bg-black/10 hover:text-black dark:border-white dark:text-white dark:hover:bg-white/10">
                         <a href={`#${slugify(category.category)}`} onClick={(e) => handleScrollTo(e, slugify(category.category))}>
                             <category.icon className="mr-2 h-4 w-4" />
                             {category.category}
@@ -119,7 +119,7 @@ export default function AppGallery() {
                 <CarouselContent className="-ml-2">
                    {appCategories.map((category) => (
                     <CarouselItem key={category.category} className="pl-2 basis-auto">
-                        <Button variant="ghost" asChild className="rounded-full border border-black text-black hover:bg-black/10 dark:border-white dark:text-white dark:hover:bg-white/10">
+                        <Button variant="ghost" asChild className="rounded-full border border-black text-black hover:bg-black/10 hover:text-black dark:border-white dark:text-white dark:hover:bg-white/10">
                             <a href={`#${slugify(category.category)}`} onClick={(e) => handleScrollTo(e, slugify(category.category))}>
                                 <category.icon className="mr-2 h-4 w-4" />
                                 {category.category}
