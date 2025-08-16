@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/card';
 import {
   ArrowRight,
+  ExternalLink,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -24,19 +25,8 @@ import { MainHeader } from '@/components/layout/main-header';
 type RatingState = {
     [key: string]: {
         rating: number;
-        raters: number;
         hasVoted: boolean;
     }
-}
-
-function slugify(text: string) {
-  return text
-    .toString()
-    .toLowerCase()
-    .replace(/\s+/g, '-')       // Replace spaces with -
-    .replace(/&/g, 'and')       // Replace & with 'and'
-    .replace(/[^\w\-]+/g, '')    // Remove all non-word chars
-    .replace(/\-\-+/g, '-');    // Replace multiple - with single -
 }
 
 export default function AppGallery() {
@@ -46,7 +36,6 @@ export default function AppGallery() {
     const initialRatings = appCategories.flatMap(cat => cat.apps).reduce((acc, app) => {
         acc[app.title] = {
             rating: app.initialRating || 0,
-            raters: app.initialRaters || 0,
             hasVoted: false
         };
         return acc;
@@ -59,15 +48,10 @@ export default function AppGallery() {
           const current = prevRatings[title];
           if (current.hasVoted) return prevRatings;
 
-          const newTotalRating = current.rating * current.raters + newRating;
-          const newRaters = current.raters + 1;
-          const newAverageRating = newTotalRating / newRaters;
-
           return {
               ...prevRatings,
               [title]: {
-                  rating: newAverageRating,
-                  raters: newRaters,
+                  rating: newRating, // We are directly setting the new rating
                   hasVoted: true
               }
           }
@@ -111,18 +95,15 @@ export default function AppGallery() {
                 {appCategories.map((category) => (
                 <section key={category.category}>
                     <div className="flex items-center justify-between mb-4">
-                        <div>
-                            <h2 className="text-2xl font-semibold tracking-tight">
+                        <div className="flex items-center gap-3">
+                            <Link href={category.href} target="_blank" rel="noopener noreferrer" className="text-2xl font-semibold tracking-tight hover:underline">
                                 {category.category}
-                            </h2>
-                            <p className="text-muted-foreground mt-1">
-                                {category.description}
-                            </p>
+                            </Link>
+                             <ExternalLink className="h-4 w-4 text-muted-foreground" />
                         </div>
-                        <Link href={`/apps/${slugify(category.category)}`} className="text-sm font-semibold text-primary hover:underline flex items-center gap-1">
-                            See all
-                            <ArrowRight size={16} />
-                        </Link>
+                        <p className="text-muted-foreground mt-1 hidden md:block">
+                            {category.description}
+                        </p>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
                         {category.apps.map((app) => (

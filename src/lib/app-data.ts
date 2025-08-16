@@ -19,6 +19,7 @@ import {
   type LucideIcon,
   BrainCircuit,
   CalendarCheck,
+  Building,
 } from 'lucide-react';
 import React from 'react';
 
@@ -31,12 +32,12 @@ export type AppData = {
     imageSrc: string;
     badge?: { text: string; className: string; };
     initialRating: number;
-    initialRaters: number;
 };
 
 export type AppCategory = {
     category: string;
     description: string;
+    href: string;
     apps: AppData[];
 };
 
@@ -45,28 +46,27 @@ export const appCategories: AppCategory[] = [
   {
     category: 'Business Creation',
     description: 'Tools to take your idea from concept to investor-ready.',
+    href: '/business-creation',
     apps: [
       {
         icon: BrainCircuit,
         title: 'Brainstorming Tool',
         description: 'A multi-step, guided app to find a business idea that fits your profile and the Mauritian market.',
-        href: '/ideation',
+        href: '/ideation/brainstorming',
         pro: false,
         imageSrc: '/images/business_Ideation_Apptile_4.webp',
         badge: { text: 'New', className: 'bg-blue-500' },
         initialRating: 0,
-        initialRaters: 0,
       },
       {
         icon: Lightbulb,
         title: 'Business Idea Validation',
         description: "Get AI-powered feedback on your business concept's viability in the Mauritian market.",
-        href: '/business-creation',
+        href: '/business-creation/business-idea-validation',
         pro: true,
         imageSrc: '/images/business_Validation-Apptile_2.webp',
         badge: { text: 'Top Value', className: 'bg-yellow-500' },
         initialRating: 4.5,
-        initialRaters: 200,
       },
       {
         icon: CalendarCheck,
@@ -77,13 +77,13 @@ export const appCategories: AppCategory[] = [
         imageSrc: '/images/buisiness-7day_apptile.webp',
         badge: { text: 'New', className: 'bg-blue-500' },
         initialRating: 0,
-        initialRaters: 0,
       }
     ],
   },
   {
     category: 'Business Management',
     description: 'Tools to streamline your daily operations.',
+    href: '/business-management',
     apps: [
         {
             icon: CheckCheck,
@@ -93,7 +93,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/business_ComplianceValidator_AppTile.webp',
             initialRating: 4.8,
-            initialRaters: 320,
         },
         {
             icon: HeartHandshake,
@@ -104,7 +103,6 @@ export const appCategories: AppCategory[] = [
             imageSrc: '/images/TilePics/business_CRM_AppTile.webp',
             badge: { text: 'Hot', className: 'bg-red-600' },
             initialRating: 4.0,
-            initialRaters: 90,
         },
         {
             icon: GanttChartSquare,
@@ -114,7 +112,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/business_ProjectMan_AppTile.webp',
             initialRating: 4.6,
-            initialRaters: 180,
         },
         {
             icon: Users,
@@ -124,13 +121,13 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/business_payroll_AppTile.webp',
             initialRating: 4.1,
-            initialRaters: 110,
         },
     ]
   },
   {
     category: 'Financials',
     description: 'Manage your finances and plan for growth.',
+    href: '/financials',
     apps: [
           {
             icon: Briefcase,
@@ -140,7 +137,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/business_GrantsLoanMan_AppTile.webp',
             initialRating: 4.7,
-            initialRaters: 250,
           },
           {
             icon: LineChart,
@@ -150,7 +146,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/business_AssetManagement_AppTile.webp',
             initialRating: 4.2,
-            initialRaters: 85,
           },
           {
             icon: CircleDollarSign,
@@ -160,7 +155,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/business_ExpensesLogger_AppTile.webp',
             initialRating: 4.3,
-            initialRaters: 120,
           },
           {
             icon: CircleDollarSign,
@@ -170,7 +164,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/business_VatCalculator_AppTile-.webp',
             initialRating: 4.9,
-            initialRaters: 410,
           },
           {
             icon: BookText,
@@ -180,7 +173,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/business_DigitalLogbook_AppTile.webp',
             initialRating: 4.4,
-            initialRaters: 150,
           },
           {
             icon: FileText,
@@ -190,13 +182,13 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/business_AnnReportBuilder_AppTile.webp',
             initialRating: 4.6,
-            initialRaters: 190,
           }
     ]
   },
   {
     category: 'Marketing & Ads',
     description: 'Tools to grow your audience and drive sales.',
+    href: '/marketing',
     apps: [
         {
             icon: Megaphone,
@@ -207,7 +199,6 @@ export const appCategories: AppCategory[] = [
             badge: { text: 'Most Wanted', className: 'bg-purple-600' },
             imageSrc: '/images/TilePics/marketing_CampaignBuilder_AppTile.webp',
             initialRating: 4.3,
-            initialRaters: 130,
         },
         {
             icon: LayoutTemplate,
@@ -217,7 +208,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/marketing_LandPageBuilder_AppTile.webp',
             initialRating: 4.5,
-            initialRaters: 150,
         },
         {
             icon: FileText,
@@ -227,7 +217,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/marketing_BlogPostGen_AppTile.webp',
             initialRating: 4.4,
-            initialRaters: 140,
         },
         {
             icon: FileText,
@@ -237,7 +226,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/marketing_ContentGenerator_AppTile.webp',
             initialRating: 4.2,
-            initialRaters: 115,
         },
         {
             icon: Video,
@@ -247,13 +235,13 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/marketing_VideoScriptGen_AppTile.webp',
             initialRating: 4.1,
-            initialRaters: 105,
         },
     ]
   },
   {
     category: 'Products',
     description: 'Manage your product lifecycle from sourcing to sale.',
+    href: '/products',
     apps: [
         {
             icon: Package,
@@ -263,7 +251,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/product_Creation_AppTile.webp',
             initialRating: 4.2,
-            initialRaters: 75,
         },
         {
             icon: Package,
@@ -273,7 +260,6 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/product_Inventory_AppTile.webp',
             initialRating: 4.4,
-            initialRaters: 160,
         },
         {
             icon: CircleDollarSign,
@@ -283,13 +269,13 @@ export const appCategories: AppCategory[] = [
             pro: false,
             imageSrc: '/images/TilePics/product_Pricing_AppTile.webp',
             initialRating: 4.3,
-            initialRaters: 95,
         }
     ]
   },
   {
     category: 'Specialized Apps',
     description: 'Tailored solutions for specific industry needs.',
+    href: '/industries',
     apps: [
       {
         icon: HeartHandshake,
@@ -300,7 +286,6 @@ export const appCategories: AppCategory[] = [
         imageSrc: '/images/TilePics/serena_apptile.webp',
         badge: { text: 'New', className: 'bg-blue-500' },
         initialRating: 0,
-        initialRaters: 0,
       },
     ],
   },

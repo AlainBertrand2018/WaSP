@@ -17,6 +17,7 @@ import {
   CalendarCheck,
   CheckCheck,
   PanelLeft,
+  Building,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -151,31 +152,18 @@ export function SidebarNav() {
             </SidebarMenuButton>
           </SidebarMenuItem>
 
-           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.startsWith('/ideation')} tooltip="Ideation">
-              <Link href="/ideation">
-                <BrainCircuit />
-                <span>Ideation</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.startsWith('/business-creation')} tooltip="Business Creation">
-              <Link href="/business-creation">
-                <Rocket />
-                <span>Business Creation</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          
-           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={pathname.startsWith('/7-day-blueprint')} tooltip="7-Day Blueprint">
-              <Link href="/7-day-blueprint">
-                <CalendarCheck />
-                <span>7-Day Blueprint</span>
-              </Link>
-            </SidebarMenuButton>
+            <SubMenu
+              icon={<Rocket />}
+              title="Business Creation"
+              pathname={pathname}
+              dashboardHref="/business-creation"
+              items={[
+                { href: '/ideation/brainstorming', label: 'Brainstorming Tool' },
+                { href: '/business-creation/business-idea-validation', label: 'Idea Validation' },
+                { href: '/7-day-blueprint', label: '7-Day Blueprint' },
+              ]}
+            />
           </SidebarMenuItem>
 
           <SidebarMenuItem>
@@ -186,7 +174,6 @@ export function SidebarNav() {
               dashboardHref="/business-management"
               items={[
                 { href: '/business-management/crm-suite', label: 'CRM Suite' },
-                { href: '/business-management/insights-dashboard', label: 'Insights Dashboard' },
                 { href: '/business-management/project-task-manager', label: 'Project & Task Manager' },
                 { href: '/business-management/hr-system', label: 'HR System' },
                 { href: '/compliance-validator', label: 'Compliance Validator' },
@@ -199,14 +186,11 @@ export function SidebarNav() {
               icon={<Package />}
               title="Products"
               pathname={pathname}
-              dashboardHref="/products/dashboard"
+              dashboardHref="/products"
               items={[
-                { href: '/products/dashboard', label: 'Products Dashboard' },
-                { href: '/products/market-ready', label: 'Market-Ready Products' },
-                { href: '/products/upcoming', label: 'Upcoming Products' },
-                { href: '/products/pricing', label: 'Pricing' },
-                { href: '/products/inventory', label: 'Inventory' },
-                { href: '/products/sourcing', label: 'Sourcing' },
+                { href: '/products/creator', label: 'Product Creator' },
+                { href: '/products/inventory', label: 'Product Inventory' },
+                { href: '/products/pricing', label: 'Pricing Manager' },
               ]}
             />
           </SidebarMenuItem>
@@ -216,14 +200,13 @@ export function SidebarNav() {
               icon={<CircleDollarSign />}
               title="Financials"
               pathname={pathname}
-              dashboardHref="/financials/dashboard"
+              dashboardHref="/financials"
               items={[
-                { href: '/financials/dashboard', label: 'Finance Dashboard' },
                 { href: '/financials/asset-management', label: 'Asset Management' },
                 { href: '/financials/expense-logger', label: 'Business Expense Logger' },
                 { href: '/financials/vat-calculator', label: 'VAT Calculator & Reporter' },
                 { href: '/financials/digital-logbook', label: 'Digital Logbook (for BRN)' },
-                { href: '/financials/reports', label: 'Monthly & Annual Reports' },
+                { href: '/financials/reports', label: 'Annual Reports Generator' },
                  { href: '/financials/grants-financing', label: 'Grants & Financing' },
               ]}
             />
@@ -234,14 +217,25 @@ export function SidebarNav() {
               icon={<Megaphone />}
               title="Marketing & Ads"
               pathname={pathname}
-              dashboardHref="/marketing/dashboard"
+              dashboardHref="/marketing"
               items={[
-                { href: '/marketing/dashboard', label: 'Marketing Dashboard' },
-                { href: '/marketing/landing-page-builder', label: 'Landing Page Builder' },
                 { href: '/marketing/campaign-builder', label: 'Campaign Builder' },
+                { href: '/marketing/landing-page-builder', label: 'Landing Page Builder' },
                 { href: '/marketing/content-generator', label: 'Content Generator' },
                 { href: '/marketing/video-generator', label: 'Video Script Generator' },
                 { href: '/marketing/social-posts-generator', label: 'Social Posts Generator' },
+              ]}
+            />
+          </SidebarMenuItem>
+
+           <SidebarMenuItem>
+            <SubMenu
+              icon={<Building />}
+              title="Specialized Apps"
+              pathname={pathname}
+              dashboardHref="/industries"
+              items={[
+                 { href: 'https://serena.avantaz.online/', label: 'Serena (for Homecare)' },
               ]}
             />
           </SidebarMenuItem>
