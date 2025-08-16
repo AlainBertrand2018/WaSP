@@ -94,10 +94,10 @@ export default function AppGallery() {
     }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
         <MainHeader />
 
-      <main className="flex-1 bg-secondary-darker">
+      <main className="flex-1 bg-background">
         <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20">
             <div className="flex flex-col gap-8 w-full">
             
