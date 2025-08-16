@@ -88,7 +88,7 @@ export default function AppGallery() {
 
             <section className="w-full my-4">
                 <Image
-                    src="https://placehold.co/1200x300.png"
+                    src="/images/ads/mock_ad_1200x300.webp"
                     alt="Advertisement"
                     width={1200}
                     height={300}
