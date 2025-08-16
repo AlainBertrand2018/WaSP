@@ -95,7 +95,7 @@ export default function CategoryPage() {
                 <p className="text-muted-foreground mt-2">{categoryData.description}</p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
                 {categoryData.apps.map((app) => (
                     <AppCard
                         key={app.title}

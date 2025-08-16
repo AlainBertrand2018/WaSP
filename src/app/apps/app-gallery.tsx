@@ -6,13 +6,6 @@ import {
   CardContent,
 } from '@/components/ui/card';
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
-import {
   ArrowRight,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -131,25 +124,16 @@ export default function AppGallery() {
                             <ArrowRight size={16} />
                         </Link>
                     </div>
-                    <Carousel opts={{
-                        align: "start",
-                        slidesToScroll: 'auto',
-                    }}
-                    className="w-full">
-                        <CarouselContent>
-                            {category.apps.map((app) => (
-                                <CarouselItem key={app.title} className="basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5">
-                                    <AppCard
-                                        app={app}
-                                        ratingState={ratings[app.title]}
-                                        onRatingChange={(newRating) => handleRatingChange(app.title, newRating)}
-                                    />
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <CarouselPrevious className="hidden md:flex" />
-                        <CarouselNext className="hidden md:flex" />
-                    </Carousel>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                        {category.apps.map((app) => (
+                            <AppCard
+                                key={app.title}
+                                app={app}
+                                ratingState={ratings[app.title]}
+                                onRatingChange={(newRating) => handleRatingChange(app.title, newRating)}
+                            />
+                        ))}
+                    </div>
                 </section>
                 ))}
             </div>
