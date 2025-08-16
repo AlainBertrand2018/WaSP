@@ -96,6 +96,7 @@ export default function BrainstormingPage() {
     try {
       const result = await generateSuggestionsForUser(data);
       setAiResult(result);
+      setCurrentStep(3); // Go to next step on success
     } catch (error) {
       console.error('Error generating suggestions:', error);
       toast({
@@ -103,9 +104,9 @@ export default function BrainstormingPage() {
         description: 'CLAIRE could not generate hints at this time. Please try again later.',
         variant: 'destructive',
       });
+      // Do not advance step on error, stay on the form
     } finally {
       setIsLoading(false);
-      setCurrentStep(3); // Always advance to step 3, even if there's an error.
     }
   };
 
@@ -347,18 +348,7 @@ export default function BrainstormingPage() {
               a unique advantage. Select one or enter your own to proceed.
             </p>
 
-            {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[...Array(3)].map((_, i) => (
-                  <Card key={i} className="p-4 space-y-3">
-                    <Skeleton className="h-6 w-3/4" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-5/6" />
-                    <Skeleton className="h-4 w-full" />
-                  </Card>
-                ))}
-              </div>
-            ) : aiResult ? (
+            {aiResult ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {aiResult.suggestions.map((sector) => (
                   <Card

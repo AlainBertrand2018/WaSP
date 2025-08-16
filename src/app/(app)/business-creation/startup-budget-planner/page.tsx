@@ -581,18 +581,8 @@ const FixedCostsTab = () => {
 
     if (isLoading) {
       return (
-        <div className="space-y-6">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="space-y-4">
-              <Skeleton className="h-6 w-1/4" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Skeleton className="h-14 w-full" />
-                <Skeleton className="h-14 w-full" />
-                <Skeleton className="h-14 w-full" />
-                <Skeleton className="h-14 w-full" />
-              </div>
-            </div>
-          ))}
+        <div className="flex items-center justify-center p-8">
+            <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       );
     }
@@ -679,17 +669,9 @@ const VariableCostsTab = () => {
     }, [costItems]);
 
     if (isLoading) {
-      return (
-        <div className="space-y-6">
-          {[...Array(2)].map((_, i) => (
-            <div key={i} className="space-y-4">
-              <Skeleton className="h-6 w-1/4" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Skeleton className="h-14 w-full" />
-                <Skeleton className="h-14 w-full" />
-              </div>
-            </div>
-          ))}
+       return (
+        <div className="flex items-center justify-center p-8">
+            <Loader2 className="h-8 w-8 animate-spin" />
         </div>
       );
     }
@@ -1069,5 +1051,3 @@ export default function StartupBudgetPlannerPage() {
     </div>
   );
 }
-
-    

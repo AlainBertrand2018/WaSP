@@ -1,7 +1,7 @@
 
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -27,13 +27,19 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useMounted } from '@/hooks/use-mounted';
 import { MainHeader } from '@/components/layout/main-header';
+import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
 export default function FaqPageContent() {
-  const [faqs, setFaqs] = React.useState<{ question: string; answer: string }[]>([]);
+  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const isMounted = useMounted();
 
-  React.useEffect(() => {
-    generateFaq().then(result => setFaqs(result.faqs));
+  useEffect(() => {
+    setIsLoading(true);
+    generateFaq()
+      .then(result => setFaqs(result.faqs))
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
   }, []);
 
   const faqSchema = {
@@ -51,6 +57,10 @@ export default function FaqPageContent() {
   
   if (!isMounted) {
     return null;
+  }
+
+  if (isLoading) {
+    return <AiLoadingSpinner show={true} title="CLAIRE is fetching the FAQs..." />;
   }
 
   return (
@@ -200,7 +210,7 @@ export default function FaqPageContent() {
                         <Label htmlFor="email-footer" className="text-right">Email</Label>
                         <Input id="email-footer" type="email" placeholder="john@example.com" className="col-span-3" />
                       </div>
-                      <div className="grid grid-cols-4 items-start gap-4">
+                       <div className="grid grid-cols-4 items-start gap-4">
                         <Label htmlFor="message-footer" className="text-right pt-2">Message</Label>
                         <Textarea id="message-footer" placeholder="Your message..." className="col-span-3" />
                       </div>
@@ -234,7 +244,7 @@ export default function FaqPageContent() {
         </div>
 
         <div className="container mx-auto border-t border-primary-foreground/10 px-4 py-6 text-center text-sm text-primary-foreground/60">
-          © 2025 BusinessStudio AI (Alain BERTRAND). All rights reserved.
+           © 2025 BusinessStudio AI (Alain BERTRAND). All rights reserved.
         </div>
       </footer>
     </div>
