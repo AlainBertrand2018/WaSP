@@ -30,6 +30,18 @@ type RatingState = {
     }
 }
 
+// Slugify helper for generating valid HTML IDs from category titles
+function slugify(text: string) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')       // spaces -> dashes
+    .replace(/&/g, 'and')       // "&" -> "and"
+    .replace(/[^\w-]+/g, '')    // strip non-word chars except dash
+    .replace(/--+/g, '-');      // collapse multiple dashes
+}
+
 export default function AppGallery() {
     const isMounted = useMounted();
     
@@ -68,6 +80,14 @@ export default function AppGallery() {
       });
     };
 
+    const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+        e.preventDefault();
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     if (!isMounted) {
       return null;
     }
@@ -79,11 +99,14 @@ export default function AppGallery() {
       <main className="flex-1 bg-secondary-darker">
         <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20">
             <div className="flex flex-col gap-8 w-full">
-            <div>
-                <h1 className="text-3xl font-bold tracking-tight">App Gallery</h1>
-                <p className="text-muted-foreground">
-                Launch powerful, AI-driven tools to build and manage your business.
-                </p>
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+                {appCategories.map((category) => (
+                    <Button variant="ghost" asChild key={category.category}>
+                        <a href={`#${slugify(category.category)}`} onClick={(e) => handleScrollTo(e, slugify(category.category))}>
+                            {category.category}
+                        </a>
+                    </Button>
+                ))}
             </div>
 
             <section className="w-full my-4">
@@ -109,7 +132,7 @@ export default function AppGallery() {
 
             <div className="space-y-12">
                 {appCategories.map((category) => (
-                <section key={category.category}>
+                <section key={category.category} id={slugify(category.category)} className="scroll-mt-24">
                     <div className="mb-4">
                         <div className="flex items-center gap-3">
                             <Link href={category.href} target="_blank" rel="noopener noreferrer" className="text-2xl font-semibold tracking-tight hover:underline">
