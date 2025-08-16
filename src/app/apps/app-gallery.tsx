@@ -90,11 +90,11 @@ export default function AppGallery() {
                 <Card className="bg-muted/30">
                 <CardContent className="p-2 flex justify-center items-center">
                     <Image
-                        src="https://placehold.co/970x250.png"
+                        src="https://placehold.co/1200x300.png"
                         alt="Advertisement"
-                        width={970}
-                        height={250}
-                        className="rounded-md"
+                        width={1200}
+                        height={300}
+                        className="rounded-md w-full h-[300px] object-cover"
                         data-ai-hint="advertisement billboard"
                     />
                 </CardContent>
