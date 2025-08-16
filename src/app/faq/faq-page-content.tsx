@@ -184,6 +184,9 @@ export default function FaqPageContent() {
                       <p>We’re an equal-opportunity team—talent from all backgrounds is welcome.</p>
                       <p className="font-mono text-xs">#Hiring #MadeInMauritius #AI #SaaS #Startups #SME #Careers</p>
                     </div>
+                    <DialogFooter className="justify-center pt-4">
+                        <Button>Upload Résumé</Button>
+                    </DialogFooter>
                   </DialogContent>
                 </Dialog>
               </li>
