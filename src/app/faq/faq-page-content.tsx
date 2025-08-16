@@ -64,14 +64,14 @@ export default function FaqPageContent() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <MainHeader />
 
-      <main className="flex-1 bg-secondary-darker">
+      <main className="flex-1 bg-background">
         <section className="container mx-auto px-4 py-20 lg:py-32">
           <div className="flex flex-col gap-8 max-w-4xl mx-auto">
             <div>
