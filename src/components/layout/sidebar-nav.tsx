@@ -18,6 +18,8 @@ import {
   CheckCheck,
   PanelLeft,
   Building,
+  Lightbulb,
+  ChevronRight,
 } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -117,6 +119,124 @@ const SubMenu = ({
   );
 };
 
+
+const BusinessCreationSubMenu = () => {
+    const pathname = usePathname();
+    const { open } = useSidebar();
+    const isParentActive = pathname.startsWith('/business-creation') || pathname.startsWith('/ideation') || pathname.startsWith('/7-day-blueprint');
+    const [isOpen, setIsOpen] = React.useState(isParentActive);
+
+    const isValidationActive = pathname.startsWith('/business-creation/business-idea-validation') || pathname.startsWith('/business-creation/mvp-planner') || pathname.startsWith('/business-creation/startup-budget-planner') || pathname.startsWith('/business-creation/business-plan-generator');
+    const [isValidationOpen, setIsValidationOpen] = React.useState(isValidationActive);
+    
+    React.useEffect(() => {
+        if (!open) {
+        setIsOpen(false);
+        setIsValidationOpen(false);
+        }
+    }, [open]);
+
+    return (
+        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+            <div className='flex items-center h-auto'>
+                <SidebarMenuButton
+                    asChild
+                    variant="ghost"
+                    className="w-full justify-start h-auto flex-grow"
+                    isActive={pathname === '/business-creation'}
+                    tooltip="Business Creation"
+                >
+                    <Link href="/business-creation" className='flex items-center gap-2'>
+                        <Rocket />
+                        <span>Business Creation</span>
+                    </Link>
+                </SidebarMenuButton>
+                 {open && (
+                    <CollapsibleTrigger asChild>
+                        <button
+                            className={cn(
+                            'p-1 ml-auto transition-transform rounded-md hover:bg-muted',
+                            isOpen && 'rotate-180'
+                            )}
+                        >
+                            <ChevronDown />
+                        </button>
+                    </CollapsibleTrigger>
+                )}
+            </div>
+            <CollapsibleContent>
+                <SidebarMenu className="ml-7 border-l pl-4 py-2 gap-1">
+                    {/* Ideation */}
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild size="sm" variant="ghost" className="w-full justify-start" isActive={pathname.startsWith('/ideation/brainstorming')}>
+                            <Link href="/ideation/brainstorming" className="flex items-center gap-2">
+                                <BrainCircuit className="h-3.5 w-3.5" />
+                                <span>Ideation</span>
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+
+                    {/* Idea Validation Group */}
+                    <SidebarMenuItem>
+                       <Collapsible open={isValidationOpen} onOpenChange={setIsValidationOpen}>
+                           <div className="flex items-center">
+                                <SidebarMenuButton asChild size="sm" variant="ghost" className="w-full justify-start flex-grow" isActive={isValidationActive && pathname !== '/business-creation/business-idea-validation'}>
+                                     <Link href="/business-creation/business-idea-validation" className="flex items-center gap-2">
+                                        <Lightbulb className="h-3.5 w-3.5" />
+                                        <span>Idea Validation</span>
+                                    </Link>
+                                </SidebarMenuButton>
+                                {open && (
+                                    <CollapsibleTrigger asChild>
+                                        <button className={cn('p-1 ml-auto transition-transform rounded-md hover:bg-muted', isValidationOpen && 'rotate-180')}>
+                                            <ChevronDown className="h-4 w-4"/>
+                                        </button>
+                                    </CollapsibleTrigger>
+                                )}
+                           </div>
+                            <CollapsibleContent>
+                                <SidebarMenu className="ml-7 border-l pl-4 py-1 gap-0">
+                                    <SidebarMenuItem>
+                                        <SidebarMenuButton asChild size="sm" variant="ghost" className="w-full justify-start text-xs" isActive={pathname.startsWith('/business-creation/business-idea-validation')}>
+                                            <Link href="/business-creation/business-idea-validation">Business Idea Validation</Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                     <SidebarMenuItem>
+                                        <SidebarMenuButton asChild size="sm" variant="ghost" className="w-full justify-start text-xs" isActive={pathname.startsWith('/business-creation/mvp-planner')}>
+                                            <Link href="/business-creation/mvp-planner">MVP Planner</Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                     <SidebarMenuItem>
+                                        <SidebarMenuButton asChild size="sm" variant="ghost" className="w-full justify-start text-xs" isActive={pathname.startsWith('/business-creation/startup-budget-planner')}>
+                                            <Link href="/business-creation/startup-budget-planner">Startup Budget</Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                     <SidebarMenuItem>
+                                        <SidebarMenuButton asChild size="sm" variant="ghost" className="w-full justify-start text-xs" isActive={pathname.startsWith('/business-creation/business-plan-generator')}>
+                                            <Link href="/business-creation/business-plan-generator">Business Plan Generator</Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                </SidebarMenu>
+                            </CollapsibleContent>
+                       </Collapsible>
+                    </SidebarMenuItem>
+
+                    {/* Quick Start */}
+                    <SidebarMenuItem>
+                        <SidebarMenuButton asChild size="sm" variant="ghost" className="w-full justify-start" isActive={pathname.startsWith('/7-day-blueprint')}>
+                            <Link href="/7-day-blueprint" className="flex items-center gap-2">
+                                <CalendarCheck className="h-3.5 w-3.5" />
+                                <span>Quick Start</span>
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </CollapsibleContent>
+        </Collapsible>
+    )
+}
+
+
 export function SidebarNav() {
   const pathname = usePathname();
 
@@ -153,17 +273,7 @@ export function SidebarNav() {
           </SidebarMenuItem>
 
           <SidebarMenuItem>
-            <SubMenu
-              icon={<Rocket />}
-              title="Business Creation"
-              pathname={pathname}
-              dashboardHref="/business-creation"
-              items={[
-                { href: '/ideation/brainstorming', label: 'Brainstorming Tool' },
-                { href: '/business-creation/business-idea-validation', label: 'Idea Validation' },
-                { href: '/7-day-blueprint', label: '7-Day Blueprint' },
-              ]}
-            />
+            <BusinessCreationSubMenu />
           </SidebarMenuItem>
 
           <SidebarMenuItem>
