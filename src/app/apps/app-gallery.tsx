@@ -88,7 +88,7 @@ export default function AppGallery() {
 
             <section className="w-full my-4">
                 <Card className="bg-muted/30">
-                <CardContent className="p-2 flex justify-center items-center">
+                <CardContent className="flex justify-center items-center">
                     <Image
                         src="https://placehold.co/1200x300.png"
                         alt="Advertisement"
