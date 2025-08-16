@@ -13,6 +13,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -24,11 +31,31 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { ChevronDown, PlayCircle } from 'lucide-react';
+import { ChevronDown, Menu, PlayCircle, X } from 'lucide-react';
 import { useAudioPlayerStore } from '@/store/audio-player-store';
+import React from 'react';
+import { cn } from '@/lib/utils';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+
+const navLinks = [
+    { title: 'Features', href: '/#features' },
+    { title: 'The Platform', href: '/#whatis' },
+    { title: 'Testimonials', href: '/#testimonials' },
+    { title: 'App Gallery', href: '/apps' },
+    { title: 'Pricing', href: '/#pricing' },
+    { title: "Investors' Information", href: '/investors_info', isExternal: true },
+    { title: 'FAQ', href: '/faq' },
+];
+
 
 export function MainHeader() {
   const { openPlayer } = useAudioPlayerStore();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const handlePlayIntro = () => {
     openPlayer('/audio/Claire Presentation.mp3');
@@ -219,9 +246,48 @@ export function MainHeader() {
         </nav>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button asChild variant="ghost">
+           <Button asChild variant="ghost" className="hidden md:flex">
             <Link href="/login">Sign In</Link>
           </Button>
+          <div className="md:hidden">
+             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                      <Menu />
+                      <span className="sr-only">Open menu</span>
+                  </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-full max-w-xs bg-secondary">
+                  <SheetHeader>
+                      <SheetTitle>
+                          <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+                            <Image src="/images/studioFlowLogo_1024.png" alt="BusinessStudio AI Logo" width={24} height={24} />
+                            <span className="text-lg font-bold">BusinessStudio AI</span>
+                          </Link>
+                      </SheetTitle>
+                  </SheetHeader>
+                  <div className="flex flex-col h-full py-4">
+                      <nav className="flex flex-col gap-2 flex-grow">
+                        {navLinks.map((link) => (
+                           <Link
+                            key={link.title}
+                            href={link.href}
+                            target={link.isExternal ? '_blank' : '_self'}
+                            rel={link.isExternal ? 'noopener noreferrer' : ''}
+                            className="text-muted-foreground hover:text-foreground p-2 rounded-md"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                           >
+                            {link.title}
+                           </Link>
+                        ))}
+                      </nav>
+                      <Button asChild className="w-full">
+                         <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Sign In</Link>
+                      </Button>
+                  </div>
+              </SheetContent>
+             </Sheet>
+          </div>
         </div>
       </div>
     </header>
