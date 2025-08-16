@@ -25,6 +25,7 @@ import { MainHeader } from '@/components/layout/main-header';
 type RatingState = {
     [key: string]: {
         rating: number;
+        raters: number;
         hasVoted: boolean;
     }
 }
@@ -33,13 +34,17 @@ export default function AppGallery() {
     const isMounted = useMounted();
     
     // Initialize state for all apps
-    const initialRatings = appCategories.flatMap(cat => cat.apps).reduce((acc, app) => {
-        acc[app.title] = {
-            rating: app.initialRating || 0,
-            hasVoted: false
-        };
-        return acc;
-    }, {} as RatingState);
+    const initialRatings = React.useMemo(() => {
+        return appCategories.flatMap(cat => cat.apps).reduce((acc, app) => {
+            acc[app.title] = {
+                rating: app.initialRating || 0,
+                raters: app.initialRaters || 0,
+                hasVoted: false
+            };
+            return acc;
+        }, {} as RatingState);
+    }, []);
+
 
     const [ratings, setRatings] = React.useState<RatingState>(initialRatings);
 
@@ -47,11 +52,16 @@ export default function AppGallery() {
       setRatings(prevRatings => {
           const current = prevRatings[title];
           if (current.hasVoted) return prevRatings;
+          
+          const newTotalRating = current.rating * current.raters + newRating;
+          const newRaters = current.raters + 1;
+          const newAverageRating = newTotalRating / newRaters;
 
           return {
               ...prevRatings,
               [title]: {
-                  rating: newRating, // We are directly setting the new rating
+                  rating: newAverageRating,
+                  raters: newRaters,
                   hasVoted: true
               }
           }
@@ -94,18 +104,18 @@ export default function AppGallery() {
             <div className="space-y-12">
                 {appCategories.map((category) => (
                 <section key={category.category}>
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-3">
+                    <div className="mb-4">
+                         <div className="flex items-center gap-3">
                             <Link href={category.href} target="_blank" rel="noopener noreferrer" className="text-2xl font-semibold tracking-tight hover:underline">
                                 {category.category}
                             </Link>
                              <ExternalLink className="h-4 w-4 text-muted-foreground" />
                         </div>
-                        <p className="text-muted-foreground mt-1 hidden md:block">
+                        <p className="text-muted-foreground mt-1">
                             {category.description}
                         </p>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6">
                         {category.apps.map((app) => (
                             <AppCard
                                 key={app.title}
