@@ -104,7 +104,7 @@ export default function AppGallery() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex flex-wrap items-center justify-center gap-2 mb-4">
                 {appCategories.map((category) => (
-                    <Button variant="ghost" asChild key={category.category} className="rounded-full border">
+                    <Button variant="ghost" asChild key={category.category} className="rounded-full border border-white text-white hover:bg-white/10 hover:text-white">
                         <a href={`#${slugify(category.category)}`} onClick={(e) => handleScrollTo(e, slugify(category.category))}>
                             <category.icon className="mr-2 h-4 w-4" />
                             {category.category}
@@ -119,7 +119,7 @@ export default function AppGallery() {
                 <CarouselContent className="-ml-2">
                    {appCategories.map((category) => (
                     <CarouselItem key={category.category} className="pl-2 basis-auto">
-                        <Button variant="ghost" asChild className="rounded-full border">
+                        <Button variant="ghost" asChild className="rounded-full border border-white text-white hover:bg-white/10 hover:text-white">
                             <a href={`#${slugify(category.category)}`} onClick={(e) => handleScrollTo(e, slugify(category.category))}>
                                 <category.icon className="mr-2 h-4 w-4" />
                                 {category.category}
@@ -138,7 +138,7 @@ export default function AppGallery() {
                     alt="Advertisement"
                     width={970}
                     height={250}
-                    className="hidden md:block rounded-md w-full h-auto object-cover"
+                    className="hidden md:block rounded-md w-full h-[300px] object-cover"
                     data-ai-hint="advertisement billboard"
                 />
                 {/* Mobile Ad */}
@@ -147,7 +147,7 @@ export default function AppGallery() {
                     alt="Advertisement"
                     width={1024}
                     height={1024}
-                    className="block md:hidden rounded-md w-full h-auto object-cover"
+                    className="block md:hidden rounded-md w-full h-[300px] object-cover"
                     data-ai-hint="advertisement mobile"
                 />
             </section>
