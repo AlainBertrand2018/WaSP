@@ -62,7 +62,7 @@ export function MainHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-secondary/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b bg-secondary text-secondary-foreground backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
           <Image
