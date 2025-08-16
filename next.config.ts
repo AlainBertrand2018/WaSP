@@ -19,10 +19,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  webpack: (config) => {
-    config.resolve.alias['@opentelemetry/exporter-jaeger'] = false;
-    config.externals.push('handlebars');
-    return config;
+  turbo: {
+    resolveAlias: {
+      '@opentelemetry/exporter-jaeger': false,
+    },
+    externals: ['handlebars'],
   },
 };
 
