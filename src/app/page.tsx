@@ -31,6 +31,7 @@ import { MainHeader } from '@/components/layout/main-header';
 import { appCategories } from '@/lib/app-data';
 import { AppCard } from '@/components/feature/app-card';
 import { ClaireIntroPopup } from '@/components/feature/claire-intro-popup';
+import { toast } from '@/hooks/use-toast';
 
 const featureCards = [
   {
@@ -112,6 +113,21 @@ export default function Home() {
   const isMounted = useMounted();
   const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
   const firstFourApps = appCategories.flatMap(cat => cat.apps).slice(0, 4);
+  const resumeInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleUploadClick = () => {
+    resumeInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      toast({
+        title: "Résumé Uploaded",
+        description: `Successfully uploaded ${file.name}. We will be in touch!`,
+      });
+    }
+  };
 
   const initialRatings = React.useMemo(() => {
     return firstFourApps.reduce((acc, app) => {
@@ -538,7 +554,14 @@ export default function Home() {
                       <p className="font-mono text-xs">#Hiring #MadeInMauritius #AI #SaaS #Startups #SME #Careers</p>
                     </div>
                     <DialogFooter className="justify-center pt-4">
-                        <Button>Upload Résumé</Button>
+                        <input
+                          type="file"
+                          ref={resumeInputRef}
+                          onChange={handleFileChange}
+                          className="hidden"
+                          accept=".pdf,.doc,.docx"
+                        />
+                        <Button onClick={handleUploadClick}>Upload Résumé</Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>

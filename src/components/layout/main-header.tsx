@@ -35,12 +35,7 @@ import { ChevronDown, Menu, PlayCircle, X } from 'lucide-react';
 import { useAudioPlayerStore } from '@/store/audio-player-store';
 import React from 'react';
 import { cn } from '@/lib/utils';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { toast } from '@/hooks/use-toast';
 
 const navLinks = [
     { title: 'Features', href: '/#features' },
@@ -56,9 +51,24 @@ const navLinks = [
 export function MainHeader() {
   const { openPlayer } = useAudioPlayerStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const resumeInputRef = React.useRef<HTMLInputElement>(null);
 
   const handlePlayIntro = () => {
     openPlayer('/audio/Claire Presentation.mp3');
+  };
+  
+  const handleUploadClick = () => {
+    resumeInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      toast({
+        title: "Résumé Uploaded",
+        description: `Successfully uploaded ${file.name}. We will be in touch!`,
+      });
+    }
   };
 
   return (

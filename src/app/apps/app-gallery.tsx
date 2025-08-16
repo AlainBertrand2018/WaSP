@@ -22,6 +22,7 @@ import { AppCard } from '@/components/feature/app-card';
 import { appCategories } from '@/lib/app-data';
 import { MainHeader } from '@/components/layout/main-header';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { toast } from '@/hooks/use-toast';
 
 type RatingState = {
     [key: string]: {
@@ -45,6 +46,21 @@ function slugify(text: string) {
 
 export default function AppGallery() {
     const isMounted = useMounted();
+    const resumeInputRef = React.useRef<HTMLInputElement>(null);
+
+    const handleUploadClick = () => {
+      resumeInputRef.current?.click();
+    };
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+        toast({
+          title: "Résumé Uploaded",
+          description: `Successfully uploaded ${file.name}. We will be in touch!`,
+        });
+      }
+    };
     
     // Initialize state for all apps
     const initialRatings = React.useMemo(() => {
@@ -104,7 +120,7 @@ export default function AppGallery() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex flex-wrap items-center justify-center gap-2 mb-4">
                 {appCategories.map((category) => (
-                    <Button variant="ghost" asChild key={category.category} className="rounded-full border border-black text-black hover:bg-black/10 hover:text-black dark:border-white dark:text-white dark:hover:bg-white/10">
+                    <Button variant="ghost" asChild key={category.category} className="rounded-full border text-black hover:text-black hover:bg-black/10 dark:border-white dark:text-white dark:hover:bg-white/10">
                         <a href={`#${slugify(category.category)}`} onClick={(e) => handleScrollTo(e, slugify(category.category))}>
                             <category.icon className="mr-2 h-4 w-4" />
                             {category.category}
@@ -119,7 +135,7 @@ export default function AppGallery() {
                 <CarouselContent className="-ml-2">
                    {appCategories.map((category) => (
                     <CarouselItem key={category.category} className="pl-2 basis-auto">
-                        <Button variant="ghost" asChild className="rounded-full border border-black text-black hover:bg-black/10 hover:text-black dark:border-white dark:text-white dark:hover:bg-white/10">
+                        <Button variant="ghost" asChild className="rounded-full border text-black hover:text-black hover:bg-black/10 dark:border-white dark:text-white dark:hover:bg-white/10">
                             <a href={`#${slugify(category.category)}`} onClick={(e) => handleScrollTo(e, slugify(category.category))}>
                                 <category.icon className="mr-2 h-4 w-4" />
                                 {category.category}
@@ -273,7 +289,14 @@ export default function AppGallery() {
                       <p className="font-mono text-xs">#Hiring #MadeInMauritius #AI #SaaS #Startups #SME #Careers</p>
                     </div>
                     <DialogFooter className="justify-center pt-4">
-                        <Button>Upload Résumé</Button>
+                       <input
+                          type="file"
+                          ref={resumeInputRef}
+                          onChange={handleFileChange}
+                          className="hidden"
+                          accept=".pdf,.doc,.docx"
+                        />
+                        <Button onClick={handleUploadClick}>Upload Résumé</Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>

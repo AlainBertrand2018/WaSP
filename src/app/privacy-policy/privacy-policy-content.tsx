@@ -19,9 +19,26 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useMounted } from '@/hooks/use-mounted';
 import { MainHeader } from '@/components/layout/main-header';
+import React from 'react';
+import { toast } from '@/hooks/use-toast';
 
 export default function PrivacyPolicyContent() {
   const isMounted = useMounted();
+  const resumeInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleUploadClick = () => {
+    resumeInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      toast({
+        title: "Résumé Uploaded",
+        description: `Successfully uploaded ${file.name}. We will be in touch!`,
+      });
+    }
+  };
 
   if (!isMounted) {
     return null;
@@ -204,7 +221,14 @@ export default function PrivacyPolicyContent() {
                                     <p className="font-mono text-xs">#Hiring #MadeInMauritius #AI #SaaS #Startups #SME #Careers</p>
                                 </div>
                                 <DialogFooter className="justify-center pt-4">
-                                    <Button>Upload Résumé</Button>
+                                    <input
+                                      type="file"
+                                      ref={resumeInputRef}
+                                      onChange={handleFileChange}
+                                      className="hidden"
+                                      accept=".pdf,.doc,.docx"
+                                    />
+                                    <Button onClick={handleUploadClick}>Upload Résumé</Button>
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
@@ -220,7 +244,7 @@ export default function PrivacyPolicyContent() {
                               <DialogDescription>
                                 Have a question or want to work with us? Fill out the form below.
                               </DialogDescription>
-                            </DialogHeader>
+                            </Header>
                             <div className="grid gap-4 py-4">
                               <div className="grid grid-cols-4 items-center gap-4">
                                 <Label htmlFor="name-footer" className="text-right">

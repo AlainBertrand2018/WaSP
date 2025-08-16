@@ -28,11 +28,28 @@ import { Textarea } from '@/components/ui/textarea';
 import { useMounted } from '@/hooks/use-mounted';
 import { MainHeader } from '@/components/layout/main-header';
 import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
+import { toast } from '@/hooks/use-toast';
 
 export default function FaqPageContent() {
   const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const isMounted = useMounted();
+  const resumeInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleUploadClick = () => {
+    resumeInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      toast({
+        title: "Résumé Uploaded",
+        description: `Successfully uploaded ${file.name}. We will be in touch!`,
+      });
+    }
+  };
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -185,7 +202,14 @@ export default function FaqPageContent() {
                       <p className="font-mono text-xs">#Hiring #MadeInMauritius #AI #SaaS #Startups #SME #Careers</p>
                     </div>
                     <DialogFooter className="justify-center pt-4">
-                        <Button>Upload Résumé</Button>
+                        <input
+                          type="file"
+                          ref={resumeInputRef}
+                          onChange={handleFileChange}
+                          className="hidden"
+                          accept=".pdf,.doc,.docx"
+                        />
+                        <Button onClick={handleUploadClick}>Upload Résumé</Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
