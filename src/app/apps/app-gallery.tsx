@@ -21,6 +21,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { AppCard } from '@/components/feature/app-card';
 import { appCategories } from '@/lib/app-data';
 import { MainHeader } from '@/components/layout/main-header';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 type RatingState = {
     [key: string]: {
@@ -99,14 +100,35 @@ export default function AppGallery() {
       <main className="flex-1 bg-secondary-darker">
         <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20">
             <div className="flex flex-col gap-8 w-full">
-            <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex flex-wrap items-center justify-center gap-2 mb-4">
                 {appCategories.map((category) => (
-                    <Button variant="ghost" asChild key={category.category}>
+                    <Button variant="outline" asChild key={category.category} className="rounded-full">
                         <a href={`#${slugify(category.category)}`} onClick={(e) => handleScrollTo(e, slugify(category.category))}>
+                            <category.icon className="mr-2 h-4 w-4" />
                             {category.category}
                         </a>
                     </Button>
                 ))}
+            </div>
+
+            {/* Mobile Carousel Navigation */}
+            <div className="block md:hidden mb-4">
+              <Carousel opts={{ align: "start", loop: false }}>
+                <CarouselContent className="-ml-2">
+                   {appCategories.map((category) => (
+                    <CarouselItem key={category.category} className="pl-2 basis-auto">
+                        <Button variant="outline" asChild className="rounded-full">
+                            <a href={`#${slugify(category.category)}`} onClick={(e) => handleScrollTo(e, slugify(category.category))}>
+                                <category.icon className="mr-2 h-4 w-4" />
+                                {category.category}
+                            </a>
+                        </Button>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
             </div>
 
             <section className="w-full my-4">
