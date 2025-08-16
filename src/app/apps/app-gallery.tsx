@@ -87,13 +87,23 @@ export default function AppGallery() {
             </div>
 
             <section className="w-full my-4">
+                 {/* Desktop Ad */}
                 <Image
                     src="/images/ads/mock_ad_1200x300.webp"
                     alt="Advertisement"
-                    width={1200}
-                    height={300}
-                    className="rounded-md w-full h-[300px] object-cover"
+                    width={970}
+                    height={250}
+                    className="hidden md:block rounded-md w-full h-auto object-cover"
                     data-ai-hint="advertisement billboard"
+                />
+                {/* Mobile Ad */}
+                 <Image
+                    src="https://placehold.co/600x600.png"
+                    alt="Advertisement"
+                    width={600}
+                    height={600}
+                    className="block md:hidden rounded-md w-full h-auto object-cover"
+                    data-ai-hint="advertisement mobile"
                 />
             </section>
 
