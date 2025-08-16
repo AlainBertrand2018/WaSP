@@ -2,11 +2,10 @@
 'use client';
 
 import {
-  FileText,
+  BrainCircuit,
+  CalendarCheck,
   Home,
   Lightbulb,
-  Rocket,
-  Wallet,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -23,10 +22,24 @@ import React from 'react';
 import { SidebarFooter } from './sidebar-footer';
 
 const navigationItems = [
-    { href: '/business-creation/business-idea-validation', label: '1. Idea Validation', icon: <Lightbulb /> },
-    { href: '/business-creation/mvp-planner', label: '2. MVP Planner', icon: <Rocket /> },
-    { href: '/business-creation/startup-budget-planner', label: '3. Startup Budget', icon: <Wallet /> },
-    { href: '/business-creation/business-plan-generator', label: '4. Business Plan', icon: <FileText /> },
+    {
+        href: '/ideation/brainstorming',
+        title: 'Brainstorming Tool',
+        subtitle: 'Imagine your next venture',
+        icon: <BrainCircuit />,
+    },
+    {
+        href: '/business-creation/business-idea-validation',
+        title: 'Idea Validation',
+        subtitle: 'From Idea to Pitch Deck',
+        icon: <Lightbulb />,
+    },
+    {
+        href: '/7-day-blueprint',
+        title: 'Quickstarter',
+        subtitle: 'A 7-day plan to start your business',
+        icon: <CalendarCheck />,
+    },
 ];
 
 export function BusinessCreationSidebarNav() {
@@ -56,10 +69,13 @@ export function BusinessCreationSidebarNav() {
             </li>
           {navigationItems.map((item) => (
              <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton asChild isActive={pathname.startsWith(item.href)}>
-                <Link href={item.href}>
-                    {item.icon}
-                    <span>{item.label}</span>
+                <SidebarMenuButton asChild size="lg" className="h-auto py-2" isActive={pathname.startsWith(item.href)}>
+                <Link href={item.href} className="flex items-center gap-3">
+                    <div className="shrink-0">{item.icon}</div>
+                    <div className="flex flex-col items-start">
+                        <span className="font-semibold">{item.title}</span>
+                        <span className="text-xs text-muted-foreground">{item.subtitle}</span>
+                    </div>
                 </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>
