@@ -43,8 +43,8 @@ export type AppCategory = {
 
 export const appCategories: AppCategory[] = [
   {
-    category: 'Business Ideation',
-    description: 'Tools to spark and refine your next big idea.',
+    category: 'Business Creation',
+    description: 'Tools to take your idea from concept to investor-ready.',
     apps: [
       {
         icon: BrainCircuit,
@@ -57,12 +57,6 @@ export const appCategories: AppCategory[] = [
         initialRating: 0,
         initialRaters: 0,
       },
-    ],
-  },
-  {
-    category: 'Business Creation',
-    description: 'Tools to take your idea from concept to investor-ready.',
-    apps: [
       {
         icon: Lightbulb,
         title: 'Business Idea Validation',
