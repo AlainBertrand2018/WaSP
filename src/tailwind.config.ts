@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 const { fontFamily } = require("tailwindcss/defaultTheme")
 
@@ -88,6 +89,10 @@ export default {
           from: { transform: 'rotate(0deg)' },
           to: { transform: 'rotate(360deg)' },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -95,6 +100,7 @@ export default {
         'float': 'float 3s ease-in-out infinite',
         'spotlight': "spotlight 2s ease .75s 1 forwards",
         'spin-slow': 'spin-slow 3s linear infinite',
+        'marquee': 'marquee 30s linear infinite',
       },
     },
   },
