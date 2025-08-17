@@ -45,15 +45,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
     changeFrequency: 'monthly',
   }));
+  
+  const dynamicEntries: MetadataRoute.Sitemap = Array.isArray(appCategories)
+    ? appCategories
+        .filter((c) => c && typeof c.category === 'string' && c.category.trim().length > 0)
+        .map((c) => ({
+          url: `${base}/apps/${slugify(c.category)}`,
+          lastModified: new Date(),
+          priority: 0.6,
+          changeFrequency: 'weekly',
+        }))
+    : [];
 
-  const dynamicEntries: MetadataRoute.Sitemap = appCategories
-    .filter((c) => c && typeof c.category === 'string' && c.category.trim().length > 0)
-    .map((c) => ({
-      url: `${base}/apps/${slugify(c.category)}`,
-      lastModified: new Date(),
-      priority: 0.6,
-      changeFrequency: 'weekly',
-    }));
 
   return [...staticEntries, ...dynamicEntries];
 }
