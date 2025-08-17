@@ -31,15 +31,15 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
-  civility: z.string().optional(),
-  first_name: z.string().optional(),
-  last_name: z.string().optional(),
+  civility: z.string({ required_error: 'Please select a title.' }),
+  first_name: z.string().min(1, { message: 'First name is required.' }),
+  last_name: z.string().min(1, { message: 'Last name is required.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
-  company_name: z.string().optional(),
-  position: z.string().optional(),
-  phone_number: z.string().optional(),
-  mobile_number: z.string().optional(),
+  company_name: z.string().min(1, { message: 'Company name is required.' }),
+  position: z.string().min(1, { message: 'Position is required.' }),
+  phone_number: z.string().min(1, { message: 'Phone number is required.' }),
+  mobile_number: z.string().min(1, { message: 'Mobile number is required.' }),
 });
 
 type SignUpFormValues = z.infer<typeof formSchema>;
@@ -55,6 +55,10 @@ export function SignUpForm() {
       last_name: '',
       email: '',
       password: '',
+      company_name: '',
+      position: '',
+      phone_number: '',
+      mobile_number: '',
     },
   });
 
