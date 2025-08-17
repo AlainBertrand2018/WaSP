@@ -46,16 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
   }));
 
-  // Coerce appCategories into an array of items with a "category" field
-  const raw = (appCategories as any);
-  const categories: Array<{ category: string }> =
-    Array.isArray(raw)
-      ? raw
-      : Array.isArray(raw?.categories)
-        ? raw.categories
-        : [];
-
-  const dynamicEntries: MetadataRoute.Sitemap = categories
+  const dynamicEntries: MetadataRoute.Sitemap = appCategories
     .filter((c) => c && typeof c.category === 'string' && c.category.trim().length > 0)
     .map((c) => ({
       url: `${base}/apps/${slugify(c.category)}`,

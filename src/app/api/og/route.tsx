@@ -303,7 +303,7 @@ export async function GET(req: Request) {
             opacity: 0.85,
           }}
         >
-          <div>avantaz.online</div>
+          <div>business-studio-ai.online</div>
           <div>© {new Date().getFullYear()} BusinessStudio AI</div>
         </div>
       </div>
