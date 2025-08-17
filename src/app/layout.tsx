@@ -18,45 +18,49 @@ const poppins = Poppins({
 });
 
 // Even with 'use client', metadata exports are still supported
+
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL("https://www.business-studio-ai.online"), // <-- absolute base URL
   title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
+    default: "BusinessStudio AI — Build, Validate & Launch in Mauritius",
+    template: "%s | BusinessStudio AI",
   },
-  description: siteConfig.description,
-  keywords: ["business plan", "SME Mauritius", "startup Mauritius", "AI business tools", "financial planning", "entrepreneurship"],
-  authors: [{ name: "Alain Bertrand", url: siteConfig.url }],
-  creator: "Alain Bertrand",
+  description:
+    "AI-powered platform to validate ideas, model finances, and generate investor-ready plans for Mauritian entrepreneurs and SMEs.",
+  alternates: {
+    canonical: "/",
+    languages: { "en-MU": "/", "fr-MU": "/fr" }, // adapt to your routes
+  },
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: siteConfig.url,
-    title: siteConfig.name,
-    description: siteConfig.description,
-    siteName: siteConfig.name,
+    type: "website",
+    url: "https://www.business-studio-ai.online",
+    siteName: "BusinessStudio AI",
+    title: "BusinessStudio AI — AI tools for Mauritian entrepreneurs",
+    description:
+      "From idea to investor-ready: validation, market research, financial modeling, and business plans.",
     images: [
       {
-        url: siteConfig.ogImage,
+        url: "/images/og-image.png", // 1200x630
         width: 1200,
         height: 630,
-        alt: siteConfig.name,
+        alt: "BusinessStudio AI social preview",
       },
     ],
   },
   twitter: {
-    card: 'summary_large_image',
-    title: siteConfig.name,
-    description: siteConfig.description,
-    images: [siteConfig.ogImage],
-    creator: '@AlainBertrandmu',
+    card: "summary_large_image",
+    site: "@alainbertrandmu", // if you have one
+    creator: "@alainbertrandmu",
+    title: "BusinessStudio AI — AI tools for Mauritian entrepreneurs",
+    description:
+      "Validate ideas, model finances, and create investor-ready plans.",
+    images: ["/images/og-image.png"],
   },
+  robots: { index: true, follow: true },
   icons: {
-    icon: '/images/favicon.ico',
-    shortcut: '/images/favicon-16x16.png',
-    apple: '/images/apple-touch-icon.png',
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
-  manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
 export const viewport: Viewport = {
