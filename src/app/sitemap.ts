@@ -1,62 +1,72 @@
 // app/sitemap.ts
-import type { MetadataRoute } from 'next';
-import { appCategories } from '@/lib/app-data';
-import { siteConfig } from '@/config/site';
+import type { MetadataRoute } from "next";
 
-// Slugify helper (kept from your version, minor tweaks)
-function slugify(text: string) {
-  return text
-    .toString()
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')       // spaces -> dashes
-    .replace(/&/g, 'and')       // "&" -> "and"
-    .replace(/[^\w-]+/g, '')    // strip non-word chars except dash
-    .replace(/--+/g, '-');      // collapse multiple dashes
+// If your sitemap is fully static, keep force-static.
+// If it depends on DB/CMS at request-time, use: export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
+
+function abs(base: string, path: string): string {
+  // robust absolute URL builder
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  return new URL(clean, base).toString();
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  // Ensure absolute base URL with no trailing slash
-  const base = (siteConfig?.url ?? 'https://example.com').replace(/\/+$/, '');
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Use the current deployment host when possible (e.g., preview URLs)…
+  // Fallback to your primary domain.
+  const base =
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    "https://www.business-studio-ai.online";
 
-  const routes = [
-    '', // home
-    '/apps',
-    '/faq',
-    '/investors_info',
-    '/privacy-policy',
-    '/login',
-    '/signup',
-    '/ideation',
-    '/ideation/brainstorming',
-    '/business-creation',
-    '/business-creation/business-idea-validation',
-    '/business-creation/mvp-planner',
-    '/business-creation/startup-budget-planner',
-    '/business-creation/business-plan-generator',
-    '/7-day-blueprint',
-    '/7-day-blueprint/d1',
-    '/business-management/crm-suite',
+  // 1) Static pages (edit to match your site)
+  const staticPaths: string[] = [
+    "/",
+    "/apps",
+    "/faq",
+    "/investors_info",
+    "/privacy-policy",
+    "/login",
+    "/signup",
+    "/ideation",
+    "/ideation/brainstorming",
+    "/business-creation",
+    "/business-creation/business-idea-validation",
+    "/business-creation/mvp-planner",
+    "/business-creation/startup-budget-planner",
+    "/business-creation/business-plan-generator",
+    "/7-day-blueprint",
   ];
 
-  const staticEntries: MetadataRoute.Sitemap = routes.map((route) => ({
-    url: route ? `${base}${route}` : `${base}/`,
-    lastModified: new Date(),
-    priority: route === '' ? 1 : 0.8,
-    changeFrequency: 'monthly',
+  const now = new Date();
+  const staticEntries: MetadataRoute.Sitemap = staticPaths.map((p) => ({
+    url: abs(base, p),
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.6,
   }));
-  
-  const dynamicEntries: MetadataRoute.Sitemap = Array.isArray(appCategories)
-    ? appCategories
-        .filter((c) => c && typeof c.category === 'string' && c.category.trim().length > 0)
-        .map((c) => ({
-          url: `${base}/apps/${slugify(c.category)}`,
-          lastModified: new Date(),
-          priority: 0.6,
-          changeFrequency: 'weekly',
-        }))
-    : [];
 
+  // 2) Dynamic pages (guard EVERYTHING to avoid .filter on non-arrays)
+  // Example shape—replace with your real source
+  let appRecords: Array<{ slug: string; updatedAt?: string }> = [];
+  try {
+    // If you fetch from a CMS/API, keep a revalidate or switch to force-dynamic at the top.
+    // Example: const res = await fetch(`${base}/api/apps`, { next: { revalidate: 60 } });
+    // const data = await res.json();
+    const data: unknown = []; // <-- replace with real data
+    if (Array.isArray(data)) appRecords = data as typeof appRecords;
+  } catch {
+    // ignore; fall back to static only
+  }
+
+  const dynamicEntries: MetadataRoute.Sitemap = (Array.isArray(appRecords)
+    ? appRecords
+    : []
+  ).map((app) => ({
+    url: abs(base, `/apps/${encodeURIComponent(app.slug)}`),
+    lastModified: app.updatedAt ? new Date(app.updatedAt) : now,
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
 
   return [...staticEntries, ...dynamicEntries];
 }
