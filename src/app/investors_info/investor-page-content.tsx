@@ -39,7 +39,9 @@ export default function InvestorPageContent() {
                 <CardContent className="p-6 md:p-8">
                     
                     <Section title="Executive Summary" icon={<Target className="text-primary" />}>
-                        <p>BusinessStudio AI is a first-of-its-kind Webapps-as-Software Platform (WaSP) designed exclusively for the Mauritian market. We empower entrepreneurs, startups, and SMEs by providing an integrated suite of AI-powered tools that streamline the journey from idea conception to an investor-ready business. By automating complex tasks like market validation, financial modeling, and business plan creation, we significantly reduce the time, cost, and friction associated with launching and scaling a business in Mauritius. We are seeking seed funding to scale our platform, expand our user base, and solidify our position as the essential digital backbone for Mauritian enterprise.</p>
+                        <p>BusinessStudio AI is a first-of-its-kind Webapps-as-Software Platform (WaSP) designed primarily for the Mauritian market. It is designed with goal to empower local entrepreneurs, startups, and SMEs by providing an integrated suite of simple-to-use AI-powered tools that streamline their journey from idea conception to an investor-ready business. 
+By automating complex tasks like market and compliance validation, financial modeling, and business plan creation, we significantly reduce the time, cost, and friction associated with launching and scaling a business in Mauritius. We are seeking seed funding to perfect our platform, acquire traction via a local user base, solidify our position as an essential digital player for Mauritian enterprises and more importantly, prepare for solid scalability.
+</p>
                     </Section>
 
                     <Section title="The Problem & The Opportunity" icon={<Puzzle className="text-primary" />}>
@@ -48,15 +50,16 @@ export default function InvestorPageContent() {
                             <li><strong>Lack of Accessible Tools:</strong> Entrepreneurs rely on generic, international software that doesn't account for local market specifics, regulations, or business culture.</li>
                             <li><strong>High Barrier to Entry:</strong> The cost and complexity of professional business planning, market research, and financial forecasting are prohibitive for many startups.</li>
                             <li><strong>Fragmented Workflow:</strong> Founders waste valuable time juggling disconnected tools for ideation, finance, and management, leading to inefficiency and costly errors.</li>
+                            <li><strong>Scattered Information:</strong> The absence of centralized, sector-specific guidance leads to costly delays and inefficiencies for Mauritian entrepreneurs navigating compliance and business requirements.</li>
                         </ul>
                         <p className="mt-2 font-semibold">And thus, the opportunity is promisingly very clear: to provide a centralized, affordable, and localized platform that democratizes the tools for business success in Mauritius. Beyond that there is also the perspective of acquiring premium skills and expertise by making the Mauritius SME/ Entrepreneurs/ Startups niches the perfect sandbox in view of international expansion.</p>
                     </Section>
 
                     <Section title="Our Solution: The WaSP (Webapps-as-Software Platform)" icon={<Gem className="text-primary" />}>
-                        <p>BusinessStudio AI is an all-in-one command center that guides users through every stage of business creation and management. Our key differentiator is our AI, which is fine-tuned on data specific to the Mauritian business ecosystem, providing relevant, actionable insights that generic tools cannot match.</p>
+                        <p>BusinessStudio AI is a fully mobile-ready all-in-one command center that guides users through every stage of business creation and management. Our key differentiator is our AI, CLAIRE, which is fine-tuned on data specific to the Mauritian (local) business ecosystem, providing relevant, actionable insights that generic tools cannot match on the fly.</p>
                         <ul className="list-disc pl-5">
                             <li><strong>AI-Powered Guidance:</strong> From validating an idea's market fit to generating financial projections, our AI acts as a co-pilot for the user.</li>
-                            <li><strong>End-to-End Workflow:</strong> We cover the entire lifecycle: Ideation → Validation → MVP Planning → Budgeting → Business Plan → Ongoing Management.</li>
+                            <li><strong>End-to-End Workflow:</strong> We cover the entire lifecycle: Ideation → Validation → MVP Planning → Budgeting → Business Plan → Ongoing Management → Compliance Validation → Marketing and Advertising, etc.</li>
                             <li><strong>Localized Content:</strong> All generated content, from market analysis to compliance checks, is tailored for Mauritius.</li>
                         </ul>
                     </Section>
@@ -69,7 +72,7 @@ export default function InvestorPageContent() {
                     </div>
 
                     <Section title="Target Market" icon={<Users className="text-primary" />}>
-                        <p>The addressable market in Mauritius is substantial and growing. It is composed of over 140,000 SMEs and sees approximately 15,000 new business registrations annually. Our objective is to capture between 2% and 5% of this dynamic niche within the next 24 months through aggressive advertising and social media campaigns.</p>
+                        <p>The addressable market in Mauritius is substantial and growing. It is composed of over 140,000 SMEs and sees approximately 15,000 new business registrations annually. Our prime commercial objective is to incrementally capture between 0.1% and 10% of this dynamic niche monthly, within the next 24 months through aggressive advertising and social media campaigns.</p>
                         <p>Our primary market consists of three key segments within this niche:</p>
                         <ul className="list-disc pl-5">
                             <li><strong>Aspiring Entrepreneurs:</strong> Individuals at the ideation stage who need guidance and structure to turn their vision into a viable plan.</li>
@@ -111,7 +114,7 @@ export default function InvestorPageContent() {
                             <li><strong>Test Drive (Freemium):</strong> Offers limited access to core features, serving as an entry point to demonstrate value and capture leads.</li>
                             <li><strong>Business Tool Kits (MUR 200/seat/month):</strong> A la carte access to specific tool suites, providing a flexible, low-cost entry for SMEs with targeted needs.</li>
                             <li><strong>PRO (MUR 400/seat/month):</strong> Our flagship offering with unlimited access to all tool suites, designed for serious founders and teams requiring a comprehensive solution.</li>
-                            <li><strong>AI Transformation Blueprints (Enterprise):</strong> Custom-priced solutions for established companies seeking to integrate AI workflows, including training and support.</li>
+                            <li><strong>AI Transformation Blueprints for Enterprises (as from MUR 100k):</strong> Custom-priced solutions for established companies seeking to assess, plan and integrate AI workflows, including training and support.</li>
                         </ul>
 
                         <h4 className="font-semibold text-foreground mt-4">Revenue Projections (Based on Assumptions):</h4>
@@ -123,18 +126,18 @@ export default function InvestorPageContent() {
                     </Section>
 
                     <Section title="Growth Strategy: Market Share and Expertise" icon={<Scaling className="text-primary" />}>
-                         <p>Our growth strategy is twofold. Firstly, we will focus on user conversion and upselling within our SaaS model, driving towards our goal of 2-5% market capture by guiding businesses from free trials to comprehensive PRO plans as they scale.</p>
+                         <p>Our growth strategy is twofold. Firstly, we will focus on user conversion and upselling within our SaaS model, driving towards our goal of 10% market capture by guiding businesses from free trials to comprehensive PRO plans as they scale.</p>
                          <p>Secondly, we will aggressively pursue the enterprise market by offering premium "AI Transformation Blueprints." Serving larger companies that require modernization and expansion not only creates a high-margin revenue stream but also deepens our domain expertise. This positions BusinessStudio AI as a leader in corporate AI adoption and builds a powerful, defensible moat of localized knowledge.</p>
                     </Section>
 
                      <Section title="Long-Term Vision: Regional and Continental Expansion" icon={<Globe className="text-primary" />}>
                         <p>Our ambition extends beyond Mauritius. We envision our locally-acquired expertise as a critical springboard for regional and continental expansion, specifically targeting the Indian Ocean Rim and the broader African market.</p>
-                         <p>The African continent represents an enormous opportunity, with an estimated 400 million+ SMEs that form the backbone of its economy. This landscape is ripe for digital transformation. Our vision is to adapt and scale our proven platform to meet the unique needs of these diverse markets.</p>
+                         <p>The African continent represents an enormous opportunity, with an estimated 245 million+ SMEs that form the backbone of its economy. This landscape is ripe for digital transformation. Our vision is to adapt and scale our proven platform to meet the unique needs of these diverse markets.</p>
                         <h4 className="font-semibold text-foreground mt-4">Strategic Expansion Goals (5-10 Years):</h4>
                         <ul className="list-disc pl-5">
                             <li><strong>Establish Key Hubs:</strong> Launch operations in strategic economic hubs like Kenya, Nigeria, and South Africa.</li>
                             <li><strong>Form Local Partnerships:</strong> Collaborate with local incubators, financial institutions, and government bodies to tailor our offering.</li>
-                            <li><strong>Quantified Objective:</strong> Capture 0.01% of the African SME market, translating to empowering over 40,000 businesses. This represents a significant, scalable, and impactful long-term revenue opportunity.</li>
+                            <li><strong>Quantified Objective:</strong> Capture 0.01% of the African SME market, translating to empowering over 25,000 businesses. This represents a significant, scalable, and impactful long-term revenue opportunity.</li>
                         </ul>
                     </Section>
 
@@ -143,9 +146,9 @@ export default function InvestorPageContent() {
                         <h4 className="font-semibold text-foreground mt-4">Allocation of Funds:</h4>
                         <p>The requested capital will be strategically allocated across the following key areas to maximize growth and value creation:</p>
                         <ul className="list-disc pl-5">
-                            <li><strong>Product Development & R&D (40% - MUR 1,800,000):</strong> Core platform enhancements, development of new AI-powered tool suites, and initial R&D for regional adaptation.</li>
-                            <li><strong>Marketing & Sales (30% - MUR 1,350,000):</strong> Funding for aggressive digital marketing campaigns, content creation, and social media outreach to achieve our target market capture rate of 2-5%.</li>
-                            <li><strong>Payroll (20% - MUR 900,000):</strong> Salaries for a lean, core team (Founder, Lead Developer, Marketing/Growth Lead) to drive the product roadmap and user acquisition.</li>
+                            <li><strong>Product Development & R&D (30% - MUR 1,350,000):</strong> Core platform enhancements, development of new AI-powered tool suites, and initial R&D for regional adaptation.</li>
+                            <li><strong>Marketing & Sales (20% - MUR 900,000):</strong> Funding for aggressive digital marketing campaigns, content creation, and social media outreach to achieve our target market capture rate of 2-5%.</li>
+                            <li><strong>Payroll (40% - MUR 1,800,000):</strong> Salaries for a lean, core team (Founder, Lead Developer, Marketing/Growth Lead) to drive the product roadmap and user acquisition.</li>
                             <li><strong>Operational Costs & Contingency (10% - MUR 450,000):</strong> Covers hosting, software licenses, administrative costs, and a crucial buffer for unforeseen expenses and opportunities.</li>
                         </ul>
                         <p className="mt-2">This funding will enable us to hit our target of 100+ paying businesses, achieve a strong product-market fit, and build the foundation for our long-term vision of regional expansion.</p>
