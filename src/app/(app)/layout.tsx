@@ -41,8 +41,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     pathname === '/ideation' || 
     pathname === '/business-creation' || 
     pathname === '/dashboard' ||
-    pathname === '/business-management' || // Added this line
+    pathname === '/business-management' ||
     pathname === '/business-management/insights-dashboard';
+    
+  const isSmeInfoPage = pathname === '/sme-info';
 
   const pageVariants = {
     initial: {
@@ -100,7 +102,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 transition={pageTransition}
                 className={cn(
                   "flex-1",
-                  !isLandingPage && "p-4 sm:p-6" // Apply padding to all pages except specified landing pages
+                  !isLandingPage && !isSmeInfoPage && "p-4 sm:p-6", // Apply padding to all pages except specified landing pages and sme-info
+                  isSmeInfoPage && "flex flex-col" // Full height for sme-info page
                 )}
               >
                 {children}

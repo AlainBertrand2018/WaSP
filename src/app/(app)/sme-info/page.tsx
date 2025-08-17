@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function SmeInfoPage() {
     return (
-        <div className="flex flex-col flex-1 w-full">
+        <div className="flex flex-col flex-1 w-full p-4">
             <Card className="w-full flex-1 flex flex-col">
                 <CardHeader>
                     <CardTitle className="text-3xl">SME & Startup Dashboard for Mauritius</CardTitle>

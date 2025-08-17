@@ -1,5 +1,6 @@
 
 import { Suspense } from 'react';
+import type { Metadata } from 'next';
 import {
   Card,
   CardDescription,
@@ -8,6 +9,20 @@ import {
 } from '@/components/ui/card';
 import LoginForm from './login-form';
 import { Skeleton } from '@/components/ui/skeleton';
+
+export const metadata: Metadata = {
+    title: 'Login',
+    description: 'Sign in to your BusinessStudio AI account to access your dashboard and tools.',
+    openGraph: {
+        title: 'Login | BusinessStudio AI',
+        description: 'Sign in to your BusinessStudio AI account to access your dashboard and tools.',
+    },
+    twitter: {
+        title: 'Login | BusinessStudio AI',
+        description: 'Sign in to your BusinessStudio AI account to access your dashboard and tools.',
+    }
+};
+
 
 function LoginFormSkeleton() {
     return (
