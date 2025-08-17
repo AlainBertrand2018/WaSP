@@ -1,80 +1,64 @@
 
 /**
- * @fileOverview Zustand store for managing the global state of the user's business profile.
+ * @fileOverview Zustand store for managing the user's multiple business profiles.
  */
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
+// Matches the structure of the business_profiles table in Supabase
 export type BusinessProfile = {
-  businessType: string;
-  otherBusinessType: string;
-  businessForm: string;
-  otherBusinessForm: string;
-  brn: string;
-  isVatRegistered: string;
-  vatNumber: string;
-  isStartup: boolean;
-  annualTurnover: string;
-  grossIncome: string;
-  projectedAnnualIncomeThreshold: string;
-  hasEmployees: string;
-  numberOfEmployees: string;
-  industry: string;
-  businessName: string;
-  website: string;
-  description: string;
-  logo: string;
-  mainGoal: string;
-  biggestChallenge: string;
+  id: string; // uuid
+  user_id: string; // uuid from auth.users
+  business_type: string;
+  other_business_type?: string;
+  business_form?: string;
+  other_business_form?: string;
+  brn?: string;
+  is_vat_registered: boolean;
+  vat_number?: string;
+  is_startup: boolean;
+  annual_turnover?: string;
+  gross_income?: string;
+  projected_annual_income_threshold?: string;
+  has_employees: boolean;
+  number_of_employees?: number;
+  industry?: string;
+  business_name: string;
+  website?: string;
+  description?: string;
+  logo_url?: string;
+  main_goal?: string;
+  biggest_challenge?: string;
+  created_at: string; // timestamptz
 };
 
 type BusinessProfileState = {
-  profile: BusinessProfile | null;
-  setProfile: (profile: BusinessProfile) => void;
-  updateProfile: (data: Partial<BusinessProfile>) => void;
-  isSaved: boolean;
-  setIsSaved: (saved: boolean) => void;
+  profiles: BusinessProfile[];
+  activeProfile: BusinessProfile | null;
+  setProfiles: (profiles: BusinessProfile[]) => void;
+  addProfile: (profile: BusinessProfile) => void;
+  updateProfile: (profile: BusinessProfile) => void;
+  setActiveProfile: (profile: BusinessProfile | null) => void;
   reset: () => void;
-};
-
-const initialState: BusinessProfile = {
-  businessType: 'Company',
-  otherBusinessType: '',
-  businessForm: 'Private Company',
-  otherBusinessForm: '',
-  brn: 'C12345678',
-  isVatRegistered: 'Yes',
-  vatNumber: 'VAT27123456',
-  isStartup: true,
-  annualTurnover: '5000000',
-  grossIncome: '4500000',
-  projectedAnnualIncomeThreshold: '',
-  hasEmployees: 'Yes',
-  numberOfEmployees: '5',
-  industry: 'Information Technology & BPO',
-  businessName: 'Innovatech Solutions Ltd',
-  website: 'https://innovatech.mu',
-  description: 'A dynamic IT company providing bespoke software solutions and AI consultancy to Mauritian SMEs.',
-  logo: '',
-  mainGoal: 'increase-sales',
-  biggestChallenge: 'Finding qualified talent and navigating the competitive landscape for government tenders.'
 };
 
 export const useBusinessProfileStore = create<BusinessProfileState>()(
   persist(
     (set) => ({
-      profile: initialState, // Start with pre-filled data
-      isSaved: true, // Assume it's "saved" by default for demo
-      setProfile: (profile) => set({ profile, isSaved: true }),
-      updateProfile: (data) =>
-        set((state) => ({
-          profile: state.profile ? { ...state.profile, ...data } : null,
-        })),
-      setIsSaved: (saved) => set({ isSaved: saved }),
-      reset: () => set({ profile: initialState, isSaved: false }),
+      profiles: [],
+      activeProfile: null,
+      setProfiles: (profiles) => set({ profiles }),
+      addProfile: (profile) => set((state) => ({ profiles: [...state.profiles, profile] })),
+      updateProfile: (profile) => set((state) => ({
+          profiles: state.profiles.map((p) => p.id === profile.id ? profile : p),
+          // Also update the active profile if it's the one being edited
+          activeProfile: state.activeProfile?.id === profile.id ? profile : state.activeProfile,
+      })),
+      setActiveProfile: (profile) => set({ activeProfile: profile }),
+      reset: () => set({ profiles: [], activeProfile: null }),
     }),
     {
-      name: 'business-profile-storage',
+      name: 'business-profile-storage-v2', // New name to avoid conflicts with old structure
       storage: createJSONStorage(() => sessionStorage),
     }
   )
