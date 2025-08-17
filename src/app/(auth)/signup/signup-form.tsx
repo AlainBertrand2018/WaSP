@@ -31,7 +31,7 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
-  civility: z.string({ required_error: 'Please select a title.' }),
+  civility: z.string({ required_error: 'Please select a title.' }).min(1, 'Please select a title.'),
   first_name: z.string().min(1, { message: 'First name is required.' }),
   last_name: z.string().min(1, { message: 'Last name is required.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
