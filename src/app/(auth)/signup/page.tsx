@@ -1,56 +1,49 @@
 
-import { Button } from '@/components/ui/button';
+import { Suspense } from 'react';
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import Link from 'next/link';
+import { SignUpForm } from './signup-form';
+import { Skeleton } from '@/components/ui/skeleton';
+
+function SignUpFormSkeleton() {
+    return (
+        <div className="grid gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid gap-2">
+                    <Skeleton className="h-4 w-12" />
+                    <Skeleton className="h-10 w-full" />
+                </div>
+                 <div className="grid gap-2">
+                    <Skeleton className="h-4 w-12" />
+                    <Skeleton className="h-10 w-full" />
+                </div>
+            </div>
+             <div className="grid gap-2">
+                <Skeleton className="h-4 w-12" />
+                <Skeleton className="h-10 w-full" />
+            </div>
+            {/* ... more skeletons ... */}
+             <Skeleton className="h-10 w-full" />
+        </div>
+    )
+}
 
 export default function SignupPage() {
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle className="text-2xl">Sign Up</CardTitle>
+        <CardTitle className="text-2xl">Create an Account</CardTitle>
         <CardDescription>
-          Enter your information to create an account
+          Enter your information to create an account and get started.
         </CardDescription>
       </CardHeader>
-      <CardContent className="grid gap-4">
-        <div className="grid gap-2">
-          <Label htmlFor="first-name">Full name</Label>
-          <Input id="first-name" placeholder="Max Robinson" required />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="m@example.com"
-            required
-          />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" />
-        </div>
-      </CardContent>
-      <CardFooter className="flex flex-col gap-4">
-        <Button className="w-full" asChild>
-          <Link href="/apps">Create account</Link>
-        </Button>
-        <div className="text-sm text-muted-foreground">
-          Already have an account?{' '}
-          <Link href="/login" className="underline">
-            Login
-          </Link>
-        </div>
-      </CardFooter>
+      <Suspense fallback={<SignUpFormSkeleton />}>
+        <SignUpForm />
+      </Suspense>
     </Card>
   );
 }
