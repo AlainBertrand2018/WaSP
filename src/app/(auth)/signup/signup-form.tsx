@@ -31,7 +31,7 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
-  civility: z.string({ required_error: 'Please select a title.' }).min(1, 'Please select a title.'),
+  civility: z.string().min(1, 'Please select a title.'),
   first_name: z.string().min(1, { message: 'First name is required.' }),
   last_name: z.string().min(1, { message: 'Last name is required.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
@@ -61,25 +61,6 @@ export function SignUpForm() {
       mobile_number: '',
     },
   });
-
-  async function handleSocialLogin(provider: 'google' | 'linkedin') {
-    setIsLoading(true);
-    const { origin } = window.location;
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${origin}/auth/callback`,
-      },
-    });
-    if (error) {
-      toast({
-        title: 'Authentication Error',
-        description: error.message,
-        variant: 'destructive',
-      });
-      setIsLoading(false);
-    }
-  }
 
   async function onSubmit(values: SignUpFormValues) {
     setIsLoading(true);
@@ -134,24 +115,6 @@ export function SignUpForm() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Button type="button" variant="outline" onClick={() => handleSocialLogin('google')} disabled={isLoading}>
-                Sign up with Google
-              </Button>
-              <Button type="button" variant="outline" onClick={() => handleSocialLogin('linkedin')} disabled={isLoading}>
-                Sign up with LinkedIn
-              </Button>
-            </div>
-
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">Or continue with email</span>
-              </div>
-            </div>
-            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                <FormField
                   control={form.control}
