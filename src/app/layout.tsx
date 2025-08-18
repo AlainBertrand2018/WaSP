@@ -18,7 +18,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   icons: {
-    icon: 'https://www.business-studio-ai.online/favicon.ico',
+    icon: 'https://www.business-studio-ai.online/images/favicon.ico',
   },
 };
 
