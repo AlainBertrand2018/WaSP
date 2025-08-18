@@ -18,55 +18,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     process.env.NEXT_PUBLIC_SITE_URL ??
     "https://www.business-studio-ai.online";
 
-  // 1) Static pages (edit to match your site)
-  const staticPaths: string[] = [
-    "/",
-    "/apps",
-    "/faq",
-    "/investors_info",
-    "/privacy-policy",
-    "/login",
-    "/signup",
-    "/ideation",
-    "/ideation/brainstorming",
-    "/business-creation",
-    "/business-creation/business-idea-validation",
-    "/business-creation/mvp-planner",
-    "/business-creation/startup-budget-planner",
-    "/business-creation/business-plan-generator",
-    "/7-day-blueprint",
+  const now = new Date();
+  
+  // Returning only the homepage for now.
+  const staticEntries: MetadataRoute.Sitemap = [
+    {
+      url: abs(base, "/"),
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 1, // Homepage gets top priority
+    },
   ];
 
-  const now = new Date();
-  const staticEntries: MetadataRoute.Sitemap = staticPaths.map((p) => ({
-    url: abs(base, p),
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.6,
-  }));
-
-  // 2) Dynamic pages (guard EVERYTHING to avoid .filter on non-arrays)
-  // Example shape—replace with your real source
-  let appRecords: Array<{ slug: string; updatedAt?: string }> = [];
-  try {
-    // If you fetch from a CMS/API, keep a revalidate or switch to force-dynamic at the top.
-    // Example: const res = await fetch(`${base}/api/apps`, { next: { revalidate: 60 } });
-    // const data = await res.json();
-    const data: unknown = []; // <-- replace with real data
-    if (Array.isArray(data)) appRecords = data as typeof appRecords;
-  } catch {
-    // ignore; fall back to static only
-  }
-
-  const dynamicEntries: MetadataRoute.Sitemap = (Array.isArray(appRecords)
-    ? appRecords
-    : []
-  ).map((app) => ({
-    url: abs(base, `/apps/${encodeURIComponent(app.slug)}`),
-    lastModified: app.updatedAt ? new Date(app.updatedAt) : now,
-    changeFrequency: "weekly",
-    priority: 0.7,
-  }));
-
-  return [...staticEntries, ...dynamicEntries];
+  return staticEntries;
 }
