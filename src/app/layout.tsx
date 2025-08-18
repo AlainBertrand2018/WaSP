@@ -9,6 +9,7 @@ import Chatbot from '@/components/feature/chatbot';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AudioPlayer } from '@/components/feature/audio-player';
+import { siteConfig } from '@/config/site';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -16,29 +17,33 @@ const poppins = Poppins({
   variable: '--font-sans',
 });
 
-// Correctly generate metadata as per your instructions
+// Generate metadata dynamically
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.business-studio-ai.online"),
-  title: "BusinessStudio AI – AI tools for Mauritian entrepreneurs",
-  description: "Streamlined idea validation, financial modeling, and investor-ready plans.",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
   openGraph: {
     type: "website",
-    url: "https://www.business-studio-ai.online/",
-    title: "BusinessStudio AI",
-    description: "AI tools for Mauritian entrepreneurs & SMEs.",
-    images: ["/images/og-image.png"],
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BusinessStudio AI",
-    description: "AI tools for Mauritian entrepreneurs & SMEs.",
-    images: ["/images/og-image.png"],
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
   },
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
 };
+
 
 export const viewport: Viewport = {
   themeColor: [
