@@ -11,6 +11,7 @@ import { useAudioPlayerStore } from "@/store/audio-player-store";
 import Image from "next/image";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 
 const Section = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
@@ -178,7 +179,7 @@ By automating complex tasks like market and compliance validation, financial mod
                         <p className="mt-2">The requested capital will be strategically allocated across the following key areas to maximize growth and value creation:</p>
                         <ul className="list-disc pl-5">
                             <li><strong>Product Development & R&D (28% - MUR 1,260,000):</strong> Core platform enhancements, development of new AI-powered tool suites, and initial R&D for regional adaptation.</li>
-                            <li><strong>Sales, Marketing & Growth (42% - MUR 1,890,000):</strong> Funding for aggressive digital marketing campaigns, content creation, and social media outreach to achieve our target market capture rate of 2-5%.</li>
+                            <li><strong>Sales, Marketing & Growth (42% - MUR 1,890,000):</strong> Funding for aggressive digital marketing campaigns, content creation, and social media outreach to achieve our target market capture of 2-5%.</li>
                             <li><strong>Talent Acquisition (15% - MUR 675,000):</strong> Minimum salaries for a lean, 3-member core team (Founder, Lead Developer, Marketing/Growth Lead) to drive the product roadmap and user acquisition.</li>
                             <li><strong>Operational, Admin & Compliance (7% - MUR 315,000):</strong> Covers hosting, software licenses, administrative costs, and other operation-linked expenses.</li>
                             <li><strong>Contingency & Runway Buffer (8% - MUR 360,000):</strong> A crucial buffer for unforeseen expenses and opportunities.</li>
@@ -188,12 +189,21 @@ By automating complex tasks like market and compliance validation, financial mod
 
                     <Accordion type="single" collapsible className="w-full mb-8">
                         <AccordionItem value="item-1" className="border-b-0">
-                            <AccordionTrigger className="flex items-center gap-3 text-2xl font-semibold mb-3 hover:no-underline">
-                                <div className="flex items-center gap-3">
-                                  <TrendingUp className="text-primary" />
-                                  <span>What's in for the Investors?</span>
-                                </div>
-                            </AccordionTrigger>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <AccordionTrigger className="flex items-center gap-3 text-2xl font-semibold mb-3 hover:no-underline">
+                                            <div className="flex items-center gap-3">
+                                            <TrendingUp className="text-primary" />
+                                            <span>What's in for the Investors?</span>
+                                            </div>
+                                        </AccordionTrigger>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Click to expand/collapse</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                             <AccordionContent>
                                 <div className="prose prose-sm max-w-none text-muted-foreground ml-9">
                                     <p>We are offering 20–30% equity for Rs 4.5M, with a clear trajectory to transform this into a Rs 225M–2.25B valuation opportunity within 3–5 years through African SME adoption.</p>
