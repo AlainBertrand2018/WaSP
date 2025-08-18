@@ -17,48 +17,43 @@ const poppins = Poppins({
   variable: '--font-sans',
 });
 
-// Even with 'use client', metadata exports are still supported
-
+// Correctly generate metadata using siteConfig
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.business-studio-ai.online"), // <-- absolute base URL
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "BusinessStudio AI — Build, Validate & Launch in Mauritius",
-    template: "%s | BusinessStudio AI",
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    "AI-powered platform to validate ideas, model finances, and generate investor-ready plans for Mauritian entrepreneurs and SMEs.",
+  description: siteConfig.description,
   alternates: {
     canonical: "/",
-    languages: { "en-MU": "/", "fr-MU": "/fr" }, // adapt to your routes
   },
   openGraph: {
     type: "website",
-    url: "https://www.business-studio-ai.online",
-    siteName: "BusinessStudio AI",
-    title: "BusinessStudio AI — AI tools for Mauritian entrepreneurs",
-    description:
-      "From idea to investor-ready: validation, market research, financial modeling, and business plans.",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    description: siteConfig.description,
     images: [
       {
-        url: "/api/og", // Use the dynamic OG image generator
+        url: `${siteConfig.url}/api/og`, // Ensure absolute URL
         width: 1200,
         height: 630,
-        alt: "BusinessStudio AI social preview",
+        alt: siteConfig.name,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@alainbertrandmu", // if you have one
+    site: "@alainbertrandmu",
     creator: "@alainbertrandmu",
-    title: "BusinessStudio AI — AI tools for Mauritian entrepreneurs",
-    description:
-      "Validate ideas, model finances, and create investor-ready plans.",
-    images: ["/api/og"], // Use the dynamic OG image generator
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [`${siteConfig.url}/api/og`], // Ensure absolute URL
   },
   robots: { index: true, follow: true },
   icons: {
-    icon: "https://www.business-studio-ai.online/favicon.ico",
+    icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
 };
