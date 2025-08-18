@@ -2,8 +2,9 @@
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
-import { ThemeProvider } from '@/components/layout/theme-provider';
 import { cn } from '@/lib/utils';
+import Providers from '@/components/layout/providers';
+import { siteConfig } from '@/config/site';
 
 const fontSans = Poppins({
   subsets: ['latin'],
@@ -13,11 +14,33 @@ const fontSans = Poppins({
 
 // A template title for other pages in the app
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    template: '%s | BusinessStudio AI',
-    default: 'BusinessStudio AI',
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
   },
-  description: 'AI-powered tools for Mauritian entrepreneurs',
+  description: siteConfig.description,
+  openGraph: {
+    type: 'website',
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [
+      {
+        url: `${siteConfig.url}/api/og`,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [`${siteConfig.url}/api/og`],
+  },
 };
 
 export default function RootLayout({
@@ -28,14 +51,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <Providers>
           {children}
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

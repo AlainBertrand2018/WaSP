@@ -9,17 +9,12 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import React from 'react';
-import { Toaster } from '@/components/ui/toaster';
-import Chatbot from '@/components/feature/chatbot';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { appTitles } from '@/lib/app-titles';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AudioPlayer } from '@/components/feature/audio-player';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -122,11 +117,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </footer>
           </div>
         </SidebarInset>
-        <Toaster />
-        <Chatbot />
-        <AudioPlayer />
-        <Analytics />
-        <SpeedInsights />
       </SidebarProvider>
   );
 }
