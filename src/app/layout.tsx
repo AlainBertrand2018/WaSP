@@ -9,7 +9,6 @@ import Chatbot from '@/components/feature/chatbot';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { AudioPlayer } from '@/components/feature/audio-player';
-import { siteConfig } from '@/config/site';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -17,39 +16,23 @@ const poppins = Poppins({
   variable: '--font-sans',
 });
 
-// Correctly generate metadata using siteConfig
+// Correctly generate metadata as per your instructions
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: siteConfig.name,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  alternates: {
-    canonical: "/",
-  },
+  metadataBase: new URL("https://www.business-studio-ai.online"),
+  title: "BusinessStudio AI – AI tools for Mauritian entrepreneurs",
+  description: "Streamlined idea validation, financial modeling, and investor-ready plans.",
   openGraph: {
     type: "website",
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    title: siteConfig.name,
-    description: siteConfig.description,
-    images: [
-      {
-        url: siteConfig.ogImage,
-        width: 1200,
-        height: 630,
-        alt: siteConfig.name,
-      },
-    ],
+    url: "https://www.business-studio-ai.online/",
+    title: "BusinessStudio AI",
+    description: "AI tools for Mauritian entrepreneurs & SMEs.",
+    images: ["/images/og-image.png"],
   },
   twitter: {
     card: "summary_large_image",
-    site: "@alainbertrandmu",
-    creator: "@alainbertrandmu",
-    title: siteConfig.name,
-    description: siteConfig.description,
-    images: [siteConfig.ogImage], 
+    title: "BusinessStudio AI",
+    description: "AI tools for Mauritian entrepreneurs & SMEs.",
+    images: ["/images/og-image.png"],
   },
   icons: {
     icon: "/favicon.ico",
