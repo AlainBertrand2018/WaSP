@@ -3,7 +3,6 @@
 
 import * as React from 'react';
 import { ThemeProvider } from 'next-themes';
-import { type ThemeProviderProps } from 'next-themes/dist/types';
 import { useMounted } from '@/hooks/use-mounted';
 import { Toaster } from '@/components/ui/toaster';
 import Chatbot from '@/components/feature/chatbot';
@@ -16,6 +15,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   // This ensures that the client-only providers are only rendered on the client.
   if (!isMounted) {
+    // Render a static version on the server to avoid hydration mismatches
     return <>{children}</>;
   }
   
