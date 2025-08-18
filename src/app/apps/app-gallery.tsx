@@ -171,31 +171,34 @@ export default function AppGallery() {
             </section>
 
             <div className="space-y-12">
-                {appCategories.map((category) => (
-                <section key={category.category} id={slugify(category.category)} className="scroll-mt-24">
-                    <div className="mb-4">
-                        <div className="flex items-center gap-3">
-                            <Link href={category.href} target="_blank" rel="noopener noreferrer" className="text-2xl font-semibold tracking-tight hover:underline">
-                                {category.category}
-                            </Link>
-                             <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                        <p className="text-muted-foreground mt-1">
-                            {category.description}
-                        </p>
-                    </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6">
-                        {category.apps.map((app) => (
-                            <AppCard
-                                key={app.title}
-                                app={app}
-                                ratingState={ratings[app.title]}
-                                onRatingChange={(newRating) => handleRatingChange(app.title, newRating)}
-                            />
-                        ))}
-                    </div>
-                </section>
-                ))}
+                {appCategories.map((category) => {
+                    const isExternal = category.href.startsWith('http');
+                    return (
+                        <section key={category.category} id={slugify(category.category)} className="scroll-mt-24">
+                            <div className="mb-4">
+                                <div className="flex items-center gap-3">
+                                    <Link href={category.href} target={isExternal ? '_blank' : '_self'} rel={isExternal ? 'noopener noreferrer' : ''} className="text-2xl font-semibold tracking-tight hover:underline">
+                                        {category.category}
+                                    </Link>
+                                    {isExternal && <ExternalLink className="h-4 w-4 text-muted-foreground" />}
+                                </div>
+                                <p className="text-muted-foreground mt-1">
+                                    {category.description}
+                                </p>
+                            </div>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-6">
+                                {category.apps.map((app) => (
+                                    <AppCard
+                                        key={app.title}
+                                        app={app}
+                                        ratingState={ratings[app.title]}
+                                        onRatingChange={(newRating) => handleRatingChange(app.title, newRating)}
+                                    />
+                                ))}
+                            </div>
+                        </section>
+                    )
+                })}
             </div>
             </div>
         </div>

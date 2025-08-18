@@ -31,7 +31,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { ChevronDown, Menu, PlayCircle, X } from 'lucide-react';
+import { ChevronDown, Menu, PlayCircle, X, ExternalLink } from 'lucide-react';
 import { useAudioPlayerStore } from '@/store/audio-player-store';
 import React from 'react';
 import { cn } from '@/lib/utils';
@@ -189,11 +189,11 @@ export function MainHeader() {
           </Link>
           <Link
             href="/investors_info"
-            className="text-sm font-medium hover:text-primary"
+            className="text-sm font-medium hover:text-primary flex items-center gap-1"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Investors' Information
+            Investors' Information <ExternalLink className="h-3 w-3" />
           </Link>
            <Link
             href="/faq"
@@ -284,10 +284,11 @@ export function MainHeader() {
                             href={link.href}
                             target={link.isExternal ? '_blank' : '_self'}
                             rel={link.isExternal ? 'noopener noreferrer' : ''}
-                            className="text-muted-foreground hover:text-foreground p-2 rounded-md"
+                            className="text-muted-foreground hover:text-foreground p-2 rounded-md flex items-center gap-2"
                             onClick={() => setIsMobileMenuOpen(false)}
                            >
                             {link.title}
+                            {link.isExternal && <ExternalLink className="h-3 w-3" />}
                            </Link>
                         ))}
                       </nav>
