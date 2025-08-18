@@ -16,30 +16,30 @@ const fontSans = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: siteConfig.name,
+    default: 'BusinessStudio AI – AI tools for Mauritian entrepreneurs',
     template: `%s | ${siteConfig.name}`,
   },
-  description: siteConfig.description,
+  description: 'Business Studio AI is a fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.',
   openGraph: {
     type: 'website',
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    title: siteConfig.name,
-    description: siteConfig.description,
+    url: 'https://www.business-studio-ai.online/',
+    siteName: 'BusinessStudio AI',
+    title: 'BusinessStudio AI - AI tools for Mauritian entrepreneurs',
+    description: 'Business Studio AI is a fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.',
     images: [
       {
-        url: `${siteConfig.url}/api/og`,
+        url: 'https://www.business-studio-ai.online/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: siteConfig.name,
+        alt: 'BusinessStudio AI preview',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: siteConfig.name,
-    description: siteConfig.description,
-    images: [`${siteConfig.url}/api/og`],
+    title: 'BusinessStudio AI - AI tools for Mauritian entrepreneurs',
+    description: 'Business Studio AI is a fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.',
+    images: ['https://www.business-studio-ai.online/images/og-image.png'],
   },
 };
 
