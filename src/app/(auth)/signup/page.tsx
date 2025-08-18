@@ -1,6 +1,5 @@
 
 import { Suspense } from 'react';
-import type { Metadata } from 'next';
 import {
   Card,
   CardDescription,
@@ -9,20 +8,6 @@ import {
 } from '@/components/ui/card';
 import { SignUpForm } from './signup-form';
 import { Skeleton } from '@/components/ui/skeleton';
-
-export const metadata: Metadata = {
-    title: 'Sign Up',
-    description: 'Create an account with BusinessStudio AI to start building your business.',
-    openGraph: {
-        title: 'Sign Up | BusinessStudio AI',
-        description: 'Create an account with BusinessStudio AI to start building your business.',
-    },
-    twitter: {
-        title: 'Sign Up | BusinessStudio AI',
-        description: 'Create an account with BusinessStudio AI to start building your business.',
-    }
-};
-
 
 function SignUpFormSkeleton() {
     return (
