@@ -9,7 +9,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import React from 'react';
-import { Toaster } from '@/components/ui/toast';
+import { Toaster } from '@/components/ui/toaster';
 import Chatbot from '@/components/feature/chatbot';
 import Link from 'next/link';
 import Image from 'next/image';
