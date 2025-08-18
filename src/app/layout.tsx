@@ -14,7 +14,7 @@ const poppins = Poppins({
 
 const pageTitle = 'BusinessStudio AI';
 const pageDescription =
-  'A fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.';
+  'a fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
