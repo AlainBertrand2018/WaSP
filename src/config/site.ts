@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview Site-wide configuration for metadata, navigation, and other constants.
  */
