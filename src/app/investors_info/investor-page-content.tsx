@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe, Coins, PlayCircle, ExternalLink } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe, Coins, PlayCircle, ExternalLink, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import React from "react";
@@ -121,19 +121,25 @@ By automating complex tasks like market and compliance validation, financial mod
                         <h4 className="font-semibold text-foreground mt-4">Revenue Projections (Based on Assumptions):</h4>
                         <p>Our projections are based on capturing a conservative fraction of the addressable SME market in Mauritius over the initial years.</p>
                         <ul className="list-disc pl-5">
-                            <li><strong>Minimum ARR Target (Year 1): ~MUR 360,000.</strong> This conservative forecast is based on acquiring 100 small businesses on the "Business Tool Kits" plan, with an average of 1.5 seats per business. This serves as our baseline key performance indicator.</li>
-                            <li><strong>Potential MRR (Year 2-3): ~MUR 150,000+.</strong> Our optimistic target aims for a user base of 500 businesses, with a mix of 80% on "Tool Kits" and 20% on the premium "PRO" plan (avg. 2 seats), plus one enterprise client. This demonstrates strong growth potential and product-market fit.</li>
+                            <li><p><strong>Year 1 Minimum ARR: ~MUR 880,000.</strong></p>
+                            <p>• This conservative forecast is based on acquiring 200–300 subscribers on the "Business Tool Kits" and "PRO" plans, with an average of 1.5 seats per business. This serves as our baseline key performance indicator.</p></li>
+                            <li><p><strong>Year 2 MRR Range: 197K → 553K, Avg ≈ Rs 335K v/s ARR ≈ Rs 4.0M.</strong></p>
+                            <p>• Our optimistic target aims for a user base of 1,500–1,700, with a mix of 80% on "Tool Kits" and 20% on the premium "PRO" plan (avg. 2 seats), with focus on marketing for our high-value AI Transformation Blueprints packages. This would demonstrate strong growth potential and product-market fit.</p></li>
+                            <li><p><strong>Year 3 MRR (projected): Avg ≈ Rs 420K – 450K v/s ARR ≈ Rs 5.0–5.4M.</strong> </p> 
+                            <p>• Our 3rd year projected objective is simple: Reach for 2,000–2,200 subscribers locally and acquire more potential high-value enterprise via our AI Transformation Blueprint product. The ultimate goal is to make this segment the backbone our revenue stack alongside our growing <strong>WaSP</strong> subscribers' userbase.</p></li>
                         </ul>
                     </Section>
 
                     <Section title="Growth Strategy: Market Share and Expertise" icon={<Scaling className="text-primary" />}>
-                         <p>Our growth strategy is twofold. Firstly, we will focus on user conversion and upselling within our SaaS model, driving towards our goal of 10% market capture by guiding businesses from free trials to comprehensive PRO plans as they scale.</p>
+                         <p>Our growth strategy is twofold. Firstly, we will focus on user conversion and upselling within our SaaS model, driving towards our goal of 10% local market capture by guiding businesses from free trials to comprehensive "pro" plans as they scale.</p>
                          <p>Secondly, we will aggressively pursue the enterprise market by offering premium "AI Transformation Blueprints." Serving larger companies that require modernization and expansion not only creates a high-margin revenue stream but also deepens our domain expertise. This positions BusinessStudio AI as a leader in corporate AI adoption and builds a powerful, defensible moat of localized knowledge.</p>
                     </Section>
 
                      <Section title="Long-Term Vision: Regional and Continental Expansion" icon={<Globe className="text-primary" />}>
                         <p>Our ambition extends beyond Mauritius. We envision our locally-acquired expertise as a critical springboard for regional and continental expansion, specifically targeting the Indian Ocean Rim and the broader African market.</p>
-                         <p>The African continent represents an enormous opportunity, with an estimated 245 million+ SMEs that form the backbone of its economy. This landscape is ripe for digital transformation. Our vision is to adapt and scale our proven platform to meet the unique needs of these diverse markets.</p>
+                         <p>The African continent represents an enormous opportunity, with an estimated 44 - 125 million+ SMEs both in formal and informal sectors, that form the backbone of its economy. This landscape is ripe for digital transformation. Our vision is to adapt and scale our proven platform to meet the unique needs of at least 0.01% of African entrepreneurs, startups and mid-sized businesses.</p>
+                         <h4 className="font-semibold text-foreground mt-4">Affordable digital empowerment is Africa’s next growth frontier:</h4>
+                         <p>The access to affordable, non-complex digital tools is a universal pain point, even more so in Africa. Business Studio AI intends to unlock the African market by delivering simple, <strong>intuitively localized</strong> AI-powered tools, targeting millions of SMEs. In fact, we will be bridging the gap, giving SMEs across the continent the AI-driven tools they need to thrive—scalable, accessible, and transformative. On the business side of things, even a 0.01% foothold with a blended price at Rs 300/month will turn into Rs 45M in recurring revenue. </p>
                         <h4 className="font-semibold text-foreground mt-4">Strategic Expansion Goals (5-10 Years):</h4>
                         <ul className="list-disc pl-5">
                             <li><strong>Establish Key Hubs:</strong> Launch operations in strategic economic hubs like Kenya, Nigeria, and South Africa.</li>
@@ -143,7 +149,7 @@ By automating complex tasks like market and compliance validation, financial mod
                     </Section>
 
                     <Section title="The Ask" icon={<Coins className="text-primary" />}>
-                        <p>To achieve our aggressive growth targets and solidify our market leadership, we are seeking MUR 4,500,000 in seed funding. This investment will provide an 18 to 24-month runway to execute our strategy, reach key milestones, and prepare for our next phase of growth.</p>
+                        <p>To achieve our aggressive growth targets and solidify our market leadership, we are seeking MUR 4,500,000 in seed funding. This investment will provide an 12 to 15-month runway to execute our strategy, reach key milestones, and prepare for our next phase of growth.</p>
                         
                         <Dialog>
                             <DialogTrigger asChild>
@@ -168,12 +174,17 @@ By automating complex tasks like market and compliance validation, financial mod
 
                         <p className="mt-2">The requested capital will be strategically allocated across the following key areas to maximize growth and value creation:</p>
                         <ul className="list-disc pl-5">
-                            <li><strong>Product Development & R&D (30% - MUR 1,350,000):</strong> Core platform enhancements, development of new AI-powered tool suites, and initial R&D for regional adaptation.</li>
-                            <li><strong>Marketing & Sales (20% - MUR 900,000):</strong> Funding for aggressive digital marketing campaigns, content creation, and social media outreach to achieve our target market capture rate of 2-5%.</li>
-                            <li><strong>Payroll (40% - MUR 1,800,000):</strong> Salaries for a lean, core team (Founder, Lead Developer, Marketing/Growth Lead) to drive the product roadmap and user acquisition.</li>
-                            <li><strong>Operational Costs & Contingency (10% - MUR 450,000):</strong> Covers hosting, software licenses, administrative costs, and a crucial buffer for unforeseen expenses and opportunities.</li>
+                            <li><strong>Product Development & R&D (28% - MUR 1,260,000):</strong> Core platform enhancements, development of new AI-powered tool suites, and initial R&D for regional adaptation.</li>
+                            <li><strong>Sales, Marketing & Growth (42% - MUR 1,890,000):</strong> Funding for aggressive digital marketing campaigns, content creation, and social media outreach to achieve our target market capture rate of 2-5%.</li>
+                            <li><strong>Talent Acquisition (15% - MUR 675,000):</strong> Minimum salaries for a lean, 3-member core team (Founder, Lead Developer, Marketing/Growth Lead) to drive the product roadmap and user acquisition.</li>
+                            <li><strong>Operational, Admin & Compliance (7% - MUR 315,000):</strong> Covers hosting, software licenses, administrative costs, and other operation-linked expenses.</li>
+                            <li><strong>Contingency & Runway Buffer (8% - MUR 360,000):</strong> A crucial buffer for unforeseen expenses and opportunities.</li>
                         </ul>
                         <p className="mt-2">This funding will enable us to hit our target of 100+ paying businesses, achieve a strong product-market fit, and build the foundation for our long-term vision of regional expansion.</p>
+                    </Section>
+
+                    <Section title="What's in for the Investors?" icon={<TrendingUp className="text-primary" />}>
+                        <p>We are offering 20–30% equity for Rs 4.5M, with a clear trajectory to transform this into a Rs 225M–2.25B valuation opportunity within 3–5 years through African SME adoption.</p>
                     </Section>
                     
                     <div className="text-center mt-12 pt-6 border-t">
