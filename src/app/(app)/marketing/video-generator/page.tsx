@@ -1,3 +1,6 @@
+
+'use client';
+
 import { TrendingTopicsMarquee } from '@/components/feature/trending-topics-marquee';
 import { VideoGeneratorClient } from './video-generator-client';
 
