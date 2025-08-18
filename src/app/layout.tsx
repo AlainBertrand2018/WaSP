@@ -17,6 +17,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  title: 'BusinessStudio AI',
+  description: 'A fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.',
   icons: {
     icon: 'https://www.business-studio-ai.online/images/favicon.ico',
   },
