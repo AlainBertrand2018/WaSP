@@ -6,14 +6,16 @@ import { siteConfig } from '@/config/site';
 const pageTitle = siteConfig.name;
 const pageDescription = siteConfig.description;
 
+// This metadata will be rendered specifically for the homepage
 export const metadata: Metadata = {
   title: pageTitle,
   description: pageDescription,
   openGraph: {
+    url: siteConfig.url,
+    siteName: pageTitle,
     title: pageTitle,
     description: pageDescription,
-    url: siteConfig.url,
-    siteName: siteConfig.name,
+    type: 'website',
     images: [
       {
         url: `${siteConfig.url}/api/og`,
@@ -22,7 +24,6 @@ export const metadata: Metadata = {
         alt: pageTitle,
       },
     ],
-    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
