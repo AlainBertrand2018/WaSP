@@ -2,13 +2,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/layout/theme-provider';
-import Chatbot from '@/components/feature/chatbot';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
-import { AudioPlayer } from '@/components/feature/audio-player';
 import { siteConfig } from '@/config/site';
 
 const poppins = Poppins({
@@ -18,7 +13,8 @@ const poppins = Poppins({
 });
 
 const pageTitle = 'BusinessStudio AI';
-const pageDescription = 'a fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.';
+const pageDescription =
+  'A fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -29,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: pageDescription,
     icons: {
-      icon: '/images/favicon.ico',
+      icon: `${siteConfig.url}/images/favicon.ico`,
     },
     openGraph: {
       title: pageTitle,
@@ -38,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: siteConfig.name,
       images: [
         {
-          url: '/images/og-image.png',
+          url: `${siteConfig.url}/api/og`, // Pointing to our dynamic OG image generator
           width: 1200,
           height: 630,
           alt: siteConfig.name,
@@ -50,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: pageTitle,
       description: pageDescription,
-      images: [`/images/og-image.png`],
+      images: [`${siteConfig.url}/api/og`],
     },
   };
 }
@@ -61,7 +57,6 @@ export const viewport: Viewport = {
     { media: '(prefers-color-scheme: dark)', color: 'black' },
   ],
 };
-
 
 export default function RootLayout({
   children,
@@ -78,12 +73,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          <Toaster />
-          <Chatbot />
-          <AudioPlayer />
         </ThemeProvider>
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );
