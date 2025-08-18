@@ -249,16 +249,6 @@ export const appCategories: AppCategory[] = [
             initialRating: 4.2,
             initialRaters: 23,
         },
-        {
-            icon: Video,
-            title: 'Video Script Generator',
-            description: 'Create engaging video content with AI assistance.',
-            href: '/marketing/video-generator',
-            pro: false,
-            imageSrc: '/images/TilePics/marketing_VideoScriptGen_AppTile.webp',
-            initialRating: 4.1,
-            initialRaters: 16,
-        },
     ]
   },
   {

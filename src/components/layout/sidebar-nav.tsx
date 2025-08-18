@@ -332,7 +332,6 @@ export function SidebarNav() {
                 { href: '/marketing/campaign-builder', label: 'Campaign Builder' },
                 { href: '/marketing/landing-page-builder', label: 'Landing Page Builder' },
                 { href: '/marketing/content-generator', label: 'Content Generator' },
-                { href: '/marketing/video-generator', label: 'Video Script Generator' },
                 { href: '/marketing/social-posts-generator', label: 'Social Posts Generator' },
               ]}
             />
