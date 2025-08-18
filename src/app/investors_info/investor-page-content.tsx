@@ -3,12 +3,15 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe, Coins, PlayCircle, ExternalLink, TrendingUp } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe, Coins, PlayCircle, ExternalLink, TrendingUp, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import React from "react";
 import { useAudioPlayerStore } from "@/store/audio-player-store";
 import Image from "next/image";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
+
 
 const Section = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
     <div className="mb-8">
@@ -183,43 +186,55 @@ By automating complex tasks like market and compliance validation, financial mod
                         <p className="mt-2">This funding will enable us to hit our target of 100+ paying businesses, achieve a strong product-market fit, and build the foundation for our long-term vision of regional expansion.</p>
                     </Section>
 
-                    <Section title="What's in for the Investors?" icon={<TrendingUp className="text-primary" />}>
-                        <p>We are offering 20–30% equity for Rs 4.5M, with a clear trajectory to transform this into a Rs 225M–2.25B valuation opportunity within 3–5 years through African SME adoption.</p>
-                        <h4 className="font-semibold text-foreground mt-4">Offer Insight</h4>
-                        <ul className="list-disc pl-5 space-y-2">
-                            <li><strong>Investment Size:</strong> Rs 4.5M (Pre-seed round).</li>
-                            <li><strong>Equity Offered:</strong> 20–30% depending on final agreed valuation.</li>
-                            <li><strong>Use of Funds:</strong> 42% marketing, 28% product, 15% talent acquisition , 8 % Contingency & Runway Buffer, 7% Operations, Admin and Compliance.</li>
-                            <li>
-                                <strong>Return Potential:</strong>
-                                <ul className="list-['-_'] pl-5">
-                                    <li>10× upside at conservative market penetration.</li>
-                                    <li>50×+ upside if SME adoption scales regionally.</li>
-                                </ul>
-                            </li>
-                             <li>
-                                <strong>Exit Opportunities:</strong>
-                                <ul className="list-['-_'] pl-5">
-                                    <li>Series A raise within 18–24 months.</li>
-                                    <li>Strategic acquisition by regional fintechs, SaaS platforms, or global accelerators looking at African expansion.</li>
-                                </ul>
-                            </li>
-                             <li>
-                                <strong>Upside (based on your African SME expansion model):</strong>
-                                <ul className="list-['-_'] pl-5">
-                                    <li>Conservative (0.01% capture): Rs 45M ARR → at a 5× SaaS multiple = Rs 225M valuation.</li>
-                                    <li>Moderate (0.1% capture): Rs 450M ARR → valuation ~Rs 2.25B.</li>
-                                    <li>Aggressive (1% capture): Rs 4.5B ARR → valuation ~Rs 22.5B.</li>
-                                </ul>
-                            </li>
-                             <li>
-                                <strong>Take Away:</strong>
-                                <ul className="list-['-_'] pl-5">
-                                     <li>An investor holding 25% equity today could see that stake worth Rs 56M – Rs 5.6B in 3–5 years depending on execution.</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </Section>
+                    <Accordion type="single" collapsible className="w-full mb-8">
+                        <AccordionItem value="item-1" className="border-b-0">
+                            <AccordionTrigger className="flex items-center gap-3 text-2xl font-semibold mb-3 hover:no-underline">
+                                <div className="flex items-center gap-3">
+                                  <TrendingUp className="text-primary" />
+                                  <span>What's in for the Investors?</span>
+                                </div>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                <div className="prose prose-sm max-w-none text-muted-foreground ml-9">
+                                    <p>We are offering 20–30% equity for Rs 4.5M, with a clear trajectory to transform this into a Rs 225M–2.25B valuation opportunity within 3–5 years through African SME adoption.</p>
+                                    <h4 className="font-semibold text-foreground mt-4">Offer Insight</h4>
+                                    <ul className="list-disc pl-5 space-y-2">
+                                        <li><strong>Investment Size:</strong> Rs 4.5M (Pre-seed round).</li>
+                                        <li><strong>Equity Offered:</strong> 20–30% depending on final agreed valuation.</li>
+                                        <li><strong>Use of Funds:</strong> 42% marketing, 28% product, 15% talent acquisition , 8 % Contingency & Runway Buffer, 7% Operations, Admin and Compliance.</li>
+                                        <li>
+                                            <strong>Return Potential:</strong>
+                                            <ul className="list-['-_'] pl-5">
+                                                <li>10× upside at conservative market penetration.</li>
+                                                <li>50×+ upside if SME adoption scales regionally.</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <strong>Exit Opportunities:</strong>
+                                            <ul className="list-['-_'] pl-5">
+                                                <li>Series A raise within 18–24 months.</li>
+                                                <li>Strategic acquisition by regional fintechs, SaaS platforms, or global accelerators looking at African expansion.</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <strong>Upside (based on your African SME expansion model):</strong>
+                                            <ul className="list-['-_'] pl-5">
+                                                <li>Conservative (0.01% capture): Rs 45M ARR → at a 5× SaaS multiple = Rs 225M valuation.</li>
+                                                <li>Moderate (0.1% capture): Rs 450M ARR → valuation ~Rs 2.25B.</li>
+                                                <li>Aggressive (1% capture): Rs 4.5B ARR → valuation ~Rs 22.5B.</li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <strong>Take Away:</strong>
+                                            <ul className="list-['-_'] pl-5">
+                                                <li>An investor holding 25% equity today could see that stake worth Rs 56M – Rs 5.6B in 3–5 years depending on execution.</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
                     
                     <div className="text-center mt-12 pt-6 border-t">
                         <h2 className="text-2xl font-bold">Join Us in Powering the Next Generation of Mauritian Enterprise</h2>
