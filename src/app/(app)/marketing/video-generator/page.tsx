@@ -1,8 +1,6 @@
 
 'use client';
 
-import { VideoGeneratorClient } from '@/components/feature/video-generator-client';
-
 export default function VideoGeneratorPage() {
   return (
     <div className="flex flex-col gap-8 py-8">
@@ -16,7 +14,8 @@ export default function VideoGeneratorPage() {
       </div>
 
       <div className="flex flex-col gap-8">
-        <VideoGeneratorClient />
+        {/* The video generator client component has been removed. */}
+        <p className="text-center text-muted-foreground">Video generator functionality is currently unavailable.</p>
       </div>
     </div>
   );
