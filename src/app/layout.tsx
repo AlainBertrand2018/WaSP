@@ -40,7 +40,7 @@ export const metadata: Metadata = {
       "From idea to investor-ready: validation, market research, financial modeling, and business plans.",
     images: [
       {
-        url: "/images/og-image.png", // 1200x630
+        url: "https://www.business-studio-ai.online/images/og-image.png", // 1200x630
         width: 1200,
         height: 630,
         alt: "BusinessStudio AI social preview",
@@ -54,11 +54,11 @@ export const metadata: Metadata = {
     title: "BusinessStudio AI — AI tools for Mauritian entrepreneurs",
     description:
       "Validate ideas, model finances, and create investor-ready plans.",
-    images: ["/images/og-image.png"],
+    images: ["https://www.business-studio-ai.online/images/og-image.png"],
   },
   robots: { index: true, follow: true },
   icons: {
-    icon: "/favicon.ico",
+    icon: "https://www.business-studio-ai.online/favicon.ico",
     apple: "/apple-touch-icon.png",
   },
 };
