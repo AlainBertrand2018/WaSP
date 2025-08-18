@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import React from "react";
 import { useAudioPlayerStore } from "@/store/audio-player-store";
+import Image from "next/image";
 
 const Section = ({ title, icon, children }: { title: string, icon: React.ReactNode, children: React.ReactNode }) => (
     <div className="mb-8">
@@ -143,7 +144,25 @@ By automating complex tasks like market and compliance validation, financial mod
 
                     <Section title="The Ask" icon={<Coins className="text-primary" />}>
                         <p>To achieve our aggressive growth targets and solidify our market leadership, we are seeking MUR 4,500,000 in seed funding. This investment will provide an 18 to 24-month runway to execute our strategy, reach key milestones, and prepare for our next phase of growth.</p>
-                        <h4 className="font-semibold text-foreground mt-4">Allocation of Funds:</h4>
+                        
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <h4 className="font-semibold text-foreground mt-4 cursor-pointer hover:text-primary">Allocation of Funds:</h4>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-3xl">
+                                <DialogHeader>
+                                    <DialogTitle>Fund Allocation Breakdown</DialogTitle>
+                                </DialogHeader>
+                                <Image 
+                                    src="/images/fundallocationBreakdown.webp"
+                                    alt="Fund Allocation Breakdown"
+                                    width={1200}
+                                    height={800}
+                                    className="rounded-lg"
+                                />
+                            </DialogContent>
+                        </Dialog>
+
                         <p>The requested capital will be strategically allocated across the following key areas to maximize growth and value creation:</p>
                         <ul className="list-disc pl-5">
                             <li><strong>Product Development & R&D (30% - MUR 1,350,000):</strong> Core platform enhancements, development of new AI-powered tool suites, and initial R&D for regional adaptation.</li>
