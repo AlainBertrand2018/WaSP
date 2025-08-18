@@ -3,7 +3,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe, Coins, PlayCircle } from "lucide-react";
+import { ArrowRight, CheckCircle, Target, Users, Puzzle, BarChart, Gem, Eye, Scaling, Globe, Coins, PlayCircle, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import React from "react";
@@ -147,7 +147,10 @@ By automating complex tasks like market and compliance validation, financial mod
                         
                         <Dialog>
                             <DialogTrigger asChild>
-                                <h4 className="font-semibold text-foreground mt-4 cursor-pointer hover:text-primary">Allocation of Funds:</h4>
+                                <button className="font-semibold text-foreground mt-4 cursor-pointer hover:text-primary flex items-center gap-2">
+                                    <Eye className="h-4 w-4" />
+                                    <span>Allocation of Funds:</span>
+                                </button>
                             </DialogTrigger>
                             <DialogContent className="max-w-3xl">
                                 <DialogHeader>
@@ -163,7 +166,7 @@ By automating complex tasks like market and compliance validation, financial mod
                             </DialogContent>
                         </Dialog>
 
-                        <p>The requested capital will be strategically allocated across the following key areas to maximize growth and value creation:</p>
+                        <p className="mt-2">The requested capital will be strategically allocated across the following key areas to maximize growth and value creation:</p>
                         <ul className="list-disc pl-5">
                             <li><strong>Product Development & R&D (30% - MUR 1,350,000):</strong> Core platform enhancements, development of new AI-powered tool suites, and initial R&D for regional adaptation.</li>
                             <li><strong>Marketing & Sales (20% - MUR 900,000):</strong> Funding for aggressive digital marketing campaigns, content creation, and social media outreach to achieve our target market capture rate of 2-5%.</li>
