@@ -185,6 +185,40 @@ By automating complex tasks like market and compliance validation, financial mod
 
                     <Section title="What's in for the Investors?" icon={<TrendingUp className="text-primary" />}>
                         <p>We are offering 20–30% equity for Rs 4.5M, with a clear trajectory to transform this into a Rs 225M–2.25B valuation opportunity within 3–5 years through African SME adoption.</p>
+                        <h4 className="font-semibold text-foreground mt-4">Offer Insight</h4>
+                        <ul className="list-disc pl-5 space-y-2">
+                            <li><strong>Investment Size:</strong> Rs 4.5M (Pre-seed round).</li>
+                            <li><strong>Equity Offered:</strong> 20–30% depending on final agreed valuation.</li>
+                            <li><strong>Use of Funds:</strong> 42% marketing, 28% product, 15% talent acquisition , 8 % Contingency & Runway Buffer, 7% Operations, Admin and Compliance.</li>
+                            <li>
+                                <strong>Return Potential:</strong>
+                                <ul className="list-['-_'] pl-5">
+                                    <li>10× upside at conservative market penetration.</li>
+                                    <li>50×+ upside if SME adoption scales regionally.</li>
+                                </ul>
+                            </li>
+                             <li>
+                                <strong>Exit Opportunities:</strong>
+                                <ul className="list-['-_'] pl-5">
+                                    <li>Series A raise within 18–24 months.</li>
+                                    <li>Strategic acquisition by regional fintechs, SaaS platforms, or global accelerators looking at African expansion.</li>
+                                </ul>
+                            </li>
+                             <li>
+                                <strong>Upside (based on your African SME expansion model):</strong>
+                                <ul className="list-['-_'] pl-5">
+                                    <li>Conservative (0.01% capture): Rs 45M ARR → at a 5× SaaS multiple = Rs 225M valuation.</li>
+                                    <li>Moderate (0.1% capture): Rs 450M ARR → valuation ~Rs 2.25B.</li>
+                                    <li>Aggressive (1% capture): Rs 4.5B ARR → valuation ~Rs 22.5B.</li>
+                                </ul>
+                            </li>
+                             <li>
+                                <strong>Take Away:</strong>
+                                <ul className="list-['-_'] pl-5">
+                                     <li>An investor holding 25% equity today could see that stake worth Rs 56M – Rs 5.6B in 3–5 years depending on execution.</li>
+                                </ul>
+                            </li>
+                        </ul>
                     </Section>
                     
                     <div className="text-center mt-12 pt-6 border-t">
