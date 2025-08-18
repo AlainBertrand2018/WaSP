@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: `${siteConfig.url}/api/og`, // Ensure absolute URL
+        url: siteConfig.ogImage,
         width: 1200,
         height: 630,
         alt: siteConfig.name,
@@ -49,9 +49,8 @@ export const metadata: Metadata = {
     creator: "@alainbertrandmu",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/api/og`], // Ensure absolute URL
+    images: [siteConfig.ogImage], 
   },
-  robots: { index: true, follow: true },
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
