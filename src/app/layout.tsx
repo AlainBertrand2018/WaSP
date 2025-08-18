@@ -18,7 +18,7 @@ const poppins = Poppins({
 });
 
 const pageTitle = 'BusinessStudio AI';
-const pageDescription = 'A fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.';
+const pageDescription = 'a fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: siteConfig.name,
       images: [
         {
-          url: '/images/og-image.png', // Relative path, resolved by metadataBase
+          url: '/images/og-image.png',
           width: 1200,
           height: 630,
           alt: siteConfig.name,
@@ -50,7 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
       card: 'summary_large_image',
       title: pageTitle,
       description: pageDescription,
-      images: [`/images/og-image.png`], // Relative path
+      images: [`/images/og-image.png`],
     },
   };
 }
