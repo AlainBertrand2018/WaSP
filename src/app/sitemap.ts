@@ -2,18 +2,9 @@
 // app/sitemap.ts
 import type { MetadataRoute } from "next";
 import { appCategories } from "@/lib/app-data";
-import fs from "fs";
-import path from "path";
 
-// If your sitemap is fully static, keep force-static.
-// If it depends on DB/CMS at request-time, use: export const dynamic = "force-dynamic";
+// This tells Next.js to re-generate the sitemap on each request (or at build time for static sites).
 export const dynamic = "force-dynamic";
-
-function abs(base: string, path: string): string {
-  // robust absolute URL builder
-  const clean = path.startsWith("/") ? path : `/${path}`;
-  return new URL(clean, base).toString();
-}
 
 function slugify(text: string) {
     return text
@@ -32,51 +23,53 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "https://www.business-studio-ai.online";
   const now = new Date();
 
-  // 1. Get static pages from the filesystem
-  const appDirectory = path.join(process.cwd(), "src", "app");
-  const files = fs.readdirSync(appDirectory, { recursive: true }) as string[];
-
-  const staticPages = files
-    .filter((file) => path.basename(file) === "page.tsx")
-    .map((file) => {
-      // Create a URL path from the file path
-      const urlPath = path
-        .dirname(file)
-        .replace(/\\/g, "/") // Convert backslashes to forward slashes
-        .replace(/^\(app\)\/?/, "") // Remove the (app) group
-        .replace(/^\(auth\)\/?/, "") // Remove the (auth) group
-        .replace(/^\(standalone\)\/?/, "") // Remove the (standalone) group
-        .replace(/\[[^\]]+\]/g, "") // Remove dynamic segments like [category]
-        .replace(/\/$/, ""); // Remove trailing slash
-
-      return {
-        url: abs(base, urlPath),
-        lastModified: now,
-        priority: urlPath === "" ? 1.0 : (urlPath.split('/').length === 1 ? 0.8 : 0.6),
-        changeFrequency: "weekly" as "weekly",
-      };
-    });
+  // 1. Statically define all known pages. This is more reliable than reading the filesystem.
+  const staticRoutes = [
+    { url: '/', priority: 1.0 },
+    { url: '/apps', priority: 0.8 },
+    { url: '/faq', priority: 0.7 },
+    { url: '/investors_info', priority: 0.7 },
+    { url: '/privacy-policy', priority: 0.5 },
+    { url: '/dashboard', priority: 0.8 },
+    { url: '/ideation', priority: 0.8 },
+    { url: '/ideation/brainstorming', priority: 0.7 },
+    { url: '/business-creation', priority: 0.8 },
+    { url: '/business-creation/business-idea-validation', priority: 0.7 },
+    { url: '/business-creation/mvp-planner', priority: 0.7 },
+    { url: '/business-creation/startup-budget-planner', priority: 0.7 },
+    { url: '/business-creation/business-plan-generator', priority: 0.7 },
+    { url: '/7-day-blueprint', priority: 0.8 },
+    { url: '/7-day-blueprint/d1', priority: 0.7 },
+    { url: '/business-management', priority: 0.8 },
+    { url: '/business-management/crm-suite', priority: 0.7 },
+    { url: '/business-management/crm-suite/clients', priority: 0.6 },
+    { url: '/business-management/crm-suite/clients/new', priority: 0.5 },
+    { url: '/business-management/crm-suite/projects', priority: 0.6 },
+    { url: '/business-management/crm-suite/projects/new', priority: 0.5 },
+    { url: '/business-management/crm-suite/quotations', priority: 0.6 },
+    { url: '/business-management/crm-suite/quotations/new', priority: 0.5 },
+    { url: '/business-management/crm-suite/invoices', priority: 0.6 },
+    { url: '/compliance-validator', priority: 0.7 },
+    { url: '/compliance-validator/validation-checklist', priority: 0.6 },
+    { url: '/sme-info', priority: 0.7 },
+  ].map(route => ({
+      url: `${base}${route.url}`,
+      lastModified: now,
+      priority: route.priority,
+      changeFrequency: "weekly" as "weekly",
+  }));
+  
 
   // 2. Get dynamic pages from data sources
   const dynamicCategoryPages = appCategories.map((category) => {
     return {
-      url: abs(base, `/apps/${slugify(category.category)}`),
+      url: `${base}/apps/${slugify(category.category)}`,
       lastModified: now,
       priority: 0.7,
       changeFrequency: "weekly" as "weekly",
     };
   });
   
-  // Combine all pages and remove duplicates
-  const allEntries = [...staticPages, ...dynamicCategoryPages];
-  const uniqueEntries = Array.from(new Map(allEntries.map(item => [item.url, item])).values());
-  
-  // Filter out any auth or empty paths that might have slipped through
-  const finalEntries = uniqueEntries.filter(entry => 
-    !entry.url.includes('/login') && 
-    !entry.url.includes('/signup') &&
-    !entry.url.includes('/error')
-  );
-
-  return finalEntries;
+  // Combine all pages
+  return [...staticRoutes, ...dynamicCategoryPages];
 }
