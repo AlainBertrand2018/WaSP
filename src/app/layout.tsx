@@ -41,6 +41,11 @@ export const metadata: Metadata = {
     description: 'Business Studio AI is a fully mobile-ready all-in-one AI-powered command center that guides users through every stage of business creation, marketing, launch and management.',
     images: ['https://www.business-studio-ai.online/images/og-image.png'],
   },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon-16x16.png',
+    apple: '/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({
