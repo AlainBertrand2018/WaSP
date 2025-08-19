@@ -8,7 +8,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { generateFaq } from '@/ai/flows/marketing/generate-faq-flow';
 import { HelpCircle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -30,9 +29,16 @@ import { MainHeader } from '@/components/layout/main-header';
 import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 import { toast } from '@/hooks/use-toast';
 
-export default function FaqPageContent() {
-  const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+type Faq = {
+  question: string;
+  answer: string;
+};
+
+type FaqPageContentProps = {
+  initialFaqs: Faq[];
+};
+
+export default function FaqPageContent({ initialFaqs }: FaqPageContentProps) {
   const isMounted = useMounted();
   const resumeInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -50,40 +56,13 @@ export default function FaqPageContent() {
     }
   };
 
-
-  useEffect(() => {
-    setIsLoading(true);
-    generateFaq()
-      .then(result => setFaqs(result.faqs))
-      .catch(console.error)
-      .finally(() => setIsLoading(false));
-  }, []);
-
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
-    })),
-  };
-  
   if (!isMounted) {
-    return null;
+     return <AiLoadingSpinner show={true} title="Loading FAQs..." />;
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
       <MainHeader />
-
       <main className="flex-1 bg-background">
         <section className="container mx-auto px-4 py-20 lg:py-32">
           <div className="flex flex-col gap-8 max-w-4xl mx-auto">
@@ -96,11 +75,11 @@ export default function FaqPageContent() {
                 Find answers to common questions about BusinessStudio AI.
               </p>
             </div>
-             {isLoading ? (
+             {initialFaqs.length === 0 ? (
                 <AiLoadingSpinner show={true} title="CLAIRE is fetching the FAQs..." />
              ) : (
                 <Accordion type="single" collapsible className="w-full bg-card p-4 sm:p-8 rounded-lg">
-                {faqs.map((faq, index) => (
+                {initialFaqs.map((faq, index) => (
                     <AccordionItem value={`item-${index}`} key={index}>
                     <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
                     <AccordionContent className="prose prose-sm max-w-none text-muted-foreground whitespace-pre-wrap">
@@ -226,7 +205,7 @@ export default function FaqPageContent() {
                       <DialogDescription>
                         Have a question or want to work with us? Fill out the form below.
                       </DialogDescription>
-                    </DialogHeader>
+                    </Header>
                     <div className="grid gap-4 py-4">
                       <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name-footer" className="text-right">Name</Label>

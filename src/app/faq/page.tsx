@@ -1,6 +1,30 @@
 
+import { generateFaq } from '@/ai/flows/marketing/generate-faq-flow';
 import FaqPageContent from './faq-page-content';
 
-export default function FaqPage() {
-    return <FaqPageContent />;
+export default async function FaqPage() {
+    const faqData = await generateFaq();
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqData.faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+    };
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            <FaqPageContent initialFaqs={faqData.faqs} />
+        </>
+    );
 }
