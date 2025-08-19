@@ -29,6 +29,7 @@ export type GenerateFaqOutput = z.infer<typeof GenerateFaqOutputSchema>;
 
 const prompt = ai.definePrompt({
   name: 'generateFaqPrompt',
+  input: { schema: z.object({}) }, // Explicitly define an empty object schema
   output: { schema: GenerateFaqOutputSchema },
   prompt: `You are a customer support and marketing specialist for a SaaS product called "BusinessStudio AI". Your task is to generate a list of Frequently Asked Questions (FAQs) that a new or potential user might have.
 
@@ -62,7 +63,8 @@ const generateFaqFlowInternal = ai.defineFlow(
     outputSchema: GenerateFaqOutputSchema,
   },
   async () => {
-    const { output } = await prompt();
+    // Pass an empty object to satisfy the input schema
+    const { output } = await prompt({}); 
     if (!output) {
       throw new Error('The AI model did not return a valid FAQ list.');
     }
