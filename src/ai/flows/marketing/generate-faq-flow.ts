@@ -6,7 +6,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
-import { generateFaq as generateFaqFlow } from './generate-faq-flow';
 
 const FaqItemSchema = z.object({
   question: z.string().describe('A frequently asked question.'),
