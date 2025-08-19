@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     images: ['https://www.business-studio-ai.online/images/og-image.png'],
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    icon: '/images/favicon.ico',
+    shortcut: '/images/favicon.ico',
+    apple: '/images/apple-touch-icon.png',
   },
 };
 
