@@ -2,8 +2,8 @@
 // app/sitemap.ts
 import type { MetadataRoute } from "next";
 
-// This tells Next.js to re-generate the sitemap on each request.
-export const dynamic = "force-dynamic";
+// This sitemap is intentionally hardcoded to ensure maximum compatibility
+// with Vercel's build and edge runtime environment, preventing 500 errors.
 
 function slugify(text: string) {
     return text
@@ -16,11 +16,11 @@ function slugify(text: string) {
       .replace(/--+/g, '-');      // collapse multiple dashes
 }
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://www.business-studio-ai.online";
   const now = new Date();
 
-  // Manually list all known static pages to avoid problematic imports
+  // Manually list all known pages
   const staticRoutes = [
     { url: '/', priority: 1.0 },
     { url: '/apps', priority: 0.8 },
@@ -49,14 +49,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: '/compliance-validator', priority: 0.7 },
     { url: '/compliance-validator/validation-checklist', priority: 0.6 },
     { url: '/sme-info', priority: 0.7 },
-  ].map(route => ({
-      url: `${base}${route.url}`,
-      lastModified: now,
-      priority: route.priority,
-      changeFrequency: "weekly" as "weekly",
-  }));
+  ];
   
-  // Manually list categories to avoid importing from a client component
   const categories = [
     'Business Creation',
     'Business Management',
@@ -68,13 +62,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const dynamicCategoryPages = categories.map((category) => {
     return {
-      url: `${base}/apps/${slugify(category)}`,
-      lastModified: now,
+      url: `/apps/${slugify(category)}`,
       priority: 0.7,
-      changeFrequency: "weekly" as "weekly",
     };
   });
   
-  // Combine all pages
-  return [...staticRoutes, ...dynamicCategoryPages];
+  const allRoutes = [...staticRoutes, ...dynamicCategoryPages];
+
+  return allRoutes.map(route => ({
+      url: `${base}${route.url}`,
+      lastModified: now,
+      priority: route.priority,
+      changeFrequency: "weekly",
+  }));
 }
