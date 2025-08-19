@@ -1,9 +1,8 @@
 
 // app/sitemap.ts
 import type { MetadataRoute } from "next";
-import { appCategories } from "@/lib/app-data";
 
-// This tells Next.js to re-generate the sitemap on each request (or at build time for static sites).
+// This tells Next.js to re-generate the sitemap on each request.
 export const dynamic = "force-dynamic";
 
 function slugify(text: string) {
@@ -18,12 +17,10 @@ function slugify(text: string) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    "https://www.business-studio-ai.online";
+  const base = "https://www.business-studio-ai.online";
   const now = new Date();
 
-  // 1. Statically define all known pages. This is more reliable than reading the filesystem.
+  // Manually list all known static pages to avoid problematic imports
   const staticRoutes = [
     { url: '/', priority: 1.0 },
     { url: '/apps', priority: 0.8 },
@@ -59,11 +56,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly" as "weekly",
   }));
   
+  // Manually list categories to avoid importing from a client component
+  const categories = [
+    'Business Creation',
+    'Business Management',
+    'Financials',
+    'Marketing & Ads',
+    'Products',
+    'Specialized Apps'
+  ];
 
-  // 2. Get dynamic pages from data sources
-  const dynamicCategoryPages = appCategories.map((category) => {
+  const dynamicCategoryPages = categories.map((category) => {
     return {
-      url: `${base}/apps/${slugify(category.category)}`,
+      url: `${base}/apps/${slugify(category)}`,
       lastModified: now,
       priority: 0.7,
       changeFrequency: "weekly" as "weekly",
