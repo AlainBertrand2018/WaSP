@@ -8,16 +8,37 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { appTitles } from '@/lib/app-titles';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { supabase } from '@/lib/supabase';
+import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
 export default function ClientAppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      const isPublicPath = pathname === '/ideation/brainstorming';
+
+      if (!session && !isPublicPath) {
+        router.push('/login?redirect=' + pathname);
+      } else {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
+  }, [pathname, router]);
+
 
   const showMainSidebar = !(
     pathname.startsWith('/business-management/crm-suite') ||
@@ -66,6 +87,10 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
     ease: 'anticipate',
     duration: 0.5,
   };
+
+  if (loading) {
+    return <AiLoadingSpinner show={true} title="Checking session..." />;
+  }
 
   return (
       <SidebarProvider defaultOpen={false}>
