@@ -38,8 +38,8 @@ const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
   role: z.enum(['Individual', 'Company/Startup', 'Investor'], { required_error: 'Please select an account type.' }),
-  company_name: z.string().min(1, { message: 'Company name is required.' }),
-  position: z.string().min(1, { message: 'Position is required.' }),
+  business_name: z.string().min(1, { message: 'Company name is required.' }),
+  job_title: z.string().min(1, { message: 'Position is required.' }),
   phone_number: z.string().min(1, { message: 'Phone number is required.' }),
   mobile_number: z.string().min(1, { message: 'Mobile number is required.' }),
   avatar_url: z.string().url().optional(),
@@ -59,8 +59,8 @@ export function SignUpForm() {
       last_name: '',
       email: '',
       password: '',
-      company_name: '',
-      position: '',
+      business_name: '',
+      job_title: '',
       phone_number: '',
       mobile_number: '',
     },
@@ -71,7 +71,7 @@ export function SignUpForm() {
     if (currentStep === 1) {
         fieldsToValidate = ['role', 'civility', 'first_name', 'last_name'];
     } else if (currentStep === 2) {
-        fieldsToValidate = ['email', 'password', 'company_name', 'position', 'phone_number', 'mobile_number'];
+        fieldsToValidate = ['email', 'password', 'business_name', 'job_title', 'phone_number', 'mobile_number'];
     }
     
     const isValid = await form.trigger(fieldsToValidate);
@@ -247,7 +247,7 @@ export function SignUpForm() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <FormField
                             control={form.control}
-                            name="company_name"
+                            name="business_name"
                             render={({ field }) => (
                                 <FormItem>
                                 <FormLabel>Company Name*</FormLabel>
@@ -260,7 +260,7 @@ export function SignUpForm() {
                             />
                         <FormField
                             control={form.control}
-                            name="position"
+                            name="job_title"
                             render={({ field }) => (
                                 <FormItem>
                                 <FormLabel>Position*</FormLabel>
