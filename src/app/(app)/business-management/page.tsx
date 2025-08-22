@@ -266,29 +266,41 @@ export default function BusinessManagementLandingPage() {
   const [editingProfile, setEditingProfile] = useState<BusinessProfile | null>(null);
 
   useEffect(() => {
-    const fetchProfiles = async () => {
-      setIsLoading(true);
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) throw new Error("User not found");
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setIsLoading(true);
+        if (session?.user) {
+          try {
+            const { data, error } = await supabase
+              .from('business_profiles')
+              .select('*')
+              .eq('user_id', session.user.id);
 
-        const { data, error } = await supabase
-          .from('business_profiles')
-          .select('*')
-          .eq('user_id', user.id);
-
-        if (error) throw error;
-        setProfiles(data || []);
-      } catch (error) {
-        console.error('Error fetching profiles:', error);
-        toast({ title: 'Error', description: 'Could not fetch business profiles.', variant: 'destructive' });
-      } finally {
-        setIsLoading(false);
+            if (error) throw error;
+            setProfiles(data || []);
+          } catch (error) {
+            console.error('Error fetching profiles:', error);
+            toast({
+              title: 'Error',
+              description: 'Could not fetch business profiles.',
+              variant: 'destructive',
+            });
+          } finally {
+            setIsLoading(false);
+          }
+        } else {
+            // No user session, clear profiles and stop loading
+            setProfiles([]);
+            setIsLoading(false);
+        }
       }
-    };
+    );
 
-    fetchProfiles();
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, [setProfiles]);
+
 
   const handleProfileSaved = (profile: BusinessProfile) => {
     // Determine if it's a new profile or an update
