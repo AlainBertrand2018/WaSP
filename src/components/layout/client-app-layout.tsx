@@ -37,8 +37,8 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
         // Not logged in, not on a public page, not on an auth page -> go to login
         router.push(`/login?redirect=${pathname}`);
       } else if (session && isAuthPage) {
-        // Logged in, but on login/signup page -> go to profile
-        router.push('/business-management');
+        // Logged in, but on login/signup page -> go to account dashboard
+        router.push('/account');
       } else {
         // Logged in or on a public page -> allow access
         setLoading(false);
@@ -54,7 +54,7 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
         if (!session && !isPublic && !isAuthPage) {
              router.push(`/login?redirect=${pathname}`);
         } else if (session && isAuthPage) {
-            router.push('/business-management');
+            router.push('/account');
         } else {
             setLoading(false);
         }

@@ -117,7 +117,7 @@ export function SignUpForm() {
         title: 'Sign Up Successful!',
         description: 'Please check your email to verify your account.',
       });
-      router.push('/business-management');
+      router.push('/account');
     } else {
         toast({
             title: 'Sign Up Issue',

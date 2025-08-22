@@ -1,6 +1,7 @@
 
 export const appTitles: { [key: string]: string } = {
     '/dashboard': 'BusinessStudio AI',
+    '/account': 'My Account',
     '/business-creation': 'Business Creation Suite',
     '/ideation': 'Ideation Suite',
     '/7-day-blueprint': '7-Day Blueprint',

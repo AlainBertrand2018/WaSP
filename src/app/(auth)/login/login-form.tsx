@@ -41,7 +41,7 @@ export default function LoginForm() {
       // The redirect is now handled by the main app layout
       // which detects the authenticated state change.
       // We push to the intended destination or a default.
-      const redirectUrl = searchParams.get('redirect') || '/business-management';
+      const redirectUrl = searchParams.get('redirect') || '/account';
       router.push(redirectUrl);
       router.refresh(); // Force a refresh to ensure layout re-renders with new auth state
     }
