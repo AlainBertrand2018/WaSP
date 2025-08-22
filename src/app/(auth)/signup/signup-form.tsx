@@ -36,6 +36,7 @@ const formSchema = z.object({
   last_name: z.string().min(1, { message: 'Last name is required.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
+  role: z.enum(['Individual', 'Company/Startup', 'Investor'], { required_error: 'Please select an account type.' }),
   company_name: z.string().min(1, { message: 'Company name is required.' }),
   position: z.string().min(1, { message: 'Position is required.' }),
   phone_number: z.string().min(1, { message: 'Phone number is required.' }),
@@ -195,7 +196,29 @@ export function SignUpForm() {
                 />
             </div>
             
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Account Type</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a role..." />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Individual">Individual</SelectItem>
+                          <SelectItem value="Company/Startup">Company / Startup</SelectItem>
+                          <SelectItem value="Investor">Investor</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                  <FormField
                   control={form.control}
                   name="company_name"
