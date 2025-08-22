@@ -32,6 +32,7 @@ export default function AccountPage() {
     async function getProfile() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        // Fetch profile from 'profiles' table
         const { data, error } = await supabase
           .from('profiles')
           .select('first_name, last_name, avatar_url')
@@ -91,7 +92,7 @@ export default function AccountPage() {
            </Card>
         </CardContent>
         <CardFooter className="flex-col gap-4 text-center pt-6">
-            <p className="text-sm text-muted-foreground">Ready to unlock the full potential of BusinessStudio AI?</p>
+            <div className="text-sm text-muted-foreground">Ready to unlock the full potential of BusinessStudio AI?</div>
             <Button asChild className="group">
                 <Link href="/#pricing">
                     <span>View All Plans</span>
