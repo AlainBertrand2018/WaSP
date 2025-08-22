@@ -27,11 +27,14 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       
+      // Define public paths that do not require authentication
       const isPublicPath = pathname === '/ideation/brainstorming';
 
       if (!session && !isPublicPath) {
+        // If there's no session and the path is not public, redirect to login
         router.push('/login?redirect=' + pathname);
       } else {
+        // Otherwise, the user can access the page
         setLoading(false);
       }
     };
