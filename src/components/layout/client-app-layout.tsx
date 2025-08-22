@@ -18,28 +18,52 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
 import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
+const PUBLIC_PATHS = ['/ideation/brainstorming'];
+const AUTH_PATHS = ['/login', '/signup'];
+
 export default function ClientAppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      // Define public paths that do not require authentication
-      const isPublicPath = pathname === '/ideation/brainstorming';
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      const isPublic = PUBLIC_PATHS.includes(pathname);
+      const isAuthPage = AUTH_PATHS.includes(pathname);
 
-      if (!session && !isPublicPath) {
-        // If there's no session and the path is not public, redirect to login
-        router.push('/login?redirect=' + pathname);
+      if (!session && !isPublic && !isAuthPage) {
+        // Not logged in, not on a public page, not on an auth page -> go to login
+        router.push(`/login?redirect=${pathname}`);
+      } else if (session && isAuthPage) {
+        // Logged in, but on login/signup page -> go to profile
+        router.push('/business-management');
       } else {
-        // Otherwise, the user can access the page
+        // Logged in or on a public page -> allow access
         setLoading(false);
       }
-    };
+    });
 
-    checkSession();
+    // Initial check for non-listener scenarios
+    const initialCheck = async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        const isPublic = PUBLIC_PATHS.includes(pathname);
+        const isAuthPage = AUTH_PATHS.includes(pathname);
+
+        if (!session && !isPublic && !isAuthPage) {
+             router.push(`/login?redirect=${pathname}`);
+        } else if (session && isAuthPage) {
+            router.push('/business-management');
+        } else {
+            setLoading(false);
+        }
+    }
+    initialCheck();
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [pathname, router]);
 
 
@@ -92,7 +116,7 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
   };
 
   if (loading) {
-    return <AiLoadingSpinner show={true} title="Checking session..." />;
+    return <AiLoadingSpinner show={true} title="Securing session..." />;
   }
 
   return (
