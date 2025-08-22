@@ -30,17 +30,14 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
-      const isPublic = PUBLIC_PATHS.includes(pathname);
+      const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
       const isAuthPage = AUTH_PATHS.includes(pathname);
 
       if (!session && !isPublic && !isAuthPage) {
-        // Not logged in, not on a public page, not on an auth page -> go to login
         router.push(`/login?redirect=${pathname}`);
       } else if (session && isAuthPage) {
-        // Logged in, but on login/signup page -> go to account dashboard
         router.push('/account');
       } else {
-        // Logged in or on a public page -> allow access
         setLoading(false);
       }
     });
@@ -48,7 +45,7 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
     // Initial check for non-listener scenarios
     const initialCheck = async () => {
         const { data: { session } } = await supabase.auth.getSession();
-        const isPublic = PUBLIC_PATHS.includes(pathname);
+        const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
         const isAuthPage = AUTH_PATHS.includes(pathname);
 
         if (!session && !isPublic && !isAuthPage) {

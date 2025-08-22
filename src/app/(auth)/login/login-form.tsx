@@ -43,7 +43,6 @@ export default function LoginForm() {
       // We push to the intended destination or a default.
       const redirectUrl = searchParams.get('redirect') || '/account';
       router.push(redirectUrl);
-      router.refresh(); // Force a refresh to ensure layout re-renders with new auth state
     }
     setLoading(false);
   };
