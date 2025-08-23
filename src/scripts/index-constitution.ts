@@ -11,9 +11,7 @@
  * 5. From your terminal, run `npm run index:constitution`.
  */
 
-import dotenv from 'dotenv';
-// IMPORTANT: This line loads environment variables from the .env file
-dotenv.config({ path: '.env' });
+// IMPORTANT: Environment variables are now loaded via the --require flag in package.json
 
 import { ai } from '@/ai/genkit';
 // Use the secure admin client for write operations
