@@ -11,8 +11,7 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 // Client-side, public client for general use.
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
-    // This is the fix: disable the email change security feature for easier development.
-    // It allows users to log in even if their email hasn't been verified yet.
+    // This allows users to log in without email verification, which is useful for development.
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
