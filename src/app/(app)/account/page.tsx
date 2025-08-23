@@ -16,12 +16,16 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowRight, Bot, Loader2, Mail, Rocket, Briefcase, Phone, UserCircle } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { AvatarUpload } from '@/components/feature/avatar-upload';
+import Image from 'next/image';
 
 type Profile = {
+  id: string;
   first_name: string;
   last_name: string;
   email: string;
   avatar_url?: string;
+  cover_url?: string;
   business_name?: string;
   job_title?: string;
   phone_number?: string;
@@ -39,7 +43,7 @@ export default function AccountPage() {
       if (user) {
         const { data, error } = await supabase
           .from('profiles')
-          .select('first_name, last_name, avatar_url, business_name, job_title, phone_number, mobile_number, role')
+          .select('id, first_name, last_name, avatar_url, cover_url, business_name, job_title, phone_number, mobile_number, role')
           .eq('id', user.id)
           .single();
 
@@ -54,23 +58,64 @@ export default function AccountPage() {
     getProfile();
   }, []);
 
+  const handleAvatarUpload = async (url: string) => {
+    if (profile) {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ avatar_url: url })
+        .eq('id', profile.id);
+      
+      if (!error) {
+        setProfile({ ...profile, avatar_url: url });
+      } else {
+        console.error("Failed to update avatar URL", error);
+      }
+    }
+  };
+
+  const handleCoverUpload = async (url: string) => {
+      if (profile) {
+          const { error } = await supabase
+            .from('profiles')
+            .update({ cover_url: url })
+            .eq('id', profile.id);
+
+          if (!error) {
+              setProfile({ ...profile, cover_url: url });
+          } else {
+              console.error("Failed to update cover URL", error);
+          }
+      }
+  };
+
   return (
     <div className="flex flex-col min-h-full">
       {/* Top Dark Section */}
-      <div className="bg-secondary text-secondary-foreground py-16 text-center relative">
+      <div className="bg-secondary text-secondary-foreground py-16 text-center relative h-[350px] flex flex-col justify-center items-center">
         {loading ? (
           <>
+            <Skeleton className="absolute inset-0" />
             <Skeleton className="h-12 w-1/2 mx-auto mb-4" />
             <Skeleton className="h-5 w-3/4 mx-auto" />
             <Skeleton className="h-5 w-2/3 mx-auto mt-2" />
           </>
         ) : (
           <>
-            <h1 className="text-4xl md:text-5xl font-bold">Hello {profile?.first_name}</h1>
-            <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
-              Let's kick things off with our FREE Test Drive – an interactive brainstorming session designed to help you set up your new or existing business idea. Unlock powerful AI-driven features that will guide you to ideate, launch, and manage your venture, all within the Business Studio Apps Suite.
-            </p>
+            <Image
+                src={profile?.cover_url || 'https://placehold.co/1200x630.png'}
+                alt="Cover image"
+                layout="fill"
+                objectFit="cover"
+                className="opacity-20"
+                data-ai-hint="office business"
+            />
+            <div className="relative z-10">
+              <h1 className="text-4xl md:text-5xl font-bold">Hello {profile?.first_name}</h1>
+              <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
+              <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
+                Let's kick things off with our FREE Test Drive – an interactive brainstorming session designed to help you set up your new or existing business idea. Unlock powerful AI-driven features that will guide you to ideate, launch, and manage your venture, all within the Business Studio Apps Suite.
+              </p>
+            </div>
           </>
         )}
       </div>
@@ -81,13 +126,18 @@ export default function AccountPage() {
            {loading ? (
              <Skeleton className="h-40 w-40 rounded-full border-8 border-background" />
            ) : (
-             <Avatar className="h-40 w-40 border-8 border-background">
-                <AvatarImage src={profile?.avatar_url} alt={profile?.first_name} />
-                <AvatarFallback>
-                    {profile?.first_name?.charAt(0)}
-                    {profile?.last_name?.charAt(0)}
-                </AvatarFallback>
-            </Avatar>
+            <div className="group relative">
+                <Avatar className="h-40 w-40 border-8 border-background">
+                    <AvatarImage src={profile?.avatar_url} alt={profile?.first_name} />
+                    <AvatarFallback>
+                        {profile?.first_name?.charAt(0)}
+                        {profile?.last_name?.charAt(0)}
+                    </AvatarFallback>
+                </Avatar>
+                <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                   <AvatarUpload onUpload={handleAvatarUpload} />
+                </div>
+            </div>
            )}
         </div>
       </div>
