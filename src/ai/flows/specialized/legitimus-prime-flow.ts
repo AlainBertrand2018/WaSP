@@ -24,9 +24,13 @@ const AskLegitimusPrimeInputSchema = z.object({
     .describe('The history of the conversation.'),
 });
 
+// The output now includes a structured sources array
 const AskLegitimusPrimeOutputSchema = z.object({
   answer: z.string().describe('The AI-generated answer based on the provided legal document.'),
-  sources: z.array(z.object({ content: z.string() })).describe('The chunks of text from the source document used to generate the answer.'),
+  sources: z.array(z.object({ 
+      content: z.string(),
+      // In the future, we could add more metadata here like title, section, score
+  })).describe('The chunks of text from the source document used to generate the answer.'),
 });
 
 export type AskLegitimusPrimeInput = z.infer<typeof AskLegitimusPrimeInputSchema>;
@@ -38,7 +42,7 @@ export type AskLegitimusPrimeOutput = z.infer<typeof AskLegitimusPrimeOutputSche
  * @param query The user's question.
  * @returns A promise that resolves to an array of content strings.
  */
-async function searchConstitution(query: string): Promise<string[]> {
+async function searchConstitution(query: string): Promise<any[]> {
   // 1. Generate an embedding for the user's query.
   const embeddingResponse = await ai.embed({
     embedder: 'googleai/text-embedding-004',
@@ -51,7 +55,7 @@ async function searchConstitution(query: string): Promise<string[]> {
     console.error('MANUAL CHECK FAILED: Could not generate a valid embedding for the query.');
     return [];
   }
-  console.log('MANUAL CHECK 1: User question embedded successfully. Vector starts with:', queryEmbedding.slice(0, 5));
+  console.log('MANUAL CHECK 1: User question embedded successfully.');
 
 
   // 2. Call the Supabase RPC to find matching sections using the secure admin client.
@@ -71,11 +75,8 @@ async function searchConstitution(query: string): Promise<string[]> {
       console.log("Supabase search result (first chunk content):", (data[0] as any)?.content?.substring(0, 100) + "...");
   }
 
-
-  // 3. Return the content of the matched sections.
-  const context = data.map((item: any) => item.content);
-  console.log('MANUAL CHECK 3: Assembled context for AI. Total characters:', context.join(' ').length);
-  return context;
+  // 3. Return the full matched sections, which now include content and other metadata
+  return data || [];
 }
 
 
@@ -103,20 +104,32 @@ export async function* streamAnswerForLegitimusPrime(
 
         if (triageResult.output?.decision === 'greet_or_decline') {
             const standardResponse = await standardResponsePrompt(flowInput.question);
-            // For streaming, we need to return the answer in the correct schema format.
-            // Sources will be empty for a standard response.
             return { answer: standardResponse.output?.answer || "I can only assist with questions about the Constitution of Mauritius.", sources: [] };
         }
 
-        const context = await searchConstitution(flowInput.question);
+        const retrievedDocs = await searchConstitution(flowInput.question);
+
+        if (!retrievedDocs || retrievedDocs.length === 0) {
+          return {
+            answer: "I couldn't find any relevant information in the Constitution of Mauritius to answer that question.",
+            sources: []
+          };
+        }
+
+        const context = retrievedDocs.map((doc, i) => `<<<SOURCE ${i+1}>>>\n${doc.content}`).join('\n\n---\n\n');
+        console.log('MANUAL CHECK 3: Assembled context for AI. Total characters:', context.length);
+
         
         const { output } = await ragPrompt({
-            ...flowInput,
+            question: flowInput.question,
             context
         });
 
-        // The RAG prompt already returns the correct schema with sources.
-        return output || { answer: "I could not generate a response.", sources: [] };
+        // The RAG prompt returns the answer, we just need to attach the sources.
+        return { 
+          answer: output?.answer || "I could not generate a response.", 
+          sources: retrievedDocs.map(doc => ({ content: doc.content })) 
+        };
       }
     );
 
@@ -136,28 +149,27 @@ const ragPrompt = ai.definePrompt({
   input: {
     schema: z.object({
       question: z.string(),
-      history: z.array(z.object({ role: z.enum(['user', 'model']), content: z.string() })),
-      context: z.array(z.string()), // Context from Supabase
+      context: z.string(),
     }),
   },
-  output: { schema: AskLegitimusPrimeOutputSchema },
-  prompt: `You are Legitimus Prime, a seasoned AI assistant specializing in the Constitution and Laws of Mauritius. Using the following CONTEXT provided from the document, answer the user's QUESTION.
-Your answer must be based exclusively on the information within the provided CONTEXT.
-Do not use any outside knowledge. If the CONTEXT does not contain the answer, you must state that you cannot answer the question based on the provided information.
+  output: { schema: z.object({ answer: z.string() }) },
+  prompt: `You are Legitimus Prime, a legal AI assistant. Your sole purpose is to answer questions based on the Constitution of Mauritius.
 
-CONTEXT:
----
-{{#if context}}
-{{#each context}}
-  {{this}}
----
-{{/each}}
-{{else}}
-No context provided.
-{{/if}}
+You must follow these rules strictly:
+1.  Answer ONLY using the provided sources from the Constitution.
+2.  If the answer is not present in the sources, you MUST state: "I do not have enough information in the Constitution to answer that question." Do not use outside knowledge.
+3.  Cite your sources at the end of relevant sentences using the format [S1], [S2], etc., matching the source blocks.
+4.  Do NOT provide legal advice. Provide factual excerpts and references only.
 
-QUESTION:
-{{question}}`,
+User's Question:
+{{question}}
+
+Sources from the Constitution of Mauritius:
+---
+{{context}}
+---
+
+Based on the sources provided, answer the user's question.`,
 });
 
 
@@ -170,7 +182,6 @@ const triagePrompt = ai.definePrompt({
 - If the query is a simple greeting (e.g., "hello", "hi", "how are you?"), a thank you, or clearly off-topic (e.g., "what is the weather like?"), respond with "greet_or_decline".
 
 User query: "{{query}}"`,
-    model: 'googleai/gemini-2.0-flash',
 });
 
 
@@ -183,7 +194,6 @@ const standardResponsePrompt = ai.definePrompt({
 - If it's something else (like "thank you" or an off-topic question), politely state that you can only answer questions related to the Constitution of Mauritius.
     
 User input: "{{query}}"`,
-    model: 'googleai/gemini-2.0-flash',
 });
 
 
@@ -210,12 +220,23 @@ const legitimusPrimeFlow = ai.defineFlow(
     }
 
     // Step 2b: If it requires a search, proceed with the RAG process.
-    // Retrieve relevant context from Supabase based on the user's question.
-    const context = await searchConstitution(input.question);
+    const retrievedDocs = await searchConstitution(input.question);
+
+    if (!retrievedDocs || retrievedDocs.length === 0) {
+      return {
+        answer: "I couldn't find any relevant information in the Constitution of Mauritius to answer that question.",
+        sources: []
+      };
+    }
+
+    // Assemble the context for the prompt
+    const context = retrievedDocs.map((doc, i) => `<<<SOURCE ${i+1}>>>\n${doc.content}`).join('\n\n---\n\n');
+    console.log('MANUAL CHECK 3: Assembled context for AI. Total characters:', context.length);
+
     
-    // Call the prompt with the question, history, and the retrieved context.
+    // Call the prompt with the question and the retrieved context.
     const { output } = await ragPrompt({
-        ...input,
+        question: input.question,
         context
     });
 
@@ -223,10 +244,10 @@ const legitimusPrimeFlow = ai.defineFlow(
       throw new Error('The AI model did not return a valid response.');
     }
     
-    // The RAG prompt already provides the answer. We just need to add the sources.
+    // Return the answer and the structured sources.
     return {
       answer: output.answer,
-      sources: context.map(c => ({ content: c }))
+      sources: retrievedDocs.map(doc => ({ content: doc.content }))
     };
   }
 );

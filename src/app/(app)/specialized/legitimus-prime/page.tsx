@@ -14,6 +14,7 @@ import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import DOMPurify from 'dompurify';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 type BaseMessage = {
   role: 'user' | 'model';
@@ -22,7 +23,6 @@ type BaseMessage = {
 
 type Source = {
   content: string;
-  // In the future, we could add metadata like section, title, etc.
 }
 
 type ModelMessage = BaseMessage & {
@@ -103,8 +103,8 @@ export default function LegitimusPrimePage() {
             </div>
         </header>
 
-        <main className="flex-1 p-4 overflow-y-auto" ref={scrollAreaRef}>
-          <div className="space-y-6 max-w-4xl mx-auto">
+        <ScrollArea className="flex-1" ref={scrollAreaRef}>
+          <div className="space-y-6 max-w-4xl mx-auto p-4">
             {messages.map((message, index) => (
               <div key={index}>
                   <div
@@ -160,7 +160,7 @@ export default function LegitimusPrimePage() {
               </div>
             )}
           </div>
-        </main>
+        </ScrollArea>
 
         <footer className="p-4 border-t bg-background">
           <form onSubmit={handleSubmit} className="flex gap-2 max-w-4xl mx-auto">
@@ -204,7 +204,7 @@ export default function LegitimusPrimePage() {
                     {legalProfessionals.map(pro => (
                          <li key={pro.name} className="flex items-center gap-3">
                             <Avatar>
-                                <AvatarImage src={pro.avatar} alt={pro.name} />
+                                <AvatarImage src={pro.avatar} alt={pro.name} data-ai-hint="professional headshot" />
                                 <AvatarFallback>{pro.name.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div>
