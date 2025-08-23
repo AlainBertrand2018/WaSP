@@ -29,32 +29,7 @@ type Profile = {
 };
 
 // Mock data for recent activity
-const recentActivities = [
-  {
-    icon: <Lightbulb className="h-5 w-5 text-accent" />,
-    text: 'Validated a new business idea: "Artisan Coffee Roasters"',
-    time: '2 days ago',
-    href: '/business-creation/business-idea-validation'
-  },
-  {
-    icon: <Rocket className="h-5 w-5 text-accent" />,
-    text: 'Generated an MVP Plan for "Artisan Coffee Roasters"',
-    time: '1 day ago',
-    href: '/business-creation/mvp-planner'
-  },
-  {
-    icon: <Wallet className="h-5 w-5 text-accent" />,
-    text: 'Updated the Startup Budget with new fixed costs',
-    time: '3 hours ago',
-    href: '/business-creation/startup-budget-planner'
-  },
-  {
-    icon: <FileText className="h-5 w-5 text-accent" />,
-    text: 'Downloaded the final Business Plan PDF',
-    time: '3 hours ago',
-    href: '/business-creation/business-plan-generator'
-  }
-];
+const recentActivities: any[] = [];
 
 export default function AccountPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -275,45 +250,47 @@ export default function AccountPage() {
           </Card>
           
           {/* Recent Activity Dashboard */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                 <div className="space-y-4">
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <div key={i} className="flex items-center gap-4">
-                      <Skeleton className="h-8 w-8 rounded-full" />
-                      <div className="flex-grow space-y-2">
-                        <Skeleton className="h-4 w-4/5" />
-                        <Skeleton className="h-3 w-1/4" />
+          {recentActivities.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Recent Activity</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <div className="space-y-4">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                      <div key={i} className="flex items-center gap-4">
+                        <Skeleton className="h-8 w-8 rounded-full" />
+                        <div className="flex-grow space-y-2">
+                          <Skeleton className="h-4 w-4/5" />
+                          <Skeleton className="h-3 w-1/4" />
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <ul className="space-y-4">
-                  {recentActivities.map((activity, index) => (
-                    <li key={index} className="flex items-start gap-4">
-                        <div className="bg-muted p-2 rounded-full mt-1">
-                            {activity.icon}
-                        </div>
-                        <div className="flex-grow">
-                            <p className="font-medium text-sm">{activity.text}</p>
-                            <p className="text-xs text-muted-foreground">{activity.time}</p>
-                        </div>
-                        <Button asChild variant="ghost" size="sm">
-                            <Link href={activity.href}>
-                                View <ArrowRight className="ml-2 h-3 w-3" />
-                            </Link>
-                        </Button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </CardContent>
-          </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <ul className="space-y-4">
+                    {recentActivities.map((activity, index) => (
+                      <li key={index} className="flex items-start gap-4">
+                          <div className="bg-muted p-2 rounded-full mt-1">
+                              {activity.icon}
+                          </div>
+                          <div className="flex-grow">
+                              <p className="font-medium text-sm">{activity.text}</p>
+                              <p className="text-xs text-muted-foreground">{activity.time}</p>
+                          </div>
+                          <Button asChild variant="ghost" size="sm">
+                              <Link href={activity.href}>
+                                  View <ArrowRight className="ml-2 h-3 w-3" />
+                              </Link>
+                          </Button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </CardContent>
+            </Card>
+          )}
 
 
           {/* Action Cards */}

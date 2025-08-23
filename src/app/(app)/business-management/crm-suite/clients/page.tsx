@@ -9,7 +9,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  CardFooter,
 } from '@/components/ui/card';
 import {
   Table,
@@ -33,84 +32,38 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { MoreHorizontal, PlusCircle, ArrowLeft, Edit, Mail, Phone, Briefcase } from 'lucide-react';
+import { MoreHorizontal, PlusCircle, Mail, Phone, Briefcase } from 'lucide-react';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
+type Project = {
+    name: string;
+    status: string;
+};
 
-const mockClients = [
-    {
-        id: 'john-doe',
-        name: 'John Doe',
-        title: 'Marketing Director',
-        company: 'TechCorp',
-        avatar: 'https://placehold.co/96x96.png',
-        email: 'john.doe@techcorp.com',
-        phone: '+1 234 567 890',
-        status: 'Active',
-        addedOn: '2024-07-15',
-        projects: [
-            { name: 'E-commerce Platform Launch', status: 'In Progress' },
-            { name: 'Q3 Marketing Campaign', status: 'Planning' },
-        ],
-        recentActivity: [
-            { type: 'note', content: 'Discussed Q4 budget.', date: '2 days ago'},
-            { type: 'email', content: 'Sent proposal for new campaign.', date: '1 week ago'},
-            { type: 'meeting', content: 'Initial discovery call.', date: '3 weeks ago'},
-        ]
-    },
-    {
-        id: 'jane-smith',
-        name: 'Jane Smith',
-        title: 'CEO',
-        company: 'Innovate Ltd.',
-        avatar: 'https://placehold.co/96x96.png',
-        email: 'jane.smith@innovate.com',
-        phone: '+44 123 456 789',
-        status: 'Active',
-        addedOn: '2024-07-10',
-        projects: [
-            { name: 'Mobile App Development', status: 'Completed' },
-        ],
-        recentActivity: [
-            { type: 'invoice', content: 'Invoice #INV-002 paid.', date: '5 days ago'},
-        ]
-    },
-    {
-        id: 'samuel-brown',
-        name: 'Samuel Brown',
-        title: 'Lead Developer',
-        company: 'DevHouse',
-        avatar: 'https://placehold.co/96x96.png',
-        email: 'sam.brown@devhouse.io',
-        phone: '+61 412 345 678',
-        status: 'Lead',
-        addedOn: '2024-06-28',
-        projects: [],
-        recentActivity: [
-            { type: 'quotation', content: 'Quotation #QUO-003 sent.', date: 'Yesterday'},
-        ]
-    },
-    {
-        id: 'emily-white',
-        name: 'Emily White',
-        title: 'Project Manager',
-        company: 'Creative Co.',
-        avatar: 'https://placehold.co/96x96.png',
-        email: 'emily.w@creative.co',
-        phone: '+1 987 654 321',
-        status: 'Inactive',
-        addedOn: '2024-05-20',
-        projects: [],
-        recentActivity: [
-             { type: 'note', content: 'Project put on hold.', date: '2 months ago'},
-        ]
-    },
-];
+type Activity = {
+    type: string;
+    content: string;
+    date: string;
+};
 
-type Client = typeof mockClients[0];
+type Client = {
+    id: string;
+    name: string;
+    title: string;
+    company: string;
+    avatar: string;
+    email: string;
+    phone: string;
+    status: 'Active' | 'Lead' | 'Inactive';
+    addedOn: string;
+    projects: Project[];
+    recentActivity: Activity[];
+};
+
+const clients: Client[] = [];
 
 const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
   Active: 'default',
@@ -252,48 +205,58 @@ export default function CrmSuiteClientsPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {mockClients.map((client) => (
-                                <TableRow key={client.email}>
-                                    <TableCell>
-                                        <DialogTrigger asChild>
-                                            <button onClick={() => setSelectedClient(client)} className="flex items-center gap-3 group text-left">
-                                                <Avatar className="h-8 w-8">
-                                                    <AvatarImage src={client.avatar} alt={client.name} data-ai-hint="placeholder avatar" />
-                                                    <AvatarFallback>{client.name.charAt(0)}</AvatarFallback>
-                                                </Avatar>
-                                                <div>
-                                                    <p className="font-medium group-hover:underline">{client.name}</p>
-                                                    <p className="text-xs text-muted-foreground">{client.title}, {client.company}</p>
-                                                </div>
-                                            </button>
-                                        </DialogTrigger>
-                                    </TableCell>
-                                    <TableCell>
-                                        <p className="font-medium">{client.email}</p>
-                                        <p className="text-xs text-muted-foreground">{client.phone}</p>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Badge variant={statusVariant[client.status] || 'outline'}>{client.status}</Badge>
-                                    </TableCell>
-                                    <TableCell>{client.addedOn}</TableCell>
-                                    <TableCell>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                                <span className="sr-only">Open menu</span>
-                                                <MoreHorizontal className="h-4 w-4" />
-                                            </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                                <DropdownMenuItem onClick={() => setSelectedClient(client)}>
-                                                    View details
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem>Delete</DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                            {clients.length > 0 ? (
+                                clients.map((client) => (
+                                    <TableRow key={client.email}>
+                                        <TableCell>
+                                            <DialogTrigger asChild>
+                                                <button onClick={() => setSelectedClient(client)} className="flex items-center gap-3 group text-left">
+                                                    <Avatar className="h-8 w-8">
+                                                        <AvatarImage src={client.avatar} alt={client.name} data-ai-hint="placeholder avatar" />
+                                                        <AvatarFallback>{client.name.charAt(0)}</AvatarFallback>
+                                                    </Avatar>
+                                                    <div>
+                                                        <p className="font-medium group-hover:underline">{client.name}</p>
+                                                        <p className="text-xs text-muted-foreground">{client.title}, {client.company}</p>
+                                                    </div>
+                                                </button>
+                                            </DialogTrigger>
+                                        </TableCell>
+                                        <TableCell>
+                                            <p className="font-medium">{client.email}</p>
+                                            <p className="text-xs text-muted-foreground">{client.phone}</p>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge variant={statusVariant[client.status] || 'outline'}>{client.status}</Badge>
+                                        </TableCell>
+                                        <TableCell>{client.addedOn}</TableCell>
+                                        <TableCell>
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" className="h-8 w-8 p-0">
+                                                    <span className="sr-only">Open menu</span>
+                                                    <MoreHorizontal className="h-4 w-4" />
+                                                </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DialogTrigger asChild>
+                                                        <DropdownMenuItem onClick={() => setSelectedClient(client)}>
+                                                            View details
+                                                        </DropdownMenuItem>
+                                                    </DialogTrigger>
+                                                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={5} className="h-24 text-center">
+                                        No clients found.
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            )}
                         </TableBody>
                     </Table>
                 </CardContent>

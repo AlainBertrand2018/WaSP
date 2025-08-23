@@ -21,40 +21,16 @@ import { Badge } from '@/components/ui/badge';
 import { PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 
-const mockProjects = [
-  {
-    id: 'PROJ-001',
-    name: 'E-commerce Platform Launch',
-    client: 'Glamour Boutique',
-    startDate: '2024-08-01',
-    endDate: '2024-12-15',
-    status: 'In Progress',
-  },
-  {
-    id: 'PROJ-002',
-    name: 'Corporate Website Redesign',
-    client: 'Fintech Solutions Ltd',
-    startDate: '2024-09-10',
-    endDate: '2025-01-20',
-    status: 'Planning',
-  },
-  {
-    id: 'PROJ-003',
-    name: 'Mobile App Development',
-    client: 'EatWell Restaurant',
-    startDate: '2024-06-15',
-    endDate: '2024-11-30',
-    status: 'Completed',
-  },
-  {
-    id: 'PROJ-004',
-    name: 'Marketing Campaign for Summer',
-    client: 'Sun-kissed Resorts',
-    startDate: '2024-05-01',
-    endDate: '2024-08-31',
-    status: 'On Hold',
-  },
-];
+type Project = {
+    id: string;
+    name: string;
+    client: string;
+    startDate: string;
+    endDate: string;
+    status: 'In Progress' | 'Planning' | 'Completed' | 'On Hold';
+};
+
+const projects: Project[] = [];
 
 const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
   'In Progress': 'default',
@@ -99,18 +75,26 @@ export default function CrmSuiteProjectsPage() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {mockProjects.map((project) => (
-                            <TableRow key={project.id}>
-                                <TableCell className="font-medium">{project.id}</TableCell>
-                                <TableCell>{project.name}</TableCell>
-                                <TableCell>{project.client}</TableCell>
-                                <TableCell>{project.startDate}</TableCell>
-                                <TableCell>{project.endDate}</TableCell>
-                                <TableCell>
-                                    <Badge variant={statusVariant[project.status] || 'default'}>{project.status}</Badge>
+                        {projects.length > 0 ? (
+                            projects.map((project) => (
+                                <TableRow key={project.id}>
+                                    <TableCell className="font-medium">{project.id}</TableCell>
+                                    <TableCell>{project.name}</TableCell>
+                                    <TableCell>{project.client}</TableCell>
+                                    <TableCell>{project.startDate}</TableCell>
+                                    <TableCell>{project.endDate}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={statusVariant[project.status] || 'default'}>{project.status}</Badge>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={6} className="h-24 text-center">
+                                    No projects found.
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        )}
                     </TableBody>
                 </Table>
             </CardContent>

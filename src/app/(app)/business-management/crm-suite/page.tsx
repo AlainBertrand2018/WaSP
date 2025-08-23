@@ -21,47 +21,8 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowRight, Briefcase, FileText, Users, Receipt } from 'lucide-react';
 
-const mockProjects = [
-  {
-    id: 'PROJ-001',
-    name: 'E-commerce Platform Launch',
-    client: 'Glamour Boutique',
-    status: 'In Progress',
-  },
-  {
-    id: 'PROJ-002',
-    name: 'Corporate Website Redesign',
-    client: 'Fintech Solutions Ltd',
-    status: 'Planning',
-  },
-  {
-    id: 'PROJ-003',
-    name: 'Mobile App Development',
-    client: 'EatWell Restaurant',
-    status: 'Completed',
-  },
-];
-
-const mockQuotations = [
-    {
-        id: 'QUO-001',
-        client: 'TechCorp',
-        amount: 'MUR 250,000',
-        status: 'Sent',
-    },
-    {
-        id: 'QUO-003',
-        client: 'DevHouse',
-        amount: 'MUR 120,000',
-        status: 'To Send',
-    },
-     {
-        id: 'QUO-005',
-        client: 'Sun-kissed Resorts',
-        amount: 'MUR 320,000',
-        status: 'Sent',
-    },
-];
+const projects: any[] = [];
+const quotations: any[] = [];
 
 
 const projectStatusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
@@ -97,8 +58,8 @@ export default function CrmSuiteDashboardPage() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">4</div>
-            <p className="text-xs text-muted-foreground">+2 since last month</p>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-muted-foreground">No client data yet</p>
           </CardContent>
         </Card>
         <Card>
@@ -107,8 +68,8 @@ export default function CrmSuiteDashboardPage() {
             <Briefcase className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">4</div>
-             <p className="text-xs text-muted-foreground">1 project on hold</p>
+            <div className="text-2xl font-bold">0</div>
+             <p className="text-xs text-muted-foreground">No project data yet</p>
           </CardContent>
         </Card>
         <Card>
@@ -117,8 +78,8 @@ export default function CrmSuiteDashboardPage() {
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">3</div>
-            <p className="text-xs text-muted-foreground">Total value: MUR 690,000</p>
+            <div className="text-2xl font-bold">0</div>
+            <p className="text-xs text-muted-foreground">No quotation data yet</p>
           </CardContent>
         </Card>
         <Card>
@@ -127,8 +88,8 @@ export default function CrmSuiteDashboardPage() {
             <Receipt className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-destructive">1</div>
-            <p className="text-xs text-muted-foreground">Total overdue: MUR 320,000</p>
+            <div className="text-2xl font-bold text-destructive">0</div>
+            <p className="text-xs text-muted-foreground">No invoice data yet</p>
           </CardContent>
         </Card>
       </div>
@@ -160,17 +121,25 @@ export default function CrmSuiteDashboardPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {mockProjects.map((project) => (
-                  <TableRow key={project.id}>
-                    <TableCell className="font-medium">{project.name}</TableCell>
-                    <TableCell>{project.client}</TableCell>
-                    <TableCell>
-                      <Badge variant={projectStatusVariant[project.status] || 'default'}>
-                        {project.status}
-                      </Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {projects.length > 0 ? (
+                    projects.map((project) => (
+                    <TableRow key={project.id}>
+                        <TableCell className="font-medium">{project.name}</TableCell>
+                        <TableCell>{project.client}</TableCell>
+                        <TableCell>
+                        <Badge variant={projectStatusVariant[project.status] || 'default'}>
+                            {project.status}
+                        </Badge>
+                        </TableCell>
+                    </TableRow>
+                    ))
+                ) : (
+                    <TableRow>
+                        <TableCell colSpan={3} className="h-24 text-center">
+                            No projects found. <Link href="/business-management/crm-suite/projects/new" className="text-primary underline">Create one</Link>.
+                        </TableCell>
+                    </TableRow>
+                )}
               </TableBody>
             </Table>
           </CardContent>
@@ -202,15 +171,23 @@ export default function CrmSuiteDashboardPage() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {mockQuotations.map((quote) => (
-                        <TableRow key={quote.id}>
-                            <TableCell>{quote.client}</TableCell>
-                            <TableCell>{quote.amount}</TableCell>
-                            <TableCell>
-                                <Badge variant={quoteStatusVariant[quote.status] || 'outline'}>{quote.status}</Badge>
+                     {quotations.length > 0 ? (
+                        quotations.map((quote) => (
+                            <TableRow key={quote.id}>
+                                <TableCell>{quote.client}</TableCell>
+                                <TableCell>{quote.amount}</TableCell>
+                                <TableCell>
+                                    <Badge variant={quoteStatusVariant[quote.status] || 'outline'}>{quote.status}</Badge>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={3} className="h-24 text-center">
+                                No quotations found. <Link href="/business-management/crm-suite/quotations/new" className="text-primary underline">Create one</Link>.
                             </TableCell>
                         </TableRow>
-                    ))}
+                    )}
                 </TableBody>
             </Table>
           </CardContent>

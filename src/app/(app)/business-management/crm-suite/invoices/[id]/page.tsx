@@ -15,67 +15,26 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, Download, Printer, CreditCard } from 'lucide-react';
 
-// Mock data - in a real app, you would fetch this based on the ID
-const mockInvoices = {
-    'INV-002': {
-        id: 'INV-002',
-        client: 'Innovate Ltd.',
-        project: 'Mobile App Development',
-        amount: 450000,
-        status: 'Paid',
-        issueDate: '2024-07-19',
-        dueDate: '2024-08-18',
-        clientAddress: '123 Cybercity, Ebene, Mauritius',
-        items: [
-            { description: 'Phase 1: Design & Prototyping', quantity: 1, price: 150000 },
-            { description: 'Phase 2: Backend Development', quantity: 1, price: 200000 },
-            { description: 'Phase 3: Frontend Development', quantity: 1, price: 100000 },
-        ],
-    },
-    'INV-006': {
-        id: 'INV-006',
-        client: 'Fintech Solutions Ltd',
-        project: 'Security Audit',
-        amount: 180000,
-        status: 'Paid',
-        issueDate: '2024-07-11',
-        dueDate: '2024-08-10',
-        clientAddress: '456 Financial Hub, Port Louis, Mauritius',
-        items: [
-             { description: 'Vulnerability Assessment', quantity: 1, price: 80000 },
-             { description: 'Penetration Testing (Web App)', quantity: 1, price: 100000 },
-        ],
-    },
-    'INV-007': {
-        id: 'INV-007',
-        client: 'TechCorp',
-        project: 'E-commerce Platform Launch',
-        amount: 250000,
-        status: 'Unpaid',
-        issueDate: '2024-07-25',
-        dueDate: '2024-08-24',
-        clientAddress: '789 Tech Park, Moka, Mauritius',
-        items: [
-            { description: 'Platform Customization', quantity: 1, price: 150000 },
-            { description: 'Data Migration', quantity: 1, price: 50000 },
-            { description: 'User Training', quantity: 1, price: 50000 },
-        ],
-    },
-    'INV-008': {
-        id: 'INV-008',
-        client: 'Sun-kissed Resorts',
-        project: 'Booking System Integration',
-        amount: 320000,
-        status: 'Overdue',
-        issueDate: '2024-06-15',
-        dueDate: '2024-07-15',
-        clientAddress: '101 Coastal Road, Flic en Flac, Mauritius',
-        items: [
-            { description: 'API Integration Development', quantity: 1, price: 200000 },
-            { description: 'On-site Setup & Configuration', quantity: 1, price: 120000 },
-        ],
-    }
+type InvoiceItem = {
+    description: string;
+    quantity: number;
+    price: number;
 };
+
+type Invoice = {
+    id: string;
+    client: string;
+    project: string;
+    amount: number;
+    status: 'Paid' | 'Unpaid' | 'Overdue';
+    issueDate: string;
+    dueDate: string;
+    clientAddress: string;
+    items: InvoiceItem[];
+};
+
+// In a real app, you would fetch this based on the ID
+const mockInvoices: { [key: string]: Invoice } = {};
 
 const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
   Paid: 'default',

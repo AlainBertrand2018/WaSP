@@ -27,56 +27,16 @@ import { Badge } from '@/components/ui/badge';
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 
-const mockQuotations = [
-    {
-        id: 'QUO-001',
-        client: 'TechCorp',
-        project: 'E-commerce Platform Launch',
-        amount: 'MUR 250,000',
-        status: 'Sent',
-        date: '2024-07-20',
-    },
-    {
-        id: 'QUO-002',
-        client: 'Innovate Ltd.',
-        project: 'Mobile App Development',
-        amount: 'MUR 450,000',
-        status: 'Won',
-        date: '2024-07-18',
-    },
-    {
-        id: 'QUO-003',
-        client: 'DevHouse',
-        project: 'Website Redesign',
-        amount: 'MUR 120,000',
-        status: 'To Send',
-        date: '2024-07-17',
-    },
-    {
-        id: 'QUO-004',
-        client: 'Creative Co.',
-        project: 'Marketing Campaign',
-        amount: 'MUR 80,000',
-        status: 'Rejected',
-        date: '2024-07-15',
-    },
-     {
-        id: 'QUO-005',
-        client: 'Sun-kissed Resorts',
-        project: 'Booking System Integration',
-        amount: 'MUR 320,000',
-        status: 'Sent',
-        date: '2024-07-12',
-    },
-    {
-        id: 'QUO-006',
-        client: 'Fintech Solutions Ltd',
-        project: 'Security Audit',
-        amount: 'MUR 180,000',
-        status: 'Won',
-        date: '2024-07-10',
-    },
-];
+type Quotation = {
+    id: string;
+    client: string;
+    project: string;
+    amount: string;
+    status: 'Sent' | 'Won' | 'To Send' | 'Rejected';
+    date: string;
+};
+
+const quotations: Quotation[] = [];
 
 const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
   Sent: 'secondary',
@@ -122,40 +82,48 @@ export default function CrmSuiteQuotationsPage() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {mockQuotations.map((quote) => (
-                            <TableRow key={quote.id}>
-                                <TableCell className="font-medium">
-                                    <Link href={`/business-management/crm-suite/quotations/${quote.id}`} className="text-primary hover:underline">
-                                        {quote.id}
-                                    </Link>
-                                </TableCell>
-                                <TableCell>{quote.client}</TableCell>
-                                <TableCell>{quote.project}</TableCell>
-                                <TableCell>{quote.amount}</TableCell>
-                                <TableCell>
-                                    <Badge variant={statusVariant[quote.status] || 'outline'}>{quote.status}</Badge>
-                                </TableCell>
-                                <TableCell>{quote.date}</TableCell>
-                                <TableCell>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" className="h-8 w-8 p-0">
-                                            <span className="sr-only">Open menu</span>
-                                            <MoreHorizontal className="h-4 w-4" />
-                                        </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                             <DropdownMenuItem asChild>
-                                                <Link href={`/business-management/crm-suite/quotations/${quote.id}`} className="w-full">
-                                                    View details
-                                                </Link>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
+                        {quotations.length > 0 ? (
+                            quotations.map((quote) => (
+                                <TableRow key={quote.id}>
+                                    <TableCell className="font-medium">
+                                        <Link href={`/business-management/crm-suite/quotations/${quote.id}`} className="text-primary hover:underline">
+                                            {quote.id}
+                                        </Link>
+                                    </TableCell>
+                                    <TableCell>{quote.client}</TableCell>
+                                    <TableCell>{quote.project}</TableCell>
+                                    <TableCell>{quote.amount}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={statusVariant[quote.status] || 'outline'}>{quote.status}</Badge>
+                                    </TableCell>
+                                    <TableCell>{quote.date}</TableCell>
+                                    <TableCell>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                                <span className="sr-only">Open menu</span>
+                                                <MoreHorizontal className="h-4 w-4" />
+                                            </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                 <DropdownMenuItem asChild>
+                                                    <Link href={`/business-management/crm-suite/quotations/${quote.id}`} className="w-full">
+                                                        View details
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem>Delete</DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={7} className="h-24 text-center">
+                                    No quotations found.
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        )}
                     </TableBody>
                 </Table>
             </CardContent>

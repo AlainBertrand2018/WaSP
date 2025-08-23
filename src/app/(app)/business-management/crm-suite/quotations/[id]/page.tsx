@@ -15,89 +15,25 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, Download, Printer, FileCheck, Send } from 'lucide-react';
 
-// Mock data - in a real app, you would fetch this based on the ID
-const mockQuotations = {
-    'QUO-001': {
-        id: 'QUO-001',
-        client: 'TechCorp',
-        project: 'E-commerce Platform Launch',
-        status: 'Sent',
-        issueDate: '2024-07-20',
-        validUntil: '2024-08-19',
-        clientAddress: '789 Tech Park, Moka, Mauritius',
-        items: [
-            { description: 'Platform Customization', quantity: 1, price: 150000 },
-            { description: 'Data Migration', quantity: 1, price: 50000 },
-            { description: 'User Training', quantity: 1, price: 50000 },
-        ],
-    },
-    'QUO-002': {
-        id: 'QUO-002',
-        client: 'Innovate Ltd.',
-        project: 'Mobile App Development',
-        status: 'Won',
-        issueDate: '2024-07-18',
-        validUntil: '2024-08-17',
-        clientAddress: '123 Cybercity, Ebene, Mauritius',
-        items: [
-            { description: 'Phase 1: Design & Prototyping', quantity: 1, price: 150000 },
-            { description: 'Phase 2: Backend Development', quantity: 1, price: 200000 },
-            { description: 'Phase 3: Frontend Development', quantity: 1, price: 100000 },
-        ],
-    },
-    'QUO-003': {
-        id: 'QUO-003',
-        client: 'DevHouse',
-        project: 'Website Redesign',
-        status: 'To Send',
-        issueDate: '2024-07-17',
-        validUntil: '2024-08-16',
-        clientAddress: '456 Dev Avenue, Port Louis, Mauritius',
-        items: [
-            { description: 'UI/UX Design Mockups', quantity: 1, price: 40000 },
-            { description: 'Frontend Development (5 pages)', quantity: 1, price: 80000 },
-        ],
-    },
-    'QUO-004': {
-        id: 'QUO-004',
-        client: 'Creative Co.',
-        project: 'Marketing Campaign',
-        status: 'Rejected',
-        issueDate: '2024-07-15',
-        validUntil: '2024-08-14',
-        clientAddress: '111 Art Street, Grand Baie, Mauritius',
-        items: [
-            { description: 'Social Media Strategy', quantity: 1, price: 30000 },
-            { description: 'Content Creation (10 posts)', quantity: 1, price: 50000 },
-        ],
-    },
-    'QUO-005': {
-        id: 'QUO-005',
-        client: 'Sun-kissed Resorts',
-        project: 'Booking System Integration',
-        status: 'Sent',
-        issueDate: '2024-07-12',
-        validUntil: '2024-08-11',
-        clientAddress: '101 Coastal Road, Flic en Flac, Mauritius',
-        items: [
-            { description: 'API Integration Development', quantity: 1, price: 200000 },
-            { description: 'On-site Setup & Configuration', quantity: 1, price: 120000 },
-        ],
-    },
-    'QUO-006': {
-        id: 'QUO-006',
-        client: 'Fintech Solutions Ltd',
-        project: 'Security Audit',
-        status: 'Won',
-        issueDate: '2024-07-10',
-        validUntil: '2024-08-09',
-        clientAddress: '456 Financial Hub, Port Louis, Mauritius',
-        items: [
-             { description: 'Vulnerability Assessment', quantity: 1, price: 80000 },
-             { description: 'Penetration Testing (Web App)', quantity: 1, price: 100000 },
-        ],
-    }
+type QuotationItem = {
+    description: string;
+    quantity: number;
+    price: number;
 };
+
+type Quotation = {
+    id: string;
+    client: string;
+    project: string;
+    status: 'Sent' | 'Won' | 'To Send' | 'Rejected';
+    issueDate: string;
+    validUntil: string;
+    clientAddress: string;
+    items: QuotationItem[];
+};
+
+// In a real app, you would fetch this based on the ID
+const mockQuotations: { [key: string]: Quotation } = {};
 
 const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
   Sent: 'secondary',

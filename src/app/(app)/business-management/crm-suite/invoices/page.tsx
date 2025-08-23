@@ -27,44 +27,17 @@ import { Badge } from '@/components/ui/badge';
 import { MoreHorizontal } from 'lucide-react';
 import Link from 'next/link';
 
-const mockInvoices = [
-    {
-        id: 'INV-002',
-        client: 'Innovate Ltd.',
-        project: 'Mobile App Development',
-        amount: 'MUR 450,000',
-        status: 'Paid',
-        issueDate: '2024-07-19',
-        dueDate: '2024-08-18'
-    },
-    {
-        id: 'INV-006',
-        client: 'Fintech Solutions Ltd',
-        project: 'Security Audit',
-        amount: 'MUR 180,000',
-        status: 'Paid',
-        issueDate: '2024-07-11',
-        dueDate: '2024-08-10'
-    },
-    {
-        id: 'INV-007',
-        client: 'TechCorp',
-        project: 'E-commerce Platform Launch',
-        amount: 'MUR 250,000',
-        status: 'Unpaid',
-        issueDate: '2024-07-25',
-        dueDate: '2024-08-24'
-    },
-    {
-        id: 'INV-008',
-        client: 'Sun-kissed Resorts',
-        project: 'Booking System Integration',
-        amount: 'MUR 320,000',
-        status: 'Overdue',
-        issueDate: '2024-06-15',
-        dueDate: '2024-07-15'
-    }
-];
+type Invoice = {
+    id: string;
+    client: string;
+    project: string;
+    amount: string;
+    status: 'Paid' | 'Unpaid' | 'Overdue';
+    issueDate: string;
+    dueDate: string;
+};
+
+const invoices: Invoice[] = [];
 
 const statusVariant: { [key: string]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
   Paid: 'default',
@@ -104,42 +77,50 @@ export default function CrmSuiteInvoicesPage() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {mockInvoices.map((invoice) => (
-                            <TableRow key={invoice.id}>
-                                <TableCell className="font-medium">
-                                    <Link href={`/business-management/crm-suite/invoices/${invoice.id}`} className="text-primary hover:underline">
-                                        {invoice.id}
-                                    </Link>
-                                </TableCell>
-                                <TableCell>{invoice.client}</TableCell>
-                                <TableCell>{invoice.project}</TableCell>
-                                <TableCell>{invoice.amount}</TableCell>
-                                <TableCell>
-                                    <Badge variant={statusVariant[invoice.status] || 'outline'}>{invoice.status}</Badge>
-                                </TableCell>
-                                <TableCell>{invoice.issueDate}</TableCell>
-                                <TableCell>{invoice.dueDate}</TableCell>
-                                <TableCell>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" className="h-8 w-8 p-0">
-                                            <span className="sr-only">Open menu</span>
-                                            <MoreHorizontal className="h-4 w-4" />
-                                        </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                            <DropdownMenuItem>
-                                                <Link href={`/business-management/crm-suite/invoices/${invoice.id}`} className="w-full">
-                                                    View details
-                                                </Link>
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem>Download PDF</DropdownMenuItem>
-                                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
+                        {invoices.length > 0 ? (
+                            invoices.map((invoice) => (
+                                <TableRow key={invoice.id}>
+                                    <TableCell className="font-medium">
+                                        <Link href={`/business-management/crm-suite/invoices/${invoice.id}`} className="text-primary hover:underline">
+                                            {invoice.id}
+                                        </Link>
+                                    </TableCell>
+                                    <TableCell>{invoice.client}</TableCell>
+                                    <TableCell>{invoice.project}</TableCell>
+                                    <TableCell>{invoice.amount}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={statusVariant[invoice.status] || 'outline'}>{invoice.status}</Badge>
+                                    </TableCell>
+                                    <TableCell>{invoice.issueDate}</TableCell>
+                                    <TableCell>{invoice.dueDate}</TableCell>
+                                    <TableCell>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                                <span className="sr-only">Open menu</span>
+                                                <MoreHorizontal className="h-4 w-4" />
+                                            </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem>
+                                                    <Link href={`/business-management/crm-suite/invoices/${invoice.id}`} className="w-full">
+                                                        View details
+                                                    </Link>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem>Download PDF</DropdownMenuItem>
+                                                <DropdownMenuItem>Delete</DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={8} className="h-24 text-center">
+                                    No invoices found.
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        )}
                     </TableBody>
                 </Table>
             </CardContent>
