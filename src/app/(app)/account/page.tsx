@@ -147,7 +147,7 @@ export default function AccountPage() {
   return (
     <div className="flex flex-col min-h-full">
       {/* Top Dark Section */}
-      <div className="bg-secondary text-secondary-foreground py-16 text-center relative h-[350px] flex flex-col justify-center items-center group">
+      <div className="bg-secondary text-secondary-foreground text-center relative h-[350px] flex flex-col justify-center items-center group">
         {loading ? (
           <>
             <Skeleton className="absolute inset-0" />
