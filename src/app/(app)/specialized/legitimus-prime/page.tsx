@@ -14,6 +14,7 @@ import Image from 'next/image';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
+import DOMPurify from 'dompurify';
 
 type Message = {
   role: 'user' | 'model';
@@ -104,7 +105,7 @@ export default function LegitimusPrimePage() {
                       ? 'bg-primary text-primary-foreground'
                       : 'bg-background shadow-sm'
                   )}
-                  dangerouslySetInnerHTML={{ __html: marked(message.content) }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(message.content) as string) }}
                 />
                  {message.role === 'user' && (
                   <div className="p-2 bg-secondary rounded-full text-secondary-foreground">
