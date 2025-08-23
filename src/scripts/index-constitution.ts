@@ -56,35 +56,62 @@ async function main() {
   }
   console.log('Table cleared successfully.');
   
-  // 3. Generate embeddings and prepare data for insertion
+  // 3. Generate embeddings for all chunks first
   console.log('Generating embeddings for each chunk...');
-  const documentsToInsert = [];
-
+  const embeddingResults = [];
   for (const chunk of chunks) {
     try {
-      // CORRECTED: ai.embed returns the array directly.
       const embedding = await ai.embed({
         embedder: 'googleai/text-embedding-004',
         content: chunk,
       });
-
-      documentsToInsert.push({
-        content: chunk,
-        tokens: chunk.length, // Simple character count, can be improved
-        embedding: embedding, // Pass the raw embedding array
-      });
+      embeddingResults.push(embedding);
     } catch(e) {
       console.error("Failed to generate embedding for a chunk. Skipping.", e);
+      embeddingResults.push(null); // Push null to keep array lengths consistent
     }
   }
 
+  // 4. Prepare data for insertion, explicitly extracting the vector
+  const documentsToInsert = chunks
+    .map((chunk, i) => {
+      const rawVector = embeddingResults[i];
+
+      if (!rawVector || !Array.isArray(rawVector)) {
+        console.warn(`Skipping chunk ${i} due to missing or invalid embedding.`);
+        return null;
+      }
+      
+      return {
+        content: chunk,
+        tokens: chunk.length, 
+        embedding: rawVector,
+      };
+    })
+    .filter(doc => doc !== null); // Filter out any null entries from failed embeddings
+
+  if (documentsToInsert.length === 0) {
+    console.error("No valid documents could be prepared for insertion. Aborting.");
+    process.exit(1);
+  }
+  
+  // --- Verification Step ---
+  console.log('Verifying the structure of the first embedding vector:', documentsToInsert[0]!.embedding.slice(0, 5), '...');
+  if (!documentsToInsert[0] || !Array.isArray(documentsToInsert[0]!.embedding)) {
+    console.error("The prepared data for insertion is incorrect. The 'embedding' field is not a valid array.");
+    process.exit(1); // Exit the script to prevent the error
+  }
+  console.log('Data structure is correct. Proceeding with insertion...');
+  // -------------------------
+
+
   console.log(`${documentsToInsert.length} documents are ready to be inserted.`);
 
-  // 4. Insert data into Supabase
+  // 5. Insert data into Supabase
   if (documentsToInsert.length > 0) {
     console.log('Inserting documents into Supabase using the admin client...');
     // Use the secure admin client to insert data
-    const { data, error } = await supabaseAdminClient.from('constitution_sections').insert(documentsToInsert);
+    const { error } = await supabaseAdminClient.from('constitution_sections').insert(documentsToInsert as any);
 
     if (error) {
       console.error('Error inserting data into Supabase:', error);
