@@ -10,7 +10,6 @@ import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { dot, embed, retrieve, index } from 'genkit/ai';
 
 const AskLegitimusPrimeInputSchema = z.object({
   question: z.string().describe("The user's question about Mauritian law."),
@@ -32,12 +31,11 @@ export type AskLegitimusPrimeInput = z.infer<typeof AskLegitimusPrimeInputSchema
 export type AskLegitimusPrimeOutput = z.infer<typeof AskLegitimusPrimeOutputSchema>;
 
 // Define an in-memory retriever for the constitution document
-const constitutionRetriever = retrieve.defineRetriever(
+const constitutionRetriever = ai.defineRetriever(
   {
     name: 'constitution-retriever',
-    inputSchema: z.string(), // User's question
   },
-  async (question) => {
+  async (question: string) => {
     // 1. Read the document
     const filePath = path.join(process.cwd(), 'public', 'documents', 'constitution-of-Mauritius_rev2022.md');
     const documentContent = await fs.readFile(filePath, 'utf-8');
@@ -47,13 +45,13 @@ const constitutionRetriever = retrieve.defineRetriever(
     const documents = chunks.map(chunk => ({ content: chunk }));
 
     // 3. Index the chunks in-memory
-    const indexedDocs = await index({
+    const indexedDocs = await ai.index({
       indexer: 'text-embedding-gecko',
       documents,
     });
 
     // 4. Retrieve the most relevant chunks based on the user's question
-    const relevantDocs = await retrieve({
+    const relevantDocs = await ai.retrieve({
       retriever: indexedDocs,
       query: question,
       options: { k: 5 }, // Retrieve top 5 most relevant chunks
