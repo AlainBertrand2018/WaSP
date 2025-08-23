@@ -20,7 +20,6 @@ import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
 const PUBLIC_PATHS = ['/ideation/brainstorming'];
 const AUTH_PATHS = ['/login', '/signup'];
-const HYPERADMIN_EMAIL = 'admin@avantaz.online';
 
 type Profile = {
   role?: string | null;
@@ -35,9 +34,9 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
   useEffect(() => {
     const fetchProfile = async (user: any) => {
       // Check if the user is the designated hyperadmin by email
-      if (user.email === HYPERADMIN_EMAIL) {
+      if (user.email === process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL) {
         setProfile({ role: 'Hyperadmin' });
-        return; // Exit early, no need for other checks
+        return;
       }
 
       // Fallback to checking the profiles table for regular users

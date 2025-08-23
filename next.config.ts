@@ -25,6 +25,9 @@ const nextConfig: NextConfig = {
       }
     ],
   },
+  env: {
+    NEXT_PUBLIC_HYPERADMIN_EMAIL: process.env.HYPERADMIN_EMAIL,
+  },
 };
 
 export default nextConfig;
