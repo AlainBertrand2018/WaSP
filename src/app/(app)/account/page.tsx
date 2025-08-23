@@ -147,14 +147,12 @@ export default function AccountPage() {
   return (
     <div className="flex flex-col min-h-full">
       {/* Top Dark Section */}
-      <div className="bg-secondary text-secondary-foreground text-center relative h-[350px] flex flex-col justify-center items-center group">
+      <div className="bg-secondary text-secondary-foreground text-center relative h-[250px] flex flex-col justify-center items-center group">
         {loading ? (
           <>
             <Skeleton className="absolute inset-0" />
             <div className="relative z-10">
-              <Skeleton className="h-12 w-64 mx-auto mb-4" />
-              <Skeleton className="h-5 w-80 mx-auto" />
-              <Skeleton className="h-5 w-72 mx-auto mt-2" />
+              {/* Placeholder content removed */}
             </div>
           </>
         ) : (
@@ -170,16 +168,6 @@ export default function AccountPage() {
             />
             <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
               <AvatarUpload bucket="covers" onUpload={handleCoverUpload} buttonText="Change Cover" />
-            </div>
-            <div className="relative z-10 group-hover:z-0">
-              <h1 className="text-4xl md:text-5xl font-bold">Hello {profile?.first_name ?? 'there'}</h1>
-              <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
-              <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
-                Let&apos;s kick things off with our FREE Test Drive – an interactive brainstorming session designed to help
-                you set up your new or existing business idea. Unlock powerful AI-driven features that will guide you to
-                ideate, launch, and manage your venture, all within the Business Studio Apps Suite.
-              </p>
-              {err && <p className="mt-3 text-sm text-red-500">{err}</p>}
             </div>
           </>
         )}
@@ -205,9 +193,33 @@ export default function AccountPage() {
           )}
         </div>
       </div>
+      
+      {/* Welcome Text Section - MOVED HERE */}
+      <div className="bg-background text-center pt-8 pb-8">
+        {loading ? (
+          <div className="relative z-10 max-w-4xl mx-auto px-4">
+              <Skeleton className="h-12 w-64 mx-auto mb-4" />
+              <Skeleton className="h-5 w-80 mx-auto" />
+              <Skeleton className="h-5 w-full mt-4" />
+              <Skeleton className="h-5 w-5/6 mx-auto mt-2" />
+          </div>
+        ) : (
+            <div className="relative z-10 max-w-4xl mx-auto px-4">
+              <h1 className="text-4xl md:text-5xl font-bold">Hello {profile?.first_name ?? 'there'}</h1>
+              <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
+              <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
+                Let&apos;s kick things off with our FREE Test Drive – an interactive brainstorming session designed to help
+                you set up your new or existing business idea. Unlock powerful AI-driven features that will guide you to
+                ideate, launch, and manage your venture, all within the Business Studio Apps Suite.
+              </p>
+              {err && <p className="mt-3 text-sm text-red-500">{err}</p>}
+            </div>
+        )}
+      </div>
+
 
       {/* Main Content Light Section */}
-      <div className="bg-background flex-grow pt-12 pb-16">
+      <div className="bg-background flex-grow pt-4 pb-16">
         <div className="container mx-auto max-w-4xl px-4 space-y-12">
           {/* User Signup Data Summary */}
           <Card className="bg-muted border-none">
