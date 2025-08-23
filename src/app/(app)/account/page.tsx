@@ -5,15 +5,21 @@ import { useEffect, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import { useForm, type SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AvatarUpload } from '@/components/feature/avatar-upload';
-import { BentoGrid, BentoGridItem } from '@/components/aceternity/bento-grid';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { toast } from '@/hooks/use-toast';
 
-import { ArrowRight, Bot, Rocket, Briefcase, Phone, UserCircle, UploadCloud, FileText, Lightbulb, Wallet, History } from 'lucide-react';
+
+import { ArrowRight, Bot, Rocket, Briefcase, Phone, UserCircle, UploadCloud, FileText, Lightbulb, Wallet, History, Lock, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type Profile = {
@@ -33,10 +39,25 @@ type Profile = {
 // Mock data for recent activity - kept empty as per previous request
 const recentActivities: any[] = [];
 
+const passwordFormSchema = z.object({
+    password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
+    confirmPassword: z.string()
+}).refine(data => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+});
+
+type PasswordFormValues = z.infer<typeof passwordFormSchema>;
+
 export default function AccountPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
+  const [passwordLoading, setPasswordLoading] = useState(false);
+
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<PasswordFormValues>({
+    resolver: zodResolver(passwordFormSchema)
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -145,6 +166,26 @@ export default function AccountPage() {
     setProfile(prev => ({ ...(prev as Profile), ...data, email: prev?.email ?? null }));
   };
 
+   const onPasswordSubmit: SubmitHandler<PasswordFormValues> = async (data) => {
+    setPasswordLoading(true);
+    const { error } = await supabase.auth.updateUser({ password: data.password });
+
+    if (error) {
+        toast({
+            title: "Error Changing Password",
+            description: error.message,
+            variant: "destructive",
+        });
+    } else {
+        toast({
+            title: "Password Updated",
+            description: "Your password has been changed successfully.",
+        });
+        reset();
+    }
+    setPasswordLoading(false);
+  };
+
   return (
     <div className="flex flex-col min-h-full">
       {/* Top Dark Section */}
@@ -222,10 +263,8 @@ export default function AccountPage() {
       <div className="bg-background flex-grow pt-4 pb-16">
         <div className="container mx-auto max-w-7xl px-4 space-y-12">
         
-          {/* Bento Grid Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            {/* User Profile Summary - Spanning 2 columns on large screens */}
             <Card className="lg:col-span-2 bg-muted border-none">
               <CardHeader>
                 <CardTitle className="text-center text-lg font-medium text-muted-foreground">Your Profile Summary</CardTitle>
@@ -250,7 +289,6 @@ export default function AccountPage() {
               </CardContent>
             </Card>
 
-            {/* Recent Activity Card */}
             <Card className="lg:col-span-1">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2"><History /> Recent Activity</CardTitle>
@@ -292,7 +330,35 @@ export default function AccountPage() {
                 </CardContent>
             </Card>
 
-            {/* Action Cards */}
+            <Card className="lg:col-span-3">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2"><Lock /> Security</CardTitle>
+                <CardDescription>Manage your account security settings.</CardDescription>
+              </CardHeader>
+              <form onSubmit={handleSubmit(onPasswordSubmit)}>
+                <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <Label htmlFor="password">New Password</Label>
+                            <Input id="password" type="password" {...register('password')} />
+                            {errors.password && <p className="text-sm text-red-500 mt-1">{errors.password.message}</p>}
+                        </div>
+                         <div>
+                            <Label htmlFor="confirmPassword">Confirm New Password</Label>
+                            <Input id="confirmPassword" type="password" {...register('confirmPassword')} />
+                            {errors.confirmPassword && <p className="text-sm text-red-500 mt-1">{errors.confirmPassword.message}</p>}
+                        </div>
+                    </div>
+                </CardContent>
+                <CardFooter>
+                    <Button type="submit" disabled={passwordLoading}>
+                        {passwordLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        Change Password
+                    </Button>
+                </CardFooter>
+              </form>
+            </Card>
+
             <Card className="lg:col-span-1 flex flex-col items-center p-8 text-center">
               <Rocket className="h-10 w-10 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">Try the Free App</h3>
