@@ -97,7 +97,8 @@ export default function AccountPage() {
     };
     
     // Remove email from the object to avoid trying to save it to the profiles table
-    delete profileDataToSave.email;
+    delete (profileDataToSave as Partial<Profile> & { email?: string | null }).email;
+
 
     const { data, error } = await supabase
       .from('profiles')
@@ -124,7 +125,8 @@ export default function AccountPage() {
       cover_url: url,
     };
 
-    delete profileDataToSave.email;
+    delete (profileDataToSave as Partial<Profile> & { email?: string | null }).email;
+
 
     const { data, error } = await supabase
       .from('profiles')
@@ -158,7 +160,7 @@ export default function AccountPage() {
         ) : (
           <>
             <Image
-              src={profile?.cover_url ?? 'https://placehold.co/1200x630.png'}
+              src={profile?.cover_url ?? 'https://placehold.co/1200x600.png'}
               alt="Cover image"
               fill
               priority
@@ -166,10 +168,10 @@ export default function AccountPage() {
               className="opacity-20 group-hover:opacity-10 transition-opacity duration-300"
               data-ai-hint="office business"
             />
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+            <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
               <AvatarUpload bucket="covers" onUpload={handleCoverUpload} buttonText="Change Cover" />
             </div>
-            <div className="relative z-10">
+            <div className="relative z-10 group-hover:z-0">
               <h1 className="text-4xl md:text-5xl font-bold">Hello {profile?.first_name ?? 'there'}</h1>
               <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
               <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
