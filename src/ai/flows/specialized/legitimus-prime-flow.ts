@@ -30,12 +30,18 @@ const AskLegitimusPrimeOutputSchema = z.object({
 export type AskLegitimusPrimeInput = z.infer<typeof AskLegitimusPrimeInputSchema>;
 export type AskLegitimusPrimeOutput = z.infer<typeof AskLegitimusPrimeOutputSchema>;
 
+// Define an explicit schema for the retriever input
+const RetrieverInputSchema = z.object({
+  question: z.string(),
+});
+
 // Define an in-memory retriever for the constitution document
 const constitutionRetriever = ai.defineRetriever(
   {
     name: 'constitution-retriever',
+    inputSchema: RetrieverInputSchema,
   },
-  async (question: string) => {
+  async ({ question }) => {
     // 1. Read the document
     const filePath = path.join(process.cwd(), 'public', 'documents', 'constitution-of-Mauritius_rev2022.md');
     const documentContent = await fs.readFile(filePath, 'utf-8');
@@ -46,7 +52,7 @@ const constitutionRetriever = ai.defineRetriever(
 
     // 3. Index the chunks in-memory
     const indexedDocs = await ai.index({
-      indexer: 'text-embedding-gecko',
+      indexer: 'googleai/text-embedding-gecko',
       documents,
     });
 
@@ -113,8 +119,8 @@ const legitimusPrimeFlow = ai.defineFlow(
     outputSchema: AskLegitimusPrimeOutputSchema,
   },
   async (input) => {
-    // Use the retriever to find relevant context
-    const { documents: context } = await constitutionRetriever(input.question);
+    // Use the retriever to find relevant context, passing the question as an object
+    const { documents: context } = await constitutionRetriever({ question: input.question });
     
     // Call the prompt with the question, history, and the retrieved context
     const { output } = await prompt({
