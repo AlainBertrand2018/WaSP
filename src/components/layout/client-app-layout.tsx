@@ -21,21 +21,43 @@ import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 const PUBLIC_PATHS = ['/ideation/brainstorming'];
 const AUTH_PATHS = ['/login', '/signup'];
 
+type Profile = {
+  role?: string | null;
+};
+
 export default function ClientAppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
+    const fetchProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+        setProfile(data);
+      }
+    };
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
       const isAuthPage = AUTH_PATHS.includes(pathname);
 
+      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
+        fetchProfile();
+      }
+
       if (event === 'SIGNED_IN' && isAuthPage) {
         router.push('/account');
       } else if (event === 'SIGNED_OUT') {
+        setProfile(null);
         router.push('/');
       } else if (!session && !isPublic && !isAuthPage) {
         router.push(`/login?redirect=${pathname}`);
@@ -48,6 +70,10 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
         const { data: { session } } = await supabase.auth.getSession();
         const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
         const isAuthPage = AUTH_PATHS.includes(pathname);
+        
+        if (session) {
+          await fetchProfile();
+        }
 
         if (!session && !isPublic && !isAuthPage) {
              router.push(`/login?redirect=${pathname}`);
@@ -64,6 +90,7 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
     };
   }, [pathname, router]);
 
+  const isHyperAdmin = profile?.role === 'Hyperadmin';
 
   const showMainSidebar = !(
     pathname.startsWith('/business-management/crm-suite') ||
@@ -134,6 +161,7 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
                     alt="BusinessStudio AI Logo"
                     width={24}
                     height={24}
+                    className={cn(isHyperAdmin && 'animate-spin-slow')}
                   />
                   <span className="font-bold tracking-tighter hidden md:block">
                     {appTitle}
