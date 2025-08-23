@@ -300,7 +300,7 @@ export default function AccountPage() {
                 Validate your next big idea using our AI-powered brainstorming tool.
               </p>
               <Button asChild className="w-full">
-                <Link href="/ideation/brainstorming">Test Drive</Link>
+                <Link href="/business-creation">Test Drive</Link>
               </Button>
             </Card>
 
