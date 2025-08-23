@@ -206,7 +206,7 @@ export default function HomePageContent() {
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
                 <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                  <Link href="#pricing">Let's get Started</Link>
+                  <Link href="#pricing">Test For Free</Link>
                 </Button>
                 <Button size="lg" asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
                   <Link href="/login">Login</Link>
