@@ -77,44 +77,18 @@ async function main() {
     }
   }
 
-  // =================================================================
-  // START OF THE DEBUGGING CODE
-  // =================================================================
-
-  console.log("--- DEBUG: ANALYZING THE EMBEDDING DATA STRUCTURE ---");
-
-  // We will log the structure of the VERY FIRST result.
-  // JSON.stringify will show us everything without the console hiding details.
-  if (embeddingResults.length > 0) {
-    console.log(JSON.stringify(embeddingResults[0], null, 2));
-  } else {
-    console.log("No embedding results to analyze.");
-  }
-
-
-  console.log("--- DEBUG: ANALYSIS COMPLETE. SCRIPT WILL NOW EXIT. ---");
-
-  // This line will stop the script so we can analyze the output above.
-  process.exit(0);
-
-  // =================================================================
-  // END OF THE DEBUGGING CODE
-  // =================================================================
-
-
-  /*
   // 4. Prepare data for insertion, explicitly extracting the vector
   const documentsToInsert = chunks
     .map((chunk, i) => {
       const result = embeddingResults[i];
 
       // Check if the result and the nested structure are valid
-      if (!result) {
+      if (!result || !result[0] || !result[0].embedding) {
         console.warn(`Skipping chunk ${i} due to missing or invalid embedding structure.`);
         return null;
       }
       
-      const rawVector = result;
+      const rawVector = result[0].embedding;
 
       return {
         content: chunk,
@@ -130,8 +104,7 @@ async function main() {
   }
   
   // --- Verification Step ---
-  console.log('Verifying the structure of the first embedding vector:', documentsToInsert[0]!.embedding.slice(0, 5), '...');
-  if (!documentsToInsert[0] || !Array.isArray(documentsToInsert[0]!.embedding)) {
+  if (!documentsToInsert[0] || !Array.isArray(documentsToInsert[0].embedding)) {
     console.error("The prepared data for insertion is incorrect. The 'embedding' field is not a valid array.");
     process.exit(1); // Exit the script to prevent the error
   }
@@ -155,7 +128,6 @@ async function main() {
   } else {
     console.log("No documents to insert. Exiting.");
   }
-  */
 }
 
 main().catch(console.error);
