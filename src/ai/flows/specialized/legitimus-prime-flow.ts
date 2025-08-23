@@ -8,7 +8,8 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
-import { supabase } from '@/lib/supabase';
+// Import the new admin client for server-side operations
+import { supabaseAdminClient } from '@/lib/supabase';
 
 const AskLegitimusPrimeInputSchema = z.object({
   question: z.string().describe("The user's question about Mauritian law."),
@@ -42,8 +43,8 @@ async function searchConstitution(query: string): Promise<string[]> {
     content: query,
   });
 
-  // 2. Call the Supabase RPC to find matching sections.
-  const { data, error } = await supabase.rpc('search_constitution_sections', {
+  // 2. Call the Supabase RPC to find matching sections using the secure admin client.
+  const { data, error } = await supabaseAdminClient.rpc('search_constitution_sections', {
     query_embedding: embedding,
     match_threshold: 0.75, // Adjust this threshold as needed
     match_count: 5,       // Return top 5 matches
