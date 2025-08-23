@@ -1,4 +1,3 @@
-
 /**
  * @fileOverview A one-time script to read the Constitution of Mauritius,
  * generate vector embeddings for its sections, and store them in Supabase.
@@ -63,7 +62,8 @@ async function main() {
 
   for (const chunk of chunks) {
     try {
-      const { embedding } = await ai.embed({
+      // CORRECTED: ai.embed returns the array directly.
+      const embedding = await ai.embed({
         embedder: 'googleai/text-embedding-004',
         content: chunk,
       });
@@ -71,7 +71,7 @@ async function main() {
       documentsToInsert.push({
         content: chunk,
         tokens: chunk.length, // Simple character count, can be improved
-        embedding: embedding, // Correctly pass the raw embedding array
+        embedding: embedding, // Pass the raw embedding array
       });
     } catch(e) {
       console.error("Failed to generate embedding for a chunk. Skipping.", e);
