@@ -56,7 +56,7 @@ export default function LegitimusPrimePage() {
     try {
       const response = await askLegitimusPrime({
         question: inputValue,
-        history: messages,
+        history: [...messages, userMessage], // Pass the most up-to-date history
       });
       const modelMessage: Message = { role: 'model', content: response.answer };
       setMessages((prev) => [...prev, modelMessage]);
