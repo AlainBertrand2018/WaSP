@@ -10,7 +10,7 @@ import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { dot, embed, retrieve, index } from 'genkit';
+import { dot, embed, retrieve, index } from 'genkit/ai';
 
 const AskLegitimusPrimeInputSchema = z.object({
   question: z.string().describe("The user's question about Mauritian law."),
@@ -116,7 +116,7 @@ const legitimusPrimeFlow = ai.defineFlow(
   },
   async (input) => {
     // Use the retriever to find relevant context
-    const context = await constitutionRetriever(input.question);
+    const { documents: context } = await constitutionRetriever(input.question);
     
     // Call the prompt with the question, history, and the retrieved context
     const { output } = await prompt({
