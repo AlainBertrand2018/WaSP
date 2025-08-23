@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -37,7 +37,7 @@ const formSchema = z.object({
   last_name: z.string().min(1, { message: 'Last name is required.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
-  role: z.enum(['Individual', 'Company/Startup', 'Investor', 'Hyper Admin'], { required_error: 'Please select an account type.' }),
+  role: z.enum(['Individual', 'Company/Startup', 'Investor'], { required_error: 'Please select an account type.' }),
   business_name: z.string().min(1, { message: 'Company name is required.' }),
   job_title: z.string().min(1, { message: 'Position is required.' }),
   phone_number: z.string().min(1, { message: 'Phone number is required.' }),
@@ -46,8 +46,6 @@ const formSchema = z.object({
 });
 
 type SignUpFormValues = z.infer<typeof formSchema>;
-
-const ADMIN_EMAIL = process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL || 'admin@avantaz.online';
 
 export function SignUpForm() {
   const router = useRouter();
@@ -67,22 +65,6 @@ export function SignUpForm() {
       mobile_number: '',
     },
   });
-
-  const watchedEmail = form.watch('email');
-
-  useEffect(() => {
-    if (watchedEmail === ADMIN_EMAIL) {
-      form.setValue('role', 'Hyper Admin', { shouldValidate: true });
-      form.setValue('civility', 'Mr', { shouldValidate: true });
-      form.setValue('first_name', 'Alain', { shouldValidate: true });
-      form.setValue('last_name', 'Bertrand', { shouldValidate: true });
-      form.setValue('business_name', 'BusinessStudio AI', { shouldValidate: true });
-      form.setValue('job_title', 'Owner / Developer', { shouldValidate: true });
-      form.setValue('phone_number', '+23052523231', { shouldValidate: true });
-      form.setValue('mobile_number', '+23052523231', { shouldValidate: true });
-    }
-  }, [watchedEmail, form]);
-
 
   const nextStep = async () => {
     let fieldsToValidate: (keyof SignUpFormValues)[] = [];
@@ -147,8 +129,6 @@ export function SignUpForm() {
     setIsLoading(false);
   }
 
-  const isHyperAdmin = watchedEmail === ADMIN_EMAIL;
-
   return (
     <>
       <Form {...form}>
@@ -163,7 +143,7 @@ export function SignUpForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Sign up as*</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isHyperAdmin}>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select a role..." />
@@ -173,7 +153,6 @@ export function SignUpForm() {
                               <SelectItem value="Individual">Individual</SelectItem>
                               <SelectItem value="Company/Startup">Company / Startup</SelectItem>
                               <SelectItem value="Investor">Investor</SelectItem>
-                              {isHyperAdmin && <SelectItem value="Hyper Admin">Hyper Admin</SelectItem>}
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -187,7 +166,7 @@ export function SignUpForm() {
                             render={({ field }) => (
                                 <FormItem>
                                 <FormLabel>Title*</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value} disabled={isHyperAdmin}>
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Select..." />
@@ -210,7 +189,7 @@ export function SignUpForm() {
                                 <FormItem>
                                 <FormLabel>First Name*</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="John" {...field} disabled={isHyperAdmin} />
+                                    <Input placeholder="John" {...field} />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
@@ -223,7 +202,7 @@ export function SignUpForm() {
                                 <FormItem>
                                 <FormLabel>Last Name*</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Doe" {...field} disabled={isHyperAdmin} />
+                                    <Input placeholder="Doe" {...field} />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
@@ -273,7 +252,7 @@ export function SignUpForm() {
                                 <FormItem>
                                 <FormLabel>Company Name*</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="e.g., Innovate Ltd" {...field} disabled={isHyperAdmin} />
+                                    <Input placeholder="e.g., Innovate Ltd" {...field} />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
@@ -286,7 +265,7 @@ export function SignUpForm() {
                                 <FormItem>
                                 <FormLabel>Position*</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="e.g., Founder" {...field} disabled={isHyperAdmin} />
+                                    <Input placeholder="e.g., Founder" {...field} />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
@@ -302,7 +281,7 @@ export function SignUpForm() {
                                 <FormItem>
                                 <FormLabel>Phone Number*</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="+230 XXXX XXXX" {...field} disabled={isHyperAdmin} />
+                                    <Input placeholder="+230 XXXX XXXX" {...field} />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
@@ -315,7 +294,7 @@ export function SignUpForm() {
                                 <FormItem>
                                 <FormLabel>Mobile / WhatsApp*</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="+230 XXXX XXXX" {...field} disabled={isHyperAdmin} />
+                                    <Input placeholder="+230 XXXX XXXX" {...field} />
                                 </FormControl>
                                 <FormMessage />
                                 </FormItem>
