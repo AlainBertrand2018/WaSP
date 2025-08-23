@@ -47,7 +47,7 @@ const formSchema = z.object({
 
 type SignUpFormValues = z.infer<typeof formSchema>;
 
-const ADMIN_EMAIL = 'admin@avantaz.online';
+const ADMIN_EMAIL = process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL || 'admin@avantaz.online';
 
 export function SignUpForm() {
   const router = useRouter();
@@ -109,12 +109,6 @@ export function SignUpForm() {
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-            ...profileData,
-            avatar_url: values.avatar_url,
-        }
-      }
     });
 
     if (signUpError) {
@@ -128,11 +122,30 @@ export function SignUpForm() {
     }
 
     if (signUpData.user) {
+      // Manually insert into profiles table after successful signup.
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          id: signUpData.user.id, // Use the user's ID from auth
+          ...profileData, // The rest of the form data
+          email: signUpData.user.email,
+        });
+
+      if (profileError) {
+         toast({
+          title: 'Profile Creation Error',
+          description: profileError.message,
+          variant: 'destructive',
+        });
+        setIsLoading(false);
+        return;
+      }
+      
       toast({
         title: 'Sign Up Successful!',
         description: 'Please check your email to verify your account.',
       });
-      router.push('/account');
+      router.push('/login');
     } else {
         toast({
             title: 'Sign Up Issue',
@@ -337,6 +350,7 @@ export function SignUpForm() {
                                             field.onChange(url);
                                             toast({ title: 'Image uploaded successfully!' });
                                         }}
+                                        bucket="avatars"
                                     />
                                 </FormControl>
                                 <FormMessage />
