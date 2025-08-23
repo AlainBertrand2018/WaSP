@@ -38,14 +38,21 @@ export type AskLegitimusPrimeOutput = z.infer<typeof AskLegitimusPrimeOutputSche
  */
 async function searchConstitution(query: string): Promise<string[]> {
   // 1. Generate an embedding for the user's query.
-  const embedding = await ai.embed({
+  const embeddingResponse = await ai.embed({
     embedder: 'googleai/text-embedding-004',
     content: query,
   });
 
+  // Extract the raw vector from the response. The structure is [{ embedding: [...] }]
+  const queryEmbedding = embeddingResponse[0]?.embedding;
+
+  if (!queryEmbedding) {
+    throw new Error('Failed to generate a valid embedding for the query.');
+  }
+
   // 2. Call the Supabase RPC to find matching sections using the secure admin client.
   const { data, error } = await supabaseAdminClient.rpc('search_constitution_sections', {
-    query_embedding: embedding,
+    query_embedding: queryEmbedding,
     match_threshold: 0.75, // Adjust this threshold as needed
     match_count: 5,       // Return top 5 matches
   });
