@@ -21,6 +21,7 @@ import {
   CalendarCheck,
   Building,
   Rocket,
+  Scale,
 } from 'lucide-react';
 import React from 'react';
 
@@ -295,6 +296,16 @@ export const appCategories: AppCategory[] = [
     href: '/industries',
     icon: Building,
     apps: [
+      {
+        icon: Scale,
+        title: 'Legitimus Prime',
+        description: 'AI-powered chatbot to answer questions about the Constitution of Mauritius.',
+        href: '/specialized/legitimus-prime',
+        pro: true,
+        imageSrc: '/images/Legitimus_v2-Apptile.webp',
+        badge: { text: 'New', className: 'bg-blue-500' },
+        initialRating: 0,
+      },
       {
         icon: HeartHandshake,
         title: 'Serena',

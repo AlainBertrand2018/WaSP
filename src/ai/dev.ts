@@ -16,3 +16,4 @@ import './flows/marketing/generate-faq-flow';
 import './flows/ideation/generate-brainstorm-ideas-flow';
 import './flows/ideation/generate-user-profile-analysis-flow';
 import './flows/ideation/generate-promising-sectors-flow';
+import './flows/specialized/legitimus-prime-flow';
