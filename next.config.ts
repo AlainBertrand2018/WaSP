@@ -22,11 +22,8 @@ const nextConfig: NextConfig = {
         hostname: 'tgapgvvufswaxsyyhnna.supabase.co',
         port: '',
         pathname: '/**',
-      }
+      },
     ],
-  },
-  env: {
-    NEXT_PUBLIC_HYPERADMIN_EMAIL: process.env.HYPERADMIN_EMAIL,
   },
 };
 

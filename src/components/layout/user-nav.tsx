@@ -20,12 +20,13 @@ import {
 import { ThemeToggle } from './theme-toggle';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from '@/hooks/use-toast';
+import { useUserStore } from '@/store/user-store';
 
 type Profile = {
   id: string;
   first_name: string | null;
   last_name: string | null;
-  email: string | null; // Added email to the profile type
+  email: string | null;
   avatar_url?: string | null;
 };
 
@@ -33,11 +34,18 @@ export function UserNav() {
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const { setHyperAdmin } = useUserStore();
 
   useEffect(() => {
     async function fetchProfile() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        if (user.email === process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL) {
+            setHyperAdmin(true);
+        } else {
+            setHyperAdmin(false);
+        }
+
         const { data, error } = await supabase
           .from('profiles')
           .select('id, first_name, last_name, avatar_url')
@@ -49,11 +57,13 @@ export function UserNav() {
         } else if (data) {
           setProfile({ ...data, email: user.email });
         }
+      } else {
+          setHyperAdmin(false);
       }
       setLoading(false);
     }
     fetchProfile();
-  }, []);
+  }, [setHyperAdmin]);
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -68,6 +78,7 @@ export function UserNav() {
         title: 'Signed Out',
         description: 'You have been successfully signed out.',
       });
+      setHyperAdmin(false); // Clear hyperadmin state on logout
       router.push('/');
       router.refresh(); // Force a refresh to clear cached user data
     }

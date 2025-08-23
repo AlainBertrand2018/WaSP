@@ -17,53 +17,27 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
 import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
+import { useUserStore } from '@/store/user-store';
 
 const PUBLIC_PATHS = ['/ideation/brainstorming'];
 const AUTH_PATHS = ['/login', '/signup'];
-
-type Profile = {
-  role?: string | null;
-};
 
 export default function ClientAppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const { isHyperAdmin } = useUserStore();
 
   useEffect(() => {
-    const fetchProfile = async (user: any) => {
-      // Check if the user is the designated hyperadmin by email
-      if (user.email === process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL) {
-        setProfile({ role: 'Hyperadmin' });
-        return;
-      }
-
-      // Fallback to checking the profiles table for regular users
-      const { data } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-      setProfile(data);
-    };
-
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
       const isAuthPage = AUTH_PATHS.includes(pathname);
 
-      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
-        if (session?.user) {
-          fetchProfile(session.user);
-        }
-      }
-
       if (event === 'SIGNED_IN' && isAuthPage) {
         router.push('/account');
       } else if (event === 'SIGNED_OUT') {
-        setProfile(null);
         router.push('/');
       } else if (!session && !isPublic && !isAuthPage) {
         router.push(`/login?redirect=${pathname}`);
@@ -77,10 +51,6 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
         const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
         const isAuthPage = AUTH_PATHS.includes(pathname);
         
-        if (session?.user) {
-          await fetchProfile(session.user);
-        }
-
         if (!session && !isPublic && !isAuthPage) {
              router.push(`/login?redirect=${pathname}`);
         } else if (session && isAuthPage) {
@@ -96,7 +66,6 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
     };
   }, [pathname, router]);
 
-  const isHyperAdmin = profile?.role === 'Hyperadmin';
 
   const showMainSidebar = !(
     pathname.startsWith('/business-management/crm-suite') ||
