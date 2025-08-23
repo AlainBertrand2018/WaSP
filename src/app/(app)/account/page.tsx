@@ -114,7 +114,7 @@ export default function AccountPage() {
       return;
     }
     // Update the local state with the full profile returned from upsert
-    setProfile(prev => ({ ...(prev as Profile), ...data }));
+    setProfile(prev => ({ ...(prev as Profile), ...data, email: prev?.email ?? null }));
   };
 
   const handleCoverUpload = async (url: string) => {
@@ -141,7 +141,7 @@ export default function AccountPage() {
       console.error('Failed to update cover URL:', msg);
       return;
     }
-    setProfile(prev => ({ ...(prev as Profile), ...data }));
+    setProfile(prev => ({ ...(prev as Profile), ...data, email: prev?.email ?? null }));
   };
 
   return (
@@ -168,7 +168,7 @@ export default function AccountPage() {
               className="opacity-20 group-hover:opacity-100 transition-opacity duration-300"
               data-ai-hint="office business"
             />
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+            <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
               <AvatarUpload bucket="covers" onUpload={handleCoverUpload} buttonText="Change Cover" />
             </div>
             <div className="relative z-10 group-hover:z-0">
