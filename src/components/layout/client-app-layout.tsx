@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '@/lib/supabase';
 import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 import { useUserStore } from '@/store/user-store';
+import { AuthApiError } from '@supabase/supabase-js';
 
 const PUBLIC_PATHS = ['/ideation/brainstorming'];
 const AUTH_PATHS = ['/login', '/signup'];
@@ -30,14 +31,29 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
-      const isAuthPage = AUTH_PATHS.includes(pathname);
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) throw error; // Let the catch block handle it
 
-      if (!session && !isPublic && !isAuthPage) {
-        router.push(`/login?redirect=${pathname}`);
-      } else {
-        setLoading(false);
+        const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
+        const isAuthPage = AUTH_PATHS.includes(pathname);
+
+        if (!session && !isPublic && !isAuthPage) {
+          router.push(`/login?redirect=${pathname}`);
+        } else {
+          setLoading(false);
+        }
+      } catch (error) {
+        if (error instanceof AuthApiError && error.message === 'Invalid Refresh Token: Refresh Token Not Found') {
+            console.error("Invalid session detected. Signing out and redirecting to login.");
+            await supabase.auth.signOut();
+            router.push('/login?message=Your session has expired. Please log in again.');
+        } else {
+            console.error("An unexpected error occurred during session check:", error);
+            // In case of other errors, we can just show the page and let other components handle it.
+            setLoading(false);
+        }
       }
     };
 

@@ -35,6 +35,8 @@ import { ArrowRight, Bot, Rocket, Briefcase, Phone, UserCircle, UploadCloud, Fil
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import type { User } from '@supabase/supabase-js';
+import { AuthApiError } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
 
 type Profile = {
   id: string;
@@ -320,6 +322,8 @@ export default function AccountPage() {
   const [err, setErr] = useState<string | null>(null);
   const [passwordLoading, setPasswordLoading] = useState(false);
   const { isHyperAdmin, setHyperAdmin } = useUserStore();
+  const router = useRouter();
+
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<PasswordFormValues>({
     resolver: zodResolver(passwordFormSchema)
@@ -330,13 +334,16 @@ export default function AccountPage() {
 
     const fetchUserAndProfile = async () => {
       try {
-        const { data: { user }, error: userErr } = await supabase.auth.getUser();
-        if (userErr) throw new Error(`auth.getUser: ${userErr.message}`);
-        if (!user) throw new Error('Not authenticated');
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+          router.push('/login');
+          return;
+        }
 
         if (mounted) {
             setUser(user);
-            const isAdmin = user.email === (process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL || 'admin@avantaz.online');
+            const isAdmin = user.email === process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL;
             setHyperAdmin(isAdmin);
         }
 
@@ -346,7 +353,7 @@ export default function AccountPage() {
           .eq('id', user.id)
           .maybeSingle();
 
-        if (error) throw new Error(`profiles.select: ${error.message}`);
+        if (error) throw error;
         if (!mounted) return;
 
         setProfile(
@@ -367,10 +374,16 @@ export default function AccountPage() {
               }
         );
       } catch (e: unknown) {
-        const msg = e instanceof Error ? e.message : String(e);
-        if (mounted) {
-          setErr(msg);
-          console.error('Error fetching profile:', msg);
+        if (e instanceof AuthApiError && e.message === 'Invalid Refresh Token: Refresh Token Not Found') {
+            console.error("Invalid session. Redirecting to login.");
+            await supabase.auth.signOut();
+            router.push('/login?message=Your session has expired. Please log in again.');
+        } else {
+            const msg = e instanceof Error ? e.message : String(e);
+            if (mounted) {
+              setErr(msg);
+              console.error('Error fetching profile:', msg);
+            }
         }
       } finally {
         if (mounted) setLoading(false);
@@ -382,14 +395,14 @@ export default function AccountPage() {
     return () => {
       mounted = false;
     };
-  }, [setHyperAdmin]);
+  }, [setHyperAdmin, router]);
 
   const handleAvatarUpload = async (url: string) => {
     if (!profile) return;
 
     const { data, error } = await supabase
       .from('profiles')
-      .upsert({ id: profile.id, avatar_url: url })
+      .upsert({ id: profile.id, avatar_url: url, updated_at: new Date().toISOString() }, { onConflict: 'id' })
       .select()
       .single();
 
@@ -407,7 +420,7 @@ export default function AccountPage() {
     
     const { data, error } = await supabase
       .from('profiles')
-      .upsert({ id: profile.id, cover_url: url })
+      .upsert({ id: profile.id, cover_url: url, updated_at: new Date().toISOString() }, { onConflict: 'id' })
       .select()
       .single();
       
