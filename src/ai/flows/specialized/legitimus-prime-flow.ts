@@ -44,7 +44,7 @@ async function searchConstitution(query: string): Promise<string[]> {
     content: query,
   });
 
-  // Correctly extract the raw vector. This is the key fix.
+  // Correctly extract the raw vector.
   const queryEmbedding = embeddingResponse[0]?.embedding;
 
   if (!queryEmbedding) {
@@ -165,11 +165,11 @@ const triagePrompt = ai.definePrompt({
     output: { schema: z.object({ decision: z.enum(['search_document', 'greet_or_decline']) }) },
     prompt: `You are a triage agent. Your job is to determine if a user's query requires searching a legal document for an answer, or if it is a simple greeting, conversational filler, or an off-topic question.
 
-    - If the query is asking a question that could be answered by the Constitution of Mauritius (e.g., "What are the powers of the president?", "How is parliament formed?"), respond with "search_document".
-    - If the query is a simple greeting (e.g., "hello", "hi", "how are you?"), a thank you, or an off-topic question (e.g., "what is the weather like?"), respond with "greet_or_decline".
+    - If the query is asking a question about laws, rights, government structure, legal procedures, or anything that could plausibly be answered by the Constitution of Mauritius, respond with "search_document".
+    - If the query is a simple greeting (e.g., "hello", "hi", "how are you?"), a thank you, or clearly off-topic (e.g., "what is the weather like?"), respond with "greet_or_decline".
 
     User query: "{{query}}"`,
-    model: 'googleai/gemini-2.0-flash'
+    model: 'googleai/gemini-2.0-flash',
 });
 
 
@@ -178,11 +178,11 @@ const standardResponsePrompt = ai.definePrompt({
     input: { schema: z.string() },
     output: { schema: z.object({ answer: z.string() }) },
     prompt: `You are Legitimus Prime, a friendly but professional legal AI assistant for the Constitution of Mauritius.
-    The user has said something that does not require a document search.
-    - If it's a greeting, respond with a polite, brief greeting.
-    - If it's off-topic, politely state that you can only answer questions related to the Constitution of Mauritius.
+    The user has said something that does not require a document search (it is likely a greeting or off-topic).
+    - If it's a simple greeting like "hello" or "hi", respond with a polite, brief greeting like "Hello! How can I help you with the Constitution of Mauritius?".
+    - If it's something else (like "thank you" or an off-topic question), politely state that you can only answer questions related to the Constitution of Mauritius.
     User's input: "{{query}}"`,
-    model: 'googleai/gemini-2.0-flash'
+    model: 'googleai/gemini-2.0-flash',
 });
 
 
