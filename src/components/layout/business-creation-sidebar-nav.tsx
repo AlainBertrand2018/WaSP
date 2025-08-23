@@ -25,19 +25,16 @@ const navigationItems = [
     {
         href: '/ideation/brainstorming',
         title: 'Brainstorming Tool',
-        subtitle: 'Imagine your next venture',
         icon: <BrainCircuit />,
     },
     {
         href: '/business-creation/business-idea-validation',
         title: 'Idea Validation',
-        subtitle: 'From Idea to Pitch Deck',
         icon: <Lightbulb />,
     },
     {
         href: '/7-day-blueprint',
-        title: 'Quickstarter',
-        subtitle: 'A 7-day plan to start your business',
+        title: '7-Day Quickstarter',
         icon: <CalendarCheck />,
     },
 ];
@@ -69,14 +66,11 @@ export function BusinessCreationSidebarNav() {
             </li>
           {navigationItems.map((item) => (
              <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton asChild size="lg" className="h-auto py-2" isActive={pathname.startsWith(item.href)}>
-                <Link href={item.href} className="flex items-center gap-3">
-                    <div className="shrink-0">{item.icon}</div>
-                    <div className="flex flex-col items-start">
-                        <span className="font-semibold">{item.title}</span>
-                        <span className="text-xs text-muted-foreground">{item.subtitle}</span>
-                    </div>
-                </Link>
+                <SidebarMenuButton asChild isActive={pathname.startsWith(item.href)}>
+                  <Link href={item.href}>
+                      {item.icon}
+                      <span>{item.title}</span>
+                  </Link>
                 </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
