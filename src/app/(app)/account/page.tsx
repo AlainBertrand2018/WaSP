@@ -20,7 +20,7 @@ type Profile = {
   last_name: string | null;
   email: string | null;
   avatar_url?: string | null;
-  cover_url?: string | null;
+  // cover_url?: string | null; // This column does not exist yet
   business_name?: string | null;
   job_title?: string | null;
   phone_number?: string | null;
@@ -46,7 +46,7 @@ export default function AccountPage() {
         const { data, error } = await supabase
           .from('profiles')
           .select(
-            'id, first_name, last_name, avatar_url, cover_url, business_name, job_title, phone_number, mobile_number, role'
+            'id, first_name, last_name, avatar_url, business_name, job_title, phone_number, mobile_number, role'
           )
           .eq('id', user.id)
           .maybeSingle();
@@ -65,7 +65,7 @@ export default function AccountPage() {
                 last_name: null,
                 email: user.email ?? null,
                 avatar_url: null,
-                cover_url: null,
+                // cover_url: null,
                 business_name: null,
                 job_title: null,
                 phone_number: null,
@@ -102,18 +102,18 @@ export default function AccountPage() {
     setProfile({ ...profile, avatar_url: url });
   };
 
-  const handleCoverUpload = async (url: string) => {
-    if (!profile) return;
-    const { error } = await supabase.from('profiles').update({ cover_url: url }).eq('id', profile.id);
-    if (error) {
-      const msg = error.message || 'unknown error updating cover';
-      setErr(msg);
-      // eslint-disable-next-line no-console
-      console.error('Failed to update cover URL:', msg);
-      return;
-    }
-    setProfile({ ...profile, cover_url: url });
-  };
+  // const handleCoverUpload = async (url: string) => {
+  //   if (!profile) return;
+  //   const { error } = await supabase.from('profiles').update({ cover_url: url }).eq('id', profile.id);
+  //   if (error) {
+  //     const msg = error.message || 'unknown error updating cover';
+  //     setErr(msg);
+  //     // eslint-disable-next-line no-console
+  //     console.error('Failed to update cover URL:', msg);
+  //     return;
+  //   }
+  //   setProfile({ ...profile, cover_url: url });
+  // };
 
   return (
     <div className="flex flex-col min-h-full">
@@ -131,7 +131,7 @@ export default function AccountPage() {
         ) : (
           <>
             <Image
-              src={profile?.cover_url || 'https://placehold.co/1200x630.png'}
+              src={'https://placehold.co/1200x630.png'} // Fallback image
               alt="Cover image"
               fill
               priority
@@ -139,9 +139,11 @@ export default function AccountPage() {
               className="opacity-20 group-hover:opacity-10 transition-opacity duration-300"
               data-ai-hint="office business"
             />
+            {/* The cover upload functionality is temporarily disabled until the DB column is added.
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
               <AvatarUpload bucket="covers" onUpload={handleCoverUpload} buttonText="Change Cover" />
             </div>
+            */}
             <div className="relative z-10">
               <h1 className="text-4xl md:text-5xl font-bold">Hello {profile?.first_name ?? 'there'}</h1>
               <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
