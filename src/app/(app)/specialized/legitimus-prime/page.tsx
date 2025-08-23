@@ -5,7 +5,6 @@ import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Bot, Loader2, Send, User, MessageSquare, Scale, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { marked } from 'marked';
@@ -16,10 +15,23 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import DOMPurify from 'dompurify';
 
-type Message = {
+type BaseMessage = {
   role: 'user' | 'model';
   content: string;
 };
+
+type Source = {
+  content: string;
+  // In the future, we could add metadata like section, title, etc.
+}
+
+type ModelMessage = BaseMessage & {
+  role: 'model';
+  sources?: Source[];
+}
+
+type Message = BaseMessage | ModelMessage;
+
 
 const legalProfessionals = [
   { name: 'John Doe', title: 'Constitutional Lawyer', avatar: '/images/image1-0.png' },
@@ -46,20 +58,28 @@ export default function LegitimusPrimePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isLoading) return;
 
     const userMessage: Message = { role: 'user', content: inputValue };
-    setMessages((prev) => [...prev, userMessage]);
+    const newHistory = [...messages, userMessage];
+    
+    setMessages(newHistory);
     setInputValue('');
     setIsLoading(true);
 
     try {
       const response = await askLegitimusPrime({
         question: inputValue,
-        history: [...messages, userMessage], // Pass the most up-to-date history
+        history: newHistory,
       });
-      const modelMessage: Message = { role: 'model', content: response.answer };
+
+      const modelMessage: ModelMessage = { 
+        role: 'model', 
+        content: response.answer,
+        sources: response.sources
+      };
       setMessages((prev) => [...prev, modelMessage]);
+
     } catch (error) {
       console.error('Error getting chat response:', error);
       const errorMessage: Message = {
@@ -86,32 +106,46 @@ export default function LegitimusPrimePage() {
         <main className="flex-1 p-4 overflow-y-auto" ref={scrollAreaRef}>
           <div className="space-y-6 max-w-4xl mx-auto">
             {messages.map((message, index) => (
-              <div
-                key={index}
-                className={cn(
-                  'flex items-start gap-4',
-                  message.role === 'user' ? 'justify-end' : ''
-                )}
-              >
-                {message.role === 'model' && (
-                  <div className="p-2 bg-primary rounded-full text-primary-foreground">
-                    <Bot size={20} />
+              <div key={index}>
+                  <div
+                    className={cn(
+                      'flex items-start gap-4',
+                      message.role === 'user' ? 'justify-end' : ''
+                    )}
+                  >
+                    {message.role === 'model' && (
+                      <div className="p-2 bg-primary rounded-full text-primary-foreground">
+                        <Bot size={20} />
+                      </div>
+                    )}
+                    <div
+                      className={cn(
+                        'rounded-lg p-3 max-w-prose prose prose-sm',
+                        message.role === 'user'
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-background shadow-sm'
+                      )}
+                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(message.content) as string) }}
+                    />
+                    {message.role === 'user' && (
+                      <div className="p-2 bg-secondary rounded-full text-secondary-foreground">
+                        <User size={20} />
+                      </div>
+                    )}
                   </div>
-                )}
-                <div
-                  className={cn(
-                    'rounded-lg p-3 max-w-prose prose prose-sm',
-                    message.role === 'user'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-background shadow-sm'
+
+                  {message.role === 'model' && Array.isArray((message as ModelMessage).sources) && ((message as ModelMessage).sources?.length ?? 0) > 0 && (
+                    <div className="mt-2 text-xs text-muted-foreground max-w-prose ml-16">
+                      <p className="font-semibold mb-1">Sources:</p>
+                      <ul className="list-none space-y-2">
+                        {(message as ModelMessage).sources!.map((source, i) => (
+                           <li key={i} className="p-2 border rounded-md bg-background/50 italic">
+                            "{source.content}"
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   )}
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked(message.content) as string) }}
-                />
-                 {message.role === 'user' && (
-                  <div className="p-2 bg-secondary rounded-full text-secondary-foreground">
-                    <User size={20} />
-                  </div>
-                )}
               </div>
             ))}
              {isLoading && (

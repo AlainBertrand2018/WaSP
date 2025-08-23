@@ -26,6 +26,7 @@ const AskLegitimusPrimeInputSchema = z.object({
 
 const AskLegitimusPrimeOutputSchema = z.object({
   answer: z.string().describe('The AI-generated answer based on the provided legal document.'),
+  sources: z.array(z.object({ content: z.string() })).describe('The chunks of text from the source document used to generate the answer.'),
 });
 
 export type AskLegitimusPrimeInput = z.infer<typeof AskLegitimusPrimeInputSchema>;
@@ -102,7 +103,9 @@ export async function* streamAnswerForLegitimusPrime(
 
         if (triageResult.output?.decision === 'greet_or_decline') {
             const standardResponse = await standardResponsePrompt(flowInput.question);
-            return standardResponse.output || { answer: "I can only assist with questions about the Constitution of Mauritius." };
+            // For streaming, we need to return the answer in the correct schema format.
+            // Sources will be empty for a standard response.
+            return { answer: standardResponse.output?.answer || "I can only assist with questions about the Constitution of Mauritius.", sources: [] };
         }
 
         const context = await searchConstitution(flowInput.question);
@@ -112,7 +115,8 @@ export async function* streamAnswerForLegitimusPrime(
             context
         });
 
-        return output || { answer: "I could not generate a response."};
+        // The RAG prompt already returns the correct schema with sources.
+        return output || { answer: "I could not generate a response.", sources: [] };
       }
     );
 
@@ -139,14 +143,18 @@ const ragPrompt = ai.definePrompt({
   output: { schema: AskLegitimusPrimeOutputSchema },
   prompt: `You are Legitimus Prime, a seasoned AI assistant specializing in the Constitution and Laws of Mauritius. Using the following CONTEXT provided from the document, answer the user's QUESTION.
 Your answer must be based exclusively on the information within the provided CONTEXT.
-Do not use any outside knowledge. If the CONTEXT does not contain the answer, state that you cannot answer based on the provided information.
+Do not use any outside knowledge. If the CONTEXT does not contain the answer, you must state that you cannot answer the question based on the provided information.
 
 CONTEXT:
 ---
+{{#if context}}
 {{#each context}}
   {{this}}
 ---
 {{/each}}
+{{else}}
+No context provided.
+{{/if}}
 
 QUESTION:
 {{question}}`,
@@ -158,10 +166,10 @@ const triagePrompt = ai.definePrompt({
     input: { schema: z.string() },
     output: { schema: z.object({ decision: z.enum(['search_document', 'greet_or_decline']) }) },
     prompt: `You are a triage agent. Your job is to determine if a user's query requires searching a legal document.
-    - If the query asks about laws, rights, government structure, legal procedures, or anything that could plausibly be answered by the Constitution of Mauritius, respond with "search_document".
-    - If the query is a simple greeting (e.g., "hello", "hi", "how are you?"), a thank you, or clearly off-topic (e.g., "what is the weather like?"), respond with "greet_or_decline".
+- If the query asks about laws, rights, government structure, legal procedures, or anything that could plausibly be answered by the Constitution of Mauritius, respond with "search_document".
+- If the query is a simple greeting (e.g., "hello", "hi", "how are you?"), a thank you, or clearly off-topic (e.g., "what is the weather like?"), respond with "greet_or_decline".
 
-    User query: "{{query}}"`,
+User query: "{{query}}"`,
     model: 'googleai/gemini-2.0-flash',
 });
 
@@ -171,10 +179,10 @@ const standardResponsePrompt = ai.definePrompt({
     input: { schema: z.string() },
     output: { schema: z.object({ answer: z.string() }) },
     prompt: `You are Legitimus Prime, a seasoned legal AI assistant specialized in the laws and Constitution of Mauritius. The user has said something that does not require a document search.
-    - If it's a simple greeting like "hello" or "hi", respond with a polite, brief greeting like "Hello! How can I help you with the Constitution of Mauritius?".
-    - If it's something else (like "thank you" or an off-topic question), politely state that you can only answer questions related to the Constitution of Mauritius.
+- If it's a simple greeting like "hello" or "hi", respond with a polite, brief greeting like "Hello! How can I help you with the Constitution of Mauritius?".
+- If it's something else (like "thank you" or an off-topic question), politely state that you can only answer questions related to the Constitution of Mauritius.
     
-    User input: "{{query}}"`,
+User input: "{{query}}"`,
     model: 'googleai/gemini-2.0-flash',
 });
 
@@ -195,7 +203,10 @@ const legitimusPrimeFlow = ai.defineFlow(
     if (triageResult.output?.decision === 'greet_or_decline') {
         // Step 2a: If it's a greeting/off-topic, generate a standard response.
         const standardResponse = await standardResponsePrompt(input.question);
-        return standardResponse.output || { answer: "I can only assist with questions about the Constitution of Mauritius." };
+        return { 
+          answer: standardResponse.output?.answer || "I can only assist with questions about the Constitution of Mauritius.",
+          sources: [] 
+        };
     }
 
     // Step 2b: If it requires a search, proceed with the RAG process.
@@ -211,6 +222,11 @@ const legitimusPrimeFlow = ai.defineFlow(
     if (!output) {
       throw new Error('The AI model did not return a valid response.');
     }
-    return output;
+    
+    // The RAG prompt already provides the answer. We just need to add the sources.
+    return {
+      answer: output.answer,
+      sources: context.map(c => ({ content: c }))
+    };
   }
 );
