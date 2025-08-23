@@ -61,9 +61,10 @@ async function main() {
   const embeddingResults = [];
   for (const chunk of chunks) {
     try {
+      // FIX: Pass the raw chunk string directly to the content property.
       const embedding = await ai.embed({
         embedder: 'googleai/text-embedding-004',
-        content: [{text: chunk}],
+        content: chunk,
       });
       embeddingResults.push(embedding);
     } catch(e) {
@@ -78,13 +79,12 @@ async function main() {
       const result = embeddingResults[i];
 
       // Check if the result and the nested structure are valid
-      if (!result || !Array.isArray(result) || result.length === 0 || !result[0].embedding) {
+      if (!result) {
         console.warn(`Skipping chunk ${i} due to missing or invalid embedding structure.`);
         return null;
       }
       
-      // FIX: Correctly access the nested embedding array
-      const rawVector = result[0].embedding;
+      const rawVector = result;
 
       return {
         content: chunk,
