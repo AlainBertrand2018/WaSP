@@ -6,13 +6,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AvatarUpload } from '@/components/feature/avatar-upload';
+import { BentoGrid, BentoGridItem } from '@/components/aceternity/bento-grid';
 
-import { ArrowRight, Bot, Rocket, Briefcase, Phone, UserCircle, UploadCloud, FileText, Lightbulb, Wallet } from 'lucide-react';
+import { ArrowRight, Bot, Rocket, Briefcase, Phone, UserCircle, UploadCloud, FileText, Lightbulb, Wallet, History } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type Profile = {
   id: string;
@@ -28,7 +30,7 @@ type Profile = {
   role?: string | null;
 };
 
-// Mock data for recent activity
+// Mock data for recent activity - kept empty as per previous request
 const recentActivities: any[] = [];
 
 export default function AccountPage() {
@@ -99,7 +101,6 @@ export default function AccountPage() {
       avatar_url: url,
     };
     
-    // Remove email from the object to avoid trying to save it to the profiles table
     delete (profileDataToSave as Partial<Profile> & { email?: string | null }).email;
 
 
@@ -112,11 +113,9 @@ export default function AccountPage() {
     if (error) {
       const msg = error.message || 'unknown error updating avatar';
       setErr(msg);
-      // eslint-disable-next-line no-console
       console.error('Failed to update avatar URL:', msg);
       return;
     }
-    // Update the local state with the full profile returned from upsert
     setProfile(prev => ({ ...(prev as Profile), ...data, email: prev?.email ?? null }));
   };
 
@@ -140,7 +139,6 @@ export default function AccountPage() {
     if (error) {
       const msg = error.message || 'unknown error updating cover';
       setErr(msg);
-      // eslint-disable-next-line no-console
       console.error('Failed to update cover URL:', msg);
       return;
     }
@@ -155,7 +153,6 @@ export default function AccountPage() {
           <>
             <Skeleton className="absolute inset-0" />
             <div className="relative z-10">
-              {/* Placeholder content removed */}
             </div>
           </>
         ) : (
@@ -166,10 +163,10 @@ export default function AccountPage() {
               fill
               priority
               style={{ objectFit: 'cover' }}
-              className="opacity-20 group-hover:opacity-100 transition-opacity duration-300"
+              className="opacity-20"
               data-ai-hint="office business"
             />
-            <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+             <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
               <AvatarUpload bucket="covers" onUpload={handleCoverUpload} buttonText="Change Cover" />
             </div>
           </>
@@ -223,79 +220,80 @@ export default function AccountPage() {
 
       {/* Main Content Light Section */}
       <div className="bg-background flex-grow pt-4 pb-16">
-        <div className="container mx-auto max-w-4xl px-4 space-y-12">
-          {/* User Signup Data Summary */}
-          <Card className="bg-muted border-none">
-            <CardHeader>
-              <CardTitle className="text-center text-lg font-medium text-muted-foreground">Your Profile Summary</CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-              {loading ? (
-                <>
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <Skeleton key={i} className="h-8 w-full" />
-                  ))}
-                </>
-              ) : (
-                <>
-                  <InfoItem icon={<UserCircle />} label="Email" value={profile?.email ?? undefined} />
-                  <InfoItem icon={<Briefcase />} label="Role" value={profile?.role ?? undefined} />
-                  <InfoItem icon={<Briefcase />} label="Company" value={profile?.business_name ?? undefined} />
-                  <InfoItem icon={<Briefcase />} label="Position" value={profile?.job_title ?? undefined} />
-                  <InfoItem icon={<Phone />} label="Phone" value={profile?.phone_number ?? undefined} />
-                  <InfoItem icon={<Phone />} label="Mobile" value={profile?.mobile_number ?? undefined} />
-                </>
-              )}
-            </CardContent>
-          </Card>
-          
-          {/* Recent Activity Dashboard */}
-          {recentActivities.length > 0 && (
-            <Card>
+        <div className="container mx-auto max-w-7xl px-4 space-y-12">
+        
+          {/* Bento Grid Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            {/* User Profile Summary - Spanning 2 columns on large screens */}
+            <Card className="lg:col-span-2 bg-muted border-none">
               <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
+                <CardTitle className="text-center text-lg font-medium text-muted-foreground">Your Profile Summary</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
                 {loading ? (
-                  <div className="space-y-4">
-                    {Array.from({ length: 4 }).map((_, i) => (
-                      <div key={i} className="flex items-center gap-4">
-                        <Skeleton className="h-8 w-8 rounded-full" />
-                        <div className="flex-grow space-y-2">
-                          <Skeleton className="h-4 w-4/5" />
-                          <Skeleton className="h-3 w-1/4" />
-                        </div>
-                      </div>
+                  <>
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <Skeleton key={i} className="h-8 w-full" />
                     ))}
-                  </div>
+                  </>
                 ) : (
-                  <ul className="space-y-4">
-                    {recentActivities.map((activity, index) => (
-                      <li key={index} className="flex items-start gap-4">
-                          <div className="bg-muted p-2 rounded-full mt-1">
-                              {activity.icon}
-                          </div>
-                          <div className="flex-grow">
-                              <p className="font-medium text-sm">{activity.text}</p>
-                              <p className="text-xs text-muted-foreground">{activity.time}</p>
-                          </div>
-                          <Button asChild variant="ghost" size="sm">
-                              <Link href={activity.href}>
-                                  View <ArrowRight className="ml-2 h-3 w-3" />
-                              </Link>
-                          </Button>
-                      </li>
-                    ))}
-                  </ul>
+                  <>
+                    <InfoItem icon={<UserCircle />} label="Email" value={profile?.email ?? undefined} />
+                    <InfoItem icon={<Briefcase />} label="Role" value={profile?.role ?? undefined} />
+                    <InfoItem icon={<Briefcase />} label="Company" value={profile?.business_name ?? undefined} />
+                    <InfoItem icon={<Briefcase />} label="Position" value={profile?.job_title ?? undefined} />
+                    <InfoItem icon={<Phone />} label="Phone" value={profile?.phone_number ?? undefined} />
+                    <InfoItem icon={<Phone />} label="Mobile" value={profile?.mobile_number ?? undefined} />
+                  </>
                 )}
               </CardContent>
             </Card>
-          )}
 
+            {/* Recent Activity Card */}
+            <Card className="lg:col-span-1">
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2"><History /> Recent Activity</CardTitle>
+                </CardHeader>
+                <CardContent className="h-full flex flex-col justify-center items-center">
+                    {loading ? (
+                        <div className="space-y-4 w-full">
+                            {Array.from({ length: 3 }).map((_, i) => (
+                            <div key={i} className="flex items-center gap-4">
+                                <Skeleton className="h-8 w-8 rounded-full" />
+                                <div className="flex-grow space-y-2">
+                                <Skeleton className="h-4 w-4/5" />
+                                </div>
+                            </div>
+                            ))}
+                        </div>
+                    ) : recentActivities.length > 0 ? (
+                        <ul className="space-y-4">
+                            {recentActivities.map((activity, index) => (
+                                <li key={index} className="flex items-start gap-4">
+                                    <div className="bg-muted p-2 rounded-full mt-1">
+                                        {activity.icon}
+                                    </div>
+                                    <div className="flex-grow">
+                                        <p className="font-medium text-sm">{activity.text}</p>
+                                        <p className="text-xs text-muted-foreground">{activity.time}</p>
+                                    </div>
+                                    <Button asChild variant="ghost" size="sm">
+                                        <Link href={activity.href}>
+                                            View <ArrowRight className="ml-2 h-3 w-3" />
+                                        </Link>
+                                    </Button>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="text-sm text-muted-foreground text-center py-8">No recent activity to show.</p>
+                    )}
+                </CardContent>
+            </Card>
 
-          {/* Action Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Card className="flex flex-col items-center p-8 text-center">
+            {/* Action Cards */}
+            <Card className="lg:col-span-1 flex flex-col items-center p-8 text-center">
               <Rocket className="h-10 w-10 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">Try the Free App</h3>
               <p className="text-sm text-muted-foreground mb-6 flex-grow">
@@ -306,7 +304,7 @@ export default function AccountPage() {
               </Button>
             </Card>
 
-            <Card className="flex flex-col items-center p-8 text-center">
+            <Card className="lg:col-span-1 flex flex-col items-center p-8 text-center">
               <Bot className="h-10 w-10 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">AI Transformation</h3>
               <p className="text-sm text-muted-foreground mb-6 flex-grow">
@@ -316,18 +314,23 @@ export default function AccountPage() {
                 <a href="mailto:admin@avantaz.online?subject=Quote Request: AI Transformation Blueprint">Request a Quote</a>
               </Button>
             </Card>
+            
+            <Card className="lg:col-span-1 flex flex-col items-center p-8 text-center">
+              <Wallet className="h-10 w-10 text-primary mb-4" />
+              <h3 className="text-xl font-semibold mb-2">View Plans</h3>
+              <p className="text-sm text-muted-foreground mb-6 flex-grow">
+                Ready to unlock the full potential of BusinessStudio AI?
+              </p>
+               <Button asChild className="w-full group">
+                  <Link href="/#pricing">
+                    <span>View All Plans</span>
+                    <ArrowRight className="transition-transform group-hover:translate-x-1" />
+                  </Link>
+              </Button>
+            </Card>
+
           </div>
 
-          {/* Final CTA */}
-          <div className="text-center space-y-3 pt-8">
-            <p className="text-muted-foreground">Ready to unlock the full potential of BusinessStudio AI?</p>
-            <Button asChild size="lg" className="group">
-              <Link href="/#pricing">
-                <span>View All Plans</span>
-                <ArrowRight className="transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-          </div>
         </div>
       </div>
     </div>
