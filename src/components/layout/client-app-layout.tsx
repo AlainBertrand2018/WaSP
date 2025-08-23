@@ -20,6 +20,7 @@ import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 
 const PUBLIC_PATHS = ['/ideation/brainstorming'];
 const AUTH_PATHS = ['/login', '/signup'];
+const HYPERADMIN_EMAIL = 'admin@avantaz.online';
 
 type Profile = {
   role?: string | null;
@@ -33,29 +34,19 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     const fetchProfileAndCheckOwner = async (user: any) => {
-      // Check if user is in owner_data table
-      const { data: ownerData, error: ownerError } = await supabase
-        .from('owner-data')
-        .select('id')
+      // Check if the user is the designated hyperadmin by email
+      if (user.email === HYPERADMIN_EMAIL) {
+        setProfile({ role: 'Hyperadmin' });
+        return; // Exit early, no need for other checks
+      }
+
+      // Fallback to checking the profiles table for regular users
+      const { data } = await supabase
+        .from('profiles')
+        .select('role')
         .eq('id', user.id)
         .single();
-        
-      if (ownerError && ownerError.code !== 'PGRST116') { // Ignore 'no rows found' error
-        console.error("Error checking owner data:", ownerError);
-      }
-
-      const isHyperAdmin = !!ownerData;
-
-      if (isHyperAdmin) {
-        setProfile({ role: 'Hyperadmin' });
-      } else {
-        const { data } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', user.id)
-          .single();
-        setProfile(data);
-      }
+      setProfile(data);
     };
 
     const {
