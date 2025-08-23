@@ -32,6 +32,7 @@ import { appCategories } from '@/lib/app-data';
 import { AppCard } from '@/components/feature/app-card';
 import { ClaireIntroPopup } from '@/components/feature/claire-intro-popup';
 import { toast } from '@/hooks/use-toast';
+import { AdminLoginModal } from '@/components/feature/admin-login-modal';
 
 const featureCards = [
   {
@@ -114,6 +115,7 @@ export default function HomePageContent() {
   const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: true }));
   const firstFourApps = appCategories.flatMap(cat => cat.apps).slice(0, 4);
   const resumeInputRef = React.useRef<HTMLInputElement>(null);
+  const [isAdminModalOpen, setIsAdminModalOpen] = React.useState(false);
 
   const handleUploadClick = () => {
     resumeInputRef.current?.click();
@@ -184,6 +186,8 @@ export default function HomePageContent() {
     <div className="flex flex-col min-h-screen bg-background text-primary-foreground">
       <MainHeader />
       <ClaireIntroPopup />
+      <AdminLoginModal isOpen={isAdminModalOpen} onOpenChange={setIsAdminModalOpen} />
+
 
       <main className="flex-1">
         {/* Hero Section */}
@@ -625,7 +629,7 @@ export default function HomePageContent() {
           </div>
         </div>
         <div className="container mx-auto border-t border-primary-foreground/10 px-4 py-6 text-center text-sm text-primary-foreground/60">
-          © 2025 BusinessStudio AI (Alain BERTRAND). All rights reserved.
+           © 2025 <button onClick={() => setIsAdminModalOpen(true)} className="hover:underline">BusinessStudio AI (Alain BERTRAND)</button>. All rights reserved.
         </div>
       </footer>
     </div>
