@@ -33,7 +33,7 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
   const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
-    const fetchProfileAndCheckOwner = async (user: any) => {
+    const fetchProfile = async (user: any) => {
       // Check if the user is the designated hyperadmin by email
       if (user.email === HYPERADMIN_EMAIL) {
         setProfile({ role: 'Hyperadmin' });
@@ -57,7 +57,7 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
 
       if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
         if (session?.user) {
-          fetchProfileAndCheckOwner(session.user);
+          fetchProfile(session.user);
         }
       }
 
@@ -79,7 +79,7 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
         const isAuthPage = AUTH_PATHS.includes(pathname);
         
         if (session?.user) {
-          await fetchProfileAndCheckOwner(session.user);
+          await fetchProfile(session.user);
         }
 
         if (!session && !isPublic && !isAuthPage) {

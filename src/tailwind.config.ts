@@ -85,7 +85,7 @@ export default {
             transform: "translate(-50%,-40%) scale(1)",
           },
         },
-         'spin-slow': {
+        'spin-slow': {
           from: { transform: 'rotate(0deg)' },
           to: { transform: 'rotate(360deg)' },
         },
@@ -99,8 +99,8 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'float': 'float 3s ease-in-out infinite',
         'spotlight': "spotlight 2s ease .75s 1 forwards",
-        'spin-slow': 'spin-slow 3s linear infinite',
         'marquee': 'marquee 30s linear infinite',
+        'spin-slow': 'spin-slow 3s linear infinite',
       },
     },
   },
