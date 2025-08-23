@@ -299,7 +299,7 @@ export const appCategories: AppCategory[] = [
       {
         icon: Scale,
         title: 'Legitimus Prime',
-        description: 'AI-powered chatbot to answer questions about the Constitution of Mauritius.',
+        description: 'Our AI Legal Chatbot Legitimus Prime answers to your questions about Mauritian Laws and Constitution.',
         href: '/specialized/legitimus-prime',
         pro: true,
         imageSrc: '/images/Legitimus_v2-Apptile.webp',
