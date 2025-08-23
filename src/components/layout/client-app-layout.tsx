@@ -32,9 +32,23 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
   const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
+    const fetchProfileAndCheckOwner = async (user: any) => {
+      // Check if user is in owner_data table
+      const { data: ownerData, error: ownerError } = await supabase
+        .from('owner-data')
+        .select('id')
+        .eq('id', user.id)
+        .single();
+        
+      if (ownerError && ownerError.code !== 'PGRST116') { // Ignore 'no rows found' error
+        console.error("Error checking owner data:", ownerError);
+      }
+
+      const isHyperAdmin = !!ownerData;
+
+      if (isHyperAdmin) {
+        setProfile({ role: 'Hyperadmin' });
+      } else {
         const { data } = await supabase
           .from('profiles')
           .select('role')
@@ -51,7 +65,9 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
       const isAuthPage = AUTH_PATHS.includes(pathname);
 
       if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN') {
-        fetchProfile();
+        if (session?.user) {
+          fetchProfileAndCheckOwner(session.user);
+        }
       }
 
       if (event === 'SIGNED_IN' && isAuthPage) {
@@ -71,8 +87,8 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
         const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
         const isAuthPage = AUTH_PATHS.includes(pathname);
         
-        if (session) {
-          await fetchProfile();
+        if (session?.user) {
+          await fetchProfileAndCheckOwner(session.user);
         }
 
         if (!session && !isPublic && !isAuthPage) {
