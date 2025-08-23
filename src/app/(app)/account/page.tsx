@@ -41,11 +41,12 @@ export default function AccountPage() {
     async function getProfile() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        // Use .maybeSingle() which returns null instead of an error if no row is found.
         const { data, error } = await supabase
           .from('profiles')
           .select('id, first_name, last_name, avatar_url, cover_url, business_name, job_title, phone_number, mobile_number, role')
           .eq('id', user.id)
-          .single();
+          .maybeSingle();
 
         if (error) {
           console.error('Error fetching profile:', error);
