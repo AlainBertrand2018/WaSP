@@ -91,10 +91,17 @@ export default function AccountPage() {
   const handleAvatarUpload = async (url: string) => {
     if (!profile) return;
 
-    // Use upsert to either create a new profile or update an existing one
+    const profileDataToSave = {
+      ...profile,
+      avatar_url: url,
+    };
+    
+    // Remove email from the object to avoid trying to save it to the profiles table
+    delete profileDataToSave.email;
+
     const { data, error } = await supabase
       .from('profiles')
-      .upsert({ id: profile.id, avatar_url: url })
+      .upsert(profileDataToSave)
       .select()
       .single();
 
@@ -106,16 +113,22 @@ export default function AccountPage() {
       return;
     }
     // Update the local state with the full profile returned from upsert
-    setProfile(prev => ({ ...(prev as Profile), ...data, avatar_url: url }));
+    setProfile(prev => ({ ...(prev as Profile), ...data }));
   };
 
   const handleCoverUpload = async (url: string) => {
     if (!profile) return;
     
-    // Use upsert for cover image as well
+    const profileDataToSave = {
+      ...profile,
+      cover_url: url,
+    };
+
+    delete profileDataToSave.email;
+
     const { data, error } = await supabase
       .from('profiles')
-      .upsert({ id: profile.id, cover_url: url })
+      .upsert(profileDataToSave)
       .select()
       .single();
       
@@ -126,7 +139,7 @@ export default function AccountPage() {
       console.error('Failed to update cover URL:', msg);
       return;
     }
-    setProfile(prev => ({ ...(prev as Profile), ...data, cover_url: url }));
+    setProfile(prev => ({ ...(prev as Profile), ...data }));
   };
 
   return (
