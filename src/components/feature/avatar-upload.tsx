@@ -3,7 +3,6 @@
 
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,11 +11,13 @@ import { toast } from '@/hooks/use-toast';
 
 type AvatarUploadProps = {
   onUpload: (url: string) => void;
+  bucket: 'avatars' | 'covers';
+  buttonText?: string;
 };
 
-export function AvatarUpload({ onUpload }: AvatarUploadProps) {
+export function AvatarUpload({ onUpload, bucket, buttonText = 'Upload' }: AvatarUploadProps) {
   const [uploading, setUploading] = useState(false);
-  const [preview, setPreview] = useState<string | null>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -30,16 +31,9 @@ export function AvatarUpload({ onUpload }: AvatarUploadProps) {
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `public/${fileName}`;
 
-      // Show preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-
-      // Upload to Supabase
+      // Upload to Supabase in the specified bucket
       const { error: uploadError } = await supabase.storage
-        .from('avatars')
+        .from(bucket)
         .upload(filePath, file);
 
       if (uploadError) {
@@ -48,8 +42,13 @@ export function AvatarUpload({ onUpload }: AvatarUploadProps) {
 
       // Get public URL
       const { data } = supabase.storage
-        .from('avatars')
+        .from(bucket)
         .getPublicUrl(filePath);
+      
+      toast({
+        title: 'Upload Successful!',
+        description: 'Your image has been uploaded.',
+      });
 
       onUpload(data.publicUrl);
       
@@ -64,19 +63,30 @@ export function AvatarUpload({ onUpload }: AvatarUploadProps) {
     }
   };
 
+  const handleClick = () => {
+    fileInputRef.current?.click();
+  };
+
+
   return (
-    <div className="flex items-center gap-4">
-      <Avatar className="h-20 w-20">
-        <AvatarImage src={preview || 'https://placehold.co/100x100.png'} alt="Avatar preview" />
-        <AvatarFallback>
-            <UploadCloud />
-        </AvatarFallback>
-      </Avatar>
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="picture-upload" className="sr-only">Picture</Label>
-        <Input id="picture-upload" type="file" accept="image/*" onChange={handleFileChange} disabled={uploading} />
-        {uploading && <p className="text-sm text-muted-foreground flex items-center gap-2"><Loader2 className="animate-spin" /> Uploading...</p>}
-      </div>
+    <div className="flex flex-col items-center gap-2">
+      <Button onClick={handleClick} disabled={uploading} variant="secondary">
+        {uploading ? (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <UploadCloud className="mr-2 h-4 w-4" />
+        )}
+        <span>{uploading ? 'Uploading...' : buttonText}</span>
+      </Button>
+      <Input
+        id={`upload-${bucket}`}
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+        disabled={uploading}
+        className="hidden"
+        ref={fileInputRef}
+      />
     </div>
   );
 }

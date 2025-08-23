@@ -14,7 +14,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight, Bot, Loader2, Mail, Rocket, Briefcase, Phone, UserCircle } from 'lucide-react';
+import { ArrowRight, Bot, Loader2, Mail, Rocket, Briefcase, Phone, UserCircle, Upload } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AvatarUpload } from '@/components/feature/avatar-upload';
 import Image from 'next/image';
@@ -92,7 +92,7 @@ export default function AccountPage() {
   return (
     <div className="flex flex-col min-h-full">
       {/* Top Dark Section */}
-      <div className="bg-secondary text-secondary-foreground py-16 text-center relative h-[350px] flex flex-col justify-center items-center">
+      <div className="bg-secondary text-secondary-foreground py-16 text-center relative h-[350px] flex flex-col justify-center items-center group">
         {loading ? (
           <>
             <Skeleton className="absolute inset-0" />
@@ -109,9 +109,12 @@ export default function AccountPage() {
                 alt="Cover image"
                 layout="fill"
                 objectFit="cover"
-                className="opacity-20"
+                className="opacity-20 group-hover:opacity-10 transition-opacity duration-300"
                 data-ai-hint="office business"
             />
+            <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <AvatarUpload bucket="covers" onUpload={handleCoverUpload} buttonText="Change Cover" />
+            </div>
             <div className="relative z-10">
               <h1 className="text-4xl md:text-5xl font-bold">Hello {profile?.first_name}</h1>
               <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
@@ -138,7 +141,7 @@ export default function AccountPage() {
                     </AvatarFallback>
                 </Avatar>
                 <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                   <AvatarUpload onUpload={handleAvatarUpload} />
+                   <AvatarUpload bucket="avatars" onUpload={handleAvatarUpload} buttonText="Change Avatar" />
                 </div>
             </div>
            )}
