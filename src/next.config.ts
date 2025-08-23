@@ -29,6 +29,20 @@ const nextConfig: NextConfig = {
   env: {
     NEXT_PUBLIC_HYPERADMIN_EMAIL: process.env.HYPERADMIN_EMAIL,
   },
+  webpack: (config, { isServer }) => {
+    // Exclude server-only packages from the client-side bundle
+    if (!isServer) {
+      config.externals = [
+        ...(config.externals || []),
+        '@opentelemetry/instrumentation',
+        '@opentelemetry/sdk-node',
+        'handlebars',
+        // Add any other problematic packages here
+      ];
+    }
+
+    return config;
+  },
 };
 
 export default nextConfig;
