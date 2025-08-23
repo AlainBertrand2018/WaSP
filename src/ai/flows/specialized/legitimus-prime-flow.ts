@@ -10,6 +10,7 @@ import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 // Import the new admin client for server-side operations
 import { supabaseAdminClient } from '@/lib/supabase';
+import { Message, streamFlow } from '@genkit-ai/flow';
 
 const AskLegitimusPrimeInputSchema = z.object({
   question: z.string().describe("The user's question about Mauritian law."),
@@ -43,11 +44,12 @@ async function searchConstitution(query: string): Promise<string[]> {
     content: query,
   });
 
-  // Correctly extract the raw vector.
+  // Correctly extract the raw vector. This is the key fix.
   const queryEmbedding = embeddingResponse[0]?.embedding;
 
   if (!queryEmbedding) {
-    throw new Error('Failed to generate a valid embedding for the query.');
+    console.error('Failed to generate a valid embedding for the query.');
+    return [];
   }
 
   // 2. Call the Supabase RPC to find matching sections using the secure admin client.
@@ -73,6 +75,51 @@ export async function askLegitimusPrime(
   const result = await legitimusPrimeFlow(input);
   return result;
 }
+
+
+export async function* streamAnswerForLegitimusPrime(
+  input: AskLegitimusPrimeInput
+): AsyncGenerator<string> {
+    console.log("--- STREAMING TRACE: Starting streamAnswerForLegitimusPrime flow ---");
+    const { stream, response } = streamFlow(
+      {
+        name: 'streamLegitimusPrime',
+        inputSchema: AskLegitimusPrimeInputSchema,
+      },
+      async (flowInput) => {
+        console.log("--- STREAMING TRACE: Triage step ---");
+        const triageResult = await triagePrompt(flowInput.question);
+
+        if (triageResult.output?.decision === 'greet_or_decline') {
+            console.log("--- STREAMING TRACE: Triage result is 'greet_or_decline' ---");
+            const standardResponse = await standardResponsePrompt(flowInput.question);
+            return standardResponse.output || { answer: "I can only assist with questions about the Constitution of Mauritius." };
+        }
+
+        console.log("--- STREAMING TRACE: Triage result is 'search_document'. Starting RAG process. ---");
+        const context = await searchConstitution(flowInput.question);
+        
+        console.log(`--- STREAMING TRACE: Found ${context.length} relevant context chunks. ---`);
+        const { output } = await ragPrompt({
+            ...flowInput,
+            context
+        });
+
+        return output || { answer: "I could not generate a response."};
+      }
+    );
+
+    // Call the flow
+    const flowPromise = stream(input);
+
+    for await (const chunk of (await flowPromise).stream) {
+        if(chunk.content) {
+            console.log("--- STREAMING TRACE: Yielding chunk ---", chunk.content);
+            yield chunk.content;
+        }
+    }
+}
+
 
 const ragPrompt = ai.definePrompt({
   name: 'legitimusPrimeRagPrompt',
@@ -171,4 +218,3 @@ const legitimusPrimeFlow = ai.defineFlow(
     return output;
   }
 );
-
