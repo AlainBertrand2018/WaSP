@@ -984,7 +984,7 @@ export default function StartupBudgetPlannerPage() {
   const { component } = steps[currentStep - 1];
 
   return (
-    <div className="flex flex-col gap-8 py-8">
+    <div className="flex flex-col gap-8 py-8 max-w-4xl mx-auto">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">
           Startup Budget Planner
@@ -1021,7 +1021,7 @@ export default function StartupBudgetPlannerPage() {
             {index < steps.length - 1 && (
               <div
                 className={cn(
-                  'flex-1 h-1 transition-colors',
+                  'flex-1 h-1 transition-colors mx-2',
                   currentStep > index + 1 ? 'bg-primary' : 'bg-muted',
                 )}
               />
@@ -1037,14 +1037,18 @@ export default function StartupBudgetPlannerPage() {
             variant="outline"
             onClick={prevStep}
             disabled={currentStep === 1}
+            className="gap-2"
           >
-            Previous
+            <ArrowLeft />
+            <span>Previous</span>
           </Button>
           <Button
             onClick={nextStep}
             disabled={currentStep === totalSteps}
+            className="gap-2"
           >
-            Next
+            <span>Next</span>
+            <ChevronRight />
           </Button>
         </CardFooter>
       </Card>
