@@ -8,6 +8,8 @@ import { supabase } from '@/lib/supabase';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useUserStore } from '@/store/user-store';
+import { appCategories } from '@/lib/app-data';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -17,10 +19,21 @@ import { AvatarUpload } from '@/components/feature/avatar-upload';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Switch } from '@/components/ui/switch';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 
-import { ArrowRight, Bot, Rocket, Briefcase, Phone, UserCircle, UploadCloud, FileText, Lightbulb, Wallet, History, Lock, Loader2 } from 'lucide-react';
+import { ArrowRight, Bot, Rocket, Briefcase, Phone, UserCircle, UploadCloud, FileText, Lightbulb, Wallet, History, Lock, Loader2, Users, HardDrive, Cpu, ExternalLink, Settings, ShieldCheck, Trash, PlusCircle, Server, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 type Profile = {
   id: string;
@@ -49,11 +62,262 @@ const passwordFormSchema = z.object({
 
 type PasswordFormValues = z.infer<typeof passwordFormSchema>;
 
+
+// ##################################
+// ### Admin Dashboard Components ###
+// ##################################
+
+const AdminDashboard = () => {
+
+    const allApps = appCategories.flatMap(category => 
+        category.apps.map(app => ({ ...app, category: category.category }))
+    );
+
+    return (
+       <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="app-management">App Management</TabsTrigger>
+            <TabsTrigger value="feature-flags">Feature Flags</TabsTrigger>
+            <TabsTrigger value="system">System & Users</TabsTrigger>
+        </TabsList>
+        
+        {/* Overview Tab */}
+        <TabsContent value="overview" className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                        <Users className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">1</div>
+                        <p className="text-xs text-muted-foreground">+1 since last hour</p>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Active Sessions</CardTitle>
+                        <Zap className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">1</div>
+                        <p className="text-xs text-muted-foreground">Live now</p>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">Platform Health</CardTitle>
+                        <Server className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold text-green-500">Operational</div>
+                        <p className="text-xs text-muted-foreground">All systems normal</p>
+                    </CardContent>
+                </Card>
+                 <Card>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                        <CardTitle className="text-sm font-medium">AI Service Status</CardTitle>
+                        <Cpu className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold text-green-500">Normal</div>
+                        <p className="text-xs text-muted-foreground">API latency is low</p>
+                    </CardContent>
+                </Card>
+            </div>
+             <Card>
+                <CardHeader>
+                    <CardTitle>Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-wrap gap-4">
+                     <Button variant="outline" onClick={() => toast({ title: 'Cache Cleared!', description: 'The server cache has been purged.'})}>Clear Server Cache</Button>
+                    <Button variant="outline" disabled>Trigger Redeploy</Button>
+                    <Button variant="destructive" disabled>Emergency Maintenance Mode</Button>
+                </CardContent>
+            </Card>
+        </TabsContent>
+
+        {/* App Management Tab */}
+        <TabsContent value="app-management">
+            <Card>
+                <CardHeader>
+                    <CardTitle>App Management</CardTitle>
+                    <CardDescription>View, edit, or create new applications for the platform.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="mb-4 text-right">
+                        <Button><PlusCircle className="mr-2 h-4 w-4" /> Add New App</Button>
+                    </div>
+                     <Table>
+                        <TableHeader>
+                            <TableRow>
+                            <TableHead>App Title</TableHead>
+                            <TableHead>Category</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Actions</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {allApps.map((app) => (
+                            <TableRow key={app.title}>
+                                <TableCell className="font-medium">{app.title}</TableCell>
+                                <TableCell>{app.category}</TableCell>
+                                <TableCell><Badge>Enabled</Badge></TableCell>
+                                <TableCell className="space-x-2">
+                                    <Button variant="outline" size="sm">Edit</Button>
+                                    <Button variant="destructive" size="sm">Disable</Button>
+                                </TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+        </TabsContent>
+
+        {/* Feature Flags Tab */}
+        <TabsContent value="feature-flags">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Feature Flags</CardTitle>
+                    <CardDescription>Enable or disable experimental or new features across the platform.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                            <Label>New Onboarding Flow</Label>
+                            <p className="text-xs text-muted-foreground">Activates the multi-step profile creation for new users.</p>
+                        </div>
+                        <Switch defaultChecked />
+                    </div>
+                    <div className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                            <Label>AI-Powered Suggestions</Label>
+                            <p className="text-xs text-muted-foreground">Enables AI hints in the brainstorming tool.</p>
+                        </div>
+                        <Switch defaultChecked />
+                    </div>
+                     <div className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
+                        <div className="space-y-0.5">
+                            <Label>7-Day Blueprint (Beta)</Label>
+                            <p className="text-xs text-muted-foreground">Shows the new 7-day quickstarter module to users.</p>
+                        </div>
+                        <Switch />
+                    </div>
+                </CardContent>
+            </Card>
+        </TabsContent>
+        
+        {/* System & Users Tab */}
+         <TabsContent value="system">
+             <Card>
+                <CardHeader>
+                    <CardTitle>System & User Management</CardTitle>
+                    <CardDescription>High-level system information and user management.</CardDescription>
+                </CardHeader>
+                 <CardContent className="space-y-4">
+                    <Button variant="secondary" asChild>
+                        <Link href="https://supabase.com/dashboard/project/tgapgvvufswaxsyyhnna" target="_blank" rel="noopener noreferrer">
+                           View Supabase Dashboard <ExternalLink className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
+                     <p className="text-sm text-muted-foreground">User management tools will be available here in a future update.</p>
+                 </CardContent>
+            </Card>
+        </TabsContent>
+    </Tabs>
+    )
+}
+
+// #################################
+// ### Regular User Profile View ###
+// #################################
+
+const RegularUserProfile = ({ profile }: { profile: Profile | null }) => {
+    if (!profile) return null;
+    return (
+       <div className="container mx-auto max-w-7xl px-4 space-y-12">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <Card className="lg:col-span-2 bg-muted border-none">
+                <CardHeader>
+                    <CardTitle className="text-center text-lg font-medium text-muted-foreground">Your Profile Summary</CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                    <InfoItem icon={<UserCircle />} label="Email" value={profile?.email ?? undefined} />
+                    <InfoItem icon={<Briefcase />} label="Role" value={profile?.role ?? undefined} />
+                    <InfoItem icon={<Briefcase />} label="Company" value={profile?.business_name ?? undefined} />
+                    <InfoItem icon={<Briefcase />} label="Position" value={profile?.job_title ?? undefined} />
+                    <InfoItem icon={<Phone />} label="Phone" value={profile?.phone_number ?? undefined} />
+                    <InfoItem icon={<Phone />} label="Mobile" value={profile?.mobile_number ?? undefined} />
+                </CardContent>
+                </Card>
+
+                <Card className="lg:col-span-1">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2"><History /> Recent Activity</CardTitle>
+                    </CardHeader>
+                    <CardContent className="h-full flex flex-col justify-center items-center">
+                        {recentActivities.length > 0 ? (
+                            <ul className="space-y-4">
+                                {/* Activity mapping would go here */}
+                            </ul>
+                        ) : (
+                            <p className="text-sm text-muted-foreground text-center py-8">No recent activity to show.</p>
+                        )}
+                    </CardContent>
+                </Card>
+                
+                <Card className="lg:col-span-1 flex flex-col items-center p-8 text-center">
+                <Rocket className="h-10 w-10 text-primary mb-4" />
+                <h3 className="text-xl font-semibold mb-2">Try the Free App</h3>
+                <p className="text-sm text-muted-foreground mb-6 flex-grow">
+                    Validate your next big idea using our AI-powered brainstorming tool.
+                </p>
+                <Button asChild className="w-full">
+                    <Link href="/business-creation">Test Drive</Link>
+                </Button>
+                </Card>
+
+                <Card className="lg:col-span-1 flex flex-col items-center p-8 text-center">
+                <Bot className="h-10 w-10 text-primary mb-4" />
+                <h3 className="text-xl font-semibold mb-2">AI Transformation</h3>
+                <p className="text-sm text-muted-foreground mb-6 flex-grow">
+                    Request a quote for our comprehensive AI integration service.
+                </p>
+                <Button asChild variant="outline" className="w-full">
+                    <a href="mailto:admin@avantaz.online?subject=Quote Request: AI Transformation Blueprint">Request a Quote</a>
+                </Button>
+                </Card>
+                
+                <Card className="lg:col-span-1 flex flex-col items-center p-8 text-center">
+                <Wallet className="h-10 w-10 text-primary mb-4" />
+                <h3 className="text-xl font-semibold mb-2">View Plans</h3>
+                <p className="text-sm text-muted-foreground mb-6 flex-grow">
+                    Ready to unlock the full potential of BusinessStudio AI?
+                </p>
+                <Button asChild className="w-full group">
+                    <Link href="/#pricing">
+                        <span>View All Plans</span>
+                        <ArrowRight className="transition-transform group-hover:translate-x-1" />
+                    </Link>
+                </Button>
+                </Card>
+            </div>
+        </div>
+    )
+}
+
+// ##########################
+// ### Main Account Page  ###
+// ##########################
+
 export default function AccountPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
   const [passwordLoading, setPasswordLoading] = useState(false);
+  const { isHyperAdmin } = useUserStore();
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<PasswordFormValues>({
     resolver: zodResolver(passwordFormSchema)
@@ -231,12 +495,18 @@ export default function AccountPage() {
         ) : (
             <div className="relative z-10 max-w-4xl mx-auto px-4">
               <h1 className="text-4xl md:text-5xl font-bold">Hello {profile?.first_name ?? 'there'}</h1>
-              <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
-              <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
-                Let&apos;s kick things off with our FREE Test Drive – an interactive brainstorming session designed to help
-                you set up your new or existing business idea. Unlock powerful AI-driven features that will guide you to
-                ideate, launch, and manage your venture, all within the Business Studio Apps Suite.
-              </p>
+               {isHyperAdmin ? (
+                  <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to the Hyper Admin Dashboard</h2>
+               ) : (
+                <>
+                  <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
+                  <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
+                    Let&apos;s kick things off with our FREE Test Drive – an interactive brainstorming session designed to help
+                    you set up your new or existing business idea. Unlock powerful AI-driven features that will guide you to
+                    ideate, launch, and manage your venture, all within the Business Studio Apps Suite.
+                  </p>
+                </>
+               )}
               {err && <p className="mt-3 text-sm text-red-500">{err}</p>}
             </div>
         )}
@@ -246,75 +516,8 @@ export default function AccountPage() {
       {/* Main Content Light Section */}
       <div className="bg-background flex-grow pt-4 pb-16">
         <div className="container mx-auto max-w-7xl px-4 space-y-12">
-        
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <Card className="lg:col-span-2 bg-muted border-none">
-              <CardHeader>
-                <CardTitle className="text-center text-lg font-medium text-muted-foreground">Your Profile Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                {loading ? (
-                  <>
-                    {Array.from({ length: 6 }).map((_, i) => (
-                      <Skeleton key={i} className="h-8 w-full" />
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    <InfoItem icon={<UserCircle />} label="Email" value={profile?.email ?? undefined} />
-                    <InfoItem icon={<Briefcase />} label="Role" value={profile?.role ?? undefined} />
-                    <InfoItem icon={<Briefcase />} label="Company" value={profile?.business_name ?? undefined} />
-                    <InfoItem icon={<Briefcase />} label="Position" value={profile?.job_title ?? undefined} />
-                    <InfoItem icon={<Phone />} label="Phone" value={profile?.phone_number ?? undefined} />
-                    <InfoItem icon={<Phone />} label="Mobile" value={profile?.mobile_number ?? undefined} />
-                  </>
-                )}
-              </CardContent>
-            </Card>
-
-            <Card className="lg:col-span-1">
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><History /> Recent Activity</CardTitle>
-                </CardHeader>
-                <CardContent className="h-full flex flex-col justify-center items-center">
-                    {loading ? (
-                        <div className="space-y-4 w-full">
-                            {Array.from({ length: 3 }).map((_, i) => (
-                            <div key={i} className="flex items-center gap-4">
-                                <Skeleton className="h-8 w-8 rounded-full" />
-                                <div className="flex-grow space-y-2">
-                                <Skeleton className="h-4 w-4/5" />
-                                </div>
-                            </div>
-                            ))}
-                        </div>
-                    ) : recentActivities.length > 0 ? (
-                        <ul className="space-y-4">
-                            {recentActivities.map((activity, index) => (
-                                <li key={index} className="flex items-start gap-4">
-                                    <div className="bg-muted p-2 rounded-full mt-1">
-                                        {activity.icon}
-                                    </div>
-                                    <div className="flex-grow">
-                                        <p className="font-medium text-sm">{activity.text}</p>
-                                        <p className="text-xs text-muted-foreground">{activity.time}</p>
-                                    </div>
-                                    <Button asChild variant="ghost" size="sm">
-                                        <Link href={activity.href}>
-                                            View <ArrowRight className="ml-2 h-3 w-3" />
-                                        </Link>
-                                    </Button>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p className="text-sm text-muted-foreground text-center py-8">No recent activity to show.</p>
-                    )}
-                </CardContent>
-            </Card>
-
-            <Card className="lg:col-span-3">
+            {isHyperAdmin ? <AdminDashboard /> : <RegularUserProfile profile={profile} />}
+             <Card className="lg:col-span-3">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2"><Lock /> Security</CardTitle>
                 <CardDescription>Manage your account security settings.</CardDescription>
@@ -342,45 +545,6 @@ export default function AccountPage() {
                 </CardFooter>
               </form>
             </Card>
-
-            <Card className="lg:col-span-1 flex flex-col items-center p-8 text-center">
-              <Rocket className="h-10 w-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Try the Free App</h3>
-              <p className="text-sm text-muted-foreground mb-6 flex-grow">
-                Validate your next big idea using our AI-powered brainstorming tool.
-              </p>
-              <Button asChild className="w-full">
-                <Link href="/business-creation">Test Drive</Link>
-              </Button>
-            </Card>
-
-            <Card className="lg:col-span-1 flex flex-col items-center p-8 text-center">
-              <Bot className="h-10 w-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">AI Transformation</h3>
-              <p className="text-sm text-muted-foreground mb-6 flex-grow">
-                Request a quote for our comprehensive AI integration service.
-              </p>
-              <Button asChild variant="outline" className="w-full">
-                <a href="mailto:admin@avantaz.online?subject=Quote Request: AI Transformation Blueprint">Request a Quote</a>
-              </Button>
-            </Card>
-            
-            <Card className="lg:col-span-1 flex flex-col items-center p-8 text-center">
-              <Wallet className="h-10 w-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">View Plans</h3>
-              <p className="text-sm text-muted-foreground mb-6 flex-grow">
-                Ready to unlock the full potential of BusinessStudio AI?
-              </p>
-               <Button asChild className="w-full group">
-                  <Link href="/#pricing">
-                    <span>View All Plans</span>
-                    <ArrowRight className="transition-transform group-hover:translate-x-1" />
-                  </Link>
-              </Button>
-            </Card>
-
-          </div>
-
         </div>
       </div>
     </div>
