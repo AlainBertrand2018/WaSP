@@ -40,12 +40,6 @@ export function UserNav() {
     async function fetchProfile() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        if (user.email === process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL) {
-            setHyperAdmin(true);
-        } else {
-            setHyperAdmin(false);
-        }
-
         const { data, error } = await supabase
           .from('profiles')
           .select('id, first_name, last_name, avatar_url')
@@ -57,13 +51,11 @@ export function UserNav() {
         } else if (data) {
           setProfile({ ...data, email: user.email });
         }
-      } else {
-          setHyperAdmin(false);
       }
       setLoading(false);
     }
     fetchProfile();
-  }, [setHyperAdmin]);
+  }, []);
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();

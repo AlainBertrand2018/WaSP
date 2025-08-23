@@ -34,6 +34,7 @@ import {
 import { ArrowRight, Bot, Rocket, Briefcase, Phone, UserCircle, UploadCloud, FileText, Lightbulb, Wallet, History, Lock, Loader2, Users, HardDrive, Cpu, ExternalLink, Settings, ShieldCheck, Trash, PlusCircle, Server, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import type { User } from '@supabase/supabase-js';
 
 type Profile = {
   id: string;
@@ -314,10 +315,11 @@ const RegularUserProfile = ({ profile }: { profile: Profile | null }) => {
 
 export default function AccountPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
   const [passwordLoading, setPasswordLoading] = useState(false);
-  const { isHyperAdmin } = useUserStore();
+  const { isHyperAdmin, setHyperAdmin } = useUserStore();
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<PasswordFormValues>({
     resolver: zodResolver(passwordFormSchema)
@@ -326,26 +328,27 @@ export default function AccountPage() {
   useEffect(() => {
     let mounted = true;
 
-    (async () => {
+    const fetchUserAndProfile = async () => {
       try {
-        const { data: userData, error: userErr } = await supabase.auth.getUser();
+        const { data: { user }, error: userErr } = await supabase.auth.getUser();
         if (userErr) throw new Error(`auth.getUser: ${userErr.message}`);
-        const user = userData?.user;
         if (!user) throw new Error('Not authenticated');
+
+        if (mounted) {
+            setUser(user);
+            const isAdmin = user.email === (process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL || 'admin@avantaz.online');
+            setHyperAdmin(isAdmin);
+        }
 
         const { data, error } = await supabase
           .from('profiles')
-          .select(
-            'id, first_name, last_name, avatar_url, cover_url, business_name, job_title, phone_number, mobile_number, role'
-          )
+          .select('id, first_name, last_name, avatar_url, cover_url, business_name, job_title, phone_number, mobile_number, role')
           .eq('id', user.id)
           .maybeSingle();
 
         if (error) throw new Error(`profiles.select: ${error.message}`);
-
         if (!mounted) return;
 
-        // Normalize even if the row doesn't exist yet
         setProfile(
           data
             ? { ...data, email: user.email ?? null }
@@ -365,18 +368,21 @@ export default function AccountPage() {
         );
       } catch (e: unknown) {
         const msg = e instanceof Error ? e.message : String(e);
-        setErr(msg);
-        // eslint-disable-next-line no-console
-        console.error('Error fetching profile:', msg);
+        if (mounted) {
+          setErr(msg);
+          console.error('Error fetching profile:', msg);
+        }
       } finally {
         if (mounted) setLoading(false);
       }
-    })();
+    };
+    
+    fetchUserAndProfile();
 
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [setHyperAdmin]);
 
   const handleAvatarUpload = async (url: string) => {
     if (!profile) return;
