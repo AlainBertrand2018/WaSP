@@ -63,7 +63,7 @@ async function main() {
     try {
       const embedding = await ai.embed({
         embedder: 'googleai/text-embedding-004',
-        content: chunk,
+        content: [{text: chunk}],
       });
       embeddingResults.push(embedding);
     } catch(e) {
@@ -75,13 +75,17 @@ async function main() {
   // 4. Prepare data for insertion, explicitly extracting the vector
   const documentsToInsert = chunks
     .map((chunk, i) => {
-      const rawVector = embeddingResults[i];
+      const result = embeddingResults[i];
 
-      if (!rawVector || !Array.isArray(rawVector)) {
-        console.warn(`Skipping chunk ${i} due to missing or invalid embedding.`);
+      // Check if the result and the nested structure are valid
+      if (!result || !Array.isArray(result) || result.length === 0 || !result[0].embedding) {
+        console.warn(`Skipping chunk ${i} due to missing or invalid embedding structure.`);
         return null;
       }
       
+      // FIX: Correctly access the nested embedding array
+      const rawVector = result[0].embedding;
+
       return {
         content: chunk,
         tokens: chunk.length, 
