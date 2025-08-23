@@ -10,7 +10,7 @@ import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 // Import the new admin client for server-side operations
 import { supabaseAdminClient } from '@/lib/supabase';
-import { Message, streamFlow } from '@genkit-ai/flow';
+import { Message, streamFlow } from 'genkit';
 
 const AskLegitimusPrimeInputSchema = z.object({
   question: z.string().describe("The user's question about Mauritian law."),
