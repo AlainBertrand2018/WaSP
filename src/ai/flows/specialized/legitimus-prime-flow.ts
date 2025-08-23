@@ -2,14 +2,13 @@
 'use server';
 /**
  * @fileOverview An AI agent that answers questions about the Mauritian constitution.
- * It bases its answers exclusively on a provided legal document.
- * This version uses a Retrieval-Augmented Generation (RAG) pattern for improved accuracy.
+ * It uses a Retrieval-Augmented Generation (RAG) pattern with Supabase/pgvector
+ * to ensure answers are based exclusively on the provided legal document.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
-import * as fs from 'fs/promises';
-import * as path from 'path';
+import { supabase } from '@/lib/supabase';
 
 const AskLegitimusPrimeInputSchema = z.object({
   question: z.string().describe("The user's question about Mauritian law."),
@@ -30,43 +29,35 @@ const AskLegitimusPrimeOutputSchema = z.object({
 export type AskLegitimusPrimeInput = z.infer<typeof AskLegitimusPrimeInputSchema>;
 export type AskLegitimusPrimeOutput = z.infer<typeof AskLegitimusPrimeOutputSchema>;
 
-// Define an explicit schema for the retriever input
-const RetrieverInputSchema = z.object({
-  question: z.string(),
-});
 
-// Define an in-memory retriever for the constitution document
-const constitutionRetriever = ai.defineRetriever(
-  {
-    name: 'constitution-retriever',
-    inputSchema: RetrieverInputSchema,
-  },
-  async ({ question }) => {
-    // 1. Read the document
-    const filePath = path.join(process.cwd(), 'public', 'documents', 'constitution-of-Mauritius_rev2022.md');
-    const documentContent = await fs.readFile(filePath, 'utf-8');
-    
-    // 2. Split the document into chunks (by paragraph)
-    const chunks = documentContent.split(/\n\s*\n/).filter(p => p.trim().length > 10);
-    const documents = chunks.map(chunk => ({ content: chunk }));
+/**
+ * Searches the constitution sections in Supabase for relevant context.
+ * @param query The user's question.
+ * @returns A promise that resolves to an array of content strings.
+ */
+async function searchConstitution(query: string): Promise<string[]> {
+  // 1. Generate an embedding for the user's query.
+  const embedding = await ai.embed({
+    embedder: 'googleai/text-embedding-004',
+    content: query,
+  });
 
-    // 3. Index the chunks in-memory
-    const indexedDocs = await ai.index({
-      indexer: 'googleai/text-embedding-gecko',
-      documents,
-    });
+  // 2. Call the Supabase RPC to find matching sections.
+  const { data, error } = await supabase.rpc('search_constitution_sections', {
+    query_embedding: embedding,
+    match_threshold: 0.75, // Adjust this threshold as needed
+    match_count: 5,       // Return top 5 matches
+  });
 
-    // 4. Retrieve the most relevant chunks based on the user's question
-    const relevantDocs = await ai.retrieve({
-      retriever: indexedDocs,
-      query: question,
-      options: { k: 5 }, // Retrieve top 5 most relevant chunks
-    });
-
-    // 5. Return the retrieved documents
-    return { documents: relevantDocs };
+  if (error) {
+    console.error('Error searching constitution:', error);
+    throw new Error('Failed to search for relevant constitution sections.');
   }
-);
+
+  // 3. Return the content of the matched sections.
+  return data.map((item: any) => item.content);
+}
+
 
 export async function askLegitimusPrime(
   input: AskLegitimusPrimeInput
@@ -81,7 +72,7 @@ const prompt = ai.definePrompt({
     schema: z.object({
       question: z.string(),
       history: z.array(z.object({ role: z.enum(['user', 'model']), content: z.string() })),
-      context: z.array(z.any()), // Context from retriever
+      context: z.array(z.string()), // Context from Supabase
     }),
   },
   output: { schema: AskLegitimusPrimeOutputSchema },
@@ -97,7 +88,7 @@ const prompt = ai.definePrompt({
 **CONTEXT FROM THE CONSTITUTION OF MAURITIUS:**
 ---
 {{#each context}}
-  {{this.content}}
+  {{this}}
 ---
 {{/each}}
 
@@ -119,10 +110,10 @@ const legitimusPrimeFlow = ai.defineFlow(
     outputSchema: AskLegitimusPrimeOutputSchema,
   },
   async (input) => {
-    // Use the retriever to find relevant context, passing the question as an object
-    const { documents: context } = await constitutionRetriever({ question: input.question });
+    // 1. Retrieve relevant context from Supabase based on the user's question.
+    const context = await searchConstitution(input.question);
     
-    // Call the prompt with the question, history, and the retrieved context
+    // 2. Call the prompt with the question, history, and the retrieved context.
     const { output } = await prompt({
         ...input,
         context

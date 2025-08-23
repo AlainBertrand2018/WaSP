@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "genkit:dev": "genkit start --host 0.0.0.0 -- tsx src/ai/dev.ts",
     "genkit:watch": "genkit start --host 0.0.0.0 -- tsx --watch src/ai/dev.ts",
+    "index:constitution": "tsx src/scripts/index-constitution.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -76,6 +77,7 @@
     "genkit-cli": "^1.13.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5",
+    "tsx": "^4.16.2"
   }
 }
