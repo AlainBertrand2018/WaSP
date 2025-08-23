@@ -4,13 +4,15 @@
  * generate vector embeddings for its sections, and store them in Supabase.
  * 
  * To run this script:
- * 1. Ensure your .env.local file has the correct Supabase URL and Anon Key.
+ * 1. Ensure your .env file has the correct Supabase URL and Anon Key.
  * 2. Run the SQL from `src/lib/supabase/schema.sql` in your Supabase dashboard.
  * 3. Run the SQL from `src/lib/supabase/search_constitution_sections.sql` in your Supabase dashboard.
  * 4. From your terminal, run `npm run index:constitution`.
  */
 
-import 'dotenv/config'
+import dotenv from 'dotenv';
+dotenv.config({ path: '.env' });
+
 import { ai } from '@/ai/genkit';
 import { supabase } from '@/lib/supabase';
 import * as fs from 'fs/promises';
@@ -28,6 +30,12 @@ function chunkText(text: string, chunkSize = 1000, overlap = 100) {
 }
 
 async function main() {
+  // Verify that environment variables are loaded
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      console.error('Supabase URL or Anon Key is missing. Make sure it is set in your .env file.');
+      process.exit(1);
+  }
+    
   console.log('Starting the indexing process...');
 
   // 1. Read the document
