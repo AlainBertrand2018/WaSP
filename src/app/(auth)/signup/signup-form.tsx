@@ -106,9 +106,18 @@ export function SignUpForm() {
     setIsLoading(true);
     const { email, password, ...profileData } = values;
 
+    // Pass all profile data directly into the signUp options.
+    // The database trigger will handle inserting this into the profiles table.
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+            ...profileData,
+            // Ensure avatar_url is passed, even if undefined
+            avatar_url: values.avatar_url,
+        }
+      }
     });
 
     if (signUpError) {
@@ -122,25 +131,6 @@ export function SignUpForm() {
     }
 
     if (signUpData.user) {
-      // Manually insert into profiles table after successful signup.
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: signUpData.user.id, // Use the user's ID from auth
-          ...profileData, // The rest of the form data
-          email: signUpData.user.email,
-        });
-
-      if (profileError) {
-         toast({
-          title: 'Profile Creation Error',
-          description: profileError.message,
-          variant: 'destructive',
-        });
-        setIsLoading(false);
-        return;
-      }
-      
       toast({
         title: 'Sign Up Successful!',
         description: 'Please check your email to verify your account.',

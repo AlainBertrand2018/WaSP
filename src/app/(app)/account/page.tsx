@@ -117,17 +117,9 @@ export default function AccountPage() {
   const handleAvatarUpload = async (url: string) => {
     if (!profile) return;
 
-    const profileDataToSave = {
-      ...profile,
-      avatar_url: url,
-    };
-    
-    delete (profileDataToSave as Partial<Profile> & { email?: string | null }).email;
-
-
     const { data, error } = await supabase
       .from('profiles')
-      .upsert(profileDataToSave)
+      .upsert({ id: profile.id, avatar_url: url })
       .select()
       .single();
 
@@ -143,17 +135,9 @@ export default function AccountPage() {
   const handleCoverUpload = async (url: string) => {
     if (!profile) return;
     
-    const profileDataToSave = {
-      ...profile,
-      cover_url: url,
-    };
-
-    delete (profileDataToSave as Partial<Profile> & { email?: string | null }).email;
-
-
     const { data, error } = await supabase
       .from('profiles')
-      .upsert(profileDataToSave)
+      .upsert({ id: profile.id, cover_url: url })
       .select()
       .single();
       

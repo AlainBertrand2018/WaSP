@@ -29,40 +29,37 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
   const { isHyperAdmin } = useUserStore();
 
   useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
       const isAuthPage = AUTH_PATHS.includes(pathname);
 
-      if (event === 'SIGNED_IN' && isAuthPage) {
-        router.push('/account');
-      } else if (event === 'SIGNED_OUT') {
-        router.push('/');
-      } else if (!session && !isPublic && !isAuthPage) {
+      if (!session && !isPublic && !isAuthPage) {
         router.push(`/login?redirect=${pathname}`);
       } else {
         setLoading(false);
       }
-    });
+    };
 
-    const initialCheck = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
+    checkSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
         const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
         const isAuthPage = AUTH_PATHS.includes(pathname);
-        
-        if (!session && !isPublic && !isAuthPage) {
-             router.push(`/login?redirect=${pathname}`);
-        } else if (session && isAuthPage) {
-            router.push('/account');
-        } else {
-            setLoading(false);
+
+        if (event === 'SIGNED_IN' && isAuthPage) {
+          router.push('/account');
+        } else if (event === 'SIGNED_OUT') {
+          router.push('/');
+        } else if (!session && !isPublic && !isAuthPage) {
+          router.push(`/login?redirect=${pathname}`);
         }
-    }
-    initialCheck();
+      }
+    );
 
     return () => {
-      subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, [pathname, router]);
 
