@@ -38,9 +38,6 @@ export default function LoginForm() {
         title: 'Signed In Successfully!',
         description: "You're now being redirected.",
       });
-      // The redirect is now handled by the main app layout
-      // which detects the authenticated state change.
-      // We push to the intended destination or a default.
       const redirectUrl = searchParams.get('redirect') || '/account';
       router.push(redirectUrl);
     }

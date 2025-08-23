@@ -33,16 +33,17 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
       const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
       const isAuthPage = AUTH_PATHS.includes(pathname);
 
-      if (!session && !isPublic && !isAuthPage) {
-        router.push(`/login?redirect=${pathname}`);
-      } else if (session && isAuthPage) {
+      if (event === 'SIGNED_IN' && isAuthPage) {
         router.push('/account');
+      } else if (event === 'SIGNED_OUT') {
+        router.push('/');
+      } else if (!session && !isPublic && !isAuthPage) {
+        router.push(`/login?redirect=${pathname}`);
       } else {
         setLoading(false);
       }
     });
 
-    // Initial check for non-listener scenarios
     const initialCheck = async () => {
         const { data: { session } } = await supabase.auth.getSession();
         const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
@@ -86,6 +87,7 @@ export default function ClientAppLayout({ children }: { children: React.ReactNod
     pathname === '/ideation' ||
     pathname === '/business-creation' ||
     pathname === '/dashboard' ||
+    pathname === '/account' ||
     pathname === '/business-management' ||
     pathname === '/business-management/insights-dashboard';
 
