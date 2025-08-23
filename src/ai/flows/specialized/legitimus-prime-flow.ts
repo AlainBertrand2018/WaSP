@@ -55,8 +55,8 @@ async function searchConstitution(query: string): Promise<string[]> {
   // 2. Call the Supabase RPC to find matching sections using the secure admin client.
   const { data, error } = await supabaseAdminClient.rpc('search_constitution_sections', {
     query_embedding: queryEmbedding,
-    match_threshold: 0.75, // Adjust this threshold as needed
-    match_count: 5,       // Return top 5 matches
+    match_threshold: 0.75, // Only return chunks with a similarity score > 0.75
+    match_count: 5,       // Return top 5 most relevant chunks
   });
 
   if (error) {
@@ -131,31 +131,19 @@ const ragPrompt = ai.definePrompt({
     }),
   },
   output: { schema: AskLegitimusPrimeOutputSchema },
-  prompt: `You are Legitimus Prime, a specialized legal AI assistant. Your sole purpose is to answer questions based *exclusively* on the provided context from the Constitution of Mauritius.
+  prompt: `You are Legitimus Prime, an expert AI assistant specializing in the Constitution of Mauritius. Using the following CONTEXT provided from the document, answer the user's QUESTION.
+Your answer must be based exclusively on the information within the provided CONTEXT.
+Do not use any outside knowledge. If the CONTEXT does not contain the answer, state that you cannot answer based on the provided information.
 
-**CRITICAL INSTRUCTIONS:**
-1.  **DO NOT** use any external knowledge, personal opinions, or information not present in the provided context.
-2.  If the answer to a question cannot be found within the provided context, you MUST state: "I cannot answer that question as the information is not contained within the provided text of the Constitution of Mauritius."
-3.  Your answers must be direct, factual, and cite the relevant section of the constitution if possible, based on the context.
-4.  Maintain a formal, professional, and objective tone at all times. You are an informational tool, not a legal advisor.
-5.  Never provide legal advice or interpret the law in a way that suggests a course of action. Stick to what the text says.
-
-**CONTEXT FROM THE CONSTITUTION OF MAURITIUS:**
+CONTEXT:
 ---
 {{#each context}}
   {{this}}
 ---
 {{/each}}
 
-**Conversation History:**
-{{#each history}}
-  **{{role}}**: {{content}}
-{{/each}}
-
-**User's new question:**
-{{question}}
-
-Based *only* on the context provided, generate a helpful answer.`,
+QUESTION:
+{{question}}`,
 });
 
 
@@ -163,9 +151,8 @@ const triagePrompt = ai.definePrompt({
     name: 'legitimusPrimeTriagePrompt',
     input: { schema: z.string() },
     output: { schema: z.object({ decision: z.enum(['search_document', 'greet_or_decline']) }) },
-    prompt: `You are a triage agent. Your job is to determine if a user's query requires searching a legal document for an answer, or if it is a simple greeting, conversational filler, or an off-topic question.
-
-    - If the query is asking a question about laws, rights, government structure, legal procedures, or anything that could plausibly be answered by the Constitution of Mauritius, respond with "search_document".
+    prompt: `You are a triage agent. Your job is to determine if a user's query requires searching a legal document.
+    - If the query asks about laws, rights, government structure, legal procedures, or anything that could plausibly be answered by the Constitution of Mauritius, respond with "search_document".
     - If the query is a simple greeting (e.g., "hello", "hi", "how are you?"), a thank you, or clearly off-topic (e.g., "what is the weather like?"), respond with "greet_or_decline".
 
     User query: "{{query}}"`,
@@ -177,11 +164,11 @@ const standardResponsePrompt = ai.definePrompt({
     name: 'legitimusPrimeStandardResponsePrompt',
     input: { schema: z.string() },
     output: { schema: z.object({ answer: z.string() }) },
-    prompt: `You are Legitimus Prime, a friendly but professional legal AI assistant for the Constitution of Mauritius.
-    The user has said something that does not require a document search (it is likely a greeting or off-topic).
+    prompt: `You are Legitimus Prime, a legal AI assistant for the Constitution of Mauritius. The user has said something that does not require a document search.
     - If it's a simple greeting like "hello" or "hi", respond with a polite, brief greeting like "Hello! How can I help you with the Constitution of Mauritius?".
     - If it's something else (like "thank you" or an off-topic question), politely state that you can only answer questions related to the Constitution of Mauritius.
-    User's input: "{{query}}"`,
+    
+    User input: "{{query}}"`,
     model: 'googleai/gemini-2.0-flash',
 });
 
