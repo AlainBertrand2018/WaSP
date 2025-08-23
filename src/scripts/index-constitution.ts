@@ -4,17 +4,19 @@
  * generate vector embeddings for its sections, and store them in Supabase.
  * 
  * To run this script:
- * 1. Ensure your .env file has the correct Supabase URL and Anon Key.
+ * 1. Ensure your .env file has the correct Supabase URL and service_role key.
  * 2. Run the SQL from `src/lib/supabase/schema.sql` in your Supabase dashboard.
  * 3. Run the SQL from `src/lib/supabase/search_constitution_sections.sql` in your Supabase dashboard.
- * 4. From your terminal, run `npm run index:constitution`.
+ * 4. From your terminal, run `npm install` to install dependencies.
+ * 5. From your terminal, run `npm run index:constitution`.
  */
 
 import dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
 
 import { ai } from '@/ai/genkit';
-import { supabase } from '@/lib/supabase';
+// Use the secure admin client for write operations
+import { supabaseAdminClient } from '@/lib/supabase';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
@@ -31,8 +33,8 @@ function chunkText(text: string, chunkSize = 1000, overlap = 100) {
 
 async function main() {
   // Verify that environment variables are loaded
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      console.error('Supabase URL or Anon Key is missing. Make sure it is set in your .env file.');
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.error('Supabase URL or Service Role Key is missing. Make sure it is set in your .env file.');
       process.exit(1);
   }
     
@@ -49,7 +51,7 @@ async function main() {
 
   // Clear existing data from the table to prevent duplicates
   console.log('Clearing existing data from the `constitution_sections` table...');
-  const { error: deleteError } = await supabase.from('constitution_sections').delete().gt('id', 0);
+  const { error: deleteError } = await supabaseAdminClient.from('constitution_sections').delete().gt('id', 0);
   if (deleteError) {
     console.error('Error clearing table:', deleteError);
     return;
@@ -81,8 +83,9 @@ async function main() {
 
   // 4. Insert data into Supabase
   if (documentsToInsert.length > 0) {
-    console.log('Inserting documents into Supabase...');
-    const { data, error } = await supabase.from('constitution_sections').insert(documentsToInsert);
+    console.log('Inserting documents into Supabase using the admin client...');
+    // Use the secure admin client to insert data
+    const { data, error } = await supabaseAdminClient.from('constitution_sections').insert(documentsToInsert);
 
     if (error) {
       console.error('Error inserting data into Supabase:', error);
