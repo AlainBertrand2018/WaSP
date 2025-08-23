@@ -20,9 +20,15 @@ import {
   DialogClose,
 } from '@/components/ui/dialog';
 import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from '@/components/ui/alert';
+import {
   ArrowLeft,
   ArrowRight,
   Check,
+  Info,
   Loader2,
   PlusCircle,
   Settings,
@@ -329,6 +335,22 @@ export default function BusinessManagementLandingPage() {
           Manage your different business profiles here. Select a profile to make it active across the app.
         </p>
       </div>
+
+       <Alert>
+          <Info className="h-4 w-4" />
+          <AlertTitle>Why Your Business Profile Matters</AlertTitle>
+          <AlertDescription>
+            <p>Think of your business profile as the blueprint for our AI, CLAIRE. The more detailed and accurate your profile is, the smarter and more personalized the tools we can build for you.</p>
+            <p className="mt-2">A comprehensive profile allows our AI to:</p>
+            <ul className="list-disc pl-5 mt-1 space-y-1">
+                <li><strong>Generate a Tailored Compliance Checklist:</strong> Instantly know which local regulations and permits apply specifically to your business.</li>
+                <li><strong>Provide Relevant Financial Advice:</strong> Suggest the most suitable funding options and cost structures for your sector.</li>
+                <li><strong>Create Accurate Business Plans:</strong> Synthesize your data into professional, investor-ready documents that reflect your unique situation.</li>
+            </ul>
+             <p className="mt-2">By providing thorough information, you're not just filling out a form; you're giving our AI the context it needs to be your most effective co-pilot.</p>
+          </AlertDescription>
+      </Alert>
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {isLoading ? (
