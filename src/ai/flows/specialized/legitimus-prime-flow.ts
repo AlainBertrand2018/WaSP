@@ -122,9 +122,7 @@ const triagePrompt = ai.definePrompt({
     - If the query is a simple greeting (e.g., "hello", "hi", "how are you?"), a thank you, or an off-topic question (e.g., "what is the weather like?"), respond with "greet_or_decline".
 
     User query: "{{query}}"`,
-    config: {
-        model: 'googleai/gemini-2.0-flash'
-    }
+    model: 'googleai/gemini-2.0-flash'
 });
 
 
@@ -137,9 +135,7 @@ const standardResponsePrompt = ai.definePrompt({
     - If it's a greeting, respond with a polite, brief greeting.
     - If it's off-topic, politely state that you can only answer questions related to the Constitution of Mauritius.
     User's input: "{{query}}"`,
-    config: {
-        model: 'googleai/gemini-2.0-flash'
-    }
+    model: 'googleai/gemini-2.0-flash'
 });
 
 
