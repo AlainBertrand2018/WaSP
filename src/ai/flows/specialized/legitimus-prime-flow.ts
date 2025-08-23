@@ -43,7 +43,7 @@ async function searchConstitution(query: string): Promise<string[]> {
     content: query,
   });
 
-  // Extract the raw vector from the response. The structure is [{ embedding: [...] }]
+  // Correctly extract the raw vector.
   const queryEmbedding = embeddingResponse[0]?.embedding;
 
   if (!queryEmbedding) {
@@ -74,8 +74,8 @@ export async function askLegitimusPrime(
   return result;
 }
 
-const prompt = ai.definePrompt({
-  name: 'legitimusPrimePrompt',
+const ragPrompt = ai.definePrompt({
+  name: 'legitimusPrimeRagPrompt',
   input: {
     schema: z.object({
       question: z.string(),
@@ -111,6 +111,38 @@ const prompt = ai.definePrompt({
 Based *only* on the context provided, generate a helpful answer.`,
 });
 
+
+const triagePrompt = ai.definePrompt({
+    name: 'legitimusPrimeTriagePrompt',
+    input: { schema: z.string() },
+    output: { schema: z.object({ decision: z.enum(['search_document', 'greet_or_decline']) }) },
+    prompt: `You are a triage agent. Your job is to determine if a user's query requires searching a legal document for an answer, or if it is a simple greeting, conversational filler, or an off-topic question.
+
+    - If the query is asking a question that could be answered by the Constitution of Mauritius (e.g., "What are the powers of the president?", "How is parliament formed?"), respond with "search_document".
+    - If the query is a simple greeting (e.g., "hello", "hi", "how are you?"), a thank you, or an off-topic question (e.g., "what is the weather like?"), respond with "greet_or_decline".
+
+    User query: "{{query}}"`,
+    config: {
+        model: 'googleai/gemini-2.0-flash'
+    }
+});
+
+
+const standardResponsePrompt = ai.definePrompt({
+    name: 'legitimusPrimeStandardResponsePrompt',
+    input: { schema: z.string() },
+    output: { schema: z.object({ answer: z.string() }) },
+    prompt: `You are Legitimus Prime, a friendly but professional legal AI assistant for the Constitution of Mauritius.
+    The user has said something that does not require a document search.
+    - If it's a greeting, respond with a polite, brief greeting.
+    - If it's off-topic, politely state that you can only answer questions related to the Constitution of Mauritius.
+    User's input: "{{query}}"`,
+    config: {
+        model: 'googleai/gemini-2.0-flash'
+    }
+});
+
+
 const legitimusPrimeFlow = ai.defineFlow(
   {
     name: 'legitimusPrimeFlow',
@@ -118,11 +150,21 @@ const legitimusPrimeFlow = ai.defineFlow(
     outputSchema: AskLegitimusPrimeOutputSchema,
   },
   async (input) => {
-    // 1. Retrieve relevant context from Supabase based on the user's question.
+    // Step 1: Triage the user's question to see if it needs a search.
+    const triageResult = await triagePrompt(input.question);
+    
+    if (triageResult.output?.decision === 'greet_or_decline') {
+        // Step 2a: If it's a greeting/off-topic, generate a standard response.
+        const standardResponse = await standardResponsePrompt(input.question);
+        return standardResponse.output || { answer: "I can only assist with questions about the Constitution of Mauritius." };
+    }
+
+    // Step 2b: If it requires a search, proceed with the RAG process.
+    // Retrieve relevant context from Supabase based on the user's question.
     const context = await searchConstitution(input.question);
     
-    // 2. Call the prompt with the question, history, and the retrieved context.
-    const { output } = await prompt({
+    // Call the prompt with the question, history, and the retrieved context.
+    const { output } = await ragPrompt({
         ...input,
         context
     });
