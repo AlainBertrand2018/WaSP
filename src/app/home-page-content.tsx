@@ -205,7 +205,7 @@ export default function HomePageContent() {
                 BusinessStudio AI is your unified command center for launching and managing your business in Mauritius. Leverage our AI-powered suite to go from idea to investor-ready, faster than ever before.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
-                <Button size="lg" asChild className="bg-orange-500 hover:bg-orange-600 text-white">
+                <Button size="lg" asChild>
                   <Link href="#pricing">Test For Free</Link>
                 </Button>
                 <Button size="lg" asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
