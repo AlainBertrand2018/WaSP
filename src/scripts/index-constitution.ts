@@ -17,6 +17,11 @@ import { ai } from '@/ai/genkit';
 import { supabaseAdminClient } from '@/lib/supabase';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import dotenv from 'dotenv';
+
+// Load environment variables from the .env file in the project root.
+dotenv.config({ path: '.env' });
+
 
 // Helper to split text into chunks
 function chunkText(text: string, chunkSize = 1000, overlap = 100) {
@@ -61,7 +66,6 @@ async function main() {
   const embeddingResults = [];
   for (const chunk of chunks) {
     try {
-      // FIX: Pass the raw chunk string directly to the content property.
       const embedding = await ai.embed({
         embedder: 'googleai/text-embedding-004',
         content: chunk,
@@ -73,6 +77,32 @@ async function main() {
     }
   }
 
+  // =================================================================
+  // START OF THE DEBUGGING CODE
+  // =================================================================
+
+  console.log("--- DEBUG: ANALYZING THE EMBEDDING DATA STRUCTURE ---");
+
+  // We will log the structure of the VERY FIRST result.
+  // JSON.stringify will show us everything without the console hiding details.
+  if (embeddingResults.length > 0) {
+    console.log(JSON.stringify(embeddingResults[0], null, 2));
+  } else {
+    console.log("No embedding results to analyze.");
+  }
+
+
+  console.log("--- DEBUG: ANALYSIS COMPLETE. SCRIPT WILL NOW EXIT. ---");
+
+  // This line will stop the script so we can analyze the output above.
+  process.exit(0);
+
+  // =================================================================
+  // END OF THE DEBUGGING CODE
+  // =================================================================
+
+
+  /*
   // 4. Prepare data for insertion, explicitly extracting the vector
   const documentsToInsert = chunks
     .map((chunk, i) => {
@@ -125,6 +155,7 @@ async function main() {
   } else {
     console.log("No documents to insert. Exiting.");
   }
+  */
 }
 
 main().catch(console.error);
