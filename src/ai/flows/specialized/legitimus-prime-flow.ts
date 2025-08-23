@@ -44,13 +44,14 @@ async function searchConstitution(query: string): Promise<string[]> {
     content: query,
   });
 
-  // Correctly extract the raw vector.
   const queryEmbedding = embeddingResponse[0]?.embedding;
 
   if (!queryEmbedding) {
-    console.error('Failed to generate a valid embedding for the query.');
+    console.error('MANUAL CHECK FAILED: Could not generate a valid embedding for the query.');
     return [];
   }
+  console.log('MANUAL CHECK 1: User question embedded successfully. Vector starts with:', queryEmbedding.slice(0, 5));
+
 
   // 2. Call the Supabase RPC to find matching sections using the secure admin client.
   const { data, error } = await supabaseAdminClient.rpc('search_constitution_sections', {
@@ -60,12 +61,20 @@ async function searchConstitution(query: string): Promise<string[]> {
   });
 
   if (error) {
-    console.error('Error searching constitution:', error);
+    console.error('MANUAL CHECK FAILED: Error searching constitution in Supabase:', error);
     throw new Error('Failed to search for relevant constitution sections.');
   }
 
+  console.log(`MANUAL CHECK 2: Supabase vector search returned ${data.length} chunks.`);
+  if(data.length > 0) {
+      console.log("Supabase search result (first chunk content):", (data[0] as any)?.content?.substring(0, 100) + "...");
+  }
+
+
   // 3. Return the content of the matched sections.
-  return data.map((item: any) => item.content);
+  const context = data.map((item: any) => item.content);
+  console.log('MANUAL CHECK 3: Assembled context for AI. Total characters:', context.join(' ').length);
+  return context;
 }
 
 
@@ -80,26 +89,24 @@ export async function askLegitimusPrime(
 export async function* streamAnswerForLegitimusPrime(
   input: AskLegitimusPrimeInput
 ): AsyncGenerator<string> {
-    console.log("--- STREAMING TRACE: Starting streamAnswerForLegitimusPrime flow ---");
     const { stream, response } = streamFlow(
       {
         name: 'streamLegitimusPrime',
         inputSchema: AskLegitimusPrimeInputSchema,
       },
       async (flowInput) => {
-        console.log("--- STREAMING TRACE: Triage step ---");
+        console.log("--- STARTING STREAMING FLOW ---");
         const triageResult = await triagePrompt(flowInput.question);
+        console.log("MANUAL CHECK 4: Triage decision is:", triageResult.output?.decision);
+
 
         if (triageResult.output?.decision === 'greet_or_decline') {
-            console.log("--- STREAMING TRACE: Triage result is 'greet_or_decline' ---");
             const standardResponse = await standardResponsePrompt(flowInput.question);
             return standardResponse.output || { answer: "I can only assist with questions about the Constitution of Mauritius." };
         }
 
-        console.log("--- STREAMING TRACE: Triage result is 'search_document'. Starting RAG process. ---");
         const context = await searchConstitution(flowInput.question);
         
-        console.log(`--- STREAMING TRACE: Found ${context.length} relevant context chunks. ---`);
         const { output } = await ragPrompt({
             ...flowInput,
             context
@@ -114,7 +121,6 @@ export async function* streamAnswerForLegitimusPrime(
 
     for await (const chunk of (await flowPromise).stream) {
         if(chunk.content) {
-            console.log("--- STREAMING TRACE: Yielding chunk ---", chunk.content);
             yield chunk.content;
         }
     }
@@ -131,7 +137,7 @@ const ragPrompt = ai.definePrompt({
     }),
   },
   output: { schema: AskLegitimusPrimeOutputSchema },
-  prompt: `You are Legitimus Prime, an expert AI assistant specializing in the Constitution of Mauritius. Using the following CONTEXT provided from the document, answer the user's QUESTION.
+  prompt: `You are Legitimus Prime, a seasoned AI assistant specializing in the Constitution and Laws of Mauritius. Using the following CONTEXT provided from the document, answer the user's QUESTION.
 Your answer must be based exclusively on the information within the provided CONTEXT.
 Do not use any outside knowledge. If the CONTEXT does not contain the answer, state that you cannot answer based on the provided information.
 
@@ -164,7 +170,7 @@ const standardResponsePrompt = ai.definePrompt({
     name: 'legitimusPrimeStandardResponsePrompt',
     input: { schema: z.string() },
     output: { schema: z.object({ answer: z.string() }) },
-    prompt: `You are Legitimus Prime, a legal AI assistant for the Constitution of Mauritius. The user has said something that does not require a document search.
+    prompt: `You are Legitimus Prime, a seasoned legal AI assistant specialized in the laws and Constitution of Mauritius. The user has said something that does not require a document search.
     - If it's a simple greeting like "hello" or "hi", respond with a polite, brief greeting like "Hello! How can I help you with the Constitution of Mauritius?".
     - If it's something else (like "thank you" or an off-topic question), politely state that you can only answer questions related to the Constitution of Mauritius.
     
@@ -180,8 +186,11 @@ const legitimusPrimeFlow = ai.defineFlow(
     outputSchema: AskLegitimusPrimeOutputSchema,
   },
   async (input) => {
+    console.log("--- STARTING NON-STREAMING FLOW ---");
     // Step 1: Triage the user's question to see if it needs a search.
     const triageResult = await triagePrompt(input.question);
+    console.log("MANUAL CHECK 4: Triage decision is:", triageResult.output?.decision);
+
     
     if (triageResult.output?.decision === 'greet_or_decline') {
         // Step 2a: If it's a greeting/off-topic, generate a standard response.
