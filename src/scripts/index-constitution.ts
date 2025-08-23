@@ -12,6 +12,7 @@
  */
 
 import dotenv from 'dotenv';
+// IMPORTANT: This line loads environment variables from the .env file
 dotenv.config({ path: '.env' });
 
 import { ai } from '@/ai/genkit';
@@ -34,7 +35,7 @@ function chunkText(text: string, chunkSize = 1000, overlap = 100) {
 async function main() {
   // Verify that environment variables are loaded
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      console.error('Supabase URL or Service Role Key is missing. Make sure it is set in your .env file.');
+      console.error('Supabase URL or Service Role Key is missing. Make sure it is set in your .env file and the script can access it.');
       process.exit(1);
   }
     
