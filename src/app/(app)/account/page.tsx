@@ -95,9 +95,11 @@ export default function AccountPage() {
         {loading ? (
           <>
             <Skeleton className="absolute inset-0" />
-            <Skeleton className="h-12 w-1/2 mx-auto mb-4" />
-            <Skeleton className="h-5 w-3/4 mx-auto" />
-            <Skeleton className="h-5 w-2/3 mx-auto mt-2" />
+            <div className="relative z-10">
+                <Skeleton className="h-12 w-64 mx-auto mb-4" />
+                <Skeleton className="h-5 w-80 mx-auto" />
+                <Skeleton className="h-5 w-72 mx-auto mt-2" />
+            </div>
           </>
         ) : (
           <>
