@@ -37,7 +37,7 @@ const formSchema = z.object({
   last_name: z.string().min(1, { message: 'Last name is required.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
-  role: z.enum(['Individual', 'Company/Startup', 'Investor', 'Hyperadmin'], { required_error: 'Please select an account type.' }),
+  role: z.enum(['Individual', 'Company/Startup', 'Investor'], { required_error: 'Please select an account type.' }),
   business_name: z.string().min(1, { message: 'Company name is required.' }),
   job_title: z.string().min(1, { message: 'Position is required.' }),
   phone_number: z.string().min(1, { message: 'Phone number is required.' }),
@@ -153,7 +153,6 @@ export function SignUpForm() {
                               <SelectItem value="Individual">Individual</SelectItem>
                               <SelectItem value="Company/Startup">Company / Startup</SelectItem>
                               <SelectItem value="Investor">Investor</SelectItem>
-                              <SelectItem value="Hyperadmin">Hyperadmin</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
