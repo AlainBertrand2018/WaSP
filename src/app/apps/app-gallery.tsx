@@ -46,28 +46,28 @@ type RatingState = {
 
 const carouselItems = [
     {
-        title: 'Business Validation Suite',
-        description: 'Build your business from scratch to a market-ready version.',
-        imageSrc: 'https://placehold.co/600x400.png',
-        dataAiHint: 'business dashboard',
+        imageSrc: '/images/ads/slider_01.webp',
+        dataAiHint: 'business validation',
         href: '/business-creation',
-        cta: 'Start for Free Today',
+        cta: 'Validate Your Business Idea',
     },
     {
-        title: 'AI-Powered Financials',
-        description: 'Generate budgets, forecasts, and financial plans with precision.',
-        imageSrc: 'https://placehold.co/600x400.png',
-        dataAiHint: 'financial chart',
-        href: '/financials',
+        imageSrc: '/images/ads/slider_02.webp',
+        dataAiHint: 'financial planning',
+        href: '/business-creation/startup-budget-planner',
         cta: 'Plan Your Finances',
     },
     {
-        title: 'CRM & Management Tools',
-        description: 'Manage clients, projects, and invoices in one unified suite.',
-        imageSrc: 'https://placehold.co/600x400.png',
-        dataAiHint: 'customer management',
+        imageSrc: '/images/ads/slider_03.webp',
+        dataAiHint: 'customer relationship management',
         href: '/business-management/crm-suite',
-        cta: 'Explore CRM',
+        cta: 'Explore CRM Suite',
+    },
+     {
+        imageSrc: '/images/ads/slider_04.webp',
+        dataAiHint: 'legal compliance',
+        href: '/compliance-validator',
+        cta: 'Check Your Compliance',
     },
 ];
 
@@ -181,25 +181,19 @@ export default function AppGallery() {
                 {carouselItems.map((item, index) => (
                   <CarouselItem key={index}>
                     <div className="p-1">
-                      <Card className="overflow-hidden bg-[#0a2540] text-white rounded-3xl">
-                        <CardContent className="flex flex-col md:flex-row items-center justify-between p-8 md:p-12 min-h-[350px]">
-                           <div className="relative w-full h-48 md:w-1/2 md:h-full flex-shrink-0 mb-6 md:mb-0 md:mr-12">
-                                <Image 
-                                    src={item.imageSrc} 
-                                    alt={item.title} 
-                                    fill
-                                    className="object-contain"
-                                    data-ai-hint={item.dataAiHint}
-                                />
-                           </div>
-                           <div className="text-center md:text-left flex-grow">
-                                <h2 className="text-3xl font-bold">{item.title}</h2>
-                                <p className="text-lg text-white/80 mt-2">{item.description}</p>
-                                <Button asChild variant="outline" className="mt-6 bg-transparent border-white text-white hover:bg-white hover:text-[#0a2540]">
+                      <Card className="overflow-hidden relative bg-secondary rounded-3xl aspect-[16/7]">
+                          <Image 
+                              src={item.imageSrc} 
+                              alt={item.cta} 
+                              fill
+                              className="object-cover"
+                              data-ai-hint={item.dataAiHint}
+                          />
+                           <div className="absolute inset-0 bg-black/30 flex items-end justify-center p-8">
+                                <Button asChild variant="outline" className="bg-white/10 border-white/30 text-white backdrop-blur-sm hover:bg-white/20">
                                     <Link href={item.href}>{item.cta}</Link>
                                 </Button>
                            </div>
-                        </CardContent>
                       </Card>
                     </div>
                   </CarouselItem>
@@ -354,42 +348,22 @@ export default function AppGallery() {
                         Webapps-as-Software Platform (WaSP) that helps
                         entrepreneurs, SMEs and executives validate ideas, build
                         financial plans, and create investor-ready business
-                        plans—fast. Designed for the Mauritian market,
-                        BusinessStudio AI blends local business insight with
-                        practical AI tools so you can create, launch and manage
-                        projects in one place, from first concept to go-to-market.
+                        plans—fast.
                       </p>
                       <p>
-                        Built by Alain Bertrand, a serial entrepreneur using AI
-                        co-development, BusinessStudio AI is designed with an
+                        Built by Alain Bertrand, BusinessStudio AI is designed with an
                         AI-first, digital-first mindset to give Mauritian
-                        entrepreneurs and executives a real competitive edge. Our
-                        goal is simple: <b>help you thrive, not just survive</b>.
+                        entrepreneurs and executives a real competitive edge.
                       </p>
                       <h2 className="font-bold text-foreground">What we do</h2>
                       <ul className="space-y-2 list-disc pl-5">
-                        <li>
-                          <b>Local-first validation</b>: test your idea against
-                          Mauritian market realities.
-                        </li>
-                        <li>
-                          <b>Financial modelling</b>: generate projections and
-                          budget scenarios in minutes.
-                        </li>
-                        <li>
-                          <b>Investor-ready docs</b>: produce clear, professional
-                          business plans.
-                        </li>
-                        <li>
-                          <b>Unified workspace</b>: plan, execute and track your
-                          venture end-to-end.
-                        </li>
+                        <li><b>Local-first validation</b>: test your idea against Mauritian market realities.</li>
+                        <li><b>Financial modelling</b>: generate projections and budget scenarios in minutes.</li>
+                        <li><b>Investor-ready docs</b>: produce clear, professional business plans.</li>
+                        <li><b>Unified workspace</b>: plan, execute and track your venture end-to-end.</li>
                       </ul>
                       <p className="font-bold text-foreground pt-2">
-                        <b>Made in Mauritius... Built for Mauritius</b>. If you’re
-                        starting up or scaling, BusinessStudio AI gives you the
-                        clarity and speed to move from idea to execution with
-                        confidence.
+                        <b>Made in Mauritius... Built for Mauritius.</b>
                       </p>
                     </div>
                     <DialogFooter className="justify-center">
@@ -428,26 +402,18 @@ export default function AppGallery() {
                       <p>
                         We’re building a local-first, AI-first platform that helps
                         Mauritian entrepreneurs and executives go from idea to
-                        investor-ready—fast. In the next few weeks we’ll start
-                        listening from you:
+                        investor-ready—fast.
                       </p>
                       <ul className="space-y-2 list-disc pl-5">
-                        <li>Product & UX</li>
+                        <li>Product &amp; UX</li>
                         <li>Engineering / AI</li>
-                        <li>Growth Marketing & Content</li>
-                        <li>Customer Success & Partnerships</li>
+                        <li>Growth Marketing &amp; Content</li>
+                        <li>Customer Success &amp; Partnerships</li>
                         <li>Operations</li>
                       </ul>
-                      <p>
-                        Follow us, on our social networks or DM your profile.
-                      </p>
-                      <p>
-                        We’re an equal-opportunity team—talent from all
-                        backgrounds is welcome.
-                      </p>
-                      <p className="font-mono text-xs">
-                        #Hiring #MadeInMauritius #AI #SaaS #Startups #SME #Careers
-                      </p>
+                      <p>Follow us on our social networks or DM your profile.</p>
+                      <p>We’re an equal-opportunity team—talent from all backgrounds is welcome.</p>
+                      <p className="font-mono text-xs">#Hiring #MadeInMauritius #AI #SaaS #Startups #SME #Careers</p>
                     </div>
                     <DialogFooter className="justify-center pt-4">
                       <input
@@ -474,8 +440,7 @@ export default function AppGallery() {
                     <DialogHeader>
                       <DialogTitle>Contact Us</DialogTitle>
                       <DialogDescription>
-                        Have a question or want to work with us? Fill out the form
-                        below.
+                        Have a question or want to work with us? Fill out the form below.
                       </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
@@ -483,32 +448,19 @@ export default function AppGallery() {
                         <Label htmlFor="name-footer" className="text-right">
                           Name
                         </Label>
-                        <Input
-                          id="name-footer"
-                          placeholder="John Doe"
-                          className="col-span-3"
-                        />
+                        <Input id="name-footer" placeholder="John Doe" className="col-span-3" />
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="email-footer" className="text-right">
                           Email
                         </Label>
-                        <Input
-                          id="email-footer"
-                          type="email"
-                          placeholder="john@example.com"
-                          className="col-span-3"
-                        />
+                        <Input id="email-footer" type="email" placeholder="john@example.com" className="col-span-3" />
                       </div>
                       <div className="grid grid-cols-4 items-start gap-4">
                         <Label htmlFor="message-footer" className="text-right pt-2">
                           Message
                         </Label>
-                        <Textarea
-                          id="message-footer"
-                          placeholder="Your message..."
-                          className="col-span-3"
-                        />
+                        <Textarea id="message-footer" placeholder="Your message..." className="col-span-3" />
                       </div>
                     </div>
                     <DialogFooter>
@@ -523,73 +475,22 @@ export default function AppGallery() {
           <div>
             <h4 className="font-semibold">Resources</h4>
             <ul className="mt-4 space-y-2 text-sm">
-              <li>
-                <Link
-                  href="#"
-                  className="text-primary-foreground/60 hover:text-primary-foreground"
-                >
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/faq"
-                  className="text-primary-foreground/60 hover:text-primary-foreground"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Help Center
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacy-policy"
-                  className="text-primary-foreground/60 hover:text-primary-foreground"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
+              <li><Link href="#" className="text-primary-foreground/60 hover:text-primary-foreground">Blog</Link></li>
+              <li><Link href="/faq" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">Help Center</Link></li>
+              <li><Link href="/privacy-policy" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">Privacy Policy</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold">Social</h4>
             <ul className="mt-4 space-y-2 text-sm">
-              <li>
-                <Link
-                  href="https://x.com/AlainBertrandmu/"
-                  className="text-primary-foreground/60 hover:text-primary-foreground"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Twitter
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://www.linkedin.com/company/avantaz/"
-                  className="text-primary-foreground/60 hover:text-primary-foreground"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  LinkedIn
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://www.facebook.com/avantaz.mu"
-                  className="text-primary-foreground/60 hover:text-primary-foreground"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Facebook
-                </Link>
-              </li>
+              <li><Link href="https://x.com/AlainBertrandmu/" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">Twitter</Link></li>
+              <li><Link href="https://www.linkedin.com/company/avantaz/" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">LinkedIn</Link></li>
+              <li><Link href="https://www.facebook.com/avantaz.mu" className="text-primary-foreground/60 hover:text-primary-foreground" target="_blank" rel="noopener noreferrer">Facebook</Link></li>
             </ul>
           </div>
         </div>
+
         <div className="container mx-auto border-t border-primary-foreground/10 px-4 py-6 text-center text-sm text-primary-foreground/60">
           © 2025 BusinessStudio AI (Alain BERTRAND). All rights reserved.
         </div>
