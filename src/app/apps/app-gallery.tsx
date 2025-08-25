@@ -46,22 +46,28 @@ type RatingState = {
 
 const carouselItems = [
     {
-        title: 'Favorites of 2024',
-        description: 'Discover the standout extensions that made our year.',
-        imageSrc: 'https://placehold.co/400x300.png',
-        dataAiHint: 'trophy award'
+        title: 'Business Validation Suite',
+        description: 'Build your business from scratch to a market-ready version.',
+        imageSrc: 'https://placehold.co/600x400.png',
+        dataAiHint: 'business dashboard',
+        href: '/business-creation',
+        cta: 'Start for Free Today',
     },
     {
-        title: 'New & Noteworthy',
-        description: 'Freshly launched tools to boost your productivity.',
-        imageSrc: 'https://placehold.co/400x300.png',
-        dataAiHint: 'rocket launch'
+        title: 'AI-Powered Financials',
+        description: 'Generate budgets, forecasts, and financial plans with precision.',
+        imageSrc: 'https://placehold.co/600x400.png',
+        dataAiHint: 'financial chart',
+        href: '/financials',
+        cta: 'Plan Your Finances',
     },
     {
-        title: 'AI Essentials',
-        description: 'Supercharge your workflow with our top AI-powered apps.',
-        imageSrc: 'https://placehold.co/400x300.png',
-        dataAiHint: 'robot brain'
+        title: 'CRM & Management Tools',
+        description: 'Manage clients, projects, and invoices in one unified suite.',
+        imageSrc: 'https://placehold.co/600x400.png',
+        dataAiHint: 'customer management',
+        href: '/business-management/crm-suite',
+        cta: 'Explore CRM',
     },
 ];
 
@@ -175,9 +181,9 @@ export default function AppGallery() {
                 {carouselItems.map((item, index) => (
                   <CarouselItem key={index}>
                     <div className="p-1">
-                      <Card className="overflow-hidden bg-[#0a2540] text-white">
-                        <CardContent className="flex flex-col md:flex-row items-center justify-between p-8 md:p-12 min-h-[300px]">
-                           <div className="relative w-48 h-48 md:w-64 md:h-64 flex-shrink-0 mb-6 md:mb-0 md:mr-12">
+                      <Card className="overflow-hidden bg-[#0a2540] text-white rounded-3xl">
+                        <CardContent className="flex flex-col md:flex-row items-center justify-between p-8 md:p-12 min-h-[350px]">
+                           <div className="relative w-full h-48 md:w-1/2 md:h-full flex-shrink-0 mb-6 md:mb-0 md:mr-12">
                                 <Image 
                                     src={item.imageSrc} 
                                     alt={item.title} 
@@ -186,11 +192,11 @@ export default function AppGallery() {
                                     data-ai-hint={item.dataAiHint}
                                 />
                            </div>
-                           <div className="text-center md:text-left">
+                           <div className="text-center md:text-left flex-grow">
                                 <h2 className="text-3xl font-bold">{item.title}</h2>
                                 <p className="text-lg text-white/80 mt-2">{item.description}</p>
                                 <Button asChild variant="outline" className="mt-6 bg-transparent border-white text-white hover:bg-white hover:text-[#0a2540]">
-                                    <Link href="#">See collection</Link>
+                                    <Link href={item.href}>{item.cta}</Link>
                                 </Button>
                            </div>
                         </CardContent>
