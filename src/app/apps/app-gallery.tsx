@@ -173,13 +173,13 @@ export default function AppGallery() {
             {/* Hero Carousel */}
              <Carousel
               plugins={[plugin.current]}
-              className="w-full"
+              className="w-full -ml-4"
               onMouseEnter={plugin.current.stop}
               onMouseLeave={plugin.current.reset}
             >
-              <CarouselContent>
+              <CarouselContent className="ml-4">
                 {carouselItems.map((item, index) => (
-                  <CarouselItem key={index}>
+                  <CarouselItem key={index} className="pl-0">
                     <div className="relative aspect-[16/7] w-full overflow-hidden rounded-3xl">
                         <Image 
                             src={item.imageSrc} 
