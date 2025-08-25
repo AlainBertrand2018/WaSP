@@ -46,25 +46,25 @@ type RatingState = {
 
 const carouselItems = [
     {
-        imageSrc: '/images/ads/slider_01.webp',
+        imageSrc: '/images/ads/mobileAds/slider_01.png',
         dataAiHint: 'business validation',
         href: '/business-creation',
         cta: 'Validate Your Business Idea',
     },
     {
-        imageSrc: '/images/ads/slider_02.webp',
+        imageSrc: '/images/ads/mobileAds/slider_02.png',
         dataAiHint: 'financial planning',
         href: '/business-creation/startup-budget-planner',
         cta: 'Plan Your Finances',
     },
     {
-        imageSrc: '/images/ads/slider_03.webp',
+        imageSrc: '/images/ads/mobileAds/slider_03.png',
         dataAiHint: 'customer relationship management',
         href: '/business-management/crm-suite',
         cta: 'Explore CRM Suite',
     },
      {
-        imageSrc: '/images/ads/slider_04.webp',
+        imageSrc: '/images/ads/mobileAds/slider_04.png',
         dataAiHint: 'legal compliance',
         href: '/compliance-validator',
         cta: 'Check Your Compliance',
@@ -94,7 +94,7 @@ export default function AppGallery() {
   const isMounted = useMounted();
   const resumeInputRef = React.useRef<HTMLInputElement>(null);
   const plugin = React.useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: true })
+    Autoplay({ delay: 3000, stopOnInteraction: true })
   );
 
   const handleUploadClick = () => {
@@ -173,23 +173,23 @@ export default function AppGallery() {
             {/* Hero Carousel */}
              <Carousel
               plugins={[plugin.current]}
-              className="w-full"
+              className="w-full -ml-4"
               onMouseEnter={plugin.current.stop}
               onMouseLeave={plugin.current.reset}
             >
-              <CarouselContent>
+              <CarouselContent className="ml-4">
                 {carouselItems.map((item, index) => (
-                  <CarouselItem key={index}>
-                    <div className="relative w-full overflow-hidden rounded-3xl">
+                  <CarouselItem key={index} className="pl-0">
+                    <div className="relative w-full overflow-hidden rounded-3xl aspect-video">
                         <Image 
                             src={item.imageSrc} 
                             alt={item.cta} 
-                            width={1200}
-                            height={630}
-                            className="w-full h-auto object-cover"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                            className="w-full h-full object-cover"
                             data-ai-hint={item.dataAiHint}
                         />
-                         <div className="absolute inset-0 bg-black/30 flex items-end justify-center p-8">
+                         <div className="absolute inset-0 bg-black/10 flex items-end justify-center p-8">
                               <Button asChild variant="outline" className="bg-white/10 border-white/30 text-white backdrop-blur-sm hover:bg-white/20">
                                   <Link href={item.href}>{item.cta}</Link>
                               </Button>
