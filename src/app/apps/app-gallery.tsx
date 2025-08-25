@@ -180,13 +180,13 @@ export default function AppGallery() {
               <CarouselContent className="ml-4">
                 {carouselItems.map((item, index) => (
                   <CarouselItem key={index} className="pl-0">
-                    <div className="relative w-full overflow-hidden rounded-3xl aspect-video">
+                    <div className="relative w-full overflow-hidden rounded-3xl">
                         <Image 
                             src={item.imageSrc} 
                             alt={item.cta} 
-                            fill
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                            className="w-full h-full object-cover"
+                            width={1200}
+                            height={400}
+                            className="w-full h-auto object-cover rounded-3xl"
                             data-ai-hint={item.dataAiHint}
                         />
                          <div className="absolute inset-0 bg-black/10 flex items-end justify-center p-8">
