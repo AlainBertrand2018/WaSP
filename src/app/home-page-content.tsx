@@ -205,7 +205,7 @@ export default function HomePageContent() {
                 BusinessStudio AI is your unified command center for launching and managing your business in Mauritius. Leverage our AI-powered suite to go from idea to investor-ready, faster than ever before.
               </p>
               <div className="flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
-                <Button size="lg" asChild>
+                <Button size="lg" asChild className="bg-orange-500 hover:bg-orange-600 text-white">
                   <Link href="#pricing">Test For Free</Link>
                 </Button>
                 <Button size="lg" asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90">
@@ -585,22 +585,22 @@ export default function HomePageContent() {
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                       <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name-footer" className="text-right">
+                        <Label htmlFor="name" className="text-right">
                           Name
                         </Label>
-                        <Input id="name-footer" placeholder="John Doe" className="col-span-3" />
+                        <Input id="name" placeholder="John Doe" className="col-span-3" />
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="email-footer" className="text-right">
+                        <Label htmlFor="email" className="text-right">
                           Email
                         </Label>
-                        <Input id="email-footer" type="email" placeholder="john@example.com" className="col-span-3" />
+                        <Input id="email" type="email" placeholder="john@example.com" className="col-span-3" />
                       </div>
                       <div className="grid grid-cols-4 items-start gap-4">
-                        <Label htmlFor="message-footer" className="text-right pt-2">
+                        <Label htmlFor="message" className="text-right pt-2">
                           Message
                         </Label>
-                        <Textarea id="message-footer" placeholder="Your message..." className="col-span-3" />
+                        <Textarea id="message" placeholder="Your message..." className="col-span-3" />
                       </div>
                     </div>
                     <DialogFooter>
