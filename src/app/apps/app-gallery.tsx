@@ -49,7 +49,7 @@ const carouselItems = [
         imageSrc: '/images/ads/mobileAds/slider_01.png',
         dataAiHint: 'business validation',
         href: '/business-creation',
-        cta: 'Validate Your Business Idea',
+        cta: 'Try For FREE',
     },
     {
         imageSrc: '/images/ads/mobileAds/slider_02.png',
@@ -61,13 +61,13 @@ const carouselItems = [
         imageSrc: '/images/ads/mobileAds/slider_03.png',
         dataAiHint: 'customer relationship management',
         href: '/business-management/crm-suite',
-        cta: 'Explore CRM Suite',
+        cta: 'Explore Our CRM Suite',
     },
      {
         imageSrc: '/images/ads/mobileAds/slider_04.png',
         dataAiHint: 'legal compliance',
         href: '/compliance-validator',
-        cta: 'Check Your Compliance',
+        cta: 'Check on SERENA',
     },
 ];
 
@@ -186,7 +186,7 @@ export default function AppGallery() {
                             alt={item.cta} 
                             width={1200}
                             height={400}
-                            className="w-full h-auto object-cover rounded-3xl"
+                            className="w-full h-auto object-cover"
                             data-ai-hint={item.dataAiHint}
                         />
                          <div className="absolute inset-0 bg-black/10 flex items-end justify-center p-8">
