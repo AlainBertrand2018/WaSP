@@ -65,7 +65,7 @@ const carouselItems = [
     },
      {
         imageSrc: '/images/ads/mobileAds/slider_04.png',
-        dataAiHint: 'legal compliance',
+        dataAiHint: 'homecare business management',
         href: '/compliance-validator',
         cta: 'Check on SERENA',
     },
@@ -173,13 +173,13 @@ export default function AppGallery() {
             {/* Hero Carousel */}
              <Carousel
               plugins={[plugin.current]}
-              className="w-full -ml-4"
+              className="w-full"
               onMouseEnter={plugin.current.stop}
               onMouseLeave={plugin.current.reset}
             >
-              <CarouselContent className="ml-4">
+              <CarouselContent>
                 {carouselItems.map((item, index) => (
-                  <CarouselItem key={index} className="pl-0">
+                  <CarouselItem key={index}>
                     <div className="relative w-full overflow-hidden rounded-3xl">
                         <Image 
                             src={item.imageSrc} 
