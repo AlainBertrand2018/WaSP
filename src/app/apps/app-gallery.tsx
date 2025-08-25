@@ -180,21 +180,19 @@ export default function AppGallery() {
               <CarouselContent>
                 {carouselItems.map((item, index) => (
                   <CarouselItem key={index}>
-                    <div className="p-1">
-                      <Card className="overflow-hidden relative bg-secondary rounded-3xl aspect-[16/7]">
-                          <Image 
-                              src={item.imageSrc} 
-                              alt={item.cta} 
-                              fill
-                              className="object-cover"
-                              data-ai-hint={item.dataAiHint}
-                          />
-                           <div className="absolute inset-0 bg-black/30 flex items-end justify-center p-8">
-                                <Button asChild variant="outline" className="bg-white/10 border-white/30 text-white backdrop-blur-sm hover:bg-white/20">
-                                    <Link href={item.href}>{item.cta}</Link>
-                                </Button>
-                           </div>
-                      </Card>
+                    <div className="relative aspect-[16/7] w-full overflow-hidden rounded-3xl">
+                        <Image 
+                            src={item.imageSrc} 
+                            alt={item.cta} 
+                            fill
+                            className="object-cover"
+                            data-ai-hint={item.dataAiHint}
+                        />
+                         <div className="absolute inset-0 bg-black/30 flex items-end justify-center p-8">
+                              <Button asChild variant="outline" className="bg-white/10 border-white/30 text-white backdrop-blur-sm hover:bg-white/20">
+                                  <Link href={item.href}>{item.cta}</Link>
+                              </Button>
+                         </div>
                     </div>
                   </CarouselItem>
                 ))}
