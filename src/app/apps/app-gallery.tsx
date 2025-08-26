@@ -52,13 +52,13 @@ const carouselItems = [
         cta: 'Try For FREE',
     },
     {
-        imageSrc: '/images/ads/mobileAds/Slider_02.png',
+        imageSrc: '/images/ads/mobileAds/slider_02.png',
         dataAiHint: 'financial planning',
         href: '/business-creation/startup-budget-planner',
         cta: 'Plan Your Finances',
     },
     {
-        imageSrc: '/images/ads/mobileAds/Slider_03.png',
+        imageSrc: '/images/ads/mobileAds/slider_03.png',
         dataAiHint: 'customer relationship management',
         href: '/business-management/crm-suite',
         cta: 'Explore Our CRM Suite',
@@ -173,28 +173,32 @@ export default function AppGallery() {
             {/* Hero Carousel */}
              <Carousel
               plugins={[plugin.current]}
-              className="w-full"
+              className="w-full -ml-4"
               onMouseEnter={plugin.current.stop}
               onMouseLeave={plugin.current.reset}
             >
-              <CarouselContent>
+              <CarouselContent className="ml-4">
                 {carouselItems.map((item, index) => (
-                  <CarouselItem key={index}>
-                    <div className="relative w-full overflow-hidden rounded-3xl">
-                        <Image 
-                            src={item.imageSrc} 
-                            alt={item.cta} 
-                            width={1200}
-                            height={400}
-                            className="w-full h-auto object-cover"
-                            data-ai-hint={item.dataAiHint}
-                        />
-                         <div className="absolute inset-0 bg-black/10 flex items-end justify-center p-8">
-                              <Button asChild variant="outline" className="bg-white/10 border-white/30 text-white backdrop-blur-sm hover:bg-white/20">
-                                  <Link href={item.href}>{item.cta}</Link>
-                              </Button>
-                         </div>
-                    </div>
+                  <CarouselItem key={index} className="pl-0">
+                     <Card className="relative overflow-hidden rounded-3xl border-0 shadow-none bg-transparent">
+                      <Image
+                        src={item.imageSrc}
+                        alt={item.cta}
+                        width={1200}
+                        height={400}
+                        className="w-full h-auto object-cover"
+                        data-ai-hint={item.dataAiHint}
+                      />
+                      <div className="absolute inset-0 bg-black/10 flex items-end justify-center p-8">
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="bg-white/10 border-white/30 text-white backdrop-blur-sm hover:bg-white/20"
+                        >
+                          <Link href={item.href}>{item.cta}</Link>
+                        </Button>
+                      </div>
+                    </Card>
                   </CarouselItem>
                 ))}
               </CarouselContent>
