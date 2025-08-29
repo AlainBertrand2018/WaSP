@@ -66,7 +66,7 @@ const carouselItems = [
      {
         imageSrc: '/images/ads/mobileAds/slider_04.png',
         dataAiHint: 'homecare business management',
-        href: '/compliance-validator',
+        href: 'https://serena.avantaz.online/',
         cta: 'Check on SERENA',
     },
 ];
