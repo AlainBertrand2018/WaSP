@@ -307,6 +307,15 @@ export const appCategories: AppCategory[] = [
         initialRating: 0,
       },
       {
+        icon: Users,
+        title: 'SocialColab',
+        description: 'SocialColab connects brands with verified influencers in Mauritius & Indian Ocean.',
+        href: 'https://socialcolab.online',
+        pro: false,
+        imageSrc: '/images/TilePics/socialColab_apptile.webp',
+        initialRating: 0,
+      },
+      {
         icon: HeartHandshake,
         title: 'Serena',
         description: 'A Management app dedicated to Homecare Service Providers.',

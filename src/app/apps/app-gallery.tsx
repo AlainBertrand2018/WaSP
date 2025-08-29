@@ -52,13 +52,13 @@ const carouselItems = [
         cta: 'Try For FREE',
     },
     {
-        imageSrc: '/images/ads/mobileAds/slider_02.png',
+        imageSrc: '/images/ads/mobileAds/Slider_02.png',
         dataAiHint: 'financial planning',
         href: '/business-creation/startup-budget-planner',
         cta: 'Plan Your Finances',
     },
     {
-        imageSrc: '/images/ads/mobileAds/slider_03.png',
+        imageSrc: '/images/ads/mobileAds/Slider_03.png',
         dataAiHint: 'customer relationship management',
         href: '/business-management/crm-suite',
         cta: 'Explore Our CRM Suite',
