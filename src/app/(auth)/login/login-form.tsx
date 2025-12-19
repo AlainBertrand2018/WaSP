@@ -28,9 +28,13 @@ export default function LoginForm() {
     });
 
     if (error) {
+      let description = error.message;
+      if (error.message === 'Failed to fetch') {
+        description = 'Could not connect to the authentication service. Please check your network connection and try again.';
+      }
       toast({
         title: 'Sign In Failed',
-        description: error.message,
+        description: description,
         variant: 'destructive',
       });
     } else {
