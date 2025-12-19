@@ -327,8 +327,8 @@ export const appCategories: AppCategory[] = [
       },
       {
         icon: Rocket,
-        title: 'Anwale',
-        description: 'Explore the Anwale platform.',
+        title: 'Annwale',
+        description: 'Explore the Annwale platform.',
         href: 'https://annwale-v3.vercel.app',
         pro: false,
         imageSrc: '/images/TilePics/anwale_apptile.webp',
