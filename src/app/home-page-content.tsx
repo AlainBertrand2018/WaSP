@@ -354,6 +354,7 @@ export default function HomePageContent() {
                   <ul className="space-y-2">
                     <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5" /> 1 Business Project</li>
                     <li className="flex items-center gap-2"><CheckCircle className="text-accent h-5 w-5" /> 1 seat</li>
+                    <li className="flex items-center gap-2"><XCircle className="text-destructive h-5 w-5" /> Limited Toolset</li>
                     <li className="flex items-center gap-2"><XCircle className="text-destructive h-5 w-5" /> No Reporting</li>
                     <li className="flex items-center gap-2"><XCircle className="text-destructive h-5 w-5" /> No Document Downloads</li>
                   </ul>
