@@ -117,16 +117,16 @@ By automating complex tasks like market and compliance validation, financial mod
                         <h4 className="font-semibold text-foreground mt-4">Pricing Tiers:</h4>
                         <ul className="list-disc pl-5">
                             <li><strong>Test Drive (Freemium):</strong> Offers limited access to core features, serving as an entry point to demonstrate value and capture leads.</li>
-                            <li><strong>Business Tool Kits (MUR 200/seat/month):</strong> A la carte access to specific tool suites, providing a flexible, low-cost entry for SMEs with targeted needs.</li>
-                            <li><strong>PRO (MUR 400/seat/month):</strong> Our flagship offering with unlimited access to all tool suites, designed for serious founders and teams requiring a comprehensive solution.</li>
-                            <li><strong>AI Transformation Blueprints for Enterprises (as from MUR 100k):</strong> Custom-priced solutions for established companies seeking to assess, plan and integrate AI workflows, including training and support.</li>
+                            <li><strong>Business Tool Kits (MUR 300/seat/month):</strong> A la carte access to specific tool suites, providing a flexible, low-cost entry for SMEs with targeted needs.</li>
+                            <li><strong>PRO (MUR 1500/seat/month):</strong> Our flagship offering with unlimited access to all tool suites, designed for serious founders and teams requiring a comprehensive solution.</li>
+                            <li><strong>AI Transformation Blueprints for Enterprises (as from MUR 50k):</strong> Custom-priced solutions for established companies seeking to assess, plan and integrate AI workflows, including training and support.</li>
                         </ul>
 
                         <h4 className="font-semibold text-foreground mt-4">Revenue Projections (Based on Assumptions):</h4>
                         <p>Our projections are based on capturing a conservative fraction of the addressable SME market in Mauritius over the initial years.</p>
                         <ul className="list-disc pl-5">
                             <li><p><strong>Year 1 Minimum ARR: ~MUR 880,000.</strong></p>
-                            <p>• This conservative forecast is based on acquiring 200–300 subscribers on the "Business Tool Kits" and "PRO" plans, with an average of 1.5 seats per business. This serves as our baseline key performance indicator.</p></li>
+                            <p>• This conservative forecast is based on acquiring 100–300 subscribers on the "Business Tool Kits" and "PRO" plans, with an average of 1.5 seats per business. This serves as our baseline key performance indicator.</p></li>
                             <li><p><strong>Year 2 MRR Range: 197K → 553K, Avg ≈ Rs 335K v/s ARR ≈ Rs 4.0M.</strong></p>
                             <p>• Our optimistic target aims for a user base of 1,500–1,700, with a mix of 80% on "Tool Kits" and 20% on the premium "PRO" plan (avg. 2 seats), with focus on marketing for our high-value AI Transformation Blueprints packages. This would demonstrate strong growth potential and product-market fit.</p></li>
                             <li><p><strong>Year 3 MRR (projected): Avg ≈ Rs 420K – 450K v/s ARR ≈ Rs 5.0–5.4M.</strong> </p> 
