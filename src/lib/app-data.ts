@@ -325,6 +325,15 @@ export const appCategories: AppCategory[] = [
         badge: { text: 'New', className: 'bg-blue-500' },
         initialRating: 0,
       },
+      {
+        icon: Rocket,
+        title: 'Anwale',
+        description: 'Explore the Anwale platform.',
+        href: 'https://annwale-v3.vercel.app',
+        pro: false,
+        imageSrc: '/images/TilePics/anwale_apptile.webp',
+        initialRating: 0,
+      },
     ],
   },
 ];
