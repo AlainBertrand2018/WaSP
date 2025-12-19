@@ -372,7 +372,7 @@ export default function AccountPage() {
             fill
             priority
             style={{ objectFit: 'cover' }}
-            className="opacity-20"
+            className=""
             data-ai-hint="smart office"
         />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
@@ -475,5 +475,7 @@ function InfoItem({
   );
 }
 
+
+    
 
     
