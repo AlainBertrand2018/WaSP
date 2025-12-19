@@ -30,6 +30,7 @@ import {
 
 import { ArrowRight, Bot, Rocket, Briefcase, Phone, UserCircle, UploadCloud, FileText, Lightbulb, Wallet, History, Lock, Loader2, Users, HardDrive, Cpu, ExternalLink, Settings, ShieldCheck, Trash, PlusCircle, Server, Zap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { Badge } from '@/components/ui/badge';
 
 type Profile = {
   id: string;
@@ -374,7 +375,7 @@ export default function AccountPage() {
             className="opacity-20"
             data-ai-hint="smart office"
         />
-        <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
             <AvatarUpload bucket="covers" onUpload={handleCoverUpload} buttonText="Change Cover" />
         </div>
       </div>
@@ -474,3 +475,5 @@ function InfoItem({
   );
 }
 
+
+    
