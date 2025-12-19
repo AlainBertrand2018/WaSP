@@ -368,7 +368,7 @@ export default function HomePageContent() {
                 <CardHeader>
                   <CardTitle>Business Tool Kits</CardTitle>
                   <p className="text-4xl font-bold mt-2">
-                    MUR 200/mth
+                    MUR 300/mo
                     <span className="text-lg font-normal text-primary-foreground/70">/seat</span>
                   </p>
                 </CardHeader>
@@ -508,7 +508,8 @@ export default function HomePageContent() {
                     </div>
                     <div className="space-y-4 text-sm text-muted-foreground max-h-[70vh] overflow-y-auto pr-4">
                       <p>
-                        BusinessStudio AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, BusinessStudio AI blends local business insight with practical AI tools so you can create, launch and manage projects in one place, from first concept to go-to-market.
+                        BusinessStudio AI is a Made-in-Mauritius Webapps-as-Software Platform (WaSP) that helps entrepreneurs, SMEs and executives validate ideas, build financial plans, and create investor-ready business plans—fast. Designed for the Mauritian market, BusinessStudio AI blends local business insight with practical AI tools so you can create, launch and manage projects in
+                        one place, from first concept to go-to-market.
                       </p>
                       <p>
                         Built by Alain Bertrand, a serial entrepreneur using AI co-development, BusinessStudio AI is designed with an AI-first, digital-first mindset to give Mauritian entrepreneurs and executives a real competitive edge. Our goal is simple: <b>help you thrive, not just survive</b>.
