@@ -3,80 +3,20 @@
 
 import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import Link from 'next/link';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
-import { toast } from '@/hooks/use-toast';
-import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      let description = error.message;
-      if (error.message === 'Failed to fetch') {
-        description = 'Could not connect to the authentication service. Please check your network connection and try again.';
-      }
-      toast({
-        title: 'Sign In Failed',
-        description: description,
-        variant: 'destructive',
-      });
-    } else {
-      toast({
-        title: 'Signed In Successfully!',
-        description: "You're now being redirected.",
-      });
-      const redirectUrl = searchParams.get('redirect') || '/account';
-      router.push(redirectUrl);
-    }
-    setLoading(false);
-  };
 
   return (
-    <form onSubmit={handleSignIn}>
+    <>
       <CardContent className="grid gap-4">
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input 
-            id="email" 
-            type="email" 
-            placeholder="m@example.com" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required 
-          />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Input 
-            id="password" 
-            type="password" 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required 
-           />
-        </div>
+        <p className="text-sm text-center text-muted-foreground">Authentication is currently disabled for development.</p>
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
-        <Button className="w-full" type="submit" disabled={loading}>
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Sign in
+        <Button className="w-full" onClick={() => router.push('/account')}>
+            Go to Account (Dev)
         </Button>
         <div className="text-sm text-muted-foreground">
           Don&apos;t have an account?{' '}
@@ -85,6 +25,6 @@ export default function LoginForm() {
           </Link>
         </div>
       </CardFooter>
-    </form>
+    </>
   );
 }

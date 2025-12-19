@@ -15,71 +15,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import { appTitles } from '@/lib/app-titles';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { supabase } from '@/lib/supabase';
 import { AiLoadingSpinner } from '@/components/feature/ai-loading-spinner';
 import { useUserStore } from '@/store/user-store';
-import { AuthApiError } from '@supabase/supabase-js';
-
-const PUBLIC_PATHS = ['/ideation/brainstorming'];
-const AUTH_PATHS = ['/login', '/signup'];
 
 export default function ClientAppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(false); // Set to false as auth is disabled
   const { isHyperAdmin } = useUserStore();
-
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
-        if (error) throw error; 
-
-        const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
-        const isAuthPage = AUTH_PATHS.includes(pathname);
-
-        if (!session && !isPublic && !isAuthPage) {
-          router.push(`/login?redirect=${pathname}`);
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-          let errorMessage = 'Your session has expired. Please log in again.';
-          if (error instanceof AuthApiError && error.message === 'Invalid Refresh Token: Refresh Token Not Found') {
-              console.error("Invalid session detected. Signing out and redirecting to login.");
-          } else if (error instanceof Error && error.message.includes('Failed to fetch')) {
-              console.error("Network error during session fetch. Redirecting to login.");
-              errorMessage = 'A network error occurred. Please check your connection and log in again.';
-          } else {
-              console.error("An unexpected error occurred during session check:", error);
-          }
-          await supabase.auth.signOut();
-          router.push(`/login?message=${encodeURIComponent(errorMessage)}`);
-      }
-    };
-
-    checkSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        const isPublic = PUBLIC_PATHS.some(path => pathname.startsWith(path));
-        const isAuthPage = AUTH_PATHS.includes(pathname);
-
-        if (event === 'SIGNED_IN' && isAuthPage) {
-          router.push('/account');
-        } else if (event === 'SIGNED_OUT') {
-          router.push('/');
-        } else if (!session && !isPublic && !isAuthPage) {
-          router.push(`/login?redirect=${pathname}`);
-        }
-      }
-    );
-
-    return () => {
-      subscription?.unsubscribe();
-    };
-  }, [pathname, router]);
 
 
   const showMainSidebar = !(

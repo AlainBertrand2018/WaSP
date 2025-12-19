@@ -43,6 +43,10 @@ export type AskLegitimusPrimeOutput = z.infer<typeof AskLegitimusPrimeOutputSche
  * @returns A promise that resolves to an array of content strings.
  */
 async function searchConstitution(query: string): Promise<any[]> {
+  // DEV MODE: Supabase connection is disabled.
+  return Promise.resolve([]);
+
+  /*
   // 1. Generate an embedding for the user's query.
   const embeddingResponse = await ai.embed({
     embedder: 'googleai/text-embedding-004',
@@ -77,6 +81,7 @@ async function searchConstitution(query: string): Promise<any[]> {
 
   // 3. Return the full matched sections, which now include content and other metadata
   return data || [];
+  */
 }
 
 

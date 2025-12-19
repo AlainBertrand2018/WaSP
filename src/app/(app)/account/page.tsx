@@ -4,7 +4,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -14,7 +13,6 @@ import { appCategories } from '@/lib/app-data';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import { AvatarUpload } from '@/components/feature/avatar-upload';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,12 +28,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-
 import { ArrowRight, Bot, Rocket, Briefcase, Phone, UserCircle, UploadCloud, FileText, Lightbulb, Wallet, History, Lock, Loader2, Users, HardDrive, Cpu, ExternalLink, Settings, ShieldCheck, Trash, PlusCircle, Server, Zap } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
-import type { User } from '@supabase/supabase-js';
-import { AuthApiError } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 
 type Profile = {
@@ -52,7 +45,7 @@ type Profile = {
   role?: string | null;
 };
 
-// Mock data for recent activity - kept empty as per previous request
+// Mock data for recent activity
 const recentActivities: any[] = [];
 
 const passwordFormSchema = z.object({
@@ -71,7 +64,6 @@ type PasswordFormValues = z.infer<typeof passwordFormSchema>;
 // ##################################
 
 const AdminDashboard = () => {
-
     const allApps = appCategories.flatMap(category => 
         category.apps.map(app => ({ ...app, category: category.category }))
     );
@@ -220,10 +212,8 @@ const AdminDashboard = () => {
                     <CardDescription>High-level system information and user management.</CardDescription>
                 </CardHeader>
                  <CardContent className="space-y-4">
-                    <Button variant="secondary" asChild>
-                        <Link href="https://supabase.com/dashboard/project/tgapgvvufswaxsyyhnna" target="_blank" rel="noopener noreferrer">
-                           View Supabase Dashboard <ExternalLink className="ml-2 h-4 w-4" />
-                        </Link>
+                    <Button variant="secondary" disabled>
+                       View Supabase Dashboard <ExternalLink className="ml-2 h-4 w-4" />
                     </Button>
                      <p className="text-sm text-muted-foreground">User management tools will be available here in a future update.</p>
                  </CardContent>
@@ -317,139 +307,57 @@ const RegularUserProfile = ({ profile }: { profile: Profile | null }) => {
 
 export default function AccountPage() {
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState<string | null>(null);
   const [passwordLoading, setPasswordLoading] = useState(false);
   const { isHyperAdmin, setHyperAdmin } = useUserStore();
-  const router = useRouter();
-
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<PasswordFormValues>({
     resolver: zodResolver(passwordFormSchema)
   });
 
   useEffect(() => {
-    let mounted = true;
-
-    const fetchUserAndProfile = async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-
-        if (!user) {
-          router.push('/login');
-          return;
-        }
-
-        if (mounted) {
-            setUser(user);
-            const isAdmin = user.email === process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL;
-            setHyperAdmin(isAdmin);
-        }
-
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('id, first_name, last_name, avatar_url, cover_url, business_name, job_title, phone_number, mobile_number, role')
-          .eq('id', user.id)
-          .maybeSingle();
-
-        if (error) throw error;
-        if (!mounted) return;
-
-        setProfile(
-          data
-            ? { ...data, email: user.email ?? null }
-            : {
-                id: user.id,
-                first_name: null,
-                last_name: null,
-                email: user.email ?? null,
-                avatar_url: null,
-                cover_url: null,
-                business_name: null,
-                job_title: null,
-                phone_number: null,
-                mobile_number: null,
-                role: null,
-              }
-        );
-      } catch (e: unknown) {
-        if (e instanceof AuthApiError && e.message === 'Invalid Refresh Token: Refresh Token Not Found') {
-            console.error("Invalid session. Redirecting to login.");
-            await supabase.auth.signOut();
-            router.push('/login?message=Your session has expired. Please log in again.');
-        } else {
-            const msg = e instanceof Error ? e.message : String(e);
-            if (mounted) {
-              setErr(msg);
-              console.error('Error fetching profile:', msg);
-            }
-        }
-      } finally {
-        if (mounted) setLoading(false);
-      }
+    // Mock user and profile data as auth is disabled
+    const mockUser = {
+        id: 'dev-user-id',
+        email: 'dev@example.com',
     };
+    const isAdmin = mockUser.email === process.env.NEXT_PUBLIC_HYPERADMIN_EMAIL;
+    setHyperAdmin(isAdmin);
     
-    fetchUserAndProfile();
+    setProfile({
+        id: mockUser.id,
+        first_name: 'Dev',
+        last_name: 'User',
+        email: mockUser.email,
+        avatar_url: null,
+        cover_url: null,
+        business_name: 'Dev Inc.',
+        job_title: 'Developer',
+        phone_number: '123-4567',
+        mobile_number: '888-8888',
+        role: isAdmin ? 'Admin' : 'Individual',
+    });
+  }, [setHyperAdmin]);
 
-    return () => {
-      mounted = false;
-    };
-  }, [setHyperAdmin, router]);
 
   const handleAvatarUpload = async (url: string) => {
     if (!profile) return;
-
-    const { data, error } = await supabase
-      .from('profiles')
-      .upsert({ id: profile.id, avatar_url: url, updated_at: new Date().toISOString() }, { onConflict: 'id' })
-      .select()
-      .single();
-
-    if (error) {
-      const msg = error.message || 'unknown error updating avatar';
-      setErr(msg);
-      console.error('Failed to update avatar URL:', msg);
-      return;
-    }
-    setProfile(prev => ({ ...(prev as Profile), ...data, email: prev?.email ?? null }));
+    setProfile(prev => ({ ...(prev as Profile), avatar_url: url }));
+     toast({ title: "Avatar Updated (Dev Mode)"});
   };
 
   const handleCoverUpload = async (url: string) => {
     if (!profile) return;
-    
-    const { data, error } = await supabase
-      .from('profiles')
-      .upsert({ id: profile.id, cover_url: url, updated_at: new Date().toISOString() }, { onConflict: 'id' })
-      .select()
-      .single();
-      
-    if (error) {
-      const msg = error.message || 'unknown error updating cover';
-      setErr(msg);
-      console.error('Failed to update cover URL:', msg);
-      return;
-    }
-    setProfile(prev => ({ ...(prev as Profile), ...data, email: prev?.email ?? null }));
+    setProfile(prev => ({ ...(prev as Profile), cover_url: url }));
+    toast({ title: "Cover Updated (Dev Mode)"});
   };
 
    const onPasswordSubmit: SubmitHandler<PasswordFormValues> = async (data) => {
     setPasswordLoading(true);
-    const { error } = await supabase.auth.updateUser({ password: data.password });
-
-    if (error) {
-        toast({
-            title: "Error Changing Password",
-            description: error.message,
-            variant: "destructive",
-        });
-    } else {
-        toast({
-            title: "Password Updated",
-            description: "Your password has been changed successfully.",
-        });
-        reset();
-    }
+    toast({
+        title: "Password Change (Dev Mode)",
+        description: "Password functionality is disabled.",
+    });
+    reset();
     setPasswordLoading(false);
   };
 
@@ -457,36 +365,23 @@ export default function AccountPage() {
     <div className="flex flex-col min-h-full">
       {/* Top Dark Section */}
       <div className="bg-secondary text-secondary-foreground text-center relative h-[250px] flex flex-col justify-center items-center group">
-        {loading ? (
-          <>
-            <Skeleton className="absolute inset-0" />
-            <div className="relative z-10">
-            </div>
-          </>
-        ) : (
-          <>
-            <Image
-              src={profile?.cover_url ?? 'https://placehold.co/1200x600.png'}
-              alt="Cover image"
-              fill
-              priority
-              style={{ objectFit: 'cover' }}
-              className="opacity-20"
-              data-ai-hint="office business"
-            />
-             <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-              <AvatarUpload bucket="covers" onUpload={handleCoverUpload} buttonText="Change Cover" />
-            </div>
-          </>
-        )}
+        <Image
+            src={profile?.cover_url ?? 'https://placehold.co/1200x600.png'}
+            alt="Cover image"
+            fill
+            priority
+            style={{ objectFit: 'cover' }}
+            className="opacity-20"
+            data-ai-hint="office business"
+        />
+        <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+            <AvatarUpload bucket="covers" onUpload={handleCoverUpload} buttonText="Change Cover" />
+        </div>
       </div>
 
       {/* Avatar positioned to overlap */}
       <div className="relative h-20">
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2">
-          {loading ? (
-            <Skeleton className="h-40 w-40 rounded-full border-8 border-background" />
-          ) : (
             <div className="group relative">
               <Avatar className="h-40 w-40 border-8 border-background">
                 <AvatarImage src={profile?.avatar_url ?? undefined} alt={profile?.first_name ?? ''} />
@@ -498,39 +393,27 @@ export default function AccountPage() {
                 <AvatarUpload bucket="avatars" onUpload={handleAvatarUpload} buttonText="Change Avatar" />
               </div>
             </div>
-          )}
         </div>
       </div>
       
       {/* Welcome Text Section */}
       <div className="bg-background text-center pt-8 pb-8">
-        {loading ? (
-          <div className="relative z-10 max-w-4xl mx-auto px-4">
-              <Skeleton className="h-12 w-64 mx-auto mb-4" />
-              <Skeleton className="h-5 w-80 mx-auto" />
-              <Skeleton className="h-5 w-full mt-4" />
-              <Skeleton className="h-5 w-5/6 mx-auto mt-2" />
-          </div>
-        ) : (
-            <div className="relative z-10 max-w-4xl mx-auto px-4">
-              <h1 className="text-4xl md:text-5xl font-bold">Hello {profile?.first_name ?? 'there'}</h1>
-               {isHyperAdmin ? (
-                  <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to the Hyper Admin Dashboard</h2>
-               ) : (
-                <>
-                  <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
-                  <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
-                    Let&apos;s kick things off with our FREE Test Drive – an interactive brainstorming session designed to help
-                    you set up your new or existing business idea. Unlock powerful AI-driven features that will guide you to
-                    ideate, launch, and manage your venture, all within the Business Studio Apps Suite.
-                  </p>
-                </>
-               )}
-              {err && <p className="mt-3 text-sm text-red-500">{err}</p>}
-            </div>
-        )}
+        <div className="relative z-10 max-w-4xl mx-auto px-4">
+            <h1 className="text-4xl md:text-5xl font-bold">Hello {profile?.first_name ?? 'there'}</h1>
+            {isHyperAdmin ? (
+            <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to the Hyper Admin Dashboard</h2>
+            ) : (
+            <>
+                <h2 className="text-2xl mt-2 text-muted-foreground">Welcome to Business Studio AI</h2>
+                <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">
+                Let&apos;s kick things off with our FREE Test Drive – an interactive brainstorming session designed to help
+                you set up your new or existing business idea. Unlock powerful AI-driven features that will guide you to
+                ideate, launch, and manage your venture, all within the Business Studio Apps Suite.
+                </p>
+            </>
+            )}
+        </div>
       </div>
-
 
       {/* Main Content Light Section */}
       <div className="bg-background flex-grow pt-4 pb-16">
