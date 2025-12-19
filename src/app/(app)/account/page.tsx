@@ -366,13 +366,13 @@ export default function AccountPage() {
       {/* Top Dark Section */}
       <div className="bg-secondary text-secondary-foreground text-center relative h-[250px] flex flex-col justify-center items-center group">
         <Image
-            src={profile?.cover_url ?? 'https://placehold.co/1200x600.png'}
+            src={profile?.cover_url ?? '/images/smart_office.webp'}
             alt="Cover image"
             fill
             priority
             style={{ objectFit: 'cover' }}
             className="opacity-20"
-            data-ai-hint="office business"
+            data-ai-hint="smart office"
         />
         <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
             <AvatarUpload bucket="covers" onUpload={handleCoverUpload} buttonText="Change Cover" />
