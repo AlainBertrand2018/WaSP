@@ -12,5 +12,4 @@ export const appTitles: { [key: string]: string } = {
     '/marketing': 'Marketing & Ads',
     '/todo': 'To-Do List',
     '/business-resources': 'Business Resources',
-    '/specialized/legitimus-prime': 'Legitimus Prime',
 };
