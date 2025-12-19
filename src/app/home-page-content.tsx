@@ -389,7 +389,7 @@ export default function HomePageContent() {
                 <CardHeader>
                   <CardTitle>PRO</CardTitle>
                   <p className="text-4xl font-bold mt-2">
-                    MUR 400/mth
+                    MUR 1500/mo
                     <span className="text-lg font-normal text-primary-foreground/70">/seat</span>
                   </p>
                 </CardHeader>
@@ -521,7 +521,8 @@ export default function HomePageContent() {
                         <li><b>Unified workspace</b>: plan, execute and track your venture end-to-end.</li>
                       </ul>
                       <p className="font-bold text-foreground pt-2">
-                        <b>Made in Mauritius... Built for Mauritius</b>. If you’re starting up or scaling, BusinessStudio AI gives you the clarity and speed to move from idea to execution with confidence.
+                        <b>Made in Mauritius... Built for Mauritius</b>. If you’re starting up or scaling, BusinessStudio
+                        AI gives you the clarity and speed to move from idea to execution with confidence.
                       </p>
                     </div>
                     <DialogFooter className="justify-center">
