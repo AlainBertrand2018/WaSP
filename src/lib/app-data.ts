@@ -300,7 +300,7 @@ export const appCategories: AppCategory[] = [
         icon: Scale,
         title: 'Legitimus Prime',
         description: 'Our AI Legal Chatbot Legitimus Prime answers to your questions about Mauritian Laws and Constitution.',
-        href: '/specialized/legitimus-prime',
+        href: 'https://legitimus.netlify.app',
         pro: true,
         imageSrc: '/images/Legitimus_v2-Apptile.webp',
         badge: { text: 'New', className: 'bg-blue-500' },
