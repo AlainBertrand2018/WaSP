@@ -22,6 +22,7 @@ import {
   Building,
   Rocket,
   Scale,
+  UtensilsCrossed,
 } from 'lucide-react';
 import React from 'react';
 
@@ -332,6 +333,16 @@ export const appCategories: AppCategory[] = [
         href: 'https://annwale-v3.vercel.app',
         pro: false,
         imageSrc: '/images/TilePics/anwale_apptile.webp',
+        initialRating: 0,
+      },
+      {
+        icon: UtensilsCrossed,
+        title: 'Amelia - FnB Assistant',
+        description: 'An AI-powered FnB assistant that optimizes profitability for Mauritian entrepreneurs in the Food Business.',
+        href: '#',
+        pro: true,
+        imageSrc: '/images/TilePics/amelia_apptile.png',
+        badge: { text: 'Coming Soon', className: 'bg-gray-500' },
         initialRating: 0,
       },
     ],
