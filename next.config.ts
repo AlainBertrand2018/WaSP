@@ -19,7 +19,7 @@ const nextConfig: NextConfig = {
     '@opentelemetry/instrumentation',
     '@opentelemetry/sdk-node',
     'genkit', 
-    '@genkit-ai/googleai'
+    '@genkit-ai/google-genai'
   ],
 
   /* 4. Images Configuration */
