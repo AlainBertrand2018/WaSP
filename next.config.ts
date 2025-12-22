@@ -1,14 +1,22 @@
-
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  /* 1. TypeScript Validation: Keep ignoring errors as requested */
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+
+  /* 2. Modern Package Handling: Replaces your old Webpack config.
+        This tells Turbopack to keep these libraries on the server only. */
+  serverExternalPackages: [
+    '@aws-sdk/client-s3',
+    '@opentelemetry/instrumentation',
+    '@opentelemetry/sdk-node',
+    'genkit', 
+    '@genkit-ai/googleai'
+  ],
+
+  /* 3. Images Configuration */
   images: {
     remotePatterns: [
       {
@@ -24,19 +32,6 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  webpack: (config, { isServer, nextRuntime }) => {
-    // Avoid AWS SDK bundling on client.
-    if (!isServer && nextRuntime === 'edge') {
-      config.externals.push('@aws-sdk/client-s3');
-    }
-     if (!isServer) {
-      config.externals.push(
-        '@opentelemetry/instrumentation',
-        '@opentelemetry/sdk-node'
-      );
-    }
-    return config;
   },
 };
 
